@@ -12,6 +12,7 @@
 * [Speaker](https://raspberry.piaustralia.com.au/products/speaker-kit-for-raspberry-pi)
 * Unity3d
 * Ubuntu
+* Android 10+
 * [Lichess API](https://lichess.org/api)
 * C#/C++ Code. See [Architecture](Architecture.md) for details on code structure and implementation.
 * Art
@@ -27,7 +28,7 @@ The body is self-contained and runs off a LiPo battery. A means to readily pull 
 
 ## Code
 
-This will be the relatively easy part. The app will be developed on Windows 10 and deployed to Ubuntu 10.8 LTS.
+This will be the relatively easy part. The app will be developed on Windows 10 and deployed to Ubuntu 10.8 LTS. There is a companion app for Android.
 
 ## Art
 
