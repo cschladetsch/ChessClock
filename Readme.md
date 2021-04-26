@@ -13,7 +13,7 @@
 * Unity3d
 * Ubuntu
 * [Lichess API](https://lichess.org/api)
-* C#/C++ Code
+* C#/C++ Code. See [Architecture](Architecture.md) for details on code structure and implementation.
 * Art
 * [Battery](https://www.18650batterystore.com/collections/18650-batteries)
 
