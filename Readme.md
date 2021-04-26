@@ -19,7 +19,7 @@
 
 ## Body
 
-The body is self-contained and runs off a 6550 LiPo battery. A means to readily pull apart the shell, to turn the device on and off, and to change the battery are all required.
+The body is self-contained and runs off a LiPo battery. A means to readily pull apart the shell, to turn the device on and off, and to change the battery are all required.
 
 ### Rocker
 
