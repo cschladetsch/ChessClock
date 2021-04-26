@@ -1,6 +1,6 @@
 # Chess Clock
 
-![ChessClock](res\SampleRender-1.png)
+![ChessClock](res/SampleRender-1.png)
 
 ## Ingredients
 
