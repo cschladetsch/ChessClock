@@ -34,14 +34,6 @@ The body is self-contained and runs off a LiPo battery. A means to readily pull 
 
 ## Code
 
-~~This will be the relatively easy part.~~ 
-
-~~The app will be developed on Windows 10 and deployed to Ubuntu 10.8 LTS.~~
-
-Raspberry Pi runs Arm32. So a lot of options are off the table.
-
-There is a companion app for Android.
-
 See [Architecture](Architecture.md) for details.
 
 ## Art
