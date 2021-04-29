@@ -27,7 +27,17 @@ The body is self-contained and runs off a 6550 LiPo battery. A means to readily 
 
 ## Code
 
-This will be the relatively easy part. The app will be developed on Windows 10 and deployed to Ubuntu 10.8 LTS.
+This will be the hard part. The app will be developed on Windows 10 and deployed to Raspberry Pi which uses an Arm7 CPU.
+
+Deciding even on the tech stack is difficult. There are so many options:
+1. Native C++ app using Wifi or Sockets
+2. WebApp using Node.js and React
+3. Headless or not
+4. How to develop on Win10 and deploy to Arm7 using Dotnet Core
+5. What versions of everything to use
+6. Actually developing the software
+
+None of this has been resolved yet. I completely underestimated the compexity of the code requirements for this project.
 
 ## Art
 
