@@ -11,21 +11,19 @@ This image is is a conceptual render of the final product. It only shows relativ
 ![ChessClock](External/SampleRender-1.png)
 
 ## Ingredients
-
 * Raspberry Pi 3 [Model B+](https://raspberry.piaustralia.com.au/products/raspberry-pi-3-model-b-plus)
 * [7" Display](https://raspberry.piaustralia.com.au/collections/displays/products/little-bird-5-display)
 * 3d Printed Body
 * [Speaker](https://raspberry.piaustralia.com.au/products/speaker-kit-for-raspberry-pi)
-* Unity3d
-* Ubuntu
-* Android 10+
-* [Lichess API](https://lichess.org/api)
 * C#/C++ Code. See [Architecture](Architecture.md) for details on code structure and implementation.
 * Art
 * [Battery](https://www.18650batterystore.com/collections/18650-batteries)
 
-## Body
+### Version 2
+* Android Connectivity via Bluetooth
+* [Lichess API](https://lichess.org/api)
 
+## Body
 The body is self-contained and runs off a LiPo battery. A means to readily pull apart the shell, to turn the device on and off, and to change the battery are all required.
 
 ### Rocker
