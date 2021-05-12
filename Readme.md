@@ -34,6 +34,8 @@ The body is self-contained and runs off a LiPo battery. A means to readily pull 
 
 See [Architecture](Architecture.md) for details.
 
+Will support generation of Fishcer Random locations.
+
 ## Art
 
 Various art assets will be required, such as:
