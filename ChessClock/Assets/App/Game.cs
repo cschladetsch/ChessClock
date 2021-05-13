@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace App
 {
-    public class TimerControl : MonoBehaviour
+    public class Game : MonoBehaviour
     {
         public ClockButton LeftButton;
         public ClockButton RightButton;
@@ -13,6 +13,8 @@ namespace App
         public PlayPause PlayPause;
         public bool LeftIsWhite;
         public bool WhiteMove;
+        public GameObject WinnerPrefab;
+        public GameObject LoserPrefab;
 
         private ClockButton _whiteButton, _blackButton;
         public Timer _whiteTimer, _blackTimer;
