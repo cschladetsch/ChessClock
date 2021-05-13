@@ -36,6 +36,12 @@ See [Architecture](Architecture.md) for details.
 
 Will support generation of Fishcer Random locations.
 
+### Connecting ADB
+
+```bash
+$ adb connect ip-address:5555 # find the ip-address on Pi/About settings
+```
+
 ## Art
 
 Various art assets will be required, such as:
