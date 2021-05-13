@@ -18,6 +18,7 @@ namespace App
         public TimeSpan TotalTime;
         public TimeSpan Increment;
         public float SpinGain = 2;
+        public GameObject SetupObject;
 
         public Timer _whiteTimer, _blackTimer;
 
@@ -54,9 +55,11 @@ namespace App
                 _blackButton.Interactive = !WhiteMove;
                 _whiteTimer.Running = WhiteMove;
                 _blackTimer.Running = !WhiteMove;
+                SetupObject.SetActive(false);
             }
             else
             {
+                SetupObject.SetActive(true);
                 PlayPause.State = EGameState.Paused;
                 LeftButton.Interactive = false;
                 RightButton.Interactive = false;
@@ -64,6 +67,9 @@ namespace App
             }
 
             _paused = !_paused;
+
+            if (_paused)
+                SpinCamera.Speed = 0;
         }
 
         public void LeftPressed()
@@ -91,24 +97,34 @@ namespace App
             WhiteMove = white;
         }
 
+        Timer CurrentTimer() => WhiteMove ? _whiteTimer : _blackTimer;
+
         void Update()
         {
             if (_paused)
                 return;
 
+            UpdateTimers();
+
+            MoveBackground();
+        }
+
+        private void UpdateTimers()
+        {
             if (PlayPause.State == EGameState.Running)
             {
                 _whiteTimer.Step(Time.deltaTime);
                 _blackTimer.Step(Time.deltaTime);
             }
-
-            double speed;
+        }
+        
+        private void MoveBackground()
+        {
+            var timer = CurrentTimer();
+            var alpha = timer.Remaining.TotalSeconds/timer.InitialTime.TotalSeconds;
             if (WhiteMove)
-                speed = -SpinGain*_whiteTimer.Remaining.TotalMilliseconds/_whiteTimer.InitialTime.TotalMilliseconds;
-            else
-                speed = SpinGain*_blackTimer.Remaining.TotalMilliseconds/_blackTimer.InitialTime.TotalMilliseconds;
-
-            SetSpinSpeed(speed*SpinGain);
+                alpha *= -1;
+            SetSpinSpeed(alpha*SpinGain);
         }
 
         private void SetSpinSpeed(double speed)
