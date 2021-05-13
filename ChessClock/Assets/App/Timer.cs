@@ -39,7 +39,7 @@ namespace App
         }
         private void UpdateText()
         {
-            Text.text = $"0:{GetSub(Remaining.Minutes)}:{GetSub(Remaining.Seconds)}";
+            Text.text = $"{GetSub(Remaining.Minutes)}:{GetSub(Remaining.Seconds)}";
             Millis.text = $"{GetSub(Remaining.Milliseconds/10)}";
         }
     }
