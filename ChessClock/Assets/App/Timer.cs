@@ -6,13 +6,12 @@ namespace App
 {
     public class Timer : MonoBehaviour
     {
-        public float InitialTimeMinutes;
+        public TimeSpan InitialTime;
         public float Increment;
         public bool Running;
         public TextMeshProUGUI Text;
         public TextMeshProUGUI Millis;
-
-        private TimeSpan _current;
+        public TimeSpan Remaining;
 
         void Start()
         {
@@ -21,7 +20,7 @@ namespace App
 
         public void Reset()
         {
-            _current = TimeSpan.FromMinutes(InitialTimeMinutes);
+            Remaining = InitialTime;
             UpdateText();
         }
 
@@ -30,7 +29,7 @@ namespace App
             if (!Running)
                 return;
 
-            _current = _current.Subtract(TimeSpan.FromSeconds(delta));
+            Remaining = Remaining.Subtract(TimeSpan.FromSeconds(delta));
             UpdateText();
         }
 
@@ -40,8 +39,8 @@ namespace App
         }
         private void UpdateText()
         {
-            Text.text = $"0:{GetSub(_current.Minutes)}:{GetSub(_current.Seconds)}";
-            Millis.text = $"{GetSub(_current.Milliseconds/10)}";
+            Text.text = $"0:{GetSub(Remaining.Minutes)}:{GetSub(Remaining.Seconds)}";
+            Millis.text = $"{GetSub(Remaining.Milliseconds/10)}";
         }
     }
 }

@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 namespace App
@@ -15,19 +14,33 @@ namespace App
         public bool WhiteMove;
         public GameObject WinnerPrefab;
         public GameObject LoserPrefab;
+        public SpinObject SpinCamera;
+        public TimeSpan TotalTime;
+        public TimeSpan Increment;
+        public float SpinGain = 2;
+
+        public Timer _whiteTimer, _blackTimer;
 
         private ClockButton _whiteButton, _blackButton;
-        public Timer _whiteTimer, _blackTimer;
+        private bool _paused = true;
 
         void Start()
         {
+            SpinCamera = Camera.main.GetComponent<SpinObject>();
             LeftButton.Interactive = false;
             RightButton.Interactive = false;
             _whiteButton = LeftButton;
             _blackButton = RightButton;
             _whiteTimer =  LeftTimer;
             _blackTimer = RightTimer;
+            SetSpinSpeed(0);
 
+            _whiteTimer.InitialTime = _blackTimer.InitialTime = TimeSpan.FromMinutes(1);
+
+            _whiteTimer.Reset();
+            _blackTimer.Reset();
+
+            TotalTime = LeftTimer.Remaining + RightTimer.Remaining;
             //Lichess.LichessApi api = new Lichess.LichessApi();
             //Debug.Log(api.GetMyInfo());
         }
@@ -49,6 +62,8 @@ namespace App
                 RightButton.Interactive = false;
                 _whiteTimer.Running = _blackTimer.Running = false;
             }
+
+            _paused = !_paused;
         }
 
         public void LeftPressed()
@@ -63,31 +78,42 @@ namespace App
 
         void ChangeSides()
         {
+            var white = true;
             if (LeftIsWhite && WhiteMove)
-            {
-                _whiteButton.Interactive = false;
-                _blackButton.Interactive = true;
-                _whiteTimer.Running = false;
-                _blackTimer.Running = true;
-                WhiteMove = false;
+                white = false;
+            
+            var black = !white;
 
-                return;
-            }
-
-            _whiteButton.Interactive = true;
-            _blackButton.Interactive = false;
-            _whiteTimer.Running = true;
-            _blackTimer.Running = false;
-            WhiteMove = true;
+            _whiteButton.Interactive = white;
+            _blackButton.Interactive = black;
+            _whiteTimer.Running = white;
+            _blackTimer.Running = black;
+            WhiteMove = white;
         }
 
         void Update()
         {
+            if (_paused)
+                return;
+
             if (PlayPause.State == EGameState.Running)
             {
                 _whiteTimer.Step(Time.deltaTime);
                 _blackTimer.Step(Time.deltaTime);
             }
+
+            double speed;
+            if (WhiteMove)
+                speed = -SpinGain*_whiteTimer.Remaining.TotalMilliseconds/_whiteTimer.InitialTime.TotalMilliseconds;
+            else
+                speed = SpinGain*_blackTimer.Remaining.TotalMilliseconds/_blackTimer.InitialTime.TotalMilliseconds;
+
+            SetSpinSpeed(speed*SpinGain);
+        }
+
+        private void SetSpinSpeed(double speed)
+        {
+            SpinCamera.Speed = (float)speed;
         }
     }
 }

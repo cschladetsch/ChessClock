@@ -1,10 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SpinObject : MonoBehaviour
 {
     public float Speed = 1;
+    public bool RandomStart = false;
+
+    private void Start()
+    {
+        if (RandomStart)
+            transform.rotation = Random.rotation;
+    }
 
     void Update()
     {
