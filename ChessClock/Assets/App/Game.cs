@@ -19,8 +19,8 @@ namespace App
         public TimeSpan Increment;
         public float SpinGain = 2;
         public GameObject SetupObject;
-
         public Timer _whiteTimer, _blackTimer;
+        public bool OptConstantRotation = false;
 
         private ClockButton _whiteButton, _blackButton;
         private bool _paused = true;
@@ -34,7 +34,6 @@ namespace App
             _blackButton = RightButton;
             _whiteTimer =  LeftTimer;
             _blackTimer = RightTimer;
-            SetSpinSpeed(0);
 
             _whiteTimer.InitialTime = _blackTimer.InitialTime = TimeSpan.FromMinutes(1);
 
@@ -42,13 +41,15 @@ namespace App
             _blackTimer.Reset();
 
             TotalTime = LeftTimer.Remaining + RightTimer.Remaining;
+
             //Lichess.LichessApi api = new Lichess.LichessApi();
             //Debug.Log(api.GetMyInfo());
         }
 
         public void PlayPlausedPressed()
         {
-            if (PlayPause.State == EGameState.Paused)
+            var pausing = PlayPause.State == EGameState.Paused;
+            if (pausing)
             {
                 PlayPause.State = EGameState.Running;
                 _whiteButton.Interactive = WhiteMove;
@@ -56,6 +57,7 @@ namespace App
                 _whiteTimer.Running = WhiteMove;
                 _blackTimer.Running = !WhiteMove;
                 SetupObject.SetActive(false);
+                SpinCamera.Speed = 1;
             }
             else
             {
@@ -64,13 +66,13 @@ namespace App
                 LeftButton.Interactive = false;
                 RightButton.Interactive = false;
                 _whiteTimer.Running = _blackTimer.Running = false;
+                SpinCamera.Speed = 0;
             }
 
             _paused = !_paused;
-
-            if (_paused)
-                SpinCamera.Speed = 0;
         }
+
+        float _spinSpeed;
 
         public void LeftPressed()
         {
@@ -89,7 +91,6 @@ namespace App
                 white = false;
             
             var black = !white;
-
             _whiteButton.Interactive = white;
             _blackButton.Interactive = black;
             _whiteTimer.Running = white;
@@ -106,22 +107,23 @@ namespace App
 
             UpdateTimers();
 
-            MoveBackground();
+            if (!OptConstantRotation)
+                MoveBackground();
         }
 
         private void UpdateTimers()
         {
-            if (PlayPause.State == EGameState.Running)
-            {
-                _whiteTimer.Step(Time.deltaTime);
-                _blackTimer.Step(Time.deltaTime);
-            }
+            if (PlayPause.State != EGameState.Running)
+                return;
+
+            _whiteTimer.Step(Time.deltaTime);
+            _blackTimer.Step(Time.deltaTime);
         }
         
         private void MoveBackground()
         {
             var timer = CurrentTimer();
-            var alpha = timer.Remaining.TotalSeconds/timer.InitialTime.TotalSeconds;
+            var alpha = 1 - timer.Remaining.TotalSeconds/timer.InitialTime.TotalSeconds;
             if (WhiteMove)
                 alpha *= -1;
             SetSpinSpeed(alpha*SpinGain);

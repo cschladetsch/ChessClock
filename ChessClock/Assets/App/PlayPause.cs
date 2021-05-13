@@ -14,10 +14,10 @@ namespace App
                 switch (value)
                 {
                     case EGameState.Paused:
-                        Text.text = "Paused";
+                        Text.text = "Play";
                         break;
                     case EGameState.Running:
-                        Text.text = "Running";
+                        Text.text = "Pause";
                         break;
                 }
                 _state = value;
