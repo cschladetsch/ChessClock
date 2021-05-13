@@ -27,6 +27,9 @@ namespace App
             _blackButton = RightButton;
             _whiteTimer =  LeftTimer;
             _blackTimer = RightTimer;
+
+            //Lichess.LichessApi api = new Lichess.LichessApi();
+            //Debug.Log(api.GetMyInfo());
         }
 
         public void PlayPlausedPressed()
