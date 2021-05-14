@@ -11,15 +11,12 @@ This image is is a conceptual render of the final product. It only shows relativ
 ![ChessClock](External/SampleRender-1.png)
 
 ## Ingredients
-* Raspberry Pi 3 [Model B+](https://raspberry.piaustralia.com.au/products/raspberry-pi-3-model-b-plus)
-* [7" Display](https://raspberry.piaustralia.com.au/collections/displays/products/little-bird-5-display) Or Smaller. See [Display](display).
+* [Hardware](Hardware)
 * 3d Printed body with custom rocker switch.
-* [Speaker](https://raspberry.piaustralia.com.au/products/speaker-kit-for-raspberry-pi)
-* Unity3d. See [Architecture](Architecture.md) for details on code structure and implementation.
+* Unity3d 2020.3.0f1. See [Architecture](Architecture.md) for details on code structure and implementation.
 * Art
-* [Battery](https://www.18650batterystore.com/collections/18650-batteries)
 
-### Later
+## Future Work
 
 * Android Connectivity via Bluetooth
 * [Lichess API](https://lichess.org/api)
