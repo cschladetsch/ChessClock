@@ -1,4 +1,4 @@
-# 800x480Hardware Options
+# Hardware Options
 
 There will be various other bits and pieces, like LEDs for the rocker arms, connectors, and so on. I have most of that, or can get it from *JayCar* or something.
 
