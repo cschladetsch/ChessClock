@@ -1,16 +1,17 @@
-# Display Options
+# Hardware Options
 
-## 3.5"
+## Speakers
+
+https://www.littlebird.com.au/products/adafruit-i2s-3w-stereo-speaker-bonnet-for-raspberry-pi-mini-kit
+
+## Displays
+### 3.5"
 
 https://raspberry.piaustralia.com.au/products/pitft-plus-480x320-3-5-tft-touchscreen-for-raspberry-pi
 
-## 5"
+### 5"
 
 https://raspberry.piaustralia.com.au/products/hdmi-5-display-backpack-without-touch 
-
-
-
-### 5"
 
 https://raspberry.piaustralia.com.au/collections/displays/products/little-bird-5-display 
 
