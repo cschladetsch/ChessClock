@@ -11,9 +11,9 @@ This image is is a conceptual render of the final product. It only shows relativ
 ![ChessClock](External/SampleRender-1.png)
 
 ## Ingredients
-* [Hardware](../../Wiki/Hardware)
+* [Hardware](../../wiki/Hardware)
 * 3d Printed body with custom rocker switch.
-* Unity3d 2020.3.0f1. See [Architecture](../../Wiki/Architecture) for details on code structure and implementation.
+* Unity3d 2020.3.0f1. See [Architecture](../../wiki/Architecture) for details on code structure and implementation.
 * Art
 
 ## Future Work
@@ -23,7 +23,7 @@ This image is is a conceptual render of the final product. It only shows relativ
 
 ## Wiki
 
-There is a developing [Wiki](../../Home) in progress.
+There is a developing [Wiki](../../wiki/Home) in progress.
 
 ## Jira
 
