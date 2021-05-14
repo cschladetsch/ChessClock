@@ -1,6 +1,6 @@
+using System;
 using UnityEngine;
 using TMPro;
-using System;
 
 namespace App
 {

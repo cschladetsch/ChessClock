@@ -1,5 +1,5 @@
-using TMPro;
 using UnityEngine;
+using TMPro;
 
 public class FrameRateDisplay : MonoBehaviour
 {
