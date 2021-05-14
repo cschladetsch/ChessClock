@@ -2,9 +2,9 @@
 
 [![CodeFactor](https://www.codefactor.io/repository/github/cschladetsch/chessclock/badge)](https://www.codefactor.io/repository/github/cschladetsch/chessclock)[![License](https://img.shields.io/github/license/cschladetsch/chessclock.svg?label=License&maxAge=86400)](./LICENSE.txt)[![Release](https://img.shields.io/github/release/cschladetsch/chessclock.svg?label=Release&maxAge=60)](https://github.com/cschladetsch/chessclock/releases/latest)
 
-*ChessClock* is a somewhat ambitious project to make an elaborate Chess clock base on *Raspberry Pi* and a relatively large screen.
+*ChessClock* is a somewhat ambitious project to make an elaborate Chess clock base on *Raspberry Pi*,an *Arduino*, and a relatively large screen.
 
-There are many floating ideas about [Features](../../wiki/Features) that may never see the light of day.
+There are many ideas about [Features](../../wiki/Features) that may never see the light of day.
 
 This image is is a conceptual render of the final product. It only shows relative sizes of each major component (body, screen, rocker), but you get the idea:
 
