@@ -14,9 +14,5 @@ namespace App
         {
             _camera = Camera.main;
         }
-
-        void Update()
-        {
-        }
     }
 }
