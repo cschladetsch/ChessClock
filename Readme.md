@@ -4,7 +4,7 @@
 
 *ChessClock* is a somewhat ambitious project to make an elaborate Chess clock base on *Raspberry Pi* and a relatively large screen.
 
-There are many floating ideas about [Features](Features.md) that may never see the light of day.
+There are many floating ideas about [Features](../../wiki/Features) that may never see the light of day.
 
 This image is is a conceptual render of the final product. It only shows relative sizes of each major component (body, screen, rocker), but you get the idea:
 
