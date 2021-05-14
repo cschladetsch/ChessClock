@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace App
@@ -13,10 +11,6 @@ namespace App
         void Start()
         {
             _camera = Camera.main;
-        }
-
-        void Update()
-        {
         }
     }
 }

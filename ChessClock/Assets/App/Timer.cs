@@ -1,6 +1,6 @@
+using System;
 using UnityEngine;
 using TMPro;
-using System;
 
 namespace App
 {
@@ -30,16 +30,17 @@ namespace App
                 return;
 
             Remaining = Remaining.Subtract(TimeSpan.FromSeconds(delta));
+
             UpdateText();
         }
 
-        private string GetSub(float num)
+        private string FormatDigits(float num)
             => string.Format("{0:00}", num);
 
         private void UpdateText()
         {
-            Text.text = $"{GetSub(Remaining.Minutes)}:{GetSub(Remaining.Seconds)}";
-            Millis.text = $"{GetSub(Remaining.Milliseconds/10)}";
+            Text.text = $"{FormatDigits(Remaining.Minutes)}:{FormatDigits(Remaining.Seconds)}";
+            Millis.text = $"{FormatDigits(Remaining.Milliseconds/10)}";
         }
     }
 }
