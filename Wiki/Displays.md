@@ -1,5 +1,9 @@
 # Hardware Options
 
+## Switches
+
+https://www.littlebird.com.au/products/cherry-mx-switch-red ($3.50 AUD @)
+
 ## Speakers
 
 https://www.littlebird.com.au/products/adafruit-i2s-3w-stereo-speaker-bonnet-for-raspberry-pi-mini-kit
