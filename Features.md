@@ -9,7 +9,9 @@ Here're some ideas on what can be done with this clock:
 * Control the timer (including shared presets) from an Android Phone.
 * Touch screen can be used for various functionality.
 * Display extra information like match history etc.
-* Show millisecond accuracy.
+* ~~Show millisecond accuracy.~~
+* Add Fishcer Random support.
+
 ## Nice to have
 * Premoves
   * Will require a third rocker position.
