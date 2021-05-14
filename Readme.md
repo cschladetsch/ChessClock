@@ -27,7 +27,7 @@ See the [wiki](Home) for details. TODO: will always need more documentation in t
 
 ## Jira
 
-There's a [Jira board](https://chessclock.atlassian.net/secure/RapidBoard.jspa?rapidView=1&projectKey=CHES&config=columns&selectedIssue=CHES-3) to keep track of things. TODO: Update Jira with `Epics`.
+There's a [Jira board](https://chessclock.atlassian.net/secure/RapidBoard.jspa?rapidView=1&selectedIssue=CHES-3) to keep track of things. TODO: Update Jira with `Epics`.
 
 ## Chess Clock Body
 
