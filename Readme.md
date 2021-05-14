@@ -11,7 +11,7 @@ This image is is a conceptual render of the final product. It only shows relativ
 ![ChessClock](External/SampleRender-1.png)
 
 ## Ingredients
-* [Hardware](Hardware)
+* [Hardware](wiki/Hardware)
 * 3d Printed body with custom rocker switch.
 * Unity3d 2020.3.0f1. See [Architecture](Architecture.md) for details on code structure and implementation.
 * Art
@@ -45,7 +45,7 @@ Want micro-switch at the end of travel:
 
 ## Code
 
-See [Architecture](Architecture.md) for details.
+See [Architecture](wiki/Architecture.md) for details.
 
 Will support generation of Fischer Random locations.
 
