@@ -1,0 +1,9 @@
+Builds
+Library
+Logs
+Temp
+.vs
+.vsconfig
+/obj
+./obj
+Assets/Resources/LichessToken.txt
