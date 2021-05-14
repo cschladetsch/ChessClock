@@ -19,7 +19,7 @@ Current spec as it stands:
 
 **Total hardware cost: ~$200**
 
-This of course excludes a lot of little details, and printing time/cost and so on. *Total physical component cost is expected to be < $300.*
+This of course excludes a lot of little details, and printing time/cost and so on. *Total physical component cost is expected to be ~$250.*
 
 The following is a breakdown of some options.
 
@@ -72,6 +72,3 @@ Battery is important as it has to provide the correct voltage ranges for the var
 | AA x 3 or 4 | $2 | AA | 4.5-6.0V | Yes | Optional |
 | Something from RC World | ? | ? | ? | ? | Yes |
 |  |  |  |  |  |  |
-
-* 
-
