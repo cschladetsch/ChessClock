@@ -6,6 +6,23 @@ However, there are some larger decisions to be made. This documents attempts to 
 
 All Prices in AUD except where noted.
 
+## Current Best Guess
+
+Current spec as it stands:
+
+* Pi 3B+ - $70
+* Arduino Uno 3 - $25
+* Little Bird 5" 800x480 Display - $59
+* Cherry Red Switches - $5
+* 9V Square Battery - $9
+* Speakers - $25
+
+**Total hardware cost: ~$200**
+
+This of course excludes a lot of little details, and printing time/cost and so on. *Total physical component cost is expected to be < $300.*
+
+The following is a breakdown of some options.
+
 ## Compute/IO
 
 It won't be enough to have just a Pi. We will need digital and analog inputs as well. How exactly the Pi <=> Arduino connection will work needs a spec.
@@ -55,4 +72,6 @@ Battery is important as it has to provide the correct voltage ranges for the var
 | AA x 3 or 4 | $2 | AA | 4.5-6.0V | Yes | Optional |
 | Something from RC World | ? | ? | ? | ? | Yes |
 |  |  |  |  |  |  |
+
+* 
 
