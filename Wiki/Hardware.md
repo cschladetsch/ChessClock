@@ -29,7 +29,7 @@ Optional for prototype, but a nice to have. Could count-down time remaining, giv
 
 | What | Cost | Use | Avail |
 |------|------|-----|-------|
-| [Stereo Speakers](https://www.littlebird.com.au/products/adafruit-i2s-3w-stereo-speaker-bonnet-for-raspberry-pi-mini-kit) | $50? | Sound output | Yes |
+| [Stereo Speakers](https://www.littlebird.com.au/products/adafruit-i2s-3w-stereo-speaker-bonnet-for-raspberry-pi-mini-kit) | $25 | Sound output | Yes |
 
 ## Displays
 
@@ -50,9 +50,9 @@ Battery is important as it has to provide the correct voltage ranges for the var
 
 | What | Cost | Size | Voltage | Avail | Rechargeable |
 |------|------|------|---------|-------|--------------|
-| [Battery](https://www.18650batterystore.com/collections/18650-batteries) | ? | >AA | ? | Yes | Yes |
-| 9Volt Battery | $9 | Medium | 9V | Yes | No |
-| AA x 3 or 4 | $2 | AA | 1.5V | Yes | Optional |
+| [18650 Battery](https://www.18650batterystore.com/collections/18650-batteries) | $7 | >AA | 3.6V | Yes | Yes |
+| Square 9V Battery | $9 | Medium | 9V | Yes | No |
+| AA x 3 or 4 | $2 | AA | 4.5-6.0V | Yes | Optional |
 | Something from RC World | ? | ? | ? | ? | Yes |
 |  |  |  |  |  |  |
 
