@@ -33,10 +33,9 @@ namespace App
             UpdateText();
         }
 
-        string GetSub(float num)
-        {
-            return string.Format("{0:00}", num);
-        }
+        private string GetSub(float num)
+            => string.Format("{0:00}", num);
+
         private void UpdateText()
         {
             Text.text = $"{GetSub(Remaining.Minutes)}:{GetSub(Remaining.Seconds)}";

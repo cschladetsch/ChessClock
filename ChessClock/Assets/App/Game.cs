@@ -24,6 +24,7 @@ namespace App
 
         private ClockButton _whiteButton, _blackButton;
         private bool _paused = true;
+        private Timer CurrentTimer() => WhiteMove ? _whiteTimer : _blackTimer;
 
         void Start()
         {
@@ -72,8 +73,6 @@ namespace App
             _paused = !_paused;
         }
 
-        float _spinSpeed;
-
         public void LeftPressed()
         {
             ChangeSides();
@@ -97,8 +96,6 @@ namespace App
             _blackTimer.Running = black;
             WhiteMove = white;
         }
-
-        Timer CurrentTimer() => WhiteMove ? _whiteTimer : _blackTimer;
 
         void Update()
         {
