@@ -23,7 +23,7 @@ This image is is a conceptual render of the final product. It only shows relativ
 
 ## Wiki
 
-See the [wiki](./Wiki/Home) for details. TODO: will always need more documentation in the Wiki. More so, it has to be kept up to date with development.
+See the [wiki](./Wiki/Home) for details.
 
 ## Jira
 
@@ -44,8 +44,6 @@ Want micro-switch at the end of travel:
 ![RockerSwitch](External/RockerSwitch.png)
 
 ## Code
-
-See [Architecture](./Wiki/Architecture) for details.
 
 Will support generation of Fischer Random locations.
 
