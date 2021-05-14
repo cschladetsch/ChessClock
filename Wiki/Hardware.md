@@ -30,3 +30,10 @@
 | [Touchscreen](https://www.littlebird.com.au/products/5-inch-lcd-hdmi-touch-screen-display-for-raspberry-pi-4) | ? | 5" | ? | 4 |  Yes|
 | [Touchscreen](https://raspberry.piaustralia.com.au/products/7-inch-lcd-hdmi-touch-screen-display-tft-for-raspb#description) | ? | 7" | ? | 4 |  Yes|
 
+## Battery(s)
+| What | Cost | Size | Voltage | Avail | Rechargeable |
+|------|------|------|---------|-------|--------------|
+| [Battery](https://www.18650batterystore.com/collections/18650-batteries) | ? | >AA | ? | Yes | Yes |
+| 9Volt Battery | $9 | Medium | 9V | Yes | No |
+
+
