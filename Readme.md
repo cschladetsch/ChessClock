@@ -13,7 +13,7 @@ This image is is a conceptual render of the final product. It only shows relativ
 ## Ingredients
 * [Hardware](../../wiki/Hardware)
 * 3d Printed body with custom rocker switch.
-* Unity3d 2020.3.0f1. See [Architecture](../../wiki/Architecture) for details on code structure and implementation.
+* Unity3d 2020.3.0f1. TODO: Place link. See [Architecture](../../wiki/Architecture) for details on code structure and implementation.
 * Art
 
 ## Future Work
