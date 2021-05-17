@@ -9,7 +9,7 @@ namespace App
         public ClockButton RightButton;
         public Timer LeftTimer;
         public Timer RightTimer;
-        public PlayPause PlayPause;
+        public PlayPauseButton PlayPause;
         public bool LeftIsWhite;
         public bool WhiteMove;
         public GameObject WinnerPrefab;

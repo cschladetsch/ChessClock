@@ -3,7 +3,7 @@ using TMPro;
 
 namespace App
 {
-    public class PlayPause : MonoBehaviour
+    public class PlayPauseButton : MonoBehaviour
     {
         public TextMeshProUGUI Text;
 
