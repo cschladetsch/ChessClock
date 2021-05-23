@@ -16,6 +16,15 @@ This image is is a conceptual render of the final product. It only shows relativ
 * Unity3d 2020.3.0f1. TODO: Place link. See [Architecture](../../wiki/Architecture) for details on code structure and implementation.
 * Art
 
+## Hardware/Software setup
+To Install LineageOs 17.1:
+1. Install Etcher
+1. Flash drive with lineage-17.1-20201108-UNOFFICIAL-KonstaKANG-rpi3
+1. Boot pi with card
+1. Install F-Droid via built-in Browser
+1. Install Termux
+1. Alt-Shift-+/- to change font size of Terminal
+
 ## Future Work
 
 * Android Connectivity via Bluetooth
