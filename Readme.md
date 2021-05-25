@@ -16,7 +16,18 @@ This image is is a conceptual render of the final product. It only shows relativ
 * Unity3d 2020.3.0f1. TODO: Place link. See [Architecture](../../wiki/Architecture) for details on code structure and implementation.
 * Art
 
-## Hardware/Software setup
+## Hardware/Software setup 
+
+### Native
+
+```bash
+$ sudo apt-get install libglm-dev
+$ git clone Urho
+$ # make Urho
+
+```
+
+### Android
 To Install LineageOs 17.1:
 1. Install Etcher
 1. Flash drive with lineage-17.1-20201108-UNOFFICIAL-KonstaKANG-rpi3
