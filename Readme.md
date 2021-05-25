@@ -21,7 +21,7 @@ This image is is a conceptual render of the final product. It only shows relativ
 ### Native
 
 ```bash
-$ sudo apt-get install libglm-dev
+$ sudo apt-get install libgles2-mesa-dev
 $ git clone Urho
 $ # make Urho
 
