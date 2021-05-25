@@ -26,6 +26,7 @@ You will need all the RAM you have to build Urho3d. Start by booting into comman
 
 ```bash
 $ sudo apt-get install libgles2-mesa-dev            # need gles2
+$ sudo apt-get install libxext-dev
 $ git clone https://github.com/urho3d/Urho3D.git    # engine
 $ cd Urho3d && mkdir build && cd build && cmake .. 
 $ make  # be patient
