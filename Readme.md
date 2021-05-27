@@ -13,11 +13,11 @@ This image is is a conceptual render of the final product. It only shows relativ
 ## Ingredients
 * [Hardware](../../wiki/Hardware)
 * 3d Printed body with custom rocker switch.
-* Unity3d 2020.3.0f1. TODO: Place link. See [Architecture](../../wiki/Architecture) for details on code structure and implementation.
+* SDL 2.0
 * Art
 
 ## Hardware/Software setup 
-There are any number of ways to write a graphics app on a Pi. 
+TODO
 
 ### SDL 2.0
 Latest and last attempt to get a system up and running that can be dev'd on Win10 and built on device.
@@ -80,6 +80,9 @@ $ git clone ChessClock
 $ mkdir build && cd build && cmake .. && make
 $ ./Release/ChessClock
 ```
+This turned into a dead end. First, Android on Pi is a resource hog. Second, display/touch sensors turned out to not work with Android.
+
+TODO: revisit idea of basing on Andrdoin on Pi.
 
 ## Future Work
 
