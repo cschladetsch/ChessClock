@@ -24,16 +24,17 @@ Latest and last attempt to get a system up and running that can be dev'd on Win1
 
 #### Build SDL for Windows
 ```bash
-$ git submodule --update --recursive
+$ git submodule update --init --recursive
 $ cd ThirdParty/SDL
 $ mkdir build && cd build && cmake .. && start main.sln
 ```
 Now, build the library using Ctrl-Shift-B and close visual studio.
 
-#### Build SDL for pi
-
+#### Build SDL for Pi
 ```bash
-$ sudo apt-get install libsdl2dev
+$ git submodule update --init --recursive
+$ cd ThirdParty/SDL
+$ mkdir build && cd build && cmake .. && make
 ```
 
 #### Building the ChessClock-SDL App
