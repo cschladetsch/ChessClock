@@ -16,7 +16,25 @@ This image is is a conceptual render of the final product. It only shows relativ
 * Unity3d 2020.3.0f1. TODO: Place link. See [Architecture](../../wiki/Architecture) for details on code structure and implementation.
 * Art
 
-## Hardware/Software setup
+## Hardware/Software setup 
+There are any number of ways to write a graphics app on a Pi. 
+
+### Native
+Here, we're assuming at least a Pi 3B+ and Raspian.
+
+You will need all the RAM you have to build Urho3d. Start by booting into command-line rather than the *gui*. Do this via the command `sudo rasppi-config` and change the boot to go directly to the CLI.
+
+```bash
+$ sudo apt-get install libgles2-mesa-dev            # need gles2
+$ sudo apt-get install libxext-dev
+$ git clone https://github.com/urho3d/Urho3D.git    # engine
+$ cd Urho3d && mkdir build && cd build && cmake .. 
+$ make  # be patient
+$ # change back to booting to GUI after setting minimum GPU RAM to 128M RAM (or more, depending on hardware)
+```
+See Building ChessClock.
+
+### Android
 To Install LineageOs 17.1:
 1. Install Etcher
 1. Flash drive with lineage-17.1-20201108-UNOFFICIAL-KonstaKANG-rpi3
@@ -24,6 +42,15 @@ To Install LineageOs 17.1:
 1. Install F-Droid via built-in Browser
 1. Install Termux
 1. Alt-Shift-+/- to change font size of Terminal
+1. Fail to get touch screen working with Android, move back to *Native*.
+
+## Building ChessClock
+
+```bash
+$ git clone ChessClock
+$ mkdir build && cd build && cmake .. && make
+$ ./Release/ChessClock
+```
 
 ## Future Work
 
