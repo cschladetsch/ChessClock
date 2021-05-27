@@ -19,8 +19,33 @@ This image is is a conceptual render of the final product. It only shows relativ
 ## Hardware/Software setup 
 There are any number of ways to write a graphics app on a Pi. 
 
-### Native
-Here, we're assuming at least a Pi 3B+ and Raspian.
+### SDL 2.0
+Latest and last attempt to get a system up and running that can be dev'd on Win10 and built on device.
+
+#### Build SDL for Windows
+```bash
+$ git submodule --update --recursive
+$ cd ThirdParty/SDL
+$ mkdir build && cd build && cmake .. && start main.sln
+```
+Now, build the library using Ctrl-Shift-B and close visual studio.
+
+#### Build SDL for pi
+
+```bash
+$ sudo apt-get install libsdl2dev
+```
+
+#### Building the ChessClock-SDL App
+
+```bash
+$ cd ChessClock-SDL && mkdir build && cmake .. && start *.sln
+```
+Build using Ctrl-Shit-B.
+Run using F5.
+
+### Urho3d
+We're assuming at least a Pi 3B+ and Raspian.
 
 You will need all the RAM you have to build Urho3d. Start by booting into command-line rather than the *gui*. Do this via the command `sudo rasppi-config` and change the boot to go directly to the CLI.
 
@@ -32,6 +57,8 @@ $ cd Urho3d && mkdir build && cd build && cmake ..
 $ make  # be patient
 $ # change back to booting to GUI after setting minimum GPU RAM to 128M RAM (or more, depending on hardware)
 ```
+*NOTE: This doesn't build on device (too little ram), and cross-compiling to Pi is a PITA*
+
 See Building ChessClock.
 
 ### Android
