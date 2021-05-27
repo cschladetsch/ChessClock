@@ -34,6 +34,7 @@ Now, build the library using Ctrl-Shift-B and close visual studio.
 ```bash
 $ git submodule update --init --recursive
 $ cd ThirdParty/SDL
+$ configure --host=armv7l-raspberry-linux-gnueabihf --disable-pulseaudio --disable-esd --disable-video-mir --disable-video-wayland --disable-video-x11 --disable-video-opengl
 $ mkdir build && cd build && cmake .. && make
 ```
 
