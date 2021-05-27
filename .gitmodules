@@ -1,3 +1,4 @@
-[submodule "ThirdParty/SDL"]
-	path = ThirdParty/SDL
+
+[submodule "ChessClock-SDL/ThirdParty/SDL"]
+	path = ChessClock-SDL/ThirdParty/SDL
 	url = https://github.com/libsdl-org/SDL.git
