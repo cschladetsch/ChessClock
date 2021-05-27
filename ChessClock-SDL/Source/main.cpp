@@ -5,10 +5,15 @@
 
 #define SDL_MAIN
 
+int FortyTwo();
+
 int main()
 {
     using std::cerr;
+    using std::cout;
     using std::endl;
+
+    cout << FortyTwo() << endl;
 
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         cerr << "SDL_Init Error: " << SDL_GetError() << endl;
