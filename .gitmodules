@@ -8,3 +8,6 @@
 [submodule "ChessClock-SDL/ThirdParty/glfw"]
 	path = ChessClock-SDL/ThirdParty/glfw
 	url = https://github.com/glfw/glfw.git
+[submodule "ChessClock-SDL/ThirdParty/scalable-font2"]
+	path = ChessClock-SDL/ThirdParty/scalable-font2
+	url = git@gitlab.com:bztsrc/scalable-font2.git
