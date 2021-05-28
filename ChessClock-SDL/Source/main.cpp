@@ -4,6 +4,7 @@
 
 #include "ChessClock/Logger.hpp"
 #include "ChessClock/Renderer.hpp"
+#include "ChessClock/Font.hpp"
 
 int main()
 {

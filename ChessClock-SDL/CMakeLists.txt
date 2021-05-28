@@ -12,6 +12,7 @@ link_directories(${THIRD_PARTY}/SDL/build/Debug)
 
 file(GLOB ALL_HEADERS
         "${PROJECT_INCLUDE_DIR}/ChessClock/*.hpp"
+        "${PROJECT_INCLUDE_DIR}/ChessClock/*.h"
 )
 
 file(GLOB ALL_SOURCES
