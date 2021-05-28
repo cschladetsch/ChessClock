@@ -23,9 +23,12 @@ TODO
 Latest and last attempt to get a system up and running that can be dev'd on Win10 and built on device.
 
 #### Build SDL for Windows
-Install [GitBash[(https://github.com/git-for-windows/git/releases/download/v2.31.1.windows.1/Git-2.31.1-64-bit.exe)
-Install [Doxygen](https://doxygen.nl/files/doxygen-1.9.1-setup.exe).
-Install [Make](https://ixpeering.dl.sourceforge.net/project/ezwinports/make-4.3-without-guile-w32-bin.zip)
+
+Prerequisites:
+* [GitBash](https://github.com/git-for-windows/git/releases/download/v2.31.1.windows.1/Git-2.31.1-64-bit.exe)
+* [Doxygen](https://doxygen.nl/files/doxygen-1.9.1-setup.exe).
+* [Cmake](https://cmake.org/download/)
+* [Make](https://ixpeering.dl.sourceforge.net/project/ezwinports/make-4.3-without-guile-w32-bin.zip)
 
 ```bash
 $ git submodule update --init --recursive
