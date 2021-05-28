@@ -12,6 +12,7 @@ int main()
     if (!renderer.Construct())
     {
         LOG_ERROR() << "Failed to initialise SDL\n";
+        return 1;
     }
 
     SDL_Surface* bmp = SDL_LoadBMP("sample.bmp");
