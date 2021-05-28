@@ -2,3 +2,9 @@
 [submodule "ChessClock-SDL/ThirdParty/SDL"]
 	path = ChessClock-SDL/ThirdParty/SDL
 	url = https://github.com/libsdl-org/SDL.git
+[submodule "ChessClock-SDL/ThirdParty/freetype-gl"]
+	path = ChessClock-SDL/ThirdParty/freetype-gl
+	url = https://github.com/rougier/freetype-gl.git
+[submodule "ChessClock-SDL/ThirdParty/glfw"]
+	path = ChessClock-SDL/ThirdParty/glfw
+	url = https://github.com/glfw/glfw.git
