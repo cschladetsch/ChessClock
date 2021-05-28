@@ -115,11 +115,7 @@ typedef struct {
     uint32_t    kerning_offs;           /* kerning table offset */
     uint32_t    cmap_offs;              /* color map offset */
 } 
-#ifndef WIN32
-    __attribute__((packed)) 
-#else
 ssfn_font_t;
-#endif
 
 /***** renderer API *****/
 #define SSFN_FAMILY_ANY      0xff       /* select the first loaded font */
