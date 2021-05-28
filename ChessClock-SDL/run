@@ -1,2 +1,4 @@
-build/main
+#!/bin/sh
+
+build/Debug/cclock || build/cclock
 
