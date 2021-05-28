@@ -40,6 +40,7 @@ Now, build the library using Ctrl-Shift-B and close visual studio.
 
 #### Build SDL for Pi
 ```bash
+$ sudo apt-get install libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev
 $ git submodule update --init --recursive
 $ cd ThirdParty/SDL
 $ configure --host=armv7l-raspberry-linux-gnueabihf --disable-pulseaudio --disable-esd --disable-video-mir --disable-video-wayland --disable-video-x11 --disable-video-opengl
