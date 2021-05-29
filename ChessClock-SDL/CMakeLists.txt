@@ -8,7 +8,7 @@ set(PROJECT_NAME cclock)
 project(${PROJECT_NAME})
 
 set(THIRD_PARTY ${PROJECT_SOURCE_DIR}/ThirdParty)
-set(PROJECT_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/Include")
+set(PROJECT_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/Include)
 
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 
@@ -16,7 +16,7 @@ add_subdirectory(ThirdParty/crossguid)
 
 link_directories(${THIRD_PARTY}/SDL/build/Debug)
 
-file(GLOB ALL_HEADERS
+file(GLOB_RECURSE ALL_HEADERS
         "${PROJECT_INCLUDE_DIR}/ChessClock/*.hpp"
         "${PROJECT_INCLUDE_DIR}/ChessClock/*.h"
 )

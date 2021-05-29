@@ -24,6 +24,7 @@ int main(int argc, char **argv)
 
     ResourceManager resourceManager(renderer, resourcesFolder);
 
+    std::shared_ptr<Resource<Font>> font = resourceManager.CreateResource<Font>("AdobeFanHeitiStd-Bold.otf");
     std::shared_ptr<Resource<Texture>> texture = resourceManager.CreateResource<Texture>("sample.bmp");
 
     SDL_Surface* bmp = SDL_LoadBMP("sample.bmp");
