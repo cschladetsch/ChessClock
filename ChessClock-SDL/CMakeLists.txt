@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.12)
 
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake")
+include(cotire)
+
 set(PROJECT_NAME cclock)
 
 project(${PROJECT_NAME})
@@ -35,4 +38,6 @@ if (WIN32)
 else()
     target_link_libraries(${PROJECT_NAME} SDL2 SDL2main)
 endif()
+
+cotire(${PROJECT_NAME})
 

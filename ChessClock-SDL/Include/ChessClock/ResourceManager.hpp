@@ -19,7 +19,7 @@ namespace ChessClock
         std::unordered_map<int, ResourceBase*> _idToResource;
 
     public:
-        ResourceManager::ResourceManager(Renderer const &renderer, const char* rootDir)
+        ResourceManager(Renderer const &renderer, const char* rootDir)
         {
         }
 
