@@ -5,6 +5,7 @@ namespace ChessClock
     enum class EResourceType
     {
         None,
+        Transform,
         Text,
         Sprite,
         Texture,

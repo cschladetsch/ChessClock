@@ -12,6 +12,8 @@ set(PROJECT_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/Include")
 
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 
+add_subdirectory(ThirdParty/crossguid)
+
 link_directories(${THIRD_PARTY}/SDL/build/Debug)
 
 file(GLOB ALL_HEADERS
@@ -25,18 +27,22 @@ file(GLOB ALL_SOURCES
 
 add_executable(${PROJECT_NAME} ${ALL_SOURCES} ${ALL_HEADERS})
 
-target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_INCLUDE_DIR})
+set_target_properties(${PROJECT_NAME} PROPERTIES
+            CXX_STANDARD 17
+            CXX_EXTENSIONS OFF)
+
 include_directories(${THIRD_PARTY}/SDL/include)
 include_directories(${THIRD_PARTY}/json/include)
+include_directories(${THIRD_PARTY}/crossguid/include)
 include_directories(${PROJECT_INCLUDE_DIR})
 include_directories(${PROJECT_SOURCE_DIR}/Include)
 
 add_subdirectory(${THIRD_PARTY}/json)
 
 if (WIN32)
-    target_link_libraries(${PROJECT_NAME} SDL2d SDL2maind nlohmann_json::nlohmann_json)
+    target_link_libraries(${PROJECT_NAME} SDL2d SDL2maind nlohmann_json::nlohmann_json crossguid)
 else()
-    target_link_libraries(${PROJECT_NAME} SDL2 SDL2main)
+    target_link_libraries(${PROJECT_NAME} SDL2 SDL2main crossguid)
 endif()
 
 cotire(${PROJECT_NAME})
