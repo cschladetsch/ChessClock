@@ -1,4 +1,13 @@
 #!/bin/sh
 
-build/Debug/cclock || build/cclock
+mkdir -p build
+cd build
+cmake ..
+if [[ "$OSTYPE" == "msys" ]]; then
+	msbuild.exe cclock.sln //p:Configuration=Debug //p:Platform="x64"
+	Debug/cclock.exe $*
+else
+	make
+	./clock $*
+fi
 
