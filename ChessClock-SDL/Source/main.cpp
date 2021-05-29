@@ -5,16 +5,26 @@
 #include "ChessClock/Logger.hpp"
 #include "ChessClock/Renderer.hpp"
 #include "ChessClock/Font.hpp"
+#include "ChessClock/Texture.hpp"
+#include "ChessClock/ResourceManager.hpp"
 
-int main()
+using namespace ChessClock;
+
+int main(int argc, char **argv)
 {
-    ChessClock::Logger _log{ "Main" };
-    ChessClock::Renderer renderer;
+    Logger _log{ "Main" };
+    Renderer renderer;
+    const char* resourcesFolder = argc > 1 ? argv[1] : "Resources";
+
     if (!renderer.Construct())
     {
-        LOG_ERROR() << "Failed to initialise SDL\n";
+        LOG_ERROR() << "Failed to initialise Renderer\n";
         return 1;
     }
+
+    ResourceManager resourceManager(renderer, resourcesFolder);
+
+    std::shared_ptr<Resource<Texture>> texture = resourceManager.CreateResource<Texture>("sample.bmp");
 
     SDL_Surface* bmp = SDL_LoadBMP("sample.bmp");
     if (bmp == nullptr) {

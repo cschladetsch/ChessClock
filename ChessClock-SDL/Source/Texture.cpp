@@ -2,8 +2,8 @@
 
 namespace ChessClock
 {
-    Texture::Texture(ResourceManager &rm, const char *name)
+    Texture::Texture(ResourceManager &rm, ResourceId const &resourceId)
+        : ResourceBase(rm, resourceId)
     {
-
     }
 }

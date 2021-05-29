@@ -4,4 +4,8 @@
 
 namespace ChessClock
 {
+    class MetaData
+    {
+
+    };
 }

@@ -1,30 +1,24 @@
 #pragma once
 
 #include <string>
-#include <unordered_map>
 
 #include "ChessClock/ForwardReferences.hpp"
 #include "ChessClock/ResourceId.hpp"
+#include "ChessClock/MetaData.hpp"
 
 namespace ChessClock
 {
-
-    class MetaData
-    {
-    };
-
     class ResourceBase
     {
-        ResourceId _id;
-        void *data{ 0 };
+        ResourceId _resourceId;
         ResourceManager *_manager{ 0 };
-        MetaData _metaData;
 
     public:
-        Guid GetGuid() const { return _id.GetGuid(); }
-        std::string GetName() const { return _id.GetName(); }
+        Guid GetGuid() const { return _resourceId.GetGuid(); }
+        std::string GetName() const { return _resourceId.GetName(); }
+        ResourceId const& GetResourceId() const { return _resourceId; }
         ResourceManager *GetManager() const { return _manager; }
 
-        ResourceBase(int id = 0);
+        ResourceBase(ResourceManager& resourceManager, ResourceId resourceId);
     };
 }

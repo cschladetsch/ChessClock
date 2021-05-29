@@ -1,7 +1,10 @@
+#include <vector>
+
+#include "nlohmann/json.hpp"
+
 #include "ChessClock/ResourceBase.hpp"
 #include "ChessClock/Transform.hpp"
 
-#include "nlohmann/json.hpp"
 
 using nlohmann::json;
 
@@ -20,13 +23,13 @@ namespace ChessClock
 
     void to_json(json& j, Transform const& tr)
     {
-        std::vector<int> childIds;
-        j = json{ {"position", tr.position}, {"rotation", tr.rotation}, {"scale", tr.scale}, {"children", childIds} };
-
-        for (auto id : childIds)
+        std::vector<Guid> children;
+        for (auto& child : tr.GetChildren())
         {
-            // ??
+            children.push_back(child.first.GetGuid());
         }
+
+        j = json{ {"position", tr.position}, {"rotation", tr.rotation}, {"scale", tr.scale}, {"children", children} };
     }
 
     void from_json(const json& j, Transform& tr)
@@ -34,14 +37,17 @@ namespace ChessClock
         j.at("position").get_to(tr.position);
         j.at("rotation").get_to(tr.rotation);
         j.at("scale").get_to(tr.scale);
+        auto childIds = j["children"].get<std::vector<std::string>>();
+        for (auto& id : childIds)
+        {
+            tr.Add(Guid{ id });
+        }
     }
 }
 
-
 namespace ChessClock
 {
-    ResourceBase::ResourceBase(int id)
+    ResourceBase::ResourceBase(ResourceManager &resourceManager, ResourceId resourceId)
     {
-        nlohmann::json js;
     }
 }

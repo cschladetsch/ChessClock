@@ -4,9 +4,11 @@
 
 namespace ChessClock
 {
-    class Texture
+    class Texture : public ResourceBase
     {
     public:
-        Texture(ResourceManager &, const char* name);
+        Texture(ResourceManager&, ResourceId const&);
     };
+
+
 }

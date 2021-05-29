@@ -27,6 +27,7 @@ namespace ChessClock
         float scale;
 
         ResourceId const& GetId() const { return _resourceId; }
+        Children const& GetChildren() const { return _children; }
 
         Transform(Vector2 const& pos, float rot, float _scale = 1)
             : position(pos), rotation(rot), scale(_scale)
@@ -35,30 +36,43 @@ namespace ChessClock
 
         Vector2 Apply(Vector2 const& point);
 
-        bool Add(ResourceBasePtr ptr)
+        bool Add(Guid id)
         {
-            AddChild(ptr);
+            if (HasChildWithGuid(id))
+            {
+                return false;
+            }
+
+            _children.push_back(std::make_pair(ResourceId{ id }, ResourceBasePtr{}));
+            return true;
         }
 
-        void SetChildIs(std::vector<Guid> const& childrenIds)
+        bool Add(ResourceBasePtr ptr)
         {
-            for (auto id : childrenIds)
-            {
-
-            }
+            return AddChild(ptr);
         }
 
         void ResolveChildren(ResourceManager const&);
 
     private:
+        bool HasChildWithGuid(Guid const &id)
+        {
+            for (auto& child : _children)
+            {
+                if (child.first.GetGuid() == id)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
         bool AddChild(ResourceBasePtr ptr)
         {
-            for (auto &child : _children)
+            if (HasChildWithGuid(ptr->GetGuid()))
             {
-                if (child.first.GetGuid() == ptr->GetGuid())
-                    return false;
+                return false;;
             }
-            
+
             _children.push_back(std::make_pair(ptr->GetGuid(), ptr));
             return true;
         }

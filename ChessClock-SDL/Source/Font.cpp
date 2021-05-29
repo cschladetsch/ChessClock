@@ -1,6 +1,6 @@
 #define SSFN_IMPLEMENTATION
 
-#include "ChessClock/ssfn.h"
+#include "ChessClock/ThirdParty/ssfn.h"
 #include "ChessClock/Font.hpp"
 
 namespace ChessClock

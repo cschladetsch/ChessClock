@@ -12,5 +12,7 @@ namespace ChessClock
         Font,
         AudioClip,
         Background,
+        Component,
+        Object,
     };
 }
