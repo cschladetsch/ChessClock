@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-
 #include "ChessClock/ForwardReferences.hpp"
 #include "ChessClock/ResourceId.hpp"
 #include "ChessClock/MetaData.hpp"

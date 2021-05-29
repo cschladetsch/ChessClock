@@ -1,6 +1,9 @@
 #pragma once
 
 #include <memory>
+#include <string>
+#include <vector>
+
 #include "ChessClock/Config.hpp"
 
 namespace ChessClock
@@ -18,6 +21,5 @@ namespace ChessClock
     typedef std::shared_ptr<Object> ObjectPtr;
     typedef std::shared_ptr<ResourceBase> ResourceBasePtr;
     typedef std::shared_ptr<Transform> TransformPtr;
-
 }
 

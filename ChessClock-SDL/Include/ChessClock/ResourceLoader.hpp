@@ -5,8 +5,6 @@
 #include "ChessClock/Logger.hpp"
 #include "ChessClock/ThirdParty/nameof.hpp"
 
-#define STRCAT(A, B) A ## B
-
 namespace ChessClock
 {
     struct ResourceLoaderBase

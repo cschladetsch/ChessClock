@@ -7,12 +7,12 @@ namespace ChessClock
     template <class Ty>
     class Resource : public ResourceBase
     {
-        typedef Ty ResourceType;
+        typedef Ty Type;
 
-        ResourceType _resource;
+        Type _resource;
 
     public:
-        const Ty& Get() const
+        const Type& Get() const
         {
             return default(Ty);
         }
