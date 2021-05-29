@@ -8,6 +8,6 @@ if [[ "$OSTYPE" == "msys" ]]; then
 	Debug/cclock.exe $*
 else
 	make
-	./clock $*
+	./cclock $*
 fi
 
