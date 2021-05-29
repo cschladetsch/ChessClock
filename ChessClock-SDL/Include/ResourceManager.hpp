@@ -15,8 +15,8 @@ namespace ChessClock
     public:
         ResourceManager(const char* root);
 
-        std::shared_ptr<Texture> GetTexture(const char* name);
-        std::shared_ptr<Sprite> GetSprite(const char* name);
-        std::shared_ptr<Font> GetFont(const char* name);
+        std::shared_ptr<Texture> MakeTexture(const char* name);
+        std::shared_ptr<Sprite> MakeSprite(const char* name);
+        std::shared_ptr<Font> MakeFont(const char* name);
     };
 }
