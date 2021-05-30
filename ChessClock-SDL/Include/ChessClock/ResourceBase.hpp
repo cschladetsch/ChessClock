@@ -17,6 +17,7 @@ namespace ChessClock
         ResourceId const& GetResourceId() const { return _resourceId; }
         ResourceManager *GetManager() const { return _manager; }
 
+        ResourceBase() { }
         ResourceBase(ResourceManager& resourceManager, ResourceId resourceId);
     };
 }

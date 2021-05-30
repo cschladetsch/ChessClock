@@ -7,20 +7,26 @@
 
 extern "C" {
     struct _TTF_Font;
+    struct SDL_Texture;
+    struct SDL_Color;
 }
+
 namespace ChessClock
 {
     class Renderer;
 
     class Font
     {
-        std::shared_ptr<_TTF_Font> _font;
+        _TTF_Font *_font;
 
     public:
-        Font(std::shared_ptr<_TTF_Font> font);
+        Font(_TTF_Font *font);
 
-        void DrawText(Renderer &, Vector2 const &startPos, const char *text);
         static std::shared_ptr<Font> Load(std::string const& root, std::string const& name);
+
+        void SetSize(int ptsize) const;
+        void SetDpi(int ptsize, int hdpi, int vdpi) const;
+        SDL_Texture *DrawText(Renderer &, const char *text, SDL_Color color) const;
     };
 
     template <>

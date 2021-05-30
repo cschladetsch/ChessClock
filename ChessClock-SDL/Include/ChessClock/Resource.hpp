@@ -9,12 +9,22 @@ namespace ChessClock
     {
         typedef Ty Type;
 
-        Type _resource;
+        std::shared_ptr<Type> _resource;
 
     public:
+        Resource(std::shared_ptr<Type> resource)
+            : _resource(resource)
+        {
+        }
+
+        Type& Get()
+        {
+            return *_resource;
+        }
+
         const Type& Get() const
         {
-            return _resource;
+            return *_resource;
         }
     };
 }

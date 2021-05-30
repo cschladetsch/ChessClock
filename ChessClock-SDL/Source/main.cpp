@@ -27,6 +27,8 @@ int main(int argc, char **argv)
     std::shared_ptr<Resource<Font>> font = resourceManager.CreateResource<Font>("AdobeFanHeitiStd-Bold.otf");
     std::shared_ptr<Resource<Texture>> texture = resourceManager.CreateResource<Texture>("sample.bmp");
 
+    //font->Get().SetDpi(100, 1000, 1000);
+
     SDL_Surface* bmp = SDL_LoadBMP("sample.bmp");
     if (bmp == nullptr) {
         LOG_ERROR() << "SDL_LoadBMP Error: " << SDL_GetError() << std::endl;
@@ -45,11 +47,29 @@ int main(int argc, char **argv)
     }
     SDL_FreeSurface(bmp);
 
-    for (int i = 0; i < 20; i++) {
+    SDL_Color color = { 255, 255, 255 };
+    SDL_Texture *text = font->Get().DrawText(renderer, "Hello world", color);
+
+    while (true)
+    {
         renderer.Clear();
         SDL_RenderCopy(ren, tex, nullptr, nullptr);
+        int texW = 0;
+        int texH = 0;
+        SDL_QueryTexture(text, NULL, NULL, &texW, &texH);
+        SDL_Rect dest = { 0, 0, texW, texH };
+
+        SDL_RenderCopy(ren, text, 0, &dest);
         renderer.Present();
-        SDL_Delay(100);
+        
+        SDL_Event event;
+        SDL_PollEvent(&event);
+        switch (event.type)
+        {
+        case SDL_KEYDOWN:
+            exit(0);
+            break;
+        }
     }
 
     SDL_DestroyTexture(tex);

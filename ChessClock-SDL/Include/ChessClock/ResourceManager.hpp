@@ -21,7 +21,7 @@ namespace ChessClock
         std::shared_ptr<Resource<Ty>> CreateResource(const char* name)
         {
             auto resource = ResourceLoader<Ty>::Load(_rootFolder, name);
-            return 0;// std::make_shared(new Resource<T>;
+            return std::make_shared<Resource<Ty>>(resource);
         }
 
         template <class Ty>
