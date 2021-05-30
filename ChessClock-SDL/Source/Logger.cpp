@@ -34,7 +34,7 @@ namespace ChessClock
 
     std::ostream& Logger::PrintLead(const char* file, int line, const char *level) const
     {
-        return std::cout << file << "(" << line << "):" << " [" << level << "]: [[" << _source << "]]:\n\t";
+        return std::cout << file << "(" << line << "):" << " [" << level << "]: [[" << _source << "]]: ";
     }
 
     std::ostream& Logger::Print(const char* file, int line, const char *level, const char* text) const
