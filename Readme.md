@@ -45,6 +45,7 @@ $ git submodule update --init --recursive
 $ cd ThirdParty/SDL
 $ configure --host=armv7l-raspberry-linux-gnueabihf --disable-pulseaudio --disable-esd --disable-video-mir --disable-video-wayland --disable-video-x11 --disable-video-opengl
 $ mkdir build && cd build && cmake .. && make
+$ sudo apt install libsdl2-ttf-dev
 ```
 
 #### Building the ChessClock-SDL App
