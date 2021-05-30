@@ -11,19 +11,23 @@ namespace ChessClock
     class ResourceManager
     {
         std::unordered_map<Guid, ResourceBase *> _guidToResource;
-        std::string _rootFolder;
+        string _rootFolder;
         Renderer const* _renderer;
         Logger _log{ "ResourceManager" };
 
     public:
         ResourceManager(Renderer const& renderer, const char* rootFolder);
 
-        template <class Ty, class ...Args>
-        std::shared_ptr<Resource<Ty>> CreateResource(const char* name, Args... args)
+        template <class Res, class ...Args>
+        shared_ptr<Res> CreateResource(const char* name, Args... args)
         {
-            auto resource = ResourceLoader<Ty>::Load(_rootFolder, name, args...);
-            return std::make_shared<Resource<Ty>>(resource);
+            ResourceId id{ xg::newGuid(), name };
+            return ResourceLoader<Res>::Load(MakeFilename(name), id, args...);
         }
+
+        ResourceId NewId() const;
+
+        string MakeFilename(const char* name);
 
         template <class Ty>
         Resource<Ty> GetResource(ResourceId const&);

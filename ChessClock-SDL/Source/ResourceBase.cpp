@@ -47,7 +47,4 @@ namespace ChessClock
 
 namespace ChessClock
 {
-    ResourceBase::ResourceBase(ResourceManager &resourceManager, ResourceId resourceId)
-    {
-    }
 }

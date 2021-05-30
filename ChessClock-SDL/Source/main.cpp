@@ -14,7 +14,12 @@ int main(int argc, char **argv)
 {
     Logger _log{ "Main" };
     Renderer renderer;
-    const char* resourcesFolder = argc > 1 ? argv[1] : "Resources";
+    if (argc < 2)
+    {
+        LOG_ERROR() << "Resources folder required\n";
+        return 1;
+    }
+    const char* resourcesFolder = argv[1];
 
     if (!renderer.Construct())
     {
@@ -22,10 +27,11 @@ int main(int argc, char **argv)
         return 1;
     }
 
+
     ResourceManager resourceManager(renderer, resourcesFolder);
 
-    std::shared_ptr<Resource<Font>> font = resourceManager.CreateResource<Font>("AdobeFanHeitiStd-Bold.otf", 100);
-    if (!font->Exists()) 
+    shared_ptr<Font> font = resourceManager.CreateResource<Font>("AdobeFanHeitiStd-Bold.otf", 100);
+    if (!font->Exists())
     {
         LOG_ERROR() << "Couldn't load font\n";
         exit(1);
@@ -51,7 +57,7 @@ int main(int argc, char **argv)
     SDL_FreeSurface(bmp);
 
     SDL_Color color = { 255, 255, 255 };
-    SDL_Texture *text = font->Get().DrawText(renderer, "Hello world", color);
+    auto text = font->DrawText(resourceManager, renderer, "Hello world", color);
 
     while (true)
     {
@@ -59,12 +65,12 @@ int main(int argc, char **argv)
         SDL_RenderCopy(ren, tex, nullptr, nullptr);
         int texW = 0;
         int texH = 0;
-        SDL_QueryTexture(text, NULL, NULL, &texW, &texH);
+        SDL_QueryTexture(&text->Get(), NULL, NULL, &texW, &texH);
         SDL_Rect dest = { 0, 0, texW, texH };
-        SDL_RenderCopy(ren, text, 0, &dest);
+        SDL_RenderCopy(ren, &text->Get(), 0, &dest);
 
         renderer.Present();
-        
+
         SDL_Event event;
         SDL_PollEvent(&event);
         switch (event.type)
@@ -76,6 +82,7 @@ int main(int argc, char **argv)
     }
 
     SDL_DestroyTexture(tex);
+
     renderer.Destroy();
     SDL_Quit();
 

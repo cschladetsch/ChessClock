@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ChessClock/ResourceBase.hpp"
+#include "ChessClock/ResourceLoader.hpp"
 
 namespace ChessClock
 {
@@ -9,18 +10,18 @@ namespace ChessClock
     {
         typedef Ty Type;
 
-        std::shared_ptr<Type> _resource;
+        shared_ptr<Type> _resource;
 
     public:
-        Resource(std::shared_ptr<Type> resource)
-            : _resource(resource)
+        Resource(Type* resource, ResourceId const &id, std::function<void(Ty*)> deleter)
+            : _resource(resource, deleter), ResourceBase(id)
         {
         }
 
-	bool Exists() const
-	{
-		return _resource.get();
-	}
+        bool Exists() const
+        {
+            return _resource.get();
+        }
 
         Type& Get()
         {

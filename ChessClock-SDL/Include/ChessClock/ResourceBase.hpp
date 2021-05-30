@@ -9,15 +9,17 @@ namespace ChessClock
     class ResourceBase
     {
         ResourceId _resourceId;
-        ResourceManager *_manager{ 0 };
+        MetaData _metaData;
 
     public:
         Guid GetGuid() const { return _resourceId.GetGuid(); }
         std::string GetName() const { return _resourceId.GetName(); }
         ResourceId const& GetResourceId() const { return _resourceId; }
-        ResourceManager *GetManager() const { return _manager; }
 
         ResourceBase() { }
-        ResourceBase(ResourceManager& resourceManager, ResourceId resourceId);
+        ResourceBase(ResourceId resourceId)
+            : _resourceId(resourceId)
+        {
+        }
     };
 }

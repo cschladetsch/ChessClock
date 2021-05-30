@@ -10,17 +10,17 @@ namespace ChessClock
         std::string _text;
 
     public:
-        Text(std::string const &string, ResourceId const&);
+        Text(ResourceId const&, std::string const& string);
 
-        static std::shared_ptr<Text> Load(std::string const& root, std::string const& name);
+        static std::shared_ptr<Text> Load(std::string const& fileName, ResourceId const& id);
     };
 
     template <>
     struct ResourceLoader<Text>
     {
-        std::shared_ptr<Text> Load(std::string const& root, std::string const& name)
+        std::shared_ptr<Text> Load(std::string const& fileName, ResourceId const &id)
         {
-            return Text::Load(root, name);
+            return Text::Load(fileName, id);
         }
     };
 }

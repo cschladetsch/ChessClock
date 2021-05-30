@@ -7,37 +7,31 @@
 #include "ChessClock/ThirdParty/ssfn.h"
 #include "ChessClock/Font.hpp"
 #include "ChessClock/Renderer.hpp"
+#include "ChessClock/ResourceManager.hpp"
+#include "ChessClock/Texture.hpp"
 
-#include "SDL.h"
-
-#ifdef WIN32
-#include "SDL_ttf.h"
-#else
-#include "SDL2/SDL_ttf.h"
-#endif
+#include "ChessClock/SDL_ttf.hpp"
 
 namespace ChessClock
 {
-    std::shared_ptr<Font> Font::LoadFont(std::string const &folder, std::string const &name, int ptsize)
+    shared_ptr<Font> Font::LoadFont(std::string const &fileName, ResourceId const &id, int pointSize)
     {
         TTF_Init();
-
-        //std::string fileName(folder + "\\" + name);
-        _TTF_Font *font = TTF_OpenFont(name.c_str(), ptsize);
-        return std::make_shared<Font>(font);
+        _TTF_Font *font = TTF_OpenFont(fileName.c_str(), pointSize);
+        return std::make_shared<Font>(id, font);
     }
 
-    Font::Font(_TTF_Font *font)
-        : _font(font)
+    void Font::Deleter(_TTF_Font* font)
     {
+        TTF_CloseFont(font);
     }
 
-    SDL_Texture *Font::DrawText(Renderer &renderer, const char *text, SDL_Color color) const
+    shared_ptr<Texture> Font::DrawText(ResourceManager &rm, Renderer &renderer, const char *text, SDL_Color color) const
     {
         // TODO: cache
-        SDL_Surface *surface = TTF_RenderText_Solid(_font, text, color);
+        SDL_Surface *surface = TTF_RenderText_Solid(const_cast<_TTF_Font *>(&Get()), text, color);
         SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer.GetRenderer(), surface);
         SDL_FreeSurface(surface);
-        return texture;
+        return std::make_shared<Texture>(rm.NewId(), texture);
     }
 }

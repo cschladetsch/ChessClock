@@ -6,6 +6,13 @@
 
 #include "ChessClock/Config.hpp"
 
+extern "C" {
+    struct _TTF_Font;
+    struct SDL_Texture;
+    struct SDL_Surface;
+    struct SDL_Color;
+}
+
 namespace ChessClock
 {
     struct Vector2;
@@ -15,6 +22,7 @@ namespace ChessClock
     class Component;
     class Texture;
     class Object;
+    class Renderer;
 
     typedef std::shared_ptr<Texture> TexturePtr;
     typedef std::shared_ptr<Component> ComponentPtr;
