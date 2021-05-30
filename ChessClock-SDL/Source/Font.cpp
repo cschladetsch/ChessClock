@@ -6,6 +6,8 @@
 #include "ChessClock/ThirdParty/ssfn.h"
 #include "ChessClock/Font.hpp"
 
+#include "SDL2/SDL_ttf.h"
+
 namespace ChessClock
 {
     std::shared_ptr<Font> Font::Load(std::string const &folder, std::string const &name)
