@@ -12,14 +12,15 @@ This image is is a conceptual render of the final product. It only shows relativ
 
 ## Ingredients
 * [Hardware](../../wiki/Hardware)
-* 3d Printed body with custom rocker switch.
-* SDL 2.0
+* 3d Printed body with custom rocker switch
+* [Software](Software)
 * Art
 
 ## Hardware/Software setup 
 TODO
 
 ### SDL 2.0
+
 Latest and last attempt to get a system up and running that can be dev'd on Win10 and built on device.
 
 #### Build SDL for Windows
@@ -33,66 +34,10 @@ Prerequisites:
 
 ```bash
 $ git submodule update --init --recursive
-$ cd ThirdParty/SDL
+
 $ mkdir build && cd build && cmake .. && start main.sln
 ```
 Now, build the library using Ctrl-Shift-B and close visual studio.
-
-#### Build SDL for Pi
-```bash
-$ sudo apt-get install libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev
-$ git submodule update --init --recursive
-$ cd ThirdParty/SDL
-$ configure --host=armv7l-raspberry-linux-gnueabihf --disable-pulseaudio --disable-esd --disable-video-mir --disable-video-wayland --disable-video-x11 --disable-video-opengl
-$ mkdir build && cd build && cmake .. && make
-$ sudo apt install libsdl2-ttf-dev
-```
-
-#### Building the ChessClock-SDL App
-
-```bash
-$ cd ChessClock-SDL && mkdir build && cmake .. && start *.sln
-```
-Build using Ctrl-Shit-B.
-Run using F5.
-
-### Urho3d
-We're assuming at least a Pi 3B+ and Raspian.
-
-You will need all the RAM you have to build Urho3d. Start by booting into command-line rather than the *gui*. Do this via the command `sudo rasppi-config` and change the boot to go directly to the CLI.
-
-```bash
-$ sudo apt-get install libgles2-mesa-dev            # need gles2
-$ sudo apt-get install libxext-dev
-$ git clone https://github.com/urho3d/Urho3D.git    # engine
-$ cd Urho3d && mkdir build && cd build && cmake .. 
-$ make  # be patient
-$ # change back to booting to GUI after setting minimum GPU RAM to 128M RAM (or more, depending on hardware)
-```
-*NOTE: This doesn't build on device (too little ram), and cross-compiling to Pi is a PITA*
-
-See Building ChessClock.
-
-### Android
-To Install LineageOs 17.1:
-1. Install Etcher
-1. Flash drive with lineage-17.1-20201108-UNOFFICIAL-KonstaKANG-rpi3
-1. Boot pi with card
-1. Install F-Droid via built-in Browser
-1. Install Termux
-1. Alt-Shift-+/- to change font size of Terminal
-1. Fail to get touch screen working with Android, move back to *Native*.
-
-## Building ChessClock
-
-```bash
-$ git clone ChessClock
-$ mkdir build && cd build && cmake .. && make
-$ ./Release/ChessClock
-```
-This turned into a dead end. First, Android on Pi is a resource hog. Second, display/touch sensors turned out to not work with Android.
-
-TODO: revisit idea of basing on Andrdoin on Pi.
 
 ## Future Work
 
