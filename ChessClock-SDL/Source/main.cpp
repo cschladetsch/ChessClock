@@ -24,21 +24,21 @@ struct Values
 
 bool Setup(Context<Values> &ctx)
 {
-    Renderer& renderer = ctx.Renderer;
-    ResourceManager& resources = ctx.Resources;
+    Renderer& renderer = ctx.renderer;
+    ResourceManager& resources = ctx.resources;
 
-    ctx.Values.font = resources.CreateResource<Font>("AdobeFanHeitiStd-Bold.otf", 100);
-    ctx.Values.background = resources.CreateResource<Texture>("sample.bmp", &renderer, 800, 480);
-    ctx.Values.text = ctx.Values.font->DrawText(resources, renderer, "Hello world", { 255,255,255 });
-    ctx.Values.bounds = ctx.Values.text->GetBounds();
+    ctx.values.font = resources.CreateResource<Font>("AdobeFanHeitiStd-Bold.otf", 100);
+    ctx.values.background = resources.CreateResource<Texture>("sample.bmp", &renderer, 800, 480);
+    ctx.values.text = ctx.values.font->DrawText(resources, renderer, "Hello world", { 255,255,255 });
+    ctx.values.bounds = ctx.values.text->GetBounds();
 
     return true;
 }
 
 bool Step(Context<Values>& ctx)
 {
-    Renderer& renderer = ctx.Renderer;
-    Values& values = ctx.Values;
+    Renderer& renderer = ctx.renderer;
+    Values& values = ctx.values;
 
     renderer.Clear();
     renderer.WriteTexture(values.background, nullptr, nullptr);

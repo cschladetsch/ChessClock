@@ -3,6 +3,7 @@
 #include "ChessClock/Logger.hpp"
 #include "ChessClock/Renderer.hpp"
 #include "ChessClock/ResourceManager.hpp"
+#include "ChessClock/SDL_ttf.hpp"
 
 namespace ChessClock
 {
@@ -16,15 +17,15 @@ namespace ChessClock
         Logger _log{ "MainContext" };
 
     public:
-        Renderer Renderer;
-        ResourceManager Resources;
-        ContextFunction Step, ProcessEvents;
-        Values Values;
+        Renderer renderer;
+        ResourceManager resources;
+        ContextFunction step, processEvents;
+        Values values;
 
         Context(const char* resourceFolder, ContextFunction setup, ContextFunction step, ContextFunction processEvents)
-            : Resources(Renderer, resourceFolder)
+            : resources(renderer, resourceFolder)
         {
-            if (!Renderer.Construct())
+            if (!renderer.Construct())
             {
                 LOG_ERROR() << "Failed to initialise Renderer\n";
                 exit(1);
@@ -33,8 +34,8 @@ namespace ChessClock
             TTF_Init();
 
             setup(*this);
-            Step = step;
-            ProcessEvents = processEvents;
+            this->step = step;
+            this->processEvents = processEvents;
         }
 
         Context()
