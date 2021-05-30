@@ -11,6 +11,7 @@
 #include "SDL2/SDL_ttf.h"
 #endif
 
+
 namespace ChessClock
 {
     std::shared_ptr<Font> Font::Load(std::string const &folder, std::string const &name)
@@ -22,7 +23,7 @@ namespace ChessClock
         return 0;
     }
 
-    Font::Font(std::shared_ptr<SSFN::Font> font)
+    Font::Font(std::shared_ptr<_TTF_Font> font)
         : _font(font)
     {
     }

@@ -5,21 +5,19 @@
 #include "ChessClock/ResourceLoader.hpp"
 #include "ChessClock/Vector2.hpp"
 
-namespace SSFN
-{
-    class Font;
+extern "C" {
+    struct _TTF_Font;
 }
-
 namespace ChessClock
 {
     class Renderer;
 
     class Font
     {
-        std::shared_ptr<SSFN::Font> _font;
+        std::shared_ptr<_TTF_Font> _font;
 
     public:
-        Font(std::shared_ptr<SSFN::Font> font);
+        Font(std::shared_ptr<_TTF_Font> font);
 
         void DrawText(Renderer &, Vector2 const &startPos, const char *text);
         static std::shared_ptr<Font> Load(std::string const& root, std::string const& name);
