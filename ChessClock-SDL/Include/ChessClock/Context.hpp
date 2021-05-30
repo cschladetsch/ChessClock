@@ -14,13 +14,15 @@ namespace ChessClock
         typedef std::function<bool(Context<Values> &) > ContextFunction;
 
     private:
-        Logger _log{ "MainContext" };
+        Logger _log{ "Context" };
 
     public:
         Renderer renderer;
         ResourceManager resources;
-        ContextFunction step, processEvents;
+
         Values values;
+        vector<ContextFunction> steps;
+        vector<ContextFunction> eventProcessors;
 
         Context(const char* resourceFolder, ContextFunction setup, ContextFunction step, ContextFunction processEvents)
             : resources(renderer, resourceFolder)
@@ -34,8 +36,8 @@ namespace ChessClock
             TTF_Init();
 
             setup(*this);
-            this->step = step;
-            this->processEvents = processEvents;
+            steps.push_back(step);
+            eventProcessors.push_back(processEvents);
         }
 
         Context()
@@ -47,11 +49,25 @@ namespace ChessClock
 
         bool Run()
         {
-            while (Step(*this))
+            while (Execute(eventProcessors) && Execute(steps))
+                ;
+
+            return true;
+        }
+
+        bool Execute(std::vector<ContextFunction> &funcs)
+        {
+            auto func = funcs.begin();
+            while (func != funcs.end())
             {
-                if (!ProcessEvents(*this))
+                if (!(*func)(*this))
                 {
-                    return false;
+                    LOG_ERROR() << "Removing failed stage";
+                    func = funcs.erase(func);
+                }
+                else
+                {
+                    ++func;
                 }
             }
 

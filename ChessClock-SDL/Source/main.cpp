@@ -14,6 +14,8 @@
 
 using namespace ChessClock;
 
+Logger _log{ "Main" };
+
 struct Values
 {
     FontPtr font;
@@ -66,7 +68,6 @@ bool ProcessEvents(Context<Values> &ctx)
 
 int main(int argc, char** argv)
 {
-    Logger _log{ "Main" };
     if (argc < 2)
     {
         LOG_ERROR() << "Resources folder required\n";
