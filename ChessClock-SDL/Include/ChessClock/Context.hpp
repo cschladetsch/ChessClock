@@ -24,6 +24,11 @@ namespace ChessClock
         vector<ContextFunction> steps;
         vector<ContextFunction> eventProcessors;
 
+        Context(const char* resourceFolder)
+            : resources(renderer, resourceFolder)
+        {
+        }
+
         Context(const char* resourceFolder, ContextFunction setup, ContextFunction step, ContextFunction processEvents)
             : resources(renderer, resourceFolder)
         {

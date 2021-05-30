@@ -6,6 +6,7 @@ namespace ChessClock
 {
     Renderer::Renderer()
     {
+        Construct("Renderer");
     }
 
     Renderer::~Renderer()
@@ -56,7 +57,7 @@ namespace ChessClock
         return true;
     }
 
-    bool Renderer::WriteTexture(TexturePtr texture, Rect const *source, Rect const *dest) const
+    bool Renderer::WriteTexture(TexturePtr texture, Rect const *source = nullptr, Rect const *dest = nullptr) const
     {
         SDL_Rect *srcRect = reinterpret_cast<SDL_Rect *>(const_cast<Rect *>(source));
         SDL_Rect *destRect = reinterpret_cast<SDL_Rect *>(const_cast<Rect *>(dest));

@@ -32,27 +32,27 @@ namespace ChessClock::TestScene
         return true;
     }
 
-    bool Step(Context<Values>& ctx)
+    bool Step(Context<Values> &ctx)
     {
         return ctx.renderer.Clear();
     }
 
-    bool StepWriteBackground(Ctx& ctx)
+    bool StepWriteBackground(Ctx &ctx)
     {
         return ctx.renderer.WriteTexture(ctx.values->background, nullptr, nullptr);
     }
 
-    bool StepWriteText(Ctx& ctx)
+    bool StepWriteText(Ctx &ctx)
     {
         return ctx.renderer.WriteTexture(ctx.values->text, nullptr, &ctx.values->bounds);
     }
 
-    bool StepPresent(Ctx& ctx)
+    bool StepPresent(Ctx &ctx)
     {
         return ctx.renderer.Present();
     }
 
-    bool ProcessEvents(Ctx&ctx)
+    bool ProcessEvents(Ctx &ctx)
     {
         SDL_Event event;
         while (SDL_PollEvent(&event))
