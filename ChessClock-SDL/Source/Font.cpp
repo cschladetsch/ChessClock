@@ -18,7 +18,7 @@ namespace ChessClock
         TTF_Init();
 
         std::string fileName(folder + "\\" + name);
-        TTF_OpenFont(fileName.c_str(), 16);
+        TTF_Font *font = TTF_OpenFont(fileName.c_str(), 16);
         return 0;
     }
 
