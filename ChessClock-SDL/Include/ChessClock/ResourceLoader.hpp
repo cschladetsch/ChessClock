@@ -21,7 +21,7 @@ namespace ChessClock
         template <class ...Args>
         static shared_ptr<Ty> Load(string const& fileName, ResourceId const &id, Args... args)
         {
-            LOG_ERROR() << "Not implemented trying to load resource '" << name << "' of type " << NAMEOF_TYPE(Ty) << std::endl;
+            LOG_ERROR() << "Not implemented trying to load resource '" << fileName << "' of type " << NAMEOF_TYPE(Ty) << std::endl;
             return 0;
         }
     };
