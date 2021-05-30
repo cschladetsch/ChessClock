@@ -1,29 +1,22 @@
-SDL2, C++17 and CMake
-=====================
+# Main Source Tree
+This is the main source and include files for the project, as well as build files.
 
-Requirements
-------------
-
+## Requirements
 * CMake
-* Compiler that supports C++17 (recent version of `g++` or `clang++`)
-* SDL2
-* ninja (or `make`, just drop the `-GNinja` flag and build with `make`)
+* make
+* C++11 compiler
 
-One way of building with C++17, SDL2, CMake and Ninja
------------------------------------------------------
+## Building
+```bash
+$ mkdir -p build
+$ cd build
+$ cmake ..
+$ make
+```
 
-    mkdir -p build
-    cd build
-    cmake -GNinja ..
-    ninja
-    cd ..
+## Running
+You must supply the folder for resources.
 
-Running
--------
-
-    build/main
-
-Cleaning up the binary file and build directory
------------------------------------------------
-
-    rm -rf build/
+```
+$ build/main Resources/
+```
