@@ -19,15 +19,15 @@ namespace ChessClock
     public:
         Renderer renderer;
         ResourceManager resources;
-
         Values values;
+
         vector<ContextFunction> steps;
         vector<ContextFunction> eventProcessors;
 
         Context(const char* resourceFolder, ContextFunction setup, ContextFunction step, ContextFunction processEvents)
             : resources(renderer, resourceFolder)
         {
-            if (!renderer.Construct())
+            if (!renderer.Construct("Chess Clock"))
             {
                 LOG_ERROR() << "Failed to initialise Renderer\n";
                 exit(1);
@@ -40,7 +40,7 @@ namespace ChessClock
             eventProcessors.push_back(processEvents);
         }
 
-        Context()
+        ~Context()
         {
             renderer.Destroy();
             TTF_Quit();
@@ -57,19 +57,22 @@ namespace ChessClock
 
         bool Execute(std::vector<ContextFunction> &funcs)
         {
-            auto func = funcs.begin();
-            while (func != funcs.end())
+            auto dupes = funcs;
+            auto func = dupes.begin();
+            while (func != dupes.end())
             {
                 if (!(*func)(*this))
                 {
                     LOG_ERROR() << "Removing failed stage";
-                    func = funcs.erase(func);
+                    func = dupes.erase(func);
                 }
                 else
                 {
                     ++func;
                 }
             }
+
+            funcs = dupes;
 
             return true;
         }

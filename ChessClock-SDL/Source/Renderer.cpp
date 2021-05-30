@@ -1,6 +1,6 @@
-#include "ChessClock/Renderer.hpp"
-#include "ChessClock/Texture.hpp"
 #include "ChessClock/SDL.hpp"
+#include "ChessClock/Texture.hpp"
+#include "ChessClock/Renderer.hpp"
 
 namespace ChessClock
 {
@@ -8,22 +8,28 @@ namespace ChessClock
     {
     }
 
-    bool Renderer::Construct()
+    Renderer::~Renderer()
     {
-        if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-            LOG_ERROR() << "SDL_Init Error: " << SDL_GetError() << std::endl;
+        Destroy();
+    }
+
+    bool Renderer::Construct(const char *title)
+    {
+        if (SDL_Init(SDL_INIT_VIDEO) != 0)
+        {
+            LOG_ERROR() << "SDL_Init" << SDL_GetError() << std::endl;
             return false;
         }
 
-        _window = SDL_CreateWindow("World!", 100, 100, 620, 387, SDL_WINDOW_SHOWN);
+        _window = SDL_CreateWindow(title, 100, 100, 800, 480, SDL_WINDOW_SHOWN);
         if (_window == nullptr) {
-            LOG_ERROR() << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
+            LOG_ERROR() << "SDL_CreateWindow" << SDL_GetError() << std::endl;
             return false;
         }
 
         _renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
         if (_renderer == nullptr) {
-            LOG_ERROR() << "SDL_CreateRenderer Error" << SDL_GetError() << std::endl;
+            LOG_ERROR() << "SDL_CreateRender" << SDL_GetError() << std::endl;
             SDL_DestroyWindow(_window);
             SDL_Quit();
             return false;
@@ -50,12 +56,12 @@ namespace ChessClock
 
     bool Renderer::WriteTexture(TexturePtr texture, Rect const *source, Rect const *dest) const
     {
-        SDL_Rect* srcRect = reinterpret_cast<SDL_Rect*>(const_cast<Rect *>(source));
-        SDL_Rect* destRect = reinterpret_cast<SDL_Rect*>(const_cast<Rect *>(dest));
+        SDL_Rect *srcRect = reinterpret_cast<SDL_Rect *>(const_cast<Rect *>(source));
+        SDL_Rect *destRect = reinterpret_cast<SDL_Rect *>(const_cast<Rect *>(dest));
         int result = SDL_RenderCopy(_renderer, &texture->Get(), srcRect, destRect);
         if (result != 0)
         {
-            LOG_ERROR() << "Failed to render texture " << texture->GetName() << ": " << SDL_GetError() << std::endl;
+            LOG_ERROR() << "Failed to write texture " << texture->GetName() << ": " << SDL_GetError() << std::endl;
             return false;
         }
         
