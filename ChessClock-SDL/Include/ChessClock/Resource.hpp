@@ -17,6 +17,11 @@ namespace ChessClock
         {
         }
 
+	bool Exists() const
+	{
+		return _resource.get();
+	}
+
         Type& Get()
         {
             return *_resource;

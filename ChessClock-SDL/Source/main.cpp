@@ -25,7 +25,12 @@ int main(int argc, char **argv)
     ResourceManager resourceManager(renderer, resourcesFolder);
 
     std::shared_ptr<Resource<Font>> font = resourceManager.CreateResource<Font>("AdobeFanHeitiStd-Bold.otf");
-    std::shared_ptr<Resource<Texture>> texture = resourceManager.CreateResource<Texture>("sample.bmp");
+    if (!font->Exists()) 
+    {
+	    LOG_ERROR() << "Couldn't load font\n";
+	    exit(1);
+    }
+    //std::shared_ptr<Resource<Texture>> texture = resourceManager.CreateResource<Texture>("sample.bmp");
 
     //font->Get().SetDpi(100, 1000, 1000);
 
@@ -58,8 +63,8 @@ int main(int argc, char **argv)
         int texH = 0;
         SDL_QueryTexture(text, NULL, NULL, &texW, &texH);
         SDL_Rect dest = { 0, 0, texW, texH };
-
         SDL_RenderCopy(ren, text, 0, &dest);
+
         renderer.Present();
         
         SDL_Event event;
