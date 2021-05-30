@@ -25,6 +25,7 @@ namespace ChessClock
             Renderer const *renderer = std::get<0>(tuple);
             int width = std::get<1>(tuple);
             int height = std::get<2>(tuple);
+            LOG_DEBUG() << "Loading" << LOG_VALUE(fileName) << LOG_VALUE(width) << LOG_VALUE(height) << std::endl;
             return LoadTexture(fileName, id, *renderer, width, height);
         }
 

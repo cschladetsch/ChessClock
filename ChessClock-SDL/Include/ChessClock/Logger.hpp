@@ -43,3 +43,6 @@ namespace ChessClock
 #define LOG_ERROR() \
     _log.Error(__FILE__, __LINE__)
 
+#define LOG_VALUE(X) \
+    " | " << NAMEOF(X) << "=" << X
+

@@ -1,9 +1,3 @@
-#include <string>
-#include <fstream>
-#include <streambuf>
-
-#include <iostream>
-
 #include "ChessClock/Font.hpp"
 #include "ChessClock/Renderer.hpp"
 #include "ChessClock/ResourceManager.hpp"

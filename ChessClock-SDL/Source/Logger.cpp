@@ -21,7 +21,7 @@ namespace ChessClock
 
     std::ostream& Logger::Debug(const char* file, int line) const
     {
-        if (_logLevel > ELogLevel::Debug)
+        if (_logLevel < ELogLevel::Debug)
             return PrintLead(file, line, "DEBUG");
 
         return _null;
@@ -34,7 +34,7 @@ namespace ChessClock
 
     std::ostream& Logger::PrintLead(const char* file, int line, const char *level) const
     {
-        return std::cout << file << "(" << line << "):" << " [" << level << "]: " << _source << ": ";
+        return std::cout << file << "(" << line << "):" << " [" << level << "]: [[" << _source << "]]:\n\t";
     }
 
     std::ostream& Logger::Print(const char* file, int line, const char *level, const char* text) const
