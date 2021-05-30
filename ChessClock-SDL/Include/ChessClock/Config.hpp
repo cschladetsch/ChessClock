@@ -12,6 +12,3 @@ namespace ChessClock
 
     using string = std::string;
 }
-
-
-

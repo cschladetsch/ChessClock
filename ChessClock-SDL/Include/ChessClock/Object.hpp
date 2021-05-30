@@ -2,9 +2,9 @@
 
 #include <vector>
 
-#include "ChessClock/ForwardReferences.hpp"
-#include "ChessClock/ResourceId.hpp"
 #include "ChessClock/Logger.hpp"
+#include "ChessClock/ResourceId.hpp"
+#include "ChessClock/ForwardReferences.hpp"
 
 namespace ChessClock
 {
