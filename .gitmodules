@@ -25,7 +25,13 @@
 	url = https://github.com/freetype/freetype.git
 [submodule "ChessClock-SDL/ThirdParty/SDL_ttf"]
 	path = ChessClock-SDL/ThirdParty/SDL_ttf
-	url = https://github.com/libsdl-org/SDL_ttf.git
+	url = https://github.com/Ecognize/SDL_ttf.git
 [submodule "ChessClock-SDL/ThirdParty/imgui"]
 	path = ChessClock-SDL/ThirdParty/imgui
 	url = https://github.com/ocornut/imgui.git
+[submodule "ChessClock-SDL/ThirdParty/harfbuzz"]
+	path = ChessClock-SDL/ThirdParty/harfbuzz
+	url = https://github.com/harfbuzz/harfbuzz.git
+[submodule "ChessClock-SDL/ThirdParty/freetype2"]
+	path = ChessClock-SDL/ThirdParty/freetype2
+	url = https://github.com/aseprite/freetype2.git
