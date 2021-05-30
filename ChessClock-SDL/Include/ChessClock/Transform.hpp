@@ -1,10 +1,5 @@
 #pragma once
 
-#include <vector>
-#include <memory>
-#include <algorithm>
-
-#include "ChessClock/Config.hpp"
 #include "ChessClock/ForwardReferences.hpp"
 #include "ChessClock/ThirdParty/Guid.hpp"
 #include "ChessClock/Vector2.hpp"
