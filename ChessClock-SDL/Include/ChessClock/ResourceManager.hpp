@@ -2,7 +2,7 @@
 
 #include <unordered_map>
 
-#include "ChessClock/Renderer.hpp"
+//#include "ChessClock/Renderer.hpp"
 #include "ChessClock/Resource.hpp"
 #include "ChessClock/ResourceLoader.hpp"
 
@@ -10,7 +10,7 @@ namespace ChessClock
 {
     class ResourceManager
     {
-        std::unordered_map<Guid, ResourceBase *> _guidToResource;
+        std::unordered_map<ResourceId, ResourceBase *> _idToResource;
         string _rootFolder;
         Renderer const* _renderer;
         Logger _log{ "ResourceManager" };
@@ -22,7 +22,9 @@ namespace ChessClock
         shared_ptr<Res> CreateResource(const char* name, Args... args)
         {
             ResourceId id{ xg::newGuid(), name };
-            return ResourceLoader<Res>::Load(MakeFilename(name), id, args...);
+            auto resource = ResourceLoader<Res>::Load(MakeFilename(name), id, args...);
+            //return _idToResource[id] = resource;
+            return resource;
         }
 
         ResourceId NewId() const;

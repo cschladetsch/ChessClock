@@ -1,4 +1,6 @@
 #include "ChessClock/Renderer.hpp"
+#include "ChessClock/Texture.hpp"
+#include "ChessClock/SDL.hpp"
 
 namespace ChessClock
 {
@@ -44,6 +46,20 @@ namespace ChessClock
     void Renderer::Present()
     {
         SDL_RenderPresent(_renderer);
+    }
+
+    bool Renderer::WriteTexture(TexturePtr texture, Rect const *source, Rect const *dest) const
+    {
+        SDL_Rect* srcRect = reinterpret_cast<SDL_Rect*>(const_cast<Rect *>(source));
+        SDL_Rect* destRect = reinterpret_cast<SDL_Rect*>(const_cast<Rect *>(dest));
+        int result = SDL_RenderCopy(_renderer, &texture->Get(), srcRect, destRect);
+        if (result != 0)
+        {
+            LOG_ERROR() << "Failed to render texture " << texture->GetName() << ": " << SDL_GetError() << std::endl;
+            return false;
+        }
+        
+        return true;
     }
 }
 

@@ -1,14 +1,18 @@
 #pragma once
 
 #include "ChessClock/Resource.hpp"
+#include "ChessClock/Rect.hpp"
 
 namespace ChessClock
 {
-    class Texture : public Resource<SDL_Texture>
+    class Texture
+        : public Resource<SDL_Texture>
     {
+        static inline Logger _log{ "Texture" };
+
     public:
-        Texture(ResourceId const& rid, SDL_Texture *texture)
-            : Resource<SDL_Texture>(texture, rid, Deleter)
+        Texture(ResourceId const& id, SDL_Texture *texture)
+            : Resource<SDL_Texture>(texture, id, Deleter)
         {
         }
 
@@ -17,21 +21,15 @@ namespace ChessClock
         template <class ...Args>
         static shared_ptr<Texture> Load(std::string const &fileName, ResourceId const &id, Args... args)
         {
-            int width = std::get<0>(std::tuple{ args... });
-            int height = std::get<1>(std::tuple{ args... });
-            return LoadTexture(fileName, id, width, height);
+            auto tuple = std::tuple{ args... };
+            Renderer const *renderer = std::get<0>(tuple);
+            int width = std::get<1>(tuple);
+            int height = std::get<2>(tuple);
+            return LoadTexture(fileName, id, *renderer, width, height);
         }
 
-        static shared_ptr<Texture> LoadTexture(std::string const& fileName, ResourceId const& id, int width, int height);
-    };
+        static shared_ptr<Texture> LoadTexture(std::string const& fileName, ResourceId const& id, Renderer const &renderer, int width, int height);
 
-    template <>
-    struct ResourceLoader<Texture> : ResourceLoaderBase
-    {
-        template <class ...Args>
-        static std::shared_ptr<Texture> Load(std::string const& fileName, Args... args)
-        {
-            return Texture::Load(fileName, args...);
-        }
+        Rect GetBounds() const;
     };
 }

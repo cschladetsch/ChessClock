@@ -26,7 +26,7 @@ In general:
 
 ```bash
 $ git submodule update --init --recursive
-mkdir -p build
+$ mkdir -p build
 $ cd build
 $ cmake ..
 $ make

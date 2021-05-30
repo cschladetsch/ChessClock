@@ -1,4 +1,5 @@
 #define SDL_MAIN_HANDLED
+
 #include <cstdlib>
 #include <iostream>
 
@@ -7,72 +8,51 @@
 #include "ChessClock/Font.hpp"
 #include "ChessClock/Texture.hpp"
 #include "ChessClock/ResourceManager.hpp"
+#include "ChessClock/SDL_ttf.hpp"
+#include "ChessClock/Context.hpp"
+#include "ChessClock/Rect.hpp"
 
 using namespace ChessClock;
 
-int main(int argc, char **argv)
+struct Values
 {
-    Logger _log{ "Main" };
-    Renderer renderer;
-    if (argc < 2)
+    FontPtr font;
+    TexturePtr background;
+    TexturePtr text;
+    Rect bounds;
+};
+
+bool Setup(Context<Values> &ctx)
+{
+    Renderer& renderer = ctx.Renderer;
+    ResourceManager& resources = ctx.Resources;
+
+    ctx.Values.font = resources.CreateResource<Font>("AdobeFanHeitiStd-Bold.otf", 100);
+    ctx.Values.background = resources.CreateResource<Texture>("sample.bmp", &renderer, 800, 480);
+    ctx.Values.text = ctx.Values.font->DrawText(resources, renderer, "Hello world", { 255,255,255 });
+    ctx.Values.bounds = ctx.Values.text->GetBounds();
+
+    return true;
+}
+
+bool Step(Context<Values>& ctx)
+{
+    Renderer& renderer = ctx.Renderer;
+    Values& values = ctx.Values;
+
+    renderer.Clear();
+    renderer.WriteTexture(values.background, nullptr, nullptr);
+    renderer.WriteTexture(values.text, nullptr, &values.bounds);
+    renderer.Present();
+
+    return true;
+}
+
+bool ProcessEvents(Context<Values> &ctx)
+{
+    SDL_Event event;
+    while (SDL_PollEvent(&event))
     {
-        LOG_ERROR() << "Resources folder required\n";
-        return 1;
-    }
-    const char* resourcesFolder = argv[1];
-
-    if (!renderer.Construct())
-    {
-        LOG_ERROR() << "Failed to initialise Renderer\n";
-        return 1;
-    }
-
-
-    ResourceManager resourceManager(renderer, resourcesFolder);
-
-    shared_ptr<Font> font = resourceManager.CreateResource<Font>("AdobeFanHeitiStd-Bold.otf", 100);
-    if (!font->Exists())
-    {
-        LOG_ERROR() << "Couldn't load font\n";
-        exit(1);
-    }
-    //std::shared_ptr<Resource<Texture>> texture = resourceManager.CreateResource<Texture>("sample.bmp");
-
-    SDL_Surface* bmp = SDL_LoadBMP("sample.bmp");
-    if (bmp == nullptr) {
-        LOG_ERROR() << "SDL_LoadBMP Error: " << SDL_GetError() << std::endl;
-        return 1;
-    }
-
-    SDL_Renderer* ren = renderer.GetRenderer();
-
-    SDL_Texture* tex = SDL_CreateTextureFromSurface(renderer.GetRenderer(), bmp);
-    if (tex == nullptr) {
-        LOG_ERROR() << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
-        SDL_FreeSurface(bmp);
-        renderer.Destroy();
-        SDL_Quit();
-        return 1;
-    }
-    SDL_FreeSurface(bmp);
-
-    SDL_Color color = { 255, 255, 255 };
-    auto text = font->DrawText(resourceManager, renderer, "Hello world", color);
-
-    while (true)
-    {
-        renderer.Clear();
-        SDL_RenderCopy(ren, tex, nullptr, nullptr);
-        int texW = 0;
-        int texH = 0;
-        SDL_QueryTexture(&text->Get(), NULL, NULL, &texW, &texH);
-        SDL_Rect dest = { 0, 0, texW, texH };
-        SDL_RenderCopy(ren, &text->Get(), 0, &dest);
-
-        renderer.Present();
-
-        SDL_Event event;
-        SDL_PollEvent(&event);
         switch (event.type)
         {
         case SDL_KEYDOWN:
@@ -81,10 +61,18 @@ int main(int argc, char **argv)
         }
     }
 
-    SDL_DestroyTexture(tex);
-
-    renderer.Destroy();
-    SDL_Quit();
-
-    return 0;
+    return true;
 }
+
+int main(int argc, char** argv)
+{
+    Logger _log{ "Main" };
+    if (argc < 2)
+    {
+        LOG_ERROR() << "Resources folder required\n";
+        return 1;
+    }
+
+    return Context<Values>(argv[1], Setup, Step, ProcessEvents).Run();
+}
+

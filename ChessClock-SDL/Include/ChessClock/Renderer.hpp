@@ -1,8 +1,8 @@
 #pragma once
 
-#include <SDL.h>
-
+#include "ChessClock/ForwardReferences.hpp"
 #include "ChessClock/Logger.hpp"
+#include "ChessClock/Rect.hpp"
 
 namespace ChessClock
 {
@@ -18,10 +18,13 @@ namespace ChessClock
         SDL_Renderer* GetRenderer() const { return _renderer; }
 
         Renderer();
+
         bool Construct();
         void Destroy();
         void Clear();
         void Present();
+
+        bool WriteTexture(TexturePtr texture, Rect const* source, Rect const* dest) const;
     };
 }
 
