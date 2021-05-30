@@ -24,15 +24,13 @@ int main(int argc, char **argv)
 
     ResourceManager resourceManager(renderer, resourcesFolder);
 
-    std::shared_ptr<Resource<Font>> font = resourceManager.CreateResource<Font>("AdobeFanHeitiStd-Bold.otf");
+    std::shared_ptr<Resource<Font>> font = resourceManager.CreateResource<Font>("AdobeFanHeitiStd-Bold.otf", 100);
     if (!font->Exists()) 
     {
-	    LOG_ERROR() << "Couldn't load font\n";
-	    exit(1);
+        LOG_ERROR() << "Couldn't load font\n";
+        exit(1);
     }
     //std::shared_ptr<Resource<Texture>> texture = resourceManager.CreateResource<Texture>("sample.bmp");
-
-    //font->Get().SetDpi(100, 1000, 1000);
 
     SDL_Surface* bmp = SDL_LoadBMP("sample.bmp");
     if (bmp == nullptr) {

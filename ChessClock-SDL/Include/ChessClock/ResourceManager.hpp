@@ -17,10 +17,11 @@ namespace ChessClock
 
     public:
         ResourceManager(Renderer const& renderer, const char* rootFolder);
-        template <class Ty>
-        std::shared_ptr<Resource<Ty>> CreateResource(const char* name)
+
+        template <class Ty, class ...Args>
+        std::shared_ptr<Resource<Ty>> CreateResource(const char* name, Args... args)
         {
-            auto resource = ResourceLoader<Ty>::Load(_rootFolder, name);
+            auto resource = ResourceLoader<Ty>::Load(_rootFolder, name, args...);
             return std::make_shared<Resource<Ty>>(resource);
         }
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <tuple>
 
 #include "ChessClock/ResourceLoader.hpp"
 #include "ChessClock/Vector2.hpp"
@@ -22,19 +23,25 @@ namespace ChessClock
     public:
         Font(_TTF_Font *font);
 
-        static std::shared_ptr<Font> Load(std::string const& root, std::string const& name);
+        template <class ...Args>
+        static std::shared_ptr<Font> Load(std::string const& root, std::string const& name, Args... args)
+        {
+            int ptsize = std::get<0>(std::tuple{ args... });
+            return LoadFont(root, name, ptsize);
+        }
 
-        void SetSize(int ptsize) const;
-        void SetDpi(int ptsize, int hdpi, int vdpi) const;
         SDL_Texture *DrawText(Renderer &, const char *text, SDL_Color color) const;
+
+        static std::shared_ptr<Font> LoadFont(std::string const& folder, std::string const& name, int ptsize);
     };
 
     template <>
     struct ResourceLoader<Font> : ResourceLoaderBase
     {
-        static std::shared_ptr<Font> Load(std::string const& root, std::string const& name)
+        template <class ...Args>
+        static std::shared_ptr<Font> Load(std::string const& root, std::string const& name, Args... args)
         {
-            auto font = Font::Load(root, name);
+            auto font = Font::Load(root, name, args...);
             if (!font)
             {
                 LOG_ERROR() << "Couldn't load font " << name << "\n";
