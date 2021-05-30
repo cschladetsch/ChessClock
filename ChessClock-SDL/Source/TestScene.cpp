@@ -1,38 +1,58 @@
-#include "ChessClock/TestScene.hpp"
 #include "ChessClock/Font.hpp"
 #include "ChessClock/Texture.hpp"
+#include "ChessClock/TestScene.hpp"
 
 namespace ChessClock::TestScene
 {
-    Logger _log{ "TestScene" };
+    Logger _log{ "Scene" };
 
-    bool TestSetup(Context<Values> &ctx)
+    struct Values
     {
-        Renderer& renderer = ctx.renderer;
-        ResourceManager& resources = ctx.resources;
+        FontPtr font;
+        TexturePtr background;
+        TexturePtr text;
+        Rect bounds;
+    };
 
-        ctx.values.font = resources.CreateResource<Font>("AdobeFanHeitiStd-Bold.otf", 100);
-        ctx.values.background = resources.CreateResource<Texture>("sample.bmp", &renderer, 800, 480);
-        ctx.values.text = ctx.values.font->DrawText(resources, renderer, "Hello world", { 255,255,255 });
-        ctx.values.bounds = ctx.values.text->GetBounds();
+    bool Setup(Context<Values> &ctx)
+    {
+        ctx.values = std::make_shared<Values>();
+        Renderer &renderer = ctx.renderer;
+        ResourceManager &resources = ctx.resources;
+
+        ctx.values->font = resources.CreateResource<Font>("AdobeFanHeitiStd-Bold.otf", 100);
+        ctx.values->background = resources.CreateResource<Texture>("sample.bmp", &renderer, 800, 480);
+        ctx.values->text = ctx.values->font->DrawText(resources, renderer, "Hello world", { 255,255,255 });
+        ctx.values->bounds = ctx.values->text->GetBounds();
+
+        ctx.steps.push_back(StepWriteBackground);
+        ctx.steps.push_back(StepWriteText);
+        ctx.steps.push_back(StepPresent);
 
         return true;
     }
 
-    bool TestStep(Context<Values>& ctx)
+    bool Step(Context<Values>& ctx)
     {
-        Renderer& renderer = ctx.renderer;
-        Values& values = ctx.values;
-
-        renderer.Clear();
-        renderer.WriteTexture(values.background, nullptr, nullptr);
-        renderer.WriteTexture(values.text, nullptr, &values.bounds);
-        renderer.Present();
-
-        return true;
+        return ctx.renderer.Clear();
     }
 
-    bool TestProcessEvents(Context<Values> &ctx)
+    bool StepWriteBackground(Ctx& ctx)
+    {
+        return ctx.renderer.WriteTexture(ctx.values->background, nullptr, nullptr);
+    }
+
+    bool StepWriteText(Ctx& ctx)
+    {
+        return ctx.renderer.WriteTexture(ctx.values->text, nullptr, &ctx.values->bounds);
+    }
+
+    bool StepPresent(Ctx& ctx)
+    {
+        return ctx.renderer.Present();
+    }
+
+    bool ProcessEvents(Ctx&ctx)
     {
         SDL_Event event;
         while (SDL_PollEvent(&event))

@@ -44,14 +44,16 @@ namespace ChessClock
         SDL_DestroyWindow(_window);
     }
 
-    void Renderer::Clear()
+    bool Renderer::Clear()
     {
         SDL_RenderClear(_renderer);
+        return true;
     }
 
-    void Renderer::Present()
+    bool Renderer::Present()
     {
         SDL_RenderPresent(_renderer);
+        return true;
     }
 
     bool Renderer::WriteTexture(TexturePtr texture, Rect const *source, Rect const *dest) const

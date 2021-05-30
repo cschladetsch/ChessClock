@@ -15,6 +15,6 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    return Context<Values>(argv[1], TestSetup, TestStep, TestProcessEvents).Run();
+    return Context<Values>(argv[1], TestScene::Setup, TestScene::Step, TestScene::ProcessEvents).Run();
 }
 

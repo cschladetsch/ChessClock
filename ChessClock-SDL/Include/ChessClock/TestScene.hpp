@@ -4,17 +4,15 @@
 
 namespace ChessClock::TestScene
 {
-    struct Values
-    {
-        FontPtr font;
-        TexturePtr background;
-        TexturePtr text;
-        Rect bounds;
-    };
+    struct Values;
 
     typedef Context<Values> Ctx;
 
-    bool TestSetup(Ctx &);
-    bool TestStep(Ctx &);
-    bool TestProcessEvents(Ctx &);
+    bool Setup(Ctx &);
+    bool Step(Ctx &);
+    bool ProcessEvents(Ctx &);
+    bool StepWriteText(Ctx &);
+    bool StepPresent(Ctx &);
+    bool StepWriteBackground(Ctx& ctx);
 }
+

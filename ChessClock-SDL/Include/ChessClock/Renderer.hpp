@@ -22,8 +22,8 @@ namespace ChessClock
         bool Construct(const char *title);
         void Destroy();
 
-        void Clear();
-        void Present();
+        bool Clear();
+        bool Present();
 
         bool WriteTexture(TexturePtr texture, Rect const *source, Rect const *dest) const;
     };

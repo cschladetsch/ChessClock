@@ -19,7 +19,7 @@ namespace ChessClock
     public:
         Renderer renderer;
         ResourceManager resources;
-        Values values;
+        shared_ptr<Values> values;
 
         vector<ContextFunction> steps;
         vector<ContextFunction> eventProcessors;
