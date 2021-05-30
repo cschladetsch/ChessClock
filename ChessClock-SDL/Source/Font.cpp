@@ -2,7 +2,7 @@
 #include "ChessClock/Renderer.hpp"
 #include "ChessClock/ResourceManager.hpp"
 #include "ChessClock/Texture.hpp"
-#include "ChessClock/SDL_ttf.hpp"
+#include "ChessClock/ThirdParty/SDL_ttf.hpp"
 
 namespace ChessClock
 {

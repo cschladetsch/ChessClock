@@ -1,4 +1,4 @@
-#include "ChessClock/SDL.hpp"
+#include "ChessClock/ThirdParty/SDL.hpp"
 #include "ChessClock/Texture.hpp"
 #include "ChessClock/Renderer.hpp"
 

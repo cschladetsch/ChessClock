@@ -4,10 +4,9 @@
 #include <memory>
 #include <algorithm>
 
-#include "crossguid/guid.hpp"
-
 #include "ChessClock/Config.hpp"
 #include "ChessClock/ForwardReferences.hpp"
+#include "ChessClock/ThirdParty/Guid.hpp"
 #include "ChessClock/Vector2.hpp"
 
 namespace ChessClock
@@ -66,6 +65,7 @@ namespace ChessClock
             }
             return true;
         }
+
         bool AddChild(ResourceBasePtr ptr)
         {
             if (HasChildWithGuid(ptr->GetGuid()))

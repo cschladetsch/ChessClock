@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "crossguid/guid.hpp"
+#include "ChessClock/ThirdParty/Guid.hpp"
 #include "ChessClock/EResourceType.hpp"
 
 namespace ChessClock

@@ -23,7 +23,7 @@ namespace ChessClock
         {
             ResourceId id{ xg::newGuid(), name };
             auto resource = ResourceLoader<Res>::Load(MakeFilename(name), id, args...);
-            //return _idToResource[id] = resource;
+            _idToResource[id] = &*resource;
             return resource;
         }
 

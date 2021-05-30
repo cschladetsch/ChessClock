@@ -1,5 +1,5 @@
 #include "ChessClock/Context.hpp"
-#include "ChessClock/SDL_ttf.hpp"
+#include "ChessClock/ThirdParty/SDL_ttf.hpp"
 
 namespace ChessClock
 {

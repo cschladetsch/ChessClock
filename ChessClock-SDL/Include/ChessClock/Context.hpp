@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ChessClock/Logger.hpp"
-#include "ChessClock/SDL_ttf.hpp"
+#include "ChessClock/ThirdParty/SDL_ttf.hpp"
 #include "ChessClock/Renderer.hpp"
 #include "ChessClock/ResourceManager.hpp"
 
