@@ -4,7 +4,6 @@
 
 #include <iostream>
 
-#include "ChessClock/ThirdParty/ssfn.h"
 #include "ChessClock/Font.hpp"
 #include "ChessClock/Renderer.hpp"
 #include "ChessClock/ResourceManager.hpp"
