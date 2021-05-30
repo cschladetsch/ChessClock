@@ -17,7 +17,6 @@ namespace ChessClock
 
     public:
         ResourceManager(Renderer const& renderer, const char* rootFolder);
-
         template <class Ty>
         std::shared_ptr<Resource<Ty>> CreateResource(const char* name)
         {

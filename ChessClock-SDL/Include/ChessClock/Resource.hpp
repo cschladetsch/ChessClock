@@ -14,7 +14,7 @@ namespace ChessClock
     public:
         const Type& Get() const
         {
-            return default(Ty);
+            return _resource;
         }
     };
 }
