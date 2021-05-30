@@ -8,6 +8,9 @@ namespace ChessClock
 {
     class Renderer
     {
+        const int Width = 800;
+        const int Height = 480;
+
         Logger _log { "Renderer "};
         SDL_Window *_window = 0;
         SDL_Renderer *_renderer = 0;

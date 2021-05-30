@@ -22,7 +22,7 @@ namespace ChessClock
             return false;
         }
 
-        _window = SDL_CreateWindow(title, 100, 100, 800, 480, SDL_WINDOW_SHOWN);
+        _window = SDL_CreateWindow(title, 0, 0, Width, Height, SDL_WINDOW_SHOWN);
         if (_window == nullptr) {
             LOG_ERROR() << "SDL_CreateWindow" << SDL_GetError() << std::endl;
             return false;

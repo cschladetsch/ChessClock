@@ -14,7 +14,7 @@ namespace ChessClock
         typedef std::function<bool(Context<Values> &) > ContextFunction;
 
     private:
-        Logger _log{ "Context" };
+        Logger _log{ "Run" };
 
     public:
         Renderer renderer;
@@ -27,17 +27,13 @@ namespace ChessClock
         Context(const char* resourceFolder)
             : resources(renderer, resourceFolder)
         {
+            CreateRenderer();
         }
 
         Context(const char* resourceFolder, ContextFunction setup, ContextFunction step, ContextFunction processEvents)
             : resources(renderer, resourceFolder)
         {
-            if (!renderer.Construct("Chess Clock"))
-            {
-                LOG_ERROR() << "Failed to initialise Renderer\n";
-                exit(1);
-            }
-
+            CreateRenderer();
             TTF_Init();
 
             setup(*this);
@@ -52,12 +48,29 @@ namespace ChessClock
             SDL_Quit();
         }
 
-        bool Run()
+        void CreateRenderer()
         {
-            while (Execute(eventProcessors) && Execute(steps))
-                ;
+            if (!renderer.Construct("Chess Clock"))
+            {
+                LOG_ERROR() << "Failed to initialise Renderer\n";
+                exit(1);
+            }
+        }
 
-            return true;
+        int Run()
+        {
+            try
+            {
+                while (Execute(eventProcessors) && Execute(steps))
+                    ;
+            }
+            catch (std::exception &e)
+            {
+                LOG_ERROR() << "Exception: " << e.what() << std::endl;
+                return 1;
+            }
+
+            return 0;
         }
 
         bool Execute(std::vector<ContextFunction> &funcs)
@@ -66,14 +79,22 @@ namespace ChessClock
             auto func = dupes.begin();
             while (func != dupes.end())
             {
-                if (!(*func)(*this))
+                try
                 {
-                    LOG_ERROR() << "Removing failed stage";
-                    func = dupes.erase(func);
+                    if (!(*func)(*this))
+                    {
+                        LOG_ERROR() << "Removing failed stage";
+                        func = dupes.erase(func);
+                    }
+                    else
+                    {
+                        ++func;
+                    }
                 }
-                else
+                catch (std::exception &e)
                 {
-                    ++func;
+                    LOG_ERROR() << "Exception: " << e.what() << ", continuing without\n";
+                    func = dupes.erase(func);
                 }
             }
 
