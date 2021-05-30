@@ -13,36 +13,8 @@ This image is is a conceptual render of the final product. It only shows relativ
 ## Ingredients
 * [Hardware](../../wiki/Hardware)
 * 3d Printed body with custom rocker switch
-* [Software](Software)
+* [Software](Software). The main source tree is in [ChessClock-SDL](ChessClock-SDL).
 * Art
-
-## Hardware/Software setup 
-TODO
-
-### SDL 2.0
-
-Latest and last attempt to get a system up and running that can be dev'd on Win10 and built on device.
-
-#### Build SDL for Windows
-
-Prerequisites:
-* [VncViewer](https://www.realvnc.com/en/connect/download/viewer/)
-* [GitBash](https://github.com/git-for-windows/git/releases/download/v2.31.1.windows.1/Git-2.31.1-64-bit.exe)
-* [Doxygen](https://doxygen.nl/files/doxygen-1.9.1-setup.exe).
-* [Cmake](https://cmake.org/download/)
-* [Make](https://ixpeering.dl.sourceforge.net/project/ezwinports/make-4.3-without-guile-w32-bin.zip)
-
-```bash
-$ git submodule update --init --recursive
-
-$ mkdir build && cd build && cmake .. && start main.sln
-```
-Now, build the library using Ctrl-Shift-B and close visual studio.
-
-## Future Work
-
-* Android Connectivity via Bluetooth
-* [Lichess API](https://lichess.org/api)
 
 ## Wiki
 
@@ -50,7 +22,7 @@ There is a developing [Wiki](../../wiki/Home) in progress.
 
 ## Jira
 
-There's a [Jira board](https://chessclock.atlassian.net/secure/RapidBoard.jspa?rapidView=1&selectedIssue=CHES-3) to keep track of things. TODO: Update Jira with `Epics`.
+There's a [Jira board](https://chessclock.atlassian.net/secure/RapidBoard.jspa?rapidView=1&selectedIssue=CHES-3) to keep track of things.
 
 ## Chess Clock Body
 
@@ -81,4 +53,9 @@ Various art assets will be required, such as:
 * Animations
 * Transitions
 * Sound Effects
+
+## Future Work
+
+* Android Connectivity via Bluetooth
+* [Lichess API](https://lichess.org/api)
 
