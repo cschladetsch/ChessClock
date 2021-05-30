@@ -40,7 +40,7 @@ namespace ChessClock
 
         Context()
         {
-            Renderer.Destroy();
+            renderer.Destroy();
             TTF_Quit();
             SDL_Quit();
         }
