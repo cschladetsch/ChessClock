@@ -1,6 +1,7 @@
 #include "Gambit/Font.hpp"
 #include "Gambit/Texture.hpp"
 #include "Gambit/TestScene.hpp"
+#include "Gambit/NumberFont.hpp"
 
 namespace Gambit::TestScene
 {
@@ -11,6 +12,7 @@ namespace Gambit::TestScene
         FontPtr font;
         TexturePtr background;
         TexturePtr text;
+        NumberFont numberFont;
         Rect bounds;
     };
 
@@ -21,6 +23,7 @@ namespace Gambit::TestScene
         ResourceManager &resources = ctx.resources;
 
         ctx.values->font = resources.CreateResource<Font>("AdobeFanHeitiStd-Bold.otf", 100);
+        ctx.values->numberFont = resources.CreateResource<NumberFont>("AdobeFanHeitiStd-Bold.otf", 100);
         ctx.values->background = resources.CreateResource<Texture>("sample.bmp", &renderer, 800, 480);
         ctx.values->text = ctx.values->font->DrawText(resources, renderer, "Hello world", { 255,255,255 });
         ctx.values->bounds = ctx.values->text->GetBounds();
