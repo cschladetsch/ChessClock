@@ -40,7 +40,7 @@ namespace ChessClock
         auto childIds = j["children"].get<std::vector<std::string>>();
         for (auto& id : childIds)
         {
-            tr.Add(Guid{ id });
+            tr.AddChild(Guid{ id });
         }
     }
 }

@@ -13,6 +13,7 @@ set(PROJECT_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/Include)
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 
 add_subdirectory(ThirdParty/crossguid)
+add_subdirectory(Source/Test)
 
 link_directories(${THIRD_PARTY}/lib)
 
