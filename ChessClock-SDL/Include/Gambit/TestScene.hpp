@@ -1,8 +1,8 @@
 #pragma once
 
-#include "ChessClock/Context.hpp"
+#include "Gambit/Context.hpp"
 
-namespace ChessClock::TestScene
+namespace Gambit::TestScene
 {
     struct Values;
 

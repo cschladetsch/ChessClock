@@ -2,11 +2,11 @@
 
 #include <unordered_map>
 
-//#include "ChessClock/Renderer.hpp"
-#include "ChessClock/Resource.hpp"
-#include "ChessClock/ResourceLoader.hpp"
+//#include "Gambit/Renderer.hpp"
+#include "Gambit/Resource.hpp"
+#include "Gambit/ResourceLoader.hpp"
 
-namespace ChessClock
+namespace Gambit
 {
     class ResourceManager
     {

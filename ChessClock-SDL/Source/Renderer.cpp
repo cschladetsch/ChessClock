@@ -1,8 +1,8 @@
-#include "ChessClock/ThirdParty/SDL.hpp"
-#include "ChessClock/Texture.hpp"
-#include "ChessClock/Renderer.hpp"
+#include "Gambit/ThirdParty/SDL.hpp"
+#include "Gambit/Texture.hpp"
+#include "Gambit/Renderer.hpp"
 
-namespace ChessClock
+namespace Gambit
 {
     Renderer::Renderer()
     {

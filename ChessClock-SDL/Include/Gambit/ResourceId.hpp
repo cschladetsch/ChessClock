@@ -1,30 +1,34 @@
 #pragma once
 
-#include <string>
+#include "Gambit/ForwardReferences.hpp"
+#include "Gambit/ThirdParty/Guid.hpp"
+#include "Gambit/EResourceType.hpp"
 
-#include "ChessClock/ThirdParty/Guid.hpp"
-#include "ChessClock/EResourceType.hpp"
-
-namespace ChessClock
+namespace Gambit
 {
     typedef xg::Guid Guid;
 
     class ResourceId
     {
         Guid _guid;
-        std::string _name;
+        string _name;
         bool _exists{ false };
         EResourceType _type{ EResourceType::None };
 
     public:
         Guid GetGuid() const { return _guid; }
-        std::string GetName() const { return _name; }
+        string GetName() const { return _name; }
         EResourceType GetType() const { return _type; }
         bool Exists() const { return _exists; }
 
-        ResourceId() : _guid(xg::newGuid()) { }
-        ResourceId(Guid id) : _guid(id) { }
-        ResourceId(Guid id, std::string name) : _guid(id), _name(name) { }
+        ResourceId() 
+            : _guid(xg::newGuid()) { }
+        ResourceId(Guid id) 
+            : _guid(id) { }
+        ResourceId(Guid id, string name) 
+            : _guid(id), _name(name) { }
+        ResourceId(Guid id, string name, EResourceType type) 
+            : _guid(id), _name(name), _type(type) { }
 
         friend bool operator==(ResourceId const& left, ResourceId const& right)
         {
@@ -36,9 +40,9 @@ namespace ChessClock
 namespace std
 {
     template <>
-    struct hash<ChessClock::ResourceId>
+    struct hash<Gambit::ResourceId>
     {
-        std::size_t operator()(const ChessClock::ResourceId& k) const
+        std::size_t operator()(const Gambit::ResourceId& k) const
         {
             auto bytes = k.GetGuid().bytes();
             auto longs = reinterpret_cast<const uint64_t*>(&*bytes.begin());

@@ -1,11 +1,11 @@
 #define SDL_MAIN_HANDLED
 
 #include <iostream>
-#include "ChessClock/Context.hpp"
-#include "ChessClock/TestScene.hpp"
+#include "Gambit/Context.hpp"
+#include "Gambit/TestScene.hpp"
 
-using namespace ChessClock;
-using namespace ChessClock::TestScene;
+using namespace Gambit;
+using namespace Gambit::TestScene;
 
 int main(int argc, char** argv)
 {

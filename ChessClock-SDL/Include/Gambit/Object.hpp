@@ -2,25 +2,25 @@
 
 #include <vector>
 
-#include "ChessClock/Logger.hpp"
-#include "ChessClock/ResourceId.hpp"
-#include "ChessClock/ForwardReferences.hpp"
+#include "Gambit/Logger.hpp"
+#include "Gambit/ResourceId.hpp"
+#include "Gambit/ForwardReferences.hpp"
 
-namespace ChessClock
+namespace Gambit
 {
     class Object
     {
         ResourceManager* _resourceManager{ 0 };
         ResourceId _resourceId;
-        Logger _log;
+        Logger _log{ "Object" };
+        TransformPtr _transform;
        
     public:
         typedef std::vector<ComponentPtr> Components;
 
         Object(ResourceId const &resourceId);
 
-        Transform& GetTransform();
-        Transform const& GetTransform() const;
+        TransformPtr GetTransform() const { return _transform; }
 
         void AddComponent(ComponentPtr component);
 

@@ -1,5 +1,5 @@
-#include "ChessClock/Object.hpp"
+#include "Gambit/Object.hpp"
 
-namespace ChessClock
+namespace Gambit
 {
 }

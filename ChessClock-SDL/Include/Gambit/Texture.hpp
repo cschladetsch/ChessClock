@@ -1,9 +1,9 @@
 #pragma once
 
-#include "ChessClock/Resource.hpp"
-#include "ChessClock/Rect.hpp"
+#include "Gambit/Resource.hpp"
+#include "Gambit/Rect.hpp"
 
-namespace ChessClock
+namespace Gambit
 {
     class Texture
         : public Resource<SDL_Texture>

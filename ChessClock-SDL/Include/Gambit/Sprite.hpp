@@ -1,8 +1,8 @@
 #pragma once
 
-#include "ChessClock/ResourceManager.hpp"
+#include "Gambit/ResourceManager.hpp"
 
-namespace ChessClock
+namespace Gambit
 {
     class Sprite
     {

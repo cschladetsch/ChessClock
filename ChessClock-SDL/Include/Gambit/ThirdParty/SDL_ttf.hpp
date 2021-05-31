@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ChessClock/ThirdParty/SDL.hpp"
+#include "Gambit/ThirdParty/SDL.hpp"
 
 #ifdef WIN32
 #include "SDL_ttf.h"

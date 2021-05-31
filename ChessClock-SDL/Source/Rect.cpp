@@ -1,7 +1,7 @@
-#include "ChessClock/ThirdParty/SDL.hpp"
-#include "ChessClock/Rect.hpp"
+#include "Gambit/ThirdParty/SDL.hpp"
+#include "Gambit/Rect.hpp"
 
-namespace ChessClock
+namespace Gambit
 {
     Rect::Rect() 
     { 

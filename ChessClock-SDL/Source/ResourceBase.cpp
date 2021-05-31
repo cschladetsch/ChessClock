@@ -2,13 +2,13 @@
 
 #include "nlohmann/json.hpp"
 
-#include "ChessClock/ResourceBase.hpp"
-#include "ChessClock/Transform.hpp"
+#include "Gambit/ResourceBase.hpp"
+#include "Gambit/Transform.hpp"
 
 
 using nlohmann::json;
 
-namespace ChessClock
+namespace Gambit
 {
     void to_json(json& j, Vector2 const& v)
     {
@@ -40,11 +40,11 @@ namespace ChessClock
         auto childIds = j["children"].get<std::vector<std::string>>();
         for (auto& id : childIds)
         {
-            tr.Add(Guid{ id });
+            tr.AddChild(Guid{ id });
         }
     }
 }
 
-namespace ChessClock
+namespace Gambit
 {
 }

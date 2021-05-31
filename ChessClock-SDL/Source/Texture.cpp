@@ -1,9 +1,9 @@
-#include "ChessClock/ThirdParty/SDL.hpp"
-#include "ChessClock/Texture.hpp"
-#include "ChessClock/Renderer.hpp"
-#include "ChessClock/Rect.hpp"
+#include "Gambit/ThirdParty/SDL.hpp"
+#include "Gambit/Texture.hpp"
+#include "Gambit/Renderer.hpp"
+#include "Gambit/Rect.hpp"
 
-namespace ChessClock
+namespace Gambit
 {
     shared_ptr<Texture> Texture::LoadTexture(std::string const& fileName, ResourceId const& id, Renderer const &renderer, int width, int height)
     {

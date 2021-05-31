@@ -2,7 +2,7 @@
 
 #include <memory>
 
-namespace ChessClock
+namespace Gambit
 {
     template <class Ty>
     using shared_ptr = std::shared_ptr<Ty>;

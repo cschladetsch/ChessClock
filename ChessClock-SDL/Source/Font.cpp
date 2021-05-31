@@ -1,10 +1,10 @@
-#include "ChessClock/Font.hpp"
-#include "ChessClock/Renderer.hpp"
-#include "ChessClock/ResourceManager.hpp"
-#include "ChessClock/Texture.hpp"
-#include "ChessClock/ThirdParty/SDL_ttf.hpp"
+#include "Gambit/Font.hpp"
+#include "Gambit/Renderer.hpp"
+#include "Gambit/ResourceManager.hpp"
+#include "Gambit/Texture.hpp"
+#include "Gambit/ThirdParty/SDL_ttf.hpp"
 
-namespace ChessClock
+namespace Gambit
 {
     shared_ptr<Font> Font::LoadFont(std::string const &fileName, ResourceId const &id, int pointSize)
     {

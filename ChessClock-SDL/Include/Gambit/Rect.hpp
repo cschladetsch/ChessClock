@@ -1,8 +1,8 @@
 #pragma once
 
-#include "ChessClock/ForwardReferences.hpp"
+#include "Gambit/ForwardReferences.hpp"
 
-namespace ChessClock
+namespace Gambit
 {
     struct Rect
     {

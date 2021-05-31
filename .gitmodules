@@ -35,3 +35,6 @@
 [submodule "ChessClock-SDL/ThirdParty/freetype2"]
 	path = ChessClock-SDL/ThirdParty/freetype2
 	url = https://github.com/aseprite/freetype2.git
+[submodule "ChessClock-SDL/ThirdParty/CppEvents"]
+	path = ChessClock-SDL/ThirdParty/CppEvents
+	url = https://github.com/cschladetsch/CppEvents.git

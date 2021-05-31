@@ -1,8 +1,8 @@
 #pragma once
 
-#include "ChessClock/ResourceId.hpp"
+#include "Gambit/ResourceId.hpp"
 
-namespace ChessClock
+namespace Gambit
 {
     class Component
     {

@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.12)
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake")
 include(cotire)
 
-set(PROJECT_NAME cclock)
+set(PROJECT_NAME Gambit)
 
 project(${PROJECT_NAME})
 
@@ -13,12 +13,13 @@ set(PROJECT_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/Include)
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 
 add_subdirectory(ThirdParty/crossguid)
+add_subdirectory(${THIRD_PARTY}/json)
 
 link_directories(${THIRD_PARTY}/lib)
 
 file(GLOB_RECURSE ALL_HEADERS
-        "${PROJECT_INCLUDE_DIR}/ChessClock/*.hpp"
-        "${PROJECT_INCLUDE_DIR}/ChessClock/*.h"
+	"${PROJECT_INCLUDE_DIR}/${PROJECT_NAME}/*.hpp"
+	"${PROJECT_INCLUDE_DIR}/${PROJECT_NAME}/*.h"
 )
 
 file(GLOB ALL_SOURCES
@@ -39,7 +40,7 @@ include_directories(${THIRD_PARTY}/harfbuzz/src)
 include_directories(${PROJECT_INCLUDE_DIR})
 include_directories(${PROJECT_SOURCE_DIR}/Include)
 
-add_subdirectory(${THIRD_PARTY}/json)
+add_subdirectory(Source/Test)
 
 if (WIN32)
     target_link_libraries(${PROJECT_NAME} SDL2 SDL2main SDL2_ttf freetyped harfbuzz-subset harfbuzz nlohmann_json::nlohmann_json crossguid )

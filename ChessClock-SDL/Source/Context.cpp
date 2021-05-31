@@ -1,6 +1,6 @@
-#include "ChessClock/Context.hpp"
-#include "ChessClock/ThirdParty/SDL_ttf.hpp"
+#include "Gambit/Context.hpp"
+#include "Gambit/ThirdParty/SDL_ttf.hpp"
 
-namespace ChessClock
+namespace Gambit
 {
 }

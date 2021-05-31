@@ -1,9 +1,9 @@
 #pragma once
 
-#include "ChessClock/ResourceBase.hpp"
-#include "ChessClock/Resource.hpp"
+#include "Gambit/ResourceBase.hpp"
+#include "Gambit/Resource.hpp"
 
-namespace ChessClock
+namespace Gambit
 {
     class Text : public Resource<string>
     {

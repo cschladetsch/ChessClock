@@ -1,8 +1,8 @@
-#include "ChessClock/Font.hpp"
-#include "ChessClock/Texture.hpp"
-#include "ChessClock/TestScene.hpp"
+#include "Gambit/Font.hpp"
+#include "Gambit/Texture.hpp"
+#include "Gambit/TestScene.hpp"
 
-namespace ChessClock::TestScene
+namespace Gambit::TestScene
 {
     Logger _log{ "Scene" };
 

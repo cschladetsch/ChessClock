@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "ChessClock/Config.hpp"
+#include "Gambit/Config.hpp"
 
 extern "C"
 {
@@ -17,7 +17,7 @@ extern "C"
     struct SDL_Rect;
 }
 
-namespace ChessClock
+namespace Gambit
 {
     struct Vector2;
     class ResourceManager;
