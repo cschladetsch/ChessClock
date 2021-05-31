@@ -4,11 +4,13 @@
 #include "Gambit/ThirdParty/Guid.hpp"
 #include "Gambit/ResourceBase.hpp"
 #include "Gambit/Vector2.hpp"
+#include "Gambit/Logger.hpp"
 
 namespace Gambit
 {
     class Transform
         : public ResourceBase
+        , public std::enable_shared_from_this<Transform> 
     {
         typedef std::vector<std::pair<ResourceId, TransformPtr>> Children;
 
@@ -17,6 +19,14 @@ namespace Gambit
         Children _children;
         TransformPtr _parent;
         Guid _guid;
+        Logger _log{ "Transform" };
+
+        friend class Object;
+
+        Transform(Vector2 const& pos = { 0,0 }, float rot = 0, float _scale = 1)
+            : position(pos), rotation(rot), scale(_scale)
+        {
+        }
 
     public:
         Vector2 position;
@@ -26,20 +36,18 @@ namespace Gambit
         Children const& GetChildren() const { return _children; }
         TransformPtr GetParent() const { return _parent; }
 
-        Transform(Vector2 const& pos, float rot, float _scale = 1)
-            : position(pos), rotation(rot), scale(_scale)
-        {
-        }
-
         void SetParent(TransformPtr parent);
+
         Vector2 Apply(Vector2 const& point);
 
         bool AddChild(Guid id);
-        bool AddChild(TransformPtr ptr);
+        bool AddChild(TransformPtr transform);
+        bool RemoveChild(TransformPtr transform);
 
     private:
         void ResolveChildren(ResourceManager const&);
         bool HasChildWithGuid(Guid const& id);
+        Children::iterator GetChildWithGuid(Guid const& id);
     };
 }
 

@@ -6,6 +6,5 @@ namespace Gambit
 {
     class Component
     {
-        ResourceId _parent;
     };
 }

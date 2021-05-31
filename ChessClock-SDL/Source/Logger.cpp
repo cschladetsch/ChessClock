@@ -13,7 +13,7 @@ namespace Gambit
 
     std::ostream& Logger::Info(const char* file, int line) const
     {
-        if (_logLevel > ELogLevel::None)
+        if (_logLevel <= ELogLevel::Info)
             return PrintLead(file, line, "INFO");
 
         return _null;
@@ -21,8 +21,16 @@ namespace Gambit
 
     std::ostream& Logger::Debug(const char* file, int line) const
     {
-        if (_logLevel < ELogLevel::Debug)
+        if (_logLevel <= ELogLevel::Debug)
             return PrintLead(file, line, "DEBUG");
+
+        return _null;
+    }
+
+    std::ostream& Logger::Warn(const char* file, int line) const
+    {
+        if (_logLevel <= ELogLevel::Warn)
+            return PrintLead(file, line, "WARN");
 
         return _null;
     }

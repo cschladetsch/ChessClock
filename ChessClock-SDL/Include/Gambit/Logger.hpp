@@ -8,11 +8,12 @@ namespace Gambit
 {
     enum class ELogLevel
     {
-        None = 0,
         Info = 1,
         Debug = 2,
-        Verbose = 3,
+        Warn = 3,
         Error = 4,
+        Verbose = 5,
+        None = 6,
     };
 
     class Logger
@@ -26,6 +27,7 @@ namespace Gambit
 
         std::ostream& Info(const char* file, int line) const;
         std::ostream& Debug(const char* file, int line) const;
+        std::ostream& Warn(const char* file, int line) const;
         std::ostream& Error(const char* file, int line) const;
 
     private:
@@ -39,6 +41,9 @@ namespace Gambit
 
 #define LOG_DEBUG() \
     _log.Debug(__FILE__, __LINE__)
+
+#define LOG_WARN() \
+    _log.Warn(__FILE__, __LINE__)
 
 #define LOG_ERROR() \
     _log.Error(__FILE__, __LINE__)
