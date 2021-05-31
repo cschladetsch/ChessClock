@@ -1,8 +1,8 @@
 #pragma once
 
-#include "ChessClock/Config.hpp"
+#include "Gambit/Config.hpp"
 
-namespace ChessClock
+namespace Gambit
 {
     class MetaData
     {

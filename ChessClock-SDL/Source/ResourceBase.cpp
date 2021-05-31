@@ -2,13 +2,13 @@
 
 #include "nlohmann/json.hpp"
 
-#include "ChessClock/ResourceBase.hpp"
-#include "ChessClock/Transform.hpp"
+#include "Gambit/ResourceBase.hpp"
+#include "Gambit/Transform.hpp"
 
 
 using nlohmann::json;
 
-namespace ChessClock
+namespace Gambit
 {
     void to_json(json& j, Vector2 const& v)
     {
@@ -45,6 +45,6 @@ namespace ChessClock
     }
 }
 
-namespace ChessClock
+namespace Gambit
 {
 }

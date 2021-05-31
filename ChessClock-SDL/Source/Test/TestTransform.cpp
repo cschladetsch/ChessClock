@@ -1,5 +1,5 @@
-#include "ChessClock/ThirdParty/catch.hpp"
-#include "ChessClock/Transform.hpp"
+#include "Gambit/ThirdParty/catch.hpp"
+#include "Gambit/Transform.hpp"
 
 TEST_CASE("Transform cannot add two identical children", "[transform]")
 {

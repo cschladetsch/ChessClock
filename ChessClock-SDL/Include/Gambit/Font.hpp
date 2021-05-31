@@ -1,9 +1,9 @@
 #pragma once
 
-#include "ChessClock/Resource.hpp"
-#include "ChessClock/Vector2.hpp"
+#include "Gambit/Resource.hpp"
+#include "Gambit/Vector2.hpp"
 
-namespace ChessClock
+namespace Gambit
 {
     class Font
         : public Resource<_TTF_Font>

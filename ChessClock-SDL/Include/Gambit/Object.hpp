@@ -2,11 +2,11 @@
 
 #include <vector>
 
-#include "ChessClock/Logger.hpp"
-#include "ChessClock/ResourceId.hpp"
-#include "ChessClock/ForwardReferences.hpp"
+#include "Gambit/Logger.hpp"
+#include "Gambit/ResourceId.hpp"
+#include "Gambit/ForwardReferences.hpp"
 
-namespace ChessClock
+namespace Gambit
 {
     class Object
     {

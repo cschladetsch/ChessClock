@@ -1,6 +1,6 @@
-#include "ChessClock/Logger.hpp"
+#include "Gambit/Logger.hpp"
 
-namespace ChessClock
+namespace Gambit
 {
     Logger::Logger(const char* source, ELogLevel level)
         : _logLevel(level)

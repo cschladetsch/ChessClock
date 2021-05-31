@@ -1,6 +1,6 @@
-#include "ChessClock/Transform.hpp"
+#include "Gambit/Transform.hpp"
 
-namespace ChessClock
+namespace Gambit
 {
     void Transform::SetParent(TransformPtr parent)
     {

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ChessClock
+namespace Gambit
 {
     enum class EResourceType
     {

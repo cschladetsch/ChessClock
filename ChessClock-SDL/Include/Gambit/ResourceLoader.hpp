@@ -2,13 +2,13 @@
 
 #include <iostream>
 
-#include "ChessClock/ThirdParty/nameof.hpp"
+#include "Gambit/ThirdParty/nameof.hpp"
 
-#include "ChessClock/Config.hpp"
-#include "ChessClock/Logger.hpp"
-#include "ChessClock/ResourceBase.hpp"
+#include "Gambit/Config.hpp"
+#include "Gambit/Logger.hpp"
+#include "Gambit/ResourceBase.hpp"
 
-namespace ChessClock
+namespace Gambit
 {
     struct ResourceLoaderBase
     {

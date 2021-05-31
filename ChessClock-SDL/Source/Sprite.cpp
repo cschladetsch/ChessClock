@@ -1,6 +1,6 @@
-#include "ChessClock/Sprite.hpp"
+#include "Gambit/Sprite.hpp"
 
-namespace ChessClock
+namespace Gambit
 {
     Sprite::Sprite(ResourceManager& rm, const char* name)
     {

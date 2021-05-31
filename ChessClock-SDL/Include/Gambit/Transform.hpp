@@ -1,11 +1,11 @@
 #pragma once
 
-#include "ChessClock/ForwardReferences.hpp"
-#include "ChessClock/ThirdParty/Guid.hpp"
-#include "ChessClock/ResourceBase.hpp"
-#include "ChessClock/Vector2.hpp"
+#include "Gambit/ForwardReferences.hpp"
+#include "Gambit/ThirdParty/Guid.hpp"
+#include "Gambit/ResourceBase.hpp"
+#include "Gambit/Vector2.hpp"
 
-namespace ChessClock
+namespace Gambit
 {
     class Transform
         : public ResourceBase

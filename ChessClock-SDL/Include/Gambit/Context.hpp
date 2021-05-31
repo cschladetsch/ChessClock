@@ -1,11 +1,11 @@
 #pragma once
 
-#include "ChessClock/Logger.hpp"
-#include "ChessClock/ThirdParty/SDL_ttf.hpp"
-#include "ChessClock/Renderer.hpp"
-#include "ChessClock/ResourceManager.hpp"
+#include "Gambit/Logger.hpp"
+#include "Gambit/ThirdParty/SDL_ttf.hpp"
+#include "Gambit/Renderer.hpp"
+#include "Gambit/ResourceManager.hpp"
 
-namespace ChessClock
+namespace Gambit
 {
     template <class Values>
     class Context

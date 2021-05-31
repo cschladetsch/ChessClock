@@ -3,20 +3,15 @@ cmake_minimum_required(VERSION 3.12)
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake")
 include(cotire)
 
-set(PROJECT_NAME gambit-test)
+set(PROJECT_NAME gambit_test)
 
 project(${PROJECT_NAME})
 
-file(GLOB_RECURSE ALL_HEADERS
-	"${PROJECT_INCLUDE_DIR}/ChessClock/*.hpp"
-	"${PROJECT_INCLUDE_DIR}/ChessClock/*.h"
-)
-
-file(GLOB ALL_SOURCES
-	"${PROJECT_SOURCE_DIR}/Source/Test/*.cpp"
+file(GLOB TEST_SOURCES
+	"*.cpp"
 ) 
 
-add_executable(${PROJECT_NAME} ${ALL_SOURCES} ${ALL_HEADERS})
+add_executable(${PROJECT_NAME} ${TEST_SOURCES} ${ALL_HEADERS})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
             CXX_STANDARD 17

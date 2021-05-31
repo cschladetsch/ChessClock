@@ -1,10 +1,10 @@
 #pragma once
 
-#include "ChessClock/ForwardReferences.hpp"
-#include "ChessClock/ResourceId.hpp"
-#include "ChessClock/MetaData.hpp"
+#include "Gambit/ForwardReferences.hpp"
+#include "Gambit/ResourceId.hpp"
+#include "Gambit/MetaData.hpp"
 
-namespace ChessClock
+namespace Gambit
 {
     class ResourceBase
     {

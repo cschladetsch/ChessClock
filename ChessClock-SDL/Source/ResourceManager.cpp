@@ -1,6 +1,6 @@
-#include "ChessClock/ResourceManager.hpp"
+#include "Gambit/ResourceManager.hpp"
 
-namespace ChessClock
+namespace Gambit
 {
     ResourceManager::ResourceManager(Renderer const& renderer, const char* rootFolder)
     {

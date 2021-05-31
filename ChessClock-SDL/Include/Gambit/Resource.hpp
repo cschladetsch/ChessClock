@@ -1,9 +1,9 @@
 #pragma once
 
-#include "ChessClock/ResourceBase.hpp"
-#include "ChessClock/ResourceLoader.hpp"
+#include "Gambit/ResourceBase.hpp"
+#include "Gambit/ResourceLoader.hpp"
 
-namespace ChessClock
+namespace Gambit
 {
     template <class Ty>
     class Resource : public ResourceBase

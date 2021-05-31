@@ -1,10 +1,10 @@
 #pragma once
 
-#include "ChessClock/ForwardReferences.hpp"
-#include "ChessClock/Logger.hpp"
-#include "ChessClock/Rect.hpp"
+#include "Gambit/ForwardReferences.hpp"
+#include "Gambit/Logger.hpp"
+#include "Gambit/Rect.hpp"
 
-namespace ChessClock
+namespace Gambit
 {
     class Renderer
     {

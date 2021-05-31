@@ -2,7 +2,7 @@
 
 #include "SDL_stdinc.h"
 
-namespace ChessClock
+namespace Gambit
 {
     constexpr float FloatEps = 0.0001f;
 
