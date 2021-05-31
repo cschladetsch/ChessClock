@@ -6,8 +6,8 @@
 
 namespace Gambit
 {
-    NumberFont::NumberFont(ResourceId const& id, _TTF_Font* font)
-        : Font(id, font)
+    NumberFont::NumberFont(ResourceId const& id, FontPtr font)
+        : ResourceBase(id), _font(font)
     {
     }
 
@@ -30,7 +30,7 @@ namespace Gambit
         for (auto n = 0; n < 10; ++n)
         {
             _itoa(n, number, 10);
-            _digits[n] = DrawText(rm, renderer, number, { color.red, color.green, color.blue });
+            _digits[n] = _font->DrawText(rm, renderer, number, { color.red, color.green, color.blue });
         }
 
         int width, height;

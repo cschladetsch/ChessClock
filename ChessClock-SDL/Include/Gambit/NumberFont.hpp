@@ -7,30 +7,19 @@
 namespace Gambit
 {
     class NumberFont
-        : public Font
+        : public std::enable_shared_from_this<NumberFont> 
+        , ResourceBase
     {
         typedef std::array<TexturePtr, 10> Digits;
 
         Digits _digits;
         Rect _rectDigit;
+        FontPtr _font;
 
     public:
-        NumberFont(ResourceId const& id, _TTF_Font* font);
+        NumberFont(ResourceId const& id, FontPtr font);
 
         void DrawDigits(Renderer&, Rect const& destRect, char number) const;
-
-        template <class ...Args>
-        static shared_ptr<NumberFont> Load(std::string const& fileName, ResourceId const& id, Args... args)
-        {
-            auto tuple = std::tuple{ args... };
-            auto &resourceManager = std::get<0>(tuple);
-            auto &renderer = std::get<1>(tuple);
-            auto pointSize = std::get<2>(tuple);
-            Font::Load(fileName, id, pointSize);
-            MakeDigitsTextures(resourceManager);
-        }
-
-    private:
         void MakeDigitsTextures(ResourceManager &, Renderer &, Color);
     };
 }

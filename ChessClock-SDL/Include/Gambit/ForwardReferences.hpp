@@ -25,11 +25,13 @@ namespace Gambit
     class Transform;
     class Component;
     class Font;
+    class NumberFont;
     class Texture;
     class Object;
     class Renderer;
 
     typedef shared_ptr<Font> FontPtr;
+    typedef shared_ptr<NumberFont> NumberFontPtr;
     typedef shared_ptr<Texture> TexturePtr;
     typedef shared_ptr<Component> ComponentPtr;
     typedef shared_ptr<Object> ObjectPtr;

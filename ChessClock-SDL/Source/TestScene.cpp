@@ -12,7 +12,7 @@ namespace Gambit::TestScene
         FontPtr font;
         TexturePtr background;
         TexturePtr text;
-        NumberFont numberFont;
+        NumberFontPtr numberFont;
         Rect bounds;
     };
 
@@ -21,12 +21,14 @@ namespace Gambit::TestScene
         ctx.values = std::make_shared<Values>();
         Renderer &renderer = ctx.renderer;
         ResourceManager &resources = ctx.resources;
+        auto& values = *ctx.values;
 
-        ctx.values->font = resources.CreateResource<Font>("AdobeFanHeitiStd-Bold.otf", 100);
-        ctx.values->numberFont = resources.CreateResource<NumberFont>("AdobeFanHeitiStd-Bold.otf", 100);
-        ctx.values->background = resources.CreateResource<Texture>("sample.bmp", &renderer, 800, 480);
-        ctx.values->text = ctx.values->font->DrawText(resources, renderer, "Hello world", { 255,255,255 });
-        ctx.values->bounds = ctx.values->text->GetBounds();
+        values.font = resources.CreateResource<Font>("AdobeFanHeitiStd-Bold.otf", 100);
+        values.background = resources.CreateResource<Texture>("sample.bmp", &renderer, 800, 480);
+        //values.numberFont = std::make_shared<NumberFont>(font);
+        //values.numberFont->MakeDigitsTextures(resources, renderer, Color{ 255,255,0 });
+        values.text = ctx.values->font->DrawText(resources, renderer, "Hello world", { 255,255,255 });
+        values.bounds = ctx.values->text->GetBounds();
 
         ctx.steps.push_back(StepWriteBackground);
         ctx.steps.push_back(StepWriteText);
