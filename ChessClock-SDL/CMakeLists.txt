@@ -23,7 +23,7 @@ file(GLOB_RECURSE ALL_HEADERS
 )
 
 file(GLOB ALL_SOURCES
-        "${PROJECT_SOURCE_DIR}/Source/*.cpp"
+"${PROJECT_SOURCE_DIR}/Source/*.cpp"
 ) 
 
 add_executable(${PROJECT_NAME} ${ALL_SOURCES} ${ALL_HEADERS})
@@ -49,6 +49,4 @@ else()
 endif()
 
 cotire(${PROJECT_NAME})
-
-
 
