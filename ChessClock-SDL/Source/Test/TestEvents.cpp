@@ -2,8 +2,10 @@
 #include "Gambit/ThirdParty/Event.hpp"
 
 using namespace Gambit;
+using namespace std;
 
 static int newVal;
+static std::string newStr;
 
 void Callback(int val)
 {
@@ -12,11 +14,18 @@ void Callback(int val)
 
 struct Class
 {
-    int newVal;
+    int newNum;
+    string newString;
 
     void Method1(int n)
     {
-        newVal = n;
+        newNum = n;
+    }
+
+    void Method2(int n, std::string str)
+    {
+        newNum = n;
+        newString = str;
     }
 };
 
@@ -24,29 +33,39 @@ TEST_CASE("Test event system", "[events]")
 {
     SECTION("Test function callback")
     {
-        Event<int> num;
+        Event<int> ev;
 
-        num.Add(Callback);
-        num(10);
+        ev.Add(Callback);
+        ev(10);
         REQUIRE(newVal == 10);
-        num(20);
+        ev(20);
         REQUIRE(newVal == 20);
-        num.Remove(Callback);
-        num(30);
+        ev.Remove(Callback);
+        ev(30);
         REQUIRE(newVal == 20);
     }
 
-    SECTION("Test class method callback")
+    SECTION("Test class method one value callback")
     {
-        Event<int> num;
-
+        Event<int> ev;
         Class klass;
-        num.Add(klass, &Class::Method1);
-        num(10);
-        REQUIRE(klass.newVal == 10);
-        num(20);
-        REQUIRE(klass.newVal == 20);
-        num.Remove(klass, &Class::Method1);
-        REQUIRE(klass.newVal == 20);
+        ev.Add(klass, &Class::Method1);
+        ev(10);
+        REQUIRE(klass.newNum == 10);
+        ev(20);
+        REQUIRE(klass.newNum == 20);
+        ev.Remove(klass, &Class::Method1);
+        REQUIRE(klass.newNum == 20);
     }
+
+    SECTION("Test class method two args callback")
+    {
+        Event<int, std::string> ev;
+        Class klass;
+        ev.Add(klass, &Class::Method2);
+        ev(10, "foo");
+        REQUIRE(klass.newString == "foo");
+        REQUIRE(klass.newNum == 10);
+    }
+
 }
