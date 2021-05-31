@@ -1,14 +1,23 @@
+#include <exception>
 #include "Gambit/Transform.hpp"
 
 namespace Gambit
 {
+
+	class NotImplemented : public std::logic_error
+	{
+	public:
+		NotImplemented() : std::logic_error("Not implemented") { }
+
+	};
+
     void Transform::SetParent(TransformPtr parent)
     {
     }
 
     Vector2 Transform::Apply(Vector2 const& point)
     {
-        throw std::exception("not implemented");
+        throw NotImplemented();
     }
 
     bool Transform::AddChild(Guid id)
