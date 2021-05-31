@@ -11,6 +11,9 @@ file(GLOB TEST_SOURCES
 	"*.cpp"
 ) 
 
+message(STATUS "ProjectIncludeDir:" ${PROJECT_INCLUDE_DIR})
+include_directories(${PROJECT_INCLUDE_DIR})
+
 add_executable(${PROJECT_NAME} ${TEST_SOURCES} ${ALL_HEADERS})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES

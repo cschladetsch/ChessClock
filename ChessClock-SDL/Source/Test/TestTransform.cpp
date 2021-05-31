@@ -1,14 +1,14 @@
 #include "Gambit/ThirdParty/catch.hpp"
 #include "Gambit/Transform.hpp"
 
-TEST_CASE("Transform cannot add two identical children", "[transform]")
+TEST_CASE("Transform operations", "[transform]")
 {
-	REQUIRE(true);
+    SECTION("Cannot add child")
+    {
+    }
 
-	SECTION("Cannot add dupe child")
-	{
-		REQUIRE(false);
-	}
-
+    SECTION("Cannot add dupe child")
+    {
+}
 }
 
