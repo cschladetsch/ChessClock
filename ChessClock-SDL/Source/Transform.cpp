@@ -1,15 +1,9 @@
 #include <exception>
 #include "Gambit/Transform.hpp"
+#include "Gambit/Exceptions.hpp"
 
 namespace Gambit
 {
-
-	class NotImplemented : public std::logic_error
-	{
-	public:
-		NotImplemented() : std::logic_error("Not implemented") { }
-
-	};
 
     void Transform::SetParent(TransformPtr parent)
     {
