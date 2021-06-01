@@ -20,11 +20,14 @@ namespace Gambit
         return ResourceId();
     }
 
-    std::set<ComponentPtr> ResourceManager::GetComponets(Object const& object)
+    std::set<ComponentPtr> const &ResourceManager::GetComponets(Object const& object)
     {
-        auto iter = _objectToComponents.find(object.GetResourceId());
+        auto const &resourceId = object.GetResourceId();
+        auto iter = _objectToComponents.find(resourceId);
         if (iter == _objectToComponents.end())
-            return std::set<ComponentPtr>();
+        {
+            return _objectToComponents[resourceId] = { };
+        }
         return iter->second;
     }
 

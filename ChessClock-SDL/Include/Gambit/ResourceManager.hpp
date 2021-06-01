@@ -40,7 +40,7 @@ namespace Gambit
 
         bool AddComponent(Object const&, ComponentPtr);
 
-        std::set<ComponentPtr> GetComponets(Object const&);
+        std::set<ComponentPtr> const &GetComponets(Object const&);
 
 
 		/*
