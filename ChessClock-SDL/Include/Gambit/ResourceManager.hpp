@@ -5,6 +5,7 @@
 
 #include "Gambit/Resource.hpp"
 #include "Gambit/ResourceLoader.hpp"
+#include "Gambit/Object.hpp"
 
 namespace Gambit
 {
@@ -41,6 +42,8 @@ namespace Gambit
 
         std::set<ComponentPtr> GetComponets(Object const&);
 
+
+		/*
         template <class Ty>
         std::vector<ComponentPtr> GetComponents(Object const& object) const
         {
@@ -59,7 +62,9 @@ namespace Gambit
             }
             return results;
         }
+	*/
 
+	/*
         template <class Ty>
         Resource<Ty> *GetResource(ResourceId const&rid)
         {
@@ -71,5 +76,6 @@ namespace Gambit
 
             return dynamic_cast<Resource<Ty> *>(found->second);
         }
+	*/
     };
 }

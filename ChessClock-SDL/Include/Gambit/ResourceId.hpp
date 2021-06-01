@@ -34,22 +34,13 @@ namespace Gambit
 namespace std
 {
     template <>
-    struct hash<Gambit::Guid>
-    {
-        std::size_t operator()(const Gambit::Guid& guid) const
-        {
-            auto bytes = guid.bytes();
-            auto longs = reinterpret_cast<const uint64_t*>(&*bytes.begin());
-            return longs[0] ^ longs[1];
-        }
-    };
-
-    template <>
     struct hash<Gambit::ResourceId>
     {
         std::size_t operator()(const Gambit::ResourceId& rid) const
         {
-            return hash<Gambit::Guid>()(rid.GetGuid());
+            auto bytes = rid.GetGuid().bytes();
+            auto longs = reinterpret_cast<const uint64_t*>(&*bytes.begin());
+            return longs[0] ^ longs[1];
         }
     };
 }

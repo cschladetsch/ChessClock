@@ -29,7 +29,7 @@ namespace Gambit
         char number[2];
         for (auto n = 0; n < 10; ++n)
         {
-            _itoa(n, number, 10);
+            //TODO: itoa(n, number, 10);
             _digits[n] = _font->DrawText(rm, renderer, number, { color.red, color.green, color.blue });
         }
 
