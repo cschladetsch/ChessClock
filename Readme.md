@@ -13,7 +13,9 @@ This image is is a conceptual render of the final product. It only shows relativ
 ## Ingredients
 * [Hardware](../../wiki/Hardware)
 * 3d Printed body with custom rocker switch
-* [Software](Software). The main source tree is in [ChessClock-SDL](ChessClock-SDL).
+* [Software](Software). 
+  * The app is based on a purpose-built but general system, [Gambit](Gambit).
+  * The main source tree is in [ChessClock](ChessClock).
 * Art
 
 ## Wiki
