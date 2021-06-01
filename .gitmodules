@@ -1,6 +1,6 @@
 
 [submodule "ChessClock-SDL/ThirdParty/SDL"]
-	path = ChessClock-SDL/ThirdParty/SDL
+	path = Gambit/ThirdParty/SDL
 	url = https://github.com/libsdl-org/SDL.git
 [submodule "ChessClock-SDL/ThirdParty/freetype-gl"]
 	path = ChessClock-SDL/ThirdParty/freetype-gl
@@ -12,29 +12,29 @@
 	path = ChessClock-SDL/ThirdParty/scalable-font2
 	url = git@gitlab.com:bztsrc/scalable-font2.git
 [submodule "ChessClock-SDL/ThirdParty/json"]
-	path = ChessClock-SDL/ThirdParty/json
+	path = Gambit/ThirdParty/json
 	url = https://github.com/nlohmann/json.git
 [submodule "ChessClock-SDL/ThirdParty/crossguid"]
-	path = ChessClock-SDL/ThirdParty/crossguid
+	path = Gambit/ThirdParty/crossguid
 	url = https://github.com/graeme-hill/crossguid.git
 [submodule "ChessClock-SDL/ThirdParty/nameof"]
-	path = ChessClock-SDL/ThirdParty/nameof
+	path = Gambit/ThirdParty/nameof
 	url = https://github.com/Neargye/nameof.git
 [submodule "ChessClock-SDL/ThirdParty/freetype"]
 	path = ChessClock-SDL/ThirdParty/freetype
 	url = https://github.com/freetype/freetype.git
 [submodule "ChessClock-SDL/ThirdParty/SDL_ttf"]
-	path = ChessClock-SDL/ThirdParty/SDL_ttf
+	path = Gambit/ThirdParty/SDL_ttf
 	url = https://github.com/Ecognize/SDL_ttf.git
 [submodule "ChessClock-SDL/ThirdParty/imgui"]
-	path = ChessClock-SDL/ThirdParty/imgui
+	path = Gambit/ThirdParty/imgui
 	url = https://github.com/ocornut/imgui.git
 [submodule "ChessClock-SDL/ThirdParty/harfbuzz"]
-	path = ChessClock-SDL/ThirdParty/harfbuzz
+	path = Gambit/ThirdParty/harfbuzz
 	url = https://github.com/harfbuzz/harfbuzz.git
 [submodule "ChessClock-SDL/ThirdParty/freetype2"]
-	path = ChessClock-SDL/ThirdParty/freetype2
+	path = Gambit/ThirdParty/freetype2
 	url = https://github.com/aseprite/freetype2.git
 [submodule "ChessClock-SDL/ThirdParty/CppEvents"]
-	path = ChessClock-SDL/ThirdParty/CppEvents
+	path = Gambit/ThirdParty/CppEvents
 	url = https://github.com/cschladetsch/CppEvents.git
