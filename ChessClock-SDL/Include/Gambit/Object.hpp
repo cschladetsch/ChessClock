@@ -9,18 +9,21 @@
 namespace Gambit
 {
     class Object
+        : std::enable_shared_from_this<Object>
     {
+        static inline Logger _log{ "Object" };
+
         ResourceManager* _resourceManager{ 0 };
         ResourceId _resourceId;
-        Logger _log{ "Object" };
         TransformPtr _transform;
-       
+
     public:
         typedef std::vector<ComponentPtr> Components;
 
-        Object(ResourceId const &resourceId);
+        Object(ResourceManager &rm, ResourceId const &resourceId);
 
         TransformPtr GetTransform() const { return _transform; }
+        ResourceId const &GetResourceId() const { return _resourceId; }
 
         void AddComponent(ComponentPtr component);
 

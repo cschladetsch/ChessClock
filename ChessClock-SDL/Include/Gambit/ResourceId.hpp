@@ -12,14 +12,10 @@ namespace Gambit
     {
         Guid _guid;
         string _name;
-        bool _exists{ false };
-        EResourceType _type{ EResourceType::None };
 
     public:
-        Guid GetGuid() const { return _guid; }
-        string GetName() const { return _name; }
-        EResourceType GetType() const { return _type; }
-        bool Exists() const { return _exists; }
+        const Guid &GetGuid() const { return _guid; }
+        const string &GetName() const { return _name; }
 
         ResourceId() 
             : _guid(xg::newGuid()) { }
@@ -27,8 +23,6 @@ namespace Gambit
             : _guid(id) { }
         ResourceId(Guid id, string name) 
             : _guid(id), _name(name) { }
-        ResourceId(Guid id, string name, EResourceType type) 
-            : _guid(id), _name(name), _type(type) { }
 
         friend bool operator==(ResourceId const& left, ResourceId const& right)
         {
@@ -40,13 +34,22 @@ namespace Gambit
 namespace std
 {
     template <>
-    struct hash<Gambit::ResourceId>
+    struct hash<Gambit::Guid>
     {
-        std::size_t operator()(const Gambit::ResourceId& k) const
+        std::size_t operator()(const Gambit::Guid& guid) const
         {
-            auto bytes = k.GetGuid().bytes();
+            auto bytes = guid.bytes();
             auto longs = reinterpret_cast<const uint64_t*>(&*bytes.begin());
             return longs[0] ^ longs[1];
+        }
+    };
+
+    template <>
+    struct hash<Gambit::ResourceId>
+    {
+        std::size_t operator()(const Gambit::ResourceId& rid) const
+        {
+            return hash<Gambit::Guid>()(rid.GetGuid());
         }
     };
 }

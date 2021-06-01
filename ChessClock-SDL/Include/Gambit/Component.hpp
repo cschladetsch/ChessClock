@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Gambit/ResourceId.hpp"
+#include "Gambit/ResourceBase.hpp"
 
 namespace Gambit
 {
