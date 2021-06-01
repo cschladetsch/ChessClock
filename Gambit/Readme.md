@@ -1,4 +1,4 @@
-# Gambit ![Gambit](..\External\gambit-icon.png)
+# Gambit ![Gambit](../External/gambit-icon.png)
 
 Gambit is a general-purpose system based on SDL2.
 
