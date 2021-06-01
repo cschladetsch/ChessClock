@@ -44,8 +44,8 @@ namespace Gambit
         template <class Ty>
         std::vector<ComponentPtr> GetComponents(Object const& object) const
         {
-            auto found = _objectToResources.find(object.GetResourceId());
-            if (found == _objectToResources.end())
+            auto found = _objectToComponents.find(object.GetResourceId());
+            if (found == _objectToComponents.end())
             {
                 return std::vector<ComponentPtr>();
             }
