@@ -8,7 +8,7 @@ fi
 
 if [ "$1" == "test" ]; then
 	$prefix/GambitTest $2 $3 $4
-	exit 0
+	exit $?
 fi
 
 $prefix/Gambit $resources
