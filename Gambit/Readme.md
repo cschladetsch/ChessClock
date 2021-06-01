@@ -1,9 +1,18 @@
-# Main Source Tree
-This is the main source and include files for the project, as well as build files.
+# Gambit ![Gambit](..\External\gambit-icon.png)
+
+Gambit is a general-purpose system based on SDL2.
+
+It supports:
+
+* WIn10
+* Raspberry Pi
+* Linux
+* macOs
 
 ## Requirements
+
 * CMake
-* make
+* make, or msbuild
 * C++11 compiler
 
 ### Windows 10
@@ -34,8 +43,10 @@ $ make
 
 ## Running
 
-You must supply the folder for resources.
+The output is in the `bin` folder of the top level `CMakeLists.txt` file.
+
+You must supply the folder for resources. Note that the resources folder should end with the correct path separator for your operating system.
 
 ```
-$ build/main Resources/
+$ ./Gambit ../ChessClock/Resources/
 ```
