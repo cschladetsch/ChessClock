@@ -1,4 +1,15 @@
 #!/bin/bash
 
-./Gambit ../ChessClock/Resources/
+resources=../ChessClock/Resources/
+prefix=.
+if [ "$OSTYPE" == "msys" ]; then
+	prefix=./Debug
+fi
+
+if [ "$1" == "test" ]; then
+	$prefix/GambitTest
+	exit 0
+fi
+
+$prefix/Gambit $resources
 
