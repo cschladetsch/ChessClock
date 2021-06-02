@@ -10,7 +10,7 @@ namespace Gambit
         _rootFolder = rootFolder;
     }
 
-    std::string ResourceManager::MakeFilename(const char* name)
+    std::string ResourceManager::MakeResourceFilename(const char* name)
     {
         return _rootFolder + name;
     }

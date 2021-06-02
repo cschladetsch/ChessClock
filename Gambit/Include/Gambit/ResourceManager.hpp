@@ -29,14 +29,14 @@ namespace Gambit
         shared_ptr<Res> CreateResource(const char* name, Args... args)
         {
             ResourceId id{ xg::newGuid(), name };
-            auto resource = ResourceLoader<Res>::Load(MakeFilename(name), id, args...);
+            auto resource = ResourceLoader<Res>::Load(MakeResourceFilename(name), id, args...);
             _idToResource[id] = resource;
             return resource;
         }
 
         ResourceId NewId() const;
 
-        string MakeFilename(const char* name);
+        string MakeResourceFilename(const char* name);
 
         bool AddComponent(Object const&, ComponentPtr);
 

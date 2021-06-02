@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.12)
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake")
-include(cotire)
 
 set(PROJECT_NAME Gambit)
 
@@ -9,7 +8,7 @@ project(${PROJECT_NAME})
 
 set(THIRD_PARTY ${PROJECT_SOURCE_DIR}/ThirdParty)
 set(PROJECT_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/Include)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/../bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 
