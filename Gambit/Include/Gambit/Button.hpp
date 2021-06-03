@@ -1,12 +1,11 @@
 #pragma once
 
-#include "Gambit/Component.hpp"
+#include "Gambit/ForwardReferences.hpp"
 #include "Gambit/Event.hpp"
 
 namespace Gambit
 {
     class Button
-        : Component
     {
         TexturePtr _text;
 

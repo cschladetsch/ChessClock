@@ -1,6 +1,5 @@
 #include "Gambit/ResourceManager.hpp"
 #include "Gambit/Object.hpp"
-#include "Gambit/Component.hpp"
 
 namespace Gambit
 {
