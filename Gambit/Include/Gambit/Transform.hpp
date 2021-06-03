@@ -28,6 +28,8 @@ namespace Gambit
         {
         }
 
+        std::shared_ptr<Transform> SharedTransform() { return std::enable_shared_from_this<Transform>::shared_from_this(); }
+
     public:
         Vector2 position;
         float rotation;

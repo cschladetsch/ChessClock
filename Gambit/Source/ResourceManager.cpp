@@ -20,36 +20,35 @@ namespace Gambit
         return ResourceId();
     }
 
-    std::set<ComponentPtr> const &ResourceManager::GetComponets(Object const& object)
+    std::vector<ResourceBasePtr> ResourceManager::GetResources(Object const& object)
     {
         auto const &resourceId = object.GetResourceId();
-        auto iter = _objectToComponents.find(resourceId);
-        if (iter == _objectToComponents.end())
+        auto iter = _objectToResources.find(resourceId.GetGuid());
+        if (iter == _objectToResources.end())
         {
-            return _objectToComponents[resourceId] = { };
+            return std::move(std::vector<ResourceBasePtr>());
         }
-        return iter->second;
+        std::vector<ResourceBasePtr> result;
+        for (auto const& resource: _objectToResources[object.GetResourceId().GetGuid()])
+        {
+            //result.push_back(_idToResource[guid]);
+        }
+        return std::move(result);
     }
 
-    bool ResourceManager::AddComponent(Object const& owner, ComponentPtr component)
+    bool ResourceManager::AddResource(Object const& owner, ResourceBasePtr resource)
     {
         auto const &resourceId = owner.GetResourceId();
-        auto iter = _objectToComponents.find(resourceId);
-        if (iter == _objectToComponents.end())
+        auto iter = _objectToResources.find(resourceId.GetGuid());
+        if (iter == _objectToResources.end())
         {
-            _objectToComponents[resourceId] = { component };
+            _objectToResources[resourceId.GetGuid()] = { resource->GetGuid() };
             return true;
         }
 
         auto& set = iter->second;
-        auto exists = set.find(component);
-        if (exists == set.end())
-        {
-            set.insert(component);
-            return true;
-        }
-
-        return false;
+        set.push_back(resource->GetGuid());
+        return true;
     }
 }
 

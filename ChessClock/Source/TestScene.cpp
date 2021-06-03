@@ -23,9 +23,9 @@ namespace Gambit::TestScene
         ResourceManager &resources = ctx.resources;
         auto& values = *ctx.values;
 
-        values.font = resources.CreateResource<Font>("AdobeFanHeitiStd-Bold.otf", 100);
-        values.background = resources.CreateResource<Texture>("sample.bmp", &renderer, 800, 480);
-        //values.numberFont = std::make_shared<NumberFont>(font);
+        values.font = resources.LoadResource<Font>("AdobeFanHeitiStd-Bold.otf", 100);
+        values.background = resources.LoadResource<Texture>("sample.bmp", &renderer, 800, 480);
+        //values.numberFont = resources.CreateResource<NumberFont>("Numbers", values.font);
         //values.numberFont->MakeDigitsTextures(resources, renderer, Color{ 255,255,0 });
         values.text = ctx.values->font->DrawText(resources, renderer, "Hello world", { 255,255,255 });
         values.bounds = ctx.values->text->GetBounds();
