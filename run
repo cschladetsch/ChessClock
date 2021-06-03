@@ -4,7 +4,7 @@ cd build
 
 cmake .. $*
 
-if [ "$OS" == "msys" ]; then
+if [ "$OSTYPE" == "msys" ]; then
 	msbuild.exe *.sln
 else
 	make
