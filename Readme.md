@@ -10,6 +10,19 @@ This image is is a conceptual render of the final product. It only shows relativ
 
 ![ChessClock](External/SampleRender-1.png)
 
+## Building
+```bash
+$ git clone https://github.com/cschladetsch/ChessClock.git
+$ cd ChessClock
+$ mkdir build && cd build && cmake ..
+```
+
+Now, for Windows either open and build ChessClock.sln or run `msbuild ChessClock.sln`
+
+Otherwise simply run `make`.
+
+The output will be in `../bin` folder in either case. There is a `run` script in that folder.
+
 ## Ingredients
 * [Hardware](../../wiki/Hardware)
 * 3d Printed body with custom rocker switch
