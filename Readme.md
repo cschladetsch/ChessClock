@@ -23,6 +23,8 @@ Otherwise simply run `make`.
 
 The output will be in `../bin` folder in either case. There is a `run` script in that folder.
 
+For windows, set Debug command arguments to `..\..\ChessClock\Resources\` to run from Visual Studio.
+
 ## Ingredients
 * [Hardware](../../wiki/Hardware)
 * 3d Printed body with custom rocker switch
