@@ -1,5 +1,8 @@
 #!/bin/bash
 
+git submodule init
+git submodule update --recursive
+
 mkdir -p build && cd build && cmake .. $*
 
 if [ "$OSTYPE" == "msys" ]; then
