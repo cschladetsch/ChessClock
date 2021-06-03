@@ -11,6 +11,11 @@ This image is is a conceptual render of the final product. It only shows relativ
 ![ChessClock](External/SampleRender-1.png)
 
 ## Building
+
+Simply, `run`. 
+
+For more details:
+
 ```bash
 $ git clone https://github.com/cschladetsch/ChessClock.git
 $ cd ChessClock
