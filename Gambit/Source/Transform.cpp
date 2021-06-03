@@ -8,7 +8,7 @@ namespace Gambit
 {
     void Transform::SetParent(TransformPtr parent)
     {
-        auto ptr = shared_from_this();
+        auto ptr = SharedTransform();
         if (_parent)
         {
             if (!_parent->RemoveChild(ptr))

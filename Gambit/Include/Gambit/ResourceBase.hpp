@@ -7,6 +7,7 @@
 namespace Gambit
 {
     class ResourceBase
+        : public std::enable_shared_from_this<ResourceBase> 
     {
         ResourceId _resourceId;
         MetaData _metaData;
@@ -18,8 +19,9 @@ namespace Gambit
 
         ResourceBase() { }
         ResourceBase(ResourceId resourceId)
-            : _resourceId(resourceId)
-        {
-        }
+            : _resourceId(resourceId) { }
+
+        std::shared_ptr<ResourceBase> SharedBase() { return shared_from_this(); }
     };
 }
+

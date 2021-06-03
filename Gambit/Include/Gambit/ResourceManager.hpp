@@ -12,13 +12,12 @@ namespace Gambit
     class ResourceManager
     {
         static inline Logger _log{ "ResourceManager" };
-        typedef std::unordered_map<ResourceId, ResourceBasePtr> Resources;
-        typedef std::unordered_map<ResourceId, ComponentPtr> Components;
-        typedef std::unordered_map<ResourceId, std::set<ComponentPtr>> ObjectToComponents;
 
-        Resources _idToResource;
-        Components _idToComponents;
-        ObjectToComponents _objectToComponents;
+        typedef std::unordered_map<ResourceId, std::weak_ptr<ResourceBase>> IdToResources;
+        typedef std::unordered_map<ResourceId, std::vector<Guid>> ObjectToResources;
+
+        IdToResources _idToResource;
+        ObjectToResources _objectToResources;
         Renderer const* _renderer;
         string _rootFolder;
 
@@ -26,11 +25,20 @@ namespace Gambit
         ResourceManager(Renderer const &renderer, const char *rootFolder);
 
         template <class Res, class ...Args>
-        shared_ptr<Res> CreateResource(const char* name, Args... args)
+        shared_ptr<Res> LoadResource(const char* name, Args... args)
         {
             ResourceId id{ xg::newGuid(), name };
             auto resource = ResourceLoader<Res>::Load(MakeResourceFilename(name), id, args...);
-            _idToResource[id] = resource;
+            _idToResource[id] = resource->SharedBase();
+            return resource;
+        }
+
+        template <class Res, class ...Args>
+        shared_ptr<Res> CreateResource(const char* name, Args... args)
+        {
+            ResourceId id{ xg::newGuid(), name };
+            shared_ptr<Res> resource = std::make_shared<Res>(id, args...);
+            _idToResource[id] = resource->SharedBase();
             return resource;
         }
 
@@ -38,9 +46,9 @@ namespace Gambit
 
         string MakeResourceFilename(const char* name);
 
-        bool AddComponent(Object const&, ComponentPtr);
+        bool AddResource(Object const&, ResourceBasePtr);
 
-        std::set<ComponentPtr> const &GetComponets(Object const&);
+        std::vector<ResourceBasePtr> GetResources(Object const&);
 
 
 		/*

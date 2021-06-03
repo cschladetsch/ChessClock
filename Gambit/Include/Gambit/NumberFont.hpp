@@ -8,7 +8,7 @@ namespace Gambit
 {
     class NumberFont
         : public std::enable_shared_from_this<NumberFont> 
-        , ResourceBase
+        , public ResourceBase
     {
         typedef std::array<TexturePtr, 10> Digits;
 
@@ -21,5 +21,6 @@ namespace Gambit
 
         void DrawDigits(Renderer&, Rect const& destRect, char number) const;
         void MakeDigitsTextures(ResourceManager &, Renderer &, Color);
+
     };
 }

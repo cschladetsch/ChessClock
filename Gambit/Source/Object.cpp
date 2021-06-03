@@ -4,22 +4,21 @@
 
 namespace Gambit
 {
-    Object::Object(ResourceManager &rm, ResourceId const& resourceId)
+    Object::Object(ResourceManager& rm, ResourceId const& resourceId)
         : _resourceManager(&rm), _resourceId(resourceId)
     {
     }
 
-    void Object::AddComponent(ComponentPtr component)
+    void Object::AddResource(ResourceBasePtr resource)
     {
-        _resourceManager->AddComponent(*this, component);
     }
 
-    Object::Components const& Object::GetComponents() const
+    Object::Resources Object::GetResources() const
     {
         GAMBIT_NOT_IMPLEMENTED();
     }
 
-    Component const& Object::GetComponent(Guid const& guid) const
+    ResourceBasePtr Object::GetResource(Guid const& guid) const
     {
         GAMBIT_NOT_IMPLEMENTED();
     }
