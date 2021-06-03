@@ -25,7 +25,7 @@
 	url = https://github.com/cschladetsch/SDL_ttf.git
 [submodule "Gambit/ThirdParty/harfbuzz"]
 	path = Gambit/ThirdParty/harfbuzz
-	url = https://github.com/harfbuzz/harfbuzz.git
+	url = https://github.com/cschladetsch/harfbuzz.git
 [submodule "Gambit/ThirdParty/freetype2"]
 	path = Gambit/ThirdParty/freetype2
 	url = https://github.com/aseprite/freetype2.git
