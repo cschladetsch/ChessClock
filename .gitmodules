@@ -1,7 +1,7 @@
 
 [submodule "ChessClock-SDL/ThirdParty/SDL"]
 	path = Gambit/ThirdParty/SDL
-	url = https://github.com/libsdl-org/SDL.git
+	url = https://github.com/cschladetsch/SDL.git
 [submodule "ChessClock-SDL/ThirdParty/freetype-gl"]
 	path = ChessClock-SDL/ThirdParty/freetype-gl
 	url = https://github.com/rougier/freetype-gl.git
