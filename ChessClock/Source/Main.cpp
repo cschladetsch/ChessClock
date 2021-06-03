@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include "Gambit/Context.hpp"
-#include "Gambit/TestScene.hpp"
+#include "ChessClock/TestScene.hpp"
 
 using namespace Gambit;
 using namespace Gambit::TestScene;

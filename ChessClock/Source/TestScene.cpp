@@ -1,7 +1,7 @@
 #include "Gambit/Font.hpp"
 #include "Gambit/Texture.hpp"
-#include "Gambit/TestScene.hpp"
 #include "Gambit/NumberFont.hpp"
+#include "ChessClock/TestScene.hpp"
 
 namespace Gambit::TestScene
 {
