@@ -1,0 +1,17 @@
+#!/bin/bash
+
+cd build 
+
+cmake .. $*
+
+if [ "$OS" == "msys" ]; then
+	msbuild.exe *.sln
+else
+	make
+fi
+
+cd ../bin
+
+./run
+
+
