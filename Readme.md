@@ -12,13 +12,15 @@ This image is is a conceptual render of the final product. It only shows relativ
 
 ## Building
 
-Simply, `run`. 
+Simply, `./run` will build and run the app on either Windows10 or Raspberry Pi. Or anything else I think. 
 
 For more details:
 
 ```bash
 $ git clone https://github.com/cschladetsch/ChessClock.git
 $ cd ChessClock
+$ git submodule init
+$ git submodule update --recursive
 $ mkdir build && cd build && cmake ..
 ```
 
