@@ -77,6 +77,20 @@ namespace ChessClock
         {
             switch (event.type)
             {
+                case SDL_MOUSEBUTTONDOWN:
+                {
+                    switch (event.button.button)
+                    {
+                        case SDL_BUTTON_LEFT:
+                        {
+                            Vector2 where{ event.button.x, event.button.y };
+                            LOG_INFO() << "Pressed " << where << "\n";
+                            break;
+                        }
+                    }
+                    break;
+                }
+
                 case SDL_KEYDOWN:
                 {
                     switch (event.key.keysym.sym)

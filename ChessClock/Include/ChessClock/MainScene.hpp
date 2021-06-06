@@ -17,6 +17,7 @@ namespace ChessClock
 
         bool Setup(Context &);
         bool ProcessEvents(Context &);
+
         bool StepWriteText(Context &);
         bool StepPresent(Context &);
         bool StepWriteTimers(Context& ctx);

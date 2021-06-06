@@ -40,5 +40,10 @@ namespace Gambit
         {
             return SDL_sqrtf((float)(other.x * x + other.y * y));
         }
+
+        friend std::ostream& operator<<(std::ostream& out, const Vector2 &vec)
+        {
+            return out << "[ " << vec.x << ", " << vec.y << " ]";
+        }
     };
 }
