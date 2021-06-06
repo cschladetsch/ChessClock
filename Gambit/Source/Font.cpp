@@ -17,7 +17,7 @@ namespace Gambit
         TTF_CloseFont(font);
     }
 
-    TexturePtr Font::DrawText(ResourceManager &rm, Renderer &renderer, const char *text, SDL_Color color) const
+    TexturePtr Font::CreateTexture(ResourceManager &rm, Renderer &renderer, const char *text, SDL_Color color) const
     {
         // TODO: cache
         SDL_Surface *surface = TTF_RenderText_Solid(const_cast<_TTF_Font *>(&Get()), text, color);

@@ -56,10 +56,10 @@ namespace Gambit
         for (auto n = 0; n < 10; ++n)
         {
             itoa(n, number, 10);
-            _digits[n] = _font->DrawText(rm, renderer, number, sdlColor);
+            _digits[n] = _font->CreateTexture(rm, renderer, number, sdlColor);
         }
 
-        _colon = _font->DrawText(rm, renderer, ":", sdlColor);
+        _colon = _font->CreateTexture(rm, renderer, ":", sdlColor);
 
         _rectColon = _colon->GetBounds();
         _rectDigit = _digits[0]->GetBounds();

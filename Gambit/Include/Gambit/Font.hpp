@@ -27,6 +27,6 @@ namespace Gambit
 
         static FontPtr LoadFont(std::string const& fileName, ResourceId const &id, int pointSize);
 
-        TexturePtr DrawText(ResourceManager &, Renderer &, const char *text, SDL_Color color) const;
+        TexturePtr CreateTexture(ResourceManager &, Renderer &, const char *text, SDL_Color color) const;
     };
 }

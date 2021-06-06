@@ -33,7 +33,7 @@ namespace ChessClock::TestScene
         values.background = resources.LoadResource<Texture>("sample.bmp", &renderer, 800, 480);
         values.numberFont = resources.CreateResource<NumberFont>("Numbers", values.font);
         values.numberFont->MakeTextures(resources, renderer, Color{ 255,255,0 });
-        values.text = ctx.values->font->DrawText(resources, renderer, "Hello world", { 255,255,255 });
+        values.text = ctx.values->font->CreateTexture(resources, renderer, "Hello world", { 255,255,255 });
         values.bounds = ctx.values->text->GetBounds();
 
         ctx.steps.push_back(StepWriteBackground);
@@ -46,7 +46,8 @@ namespace ChessClock::TestScene
 
     bool Step(Context<Values> &ctx)
     {
-        return ctx.renderer.Clear();
+        //return ctx.renderer.Clear();
+        return true;
     }
 
     bool StepWriteBackground(Ctx &ctx)
@@ -65,7 +66,7 @@ namespace ChessClock::TestScene
         uint32_t millis = SDL_GetTicks();
         uint32_t seconds = millis / 1000;
         uint32_t minutes = seconds / 60;
-        ctx.values->numberFont->DrawTime(ctx.renderer, destPoint, minutes, seconds, millis);
+        ctx.values->numberFont->DrawTime(ctx.renderer, destPoint, minutes%60, seconds%60, millis%100);
         return true;
     }
 
