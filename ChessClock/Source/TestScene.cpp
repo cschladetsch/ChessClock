@@ -25,13 +25,14 @@ namespace Gambit::TestScene
 
         values.font = resources.LoadResource<Font>("AdobeFanHeitiStd-Bold.otf", 100);
         values.background = resources.LoadResource<Texture>("sample.bmp", &renderer, 800, 480);
-        //values.numberFont = resources.CreateResource<NumberFont>("Numbers", values.font);
-        //values.numberFont->MakeDigitsTextures(resources, renderer, Color{ 255,255,0 });
+        values.numberFont = resources.CreateResource<NumberFont>("Numbers", values.font);
+        values.numberFont->MakeDigitsTextures(resources, renderer, Color{ 255,255,0 });
         values.text = ctx.values->font->DrawText(resources, renderer, "Hello world", { 255,255,255 });
         values.bounds = ctx.values->text->GetBounds();
 
         ctx.steps.push_back(StepWriteBackground);
         ctx.steps.push_back(StepWriteText);
+        ctx.steps.push_back(StepWriteTimers);
         ctx.steps.push_back(StepPresent);
 
         return true;
@@ -50,6 +51,15 @@ namespace Gambit::TestScene
     bool StepWriteText(Ctx &ctx)
     {
         return ctx.renderer.WriteTexture(ctx.values->text, nullptr, &ctx.values->bounds);
+    }
+
+    bool StepWriteTimers(Ctx &ctx)
+    {
+        Vector2 destPoint{ 100, 100 };
+        uint32_t millis = SDL_GetTicks();
+        char number = (char)(millis / 1000);
+        ctx.values->numberFont->DrawDigits(ctx.renderer, destPoint, number);
+        return true;
     }
 
     bool StepPresent(Ctx &ctx)

@@ -7,10 +7,10 @@
 namespace Gambit
 {
     class NumberFont
-        : public std::enable_shared_from_this<NumberFont> 
-        , public ResourceBase
+        : public ResourceBase
     {
         typedef std::array<TexturePtr, 10> Digits;
+        static inline Logger _log{ "NumberFont" };
 
         Digits _digits;
         Rect _rectDigit;
@@ -19,8 +19,9 @@ namespace Gambit
     public:
         NumberFont(ResourceId const& id, FontPtr font);
 
-        void DrawDigits(Renderer&, Rect const& destRect, char number) const;
         void MakeDigitsTextures(ResourceManager &, Renderer &, Color);
 
+        void DrawDigits(Renderer&, Vector2 const& topLeft, char number) const;
+        void DrawDigits(Renderer&, Rect const& destRect, char number) const;
     };
 }

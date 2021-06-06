@@ -13,6 +13,7 @@ namespace Gambit::TestScene
     bool ProcessEvents(Ctx &);
     bool StepWriteText(Ctx &);
     bool StepPresent(Ctx &);
+    bool StepWriteTimers(Ctx& ctx);
     bool StepWriteBackground(Ctx& ctx);
 }
 

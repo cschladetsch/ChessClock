@@ -1,6 +1,7 @@
 #pragma once
 
 #include <set>
+#include <fstream>
 #include <unordered_map>
 
 #include "Gambit/Resource.hpp"
@@ -28,7 +29,12 @@ namespace Gambit
         shared_ptr<Res> LoadResource(const char* name, Args... args)
         {
             ResourceId id{ xg::newGuid(), name };
-            auto resource = ResourceLoader<Res>::Load(MakeResourceFilename(name), id, args...);
+            auto fileName = MakeResourceFilename(name);
+            auto resource = ResourceLoader<Res>::Load(fileName, id, args...);
+            if (!resource)
+            {
+                return 0;
+            }
             _idToResource[id] = resource->SharedBase();
             return resource;
         }
@@ -38,6 +44,11 @@ namespace Gambit
         {
             ResourceId id{ xg::newGuid(), name };
             shared_ptr<Res> resource = std::make_shared<Res>(id, args...);
+            if (!resource)
+            {
+                LOG_ERROR() << "Failed to make resource type `" << NAMEOF_TYPE(Res) << " from resource " << name << "\n";
+                return 0;
+            }
             _idToResource[id] = resource->SharedBase();
             return resource;
         }
