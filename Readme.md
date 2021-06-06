@@ -58,16 +58,20 @@ This is a key component of the project. If this doesn't feel/work well, the proj
 
 #### Switches
 
-Want micro-switch at the end of travel:
-
-![RockerSwitch](External/RockerSwitch.png)
+Want micro-switch at the end of travel. Based on magnets.
 
 ## Connecting ADB
+It's better to use [VNC](https://www.realvnc.com/en/connect/download/viewer/).
 
+But there are other ways to interact with the Pi:
 ```bash
 $ adb connect ip-address:5555 # find the ip-address on Pi/About settings
 ```
 
+Or using `ssh`
+```bash
+# ssh pi@your.pi.address:5555
+```
 ## Art
 
 Various art assets will be required, such as:
