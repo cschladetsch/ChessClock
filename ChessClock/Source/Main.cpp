@@ -15,7 +15,7 @@ int main(int argc, char** argv)
     }
 
     ChessClock::MainScene scene;
-    typedef ChessClock::MainScene::Ctx Ctx;
+    typedef ChessClock::MainScene::Context Ctx;
 
     return Ctx(argv[1],
         [&scene](Ctx& ctx) { return scene.Setup(ctx); },

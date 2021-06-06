@@ -18,7 +18,7 @@ namespace ChessClock
         Game game;
     };
 
-    bool MainScene::Setup(Ctx& ctx)
+    bool MainScene::Setup(Context& ctx)
     {
         ctx.values = std::make_shared<Values>();
         Renderer& renderer = ctx.renderer;
@@ -40,22 +40,22 @@ namespace ChessClock
         return true;
     }
 
-    void MainScene::AddStep(Ctx& ctx, bool(MainScene::* method)(Ctx&))
+    void MainScene::AddStep(Context& ctx, bool(MainScene::* method)(Context&))
     {
         ctx.steps.push_back([this, method](auto& ctx) { return (this->*method)(ctx); });
     }
 
-    bool MainScene::StepWriteBackground(Ctx &ctx)
+    bool MainScene::StepWriteBackground(Context &ctx)
     {
         return ctx.renderer.WriteTexture(ctx.values->background, nullptr, nullptr);
     }
 
-    bool MainScene::StepWriteText(Ctx &ctx)
+    bool MainScene::StepWriteText(Context &ctx)
     {
         return ctx.renderer.WriteTexture(ctx.values->text, nullptr, &ctx.values->textBounds);
     }
 
-    bool MainScene::StepWriteTimers(Ctx &ctx)
+    bool MainScene::StepWriteTimers(Context &ctx)
     {
         Vector2 destPoint{ 100, 100 };
         uint32_t millis = SDL_GetTicks();
@@ -65,12 +65,12 @@ namespace ChessClock
         return true;
     }
 
-    bool MainScene::StepPresent(Ctx &ctx)
+    bool MainScene::StepPresent(Context &ctx)
     {
         return ctx.renderer.Present();
     }
 
-    bool MainScene::ProcessEvents(Ctx &ctx)
+    bool MainScene::ProcessEvents(Context &ctx)
     {
         SDL_Event event;
         while (SDL_PollEvent(&event))
@@ -83,6 +83,7 @@ namespace ChessClock
                     {
                         case SDLK_ESCAPE:
                         {
+                            LOG_INFO() << "Pressed Escape\n";
                             exit(0);
                             return false;
                         }

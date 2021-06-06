@@ -11,19 +11,19 @@ namespace ChessClock
 
     public:
         struct Values;
-        typedef Gambit::Context<Values> Ctx;
+        typedef Gambit::Context<Values> Context;
 
         MainScene() = default;
 
-        bool Setup(Ctx &);
-        bool ProcessEvents(Ctx &);
-        bool StepWriteText(Ctx &);
-        bool StepPresent(Ctx &);
-        bool StepWriteTimers(Ctx& ctx);
-        bool StepWriteBackground(Ctx& ctx);
+        bool Setup(Context &);
+        bool ProcessEvents(Context &);
+        bool StepWriteText(Context &);
+        bool StepPresent(Context &);
+        bool StepWriteTimers(Context& ctx);
+        bool StepWriteBackground(Context& ctx);
 
     protected:
-        void AddStep(Ctx&, bool(MainScene::*method)(Ctx&));
+        void AddStep(Context&, bool(MainScene::*method)(Context&));
     };
 }
 
