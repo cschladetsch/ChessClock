@@ -49,13 +49,20 @@ namespace Gambit
 
     }
 
+    std::string itos(int n)
+    {
+	   const int max_size = std::numeric_limits<int>::digits10 + 1 /*sign*/ + 1 /*0-terminator*/;
+	   char buffer[max_size] = {0};
+	   sprintf(buffer, "%d", n);
+	   return std::string(buffer);
+    }
+
     void NumberFont::MakeTextures(ResourceManager &rm, Renderer &renderer, Color color)
     {
-        char number[2];
         for (auto n = 0; n < 10; ++n)
         {
-            itoa(n, number, 10);
-            _digits[n] = _font->CreateTexture(rm, renderer, number, color);
+            auto str = itos(n);
+            _digits[n] = _font->CreateTexture(rm, renderer, str.c_str(), color);
         }
 
         _colon = _font->CreateTexture(rm, renderer, ":", color);
