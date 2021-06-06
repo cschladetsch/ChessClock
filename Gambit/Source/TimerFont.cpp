@@ -1,4 +1,4 @@
-#include "Gambit/NumberFont.hpp"
+#include "Gambit/TimerFont.hpp"
 #include "Gambit/Color.hpp"
 #include "Gambit/Renderer.hpp"
 #include "Gambit/Texture.hpp"

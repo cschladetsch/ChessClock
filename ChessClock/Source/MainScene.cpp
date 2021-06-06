@@ -1,5 +1,5 @@
 #include "Gambit/Texture.hpp"
-#include "Gambit/NumberFont.hpp"
+#include "Gambit/TimerFont.hpp"
 
 #include "ChessClock/MainScene.hpp"
 #include "ChessClock/Game.hpp"
