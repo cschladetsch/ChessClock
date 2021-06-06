@@ -6,6 +6,7 @@
 .idea
 cmake-build-debug
 cmake-build-release
+tags*
 
 /bin
 sample.bmp
