@@ -1,7 +1,6 @@
 #define SDL_MAIN_HANDLED
 
 #include <iostream>
-#include "Gambit/Context.hpp"
 #include "ChessClock/MainScene.hpp"
 
 using namespace Gambit;

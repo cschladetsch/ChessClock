@@ -20,34 +20,35 @@ namespace ChessClock
 
     void Game::RegisterCallbacks()
     {
-        _callbacks["PressedLeft"] = [this]() { return this->PressedLeft(); };
-        _callbacks["PressedRight"] = [this]() { return this->PressedRight(); };
-        _callbacks["PressedPause"] = [this]() { return this->PressedPause(); };
-        _callbacks["PressedSettings"] = [this]() { return this->PressedSettings(); };
-        _callbacks["PressedSound"] = [this]() { return this->PressedSound(); };
+        _callbacks["Left"] = [this]() { return this->Left(); };
+        _callbacks["Right"] = [this]() { return this->Right(); };
+        _callbacks["Pause"] = [this]() { return this->Pause(); };
+        _callbacks["Settings"] = [this]() { return this->Settings(); };
+        _callbacks["Sound"] = [this]() { return this->Sound(); };
     }
 
-    void Game::PressedLeft()
+    void Game::Left()
     {
+        LOG_INFO() << "Left\n";
     }
 
-    void Game::PressedRight()
+    void Game::Right()
     {
+        LOG_INFO() << "Right\n";
     }
 
-    void Game::PressedSettings()
+    void Game::Settings()
     {
+        LOG_INFO() << "Settings\n";
     }
 
-    void Game::PressedPause()
+    void Game::Pause()
     {
+        LOG_INFO() << "Pause\n";
     }
 
-    void Game::PressedSetup()
+    void Game::Sound()
     {
-    }
-
-    void Game::PressedSound()
-    {
+        LOG_INFO() << "Sound\n";
     }
 }

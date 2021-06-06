@@ -27,18 +27,18 @@ namespace ChessClock
     class Game
         : public UiCallBacks
     {
+        static inline Logger _log{ "Game " };
         Player playerLeft, playerRight;
 
     public:
         Game();
 
-        void PressedLeft();
-        void PressedRight();
+        void Left();
+        void Right();
 
-        void PressedSettings();
-        void PressedPause();
-        void PressedSetup();
-        void PressedSound();
+        void Settings();
+        void Pause();
+        void Sound();
 
     private:
         void RegisterCallbacks();
