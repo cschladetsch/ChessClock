@@ -2,6 +2,7 @@
 #include "Gambit/Color.hpp"
 #include "Gambit/Renderer.hpp"
 #include "Gambit/Texture.hpp"
+#include "Gambit/Vector2.hpp"
 #include "Gambit/ThirdParty/SDL.hpp"
 
 namespace Gambit
@@ -11,11 +12,7 @@ namespace Gambit
     {
     }
 
-    void TimerFont::DrawTime(Renderer&, Vector2 topLeft, uint8_t minutes, uint8_t seconds) const
-    {
-    }
-
-    void TimerFont::DrawTime(Renderer &renderer, Vector2 topLeft, uint8_t minutes, uint8_t seconds, uint8_t millis) const
+    Vector2 TimerFont::DrawTime(Renderer &renderer, Vector2 topLeft, uint8_t minutes, uint8_t seconds) const
     {
         DrawDigitPair(renderer, topLeft, minutes);
         topLeft.x += _rectDigit.width * 2;
@@ -23,22 +20,29 @@ namespace Gambit
         topLeft.x += _rectColon.width;
         DrawDigitPair(renderer, topLeft, seconds);
         topLeft.x += _rectDigit.width * 2;
-        DrawColon(renderer, topLeft);
-        topLeft.x += _rectColon.width;
-        DrawDigitPair(renderer, topLeft, millis);
+        return topLeft;
     }
 
-    void TimerFont::DrawColon(Renderer &renderer, Vector2 const& topLeft) const
+    Vector2 TimerFont::DrawTime(Renderer &renderer, Vector2 topLeft, uint8_t minutes, uint8_t seconds, uint8_t millis) const
+    {
+        topLeft = DrawTime(renderer, topLeft, minutes, seconds);
+        DrawColon(renderer, topLeft);
+        topLeft.x += _rectColon.width;
+        return DrawDigitPair(renderer, topLeft, millis);
+    }
+
+    Vector2 TimerFont::DrawColon(Renderer &renderer, Vector2 const& topLeft) const
     {
         Rect rect{ topLeft.x, topLeft.y, _rectColon.width, _rectColon.height };
         renderer.WriteTexture(_colon, nullptr, &rect);
+        return topLeft + Vector2(_rectColon.left + topLeft.x, topLeft.y);
     }
 
-    void TimerFont::DrawDigitPair(Renderer &renderer, Vector2 const& topleft, uint8_t number) const
+    Vector2 TimerFont::DrawDigitPair(Renderer &renderer, Vector2 const& topleft, uint8_t number) const
     {
         if (number > 99)
         {
-            LOG_WARN() << "attempt to draw number with value " << number << "\n";
+            LOG_WARN() << "attempt to two-digit draw number with value " << number << "\n";
         }
 
         number %= 100;
@@ -52,6 +56,7 @@ namespace Gambit
         renderer.WriteTexture(_digits[digit0], nullptr, &firstDigit);
         renderer.WriteTexture(_digits[digit1], nullptr, &secondDigit);
 
+        return Vector2(secondDigit.left + _rectDigit.width*2, _rectDigit.height);
     }
 
     std::string itos(int n)
