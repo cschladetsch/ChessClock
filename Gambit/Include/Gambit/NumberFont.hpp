@@ -14,14 +14,20 @@ namespace Gambit
 
         Digits _digits;
         Rect _rectDigit;
+        Rect _rectColon;
         FontPtr _font;
+        TexturePtr _colon;
 
     public:
         NumberFont(ResourceId const& id, FontPtr font);
 
-        void MakeDigitsTextures(ResourceManager &, Renderer &, Color);
+        void MakeTextures(ResourceManager &, Renderer &, Color);
 
-        void DrawDigits(Renderer&, Vector2 const& topLeft, char number) const;
-        void DrawDigits(Renderer&, Rect const& destRect, char number) const;
+        void DrawTime(Renderer &, Vector2 topLeft, uint8_t minutes, uint8_t seconds) const;
+        void DrawTime(Renderer &, Vector2 topLeft, uint8_t minutes, uint8_t seconds, uint8_t millis) const;
+
+    private:
+        void DrawDigitPair(Renderer &, Vector2 const &topLeft, uint8_t number) const;
+        void DrawColon(Renderer &, Vector2 const &topLeft) const;
     };
 }

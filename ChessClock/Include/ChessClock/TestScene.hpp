@@ -2,11 +2,11 @@
 
 #include "Gambit/Context.hpp"
 
-namespace Gambit::TestScene
+namespace ChessClock::TestScene
 {
     struct Values;
 
-    typedef Context<Values> Ctx;
+    typedef Gambit::Context<Values> Ctx;
 
     bool Setup(Ctx &);
     bool Step(Ctx &);

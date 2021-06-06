@@ -48,6 +48,11 @@ namespace Gambit
             SDL_Quit();
         }
 
+        float GetSecondsSinceStart()
+        {
+            return SDL_GetTicks() / 1000.0f;
+        }
+
         void CreateRenderer()
         {
             if (!renderer.Construct("Chess Clock"))

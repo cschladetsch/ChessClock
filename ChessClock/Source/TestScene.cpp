@@ -1,10 +1,14 @@
 #include "Gambit/Font.hpp"
 #include "Gambit/Texture.hpp"
 #include "Gambit/NumberFont.hpp"
-#include "ChessClock/TestScene.hpp"
 
-namespace Gambit::TestScene
+#include "ChessClock/TestScene.hpp"
+#include "ChessClock/Game.hpp"
+
+namespace ChessClock::TestScene
 {
+    using namespace Gambit;
+
     Logger _log{ "Scene" };
 
     struct Values
@@ -14,6 +18,8 @@ namespace Gambit::TestScene
         TexturePtr text;
         NumberFontPtr numberFont;
         Rect bounds;
+
+        Game game;
     };
 
     bool Setup(Context<Values> &ctx)
@@ -26,7 +32,7 @@ namespace Gambit::TestScene
         values.font = resources.LoadResource<Font>("AdobeFanHeitiStd-Bold.otf", 100);
         values.background = resources.LoadResource<Texture>("sample.bmp", &renderer, 800, 480);
         values.numberFont = resources.CreateResource<NumberFont>("Numbers", values.font);
-        values.numberFont->MakeDigitsTextures(resources, renderer, Color{ 255,255,0 });
+        values.numberFont->MakeTextures(resources, renderer, Color{ 255,255,0 });
         values.text = ctx.values->font->DrawText(resources, renderer, "Hello world", { 255,255,255 });
         values.bounds = ctx.values->text->GetBounds();
 
@@ -57,8 +63,9 @@ namespace Gambit::TestScene
     {
         Vector2 destPoint{ 100, 100 };
         uint32_t millis = SDL_GetTicks();
-        char number = (char)(millis / 1000);
-        ctx.values->numberFont->DrawDigits(ctx.renderer, destPoint, number);
+        uint32_t seconds = millis / 1000;
+        uint32_t minutes = seconds / 60;
+        ctx.values->numberFont->DrawTime(ctx.renderer, destPoint, minutes, seconds, millis);
         return true;
     }
 

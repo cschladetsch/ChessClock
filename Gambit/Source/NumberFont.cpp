@@ -11,46 +11,57 @@ namespace Gambit
     {
     }
 
-    void NumberFont::DrawDigits(Renderer& renderer, Vector2 const& topleft, char number) const
+    void NumberFont::DrawTime(Renderer&, Vector2 topLeft, uint8_t minutes, uint8_t seconds) const
     {
-        DrawDigits(renderer, Rect{ (int)topleft.x, (int)topleft.y, _rectDigit.width * 2, _rectDigit.height }, number);
     }
 
-    void NumberFont::DrawDigits(Renderer &renderer, Rect const& rect, char number) const
+    void NumberFont::DrawTime(Renderer &renderer, Vector2 topLeft, uint8_t minutes, uint8_t seconds, uint8_t millis) const
     {
-        auto halfWidth = rect.width / 2;
-        Rect firstDigit { rect.left, rect.top, halfWidth, rect.height };
-        Rect secondDigit { rect.left + halfWidth, rect.top, halfWidth, rect.height };
+        DrawDigitPair(renderer, topLeft, minutes);
+        topLeft.x += _rectDigit.width * 2;
+        DrawColon(renderer, topLeft);
+        topLeft.x += _rectColon.width;
+        DrawDigitPair(renderer, topLeft, seconds);
+        topLeft.x += _rectDigit.width * 2;
+        DrawColon(renderer, topLeft);
+        topLeft.x += _rectColon.width;
+        DrawDigitPair(renderer, topLeft, millis);
+    }
+
+    void NumberFont::DrawColon(Renderer &renderer, Vector2 const& topLeft) const
+    {
+        Rect rect{ (int)topLeft.x, (int)topLeft.y, _rectColon.width, _rectColon.height };
+        renderer.WriteTexture(_colon, nullptr, &rect);
+    }
+
+    void NumberFont::DrawDigitPair(Renderer &renderer, Vector2 const& topleft, uint8_t number) const
+    {
+        number %= 100;
+
+        Rect firstDigit{ (int)topleft.x, (int)topleft.y, _rectDigit.width, _rectDigit.height };
+        Rect secondDigit{ (int)topleft.x + (int)_rectDigit.width, (int)topleft.y, _rectDigit.width, _rectDigit.height };
         
         auto digit0 = number / 10;
         auto digit1 = number % 10;
 
         renderer.WriteTexture(_digits[digit0], nullptr, &firstDigit);
         renderer.WriteTexture(_digits[digit1], nullptr, &secondDigit);
+
     }
 
-    void NumberFont::MakeDigitsTextures(ResourceManager &rm, Renderer &renderer, Color color)
+    void NumberFont::MakeTextures(ResourceManager &rm, Renderer &renderer, Color color)
     {
         char number[2];
+        SDL_Color sdlColor{ color.red, color.green, color.blue };
         for (auto n = 0; n < 10; ++n)
         {
             itoa(n, number, 10);
-            _digits[n] = _font->DrawText(rm, renderer, number, { color.red, color.green, color.blue });
-            int width, height;
-            SDL_QueryTexture(&_digits[n]->Get(), 0, 0, &width, &height);
+            _digits[n] = _font->DrawText(rm, renderer, number, sdlColor);
         }
 
-        int width, height;
-        SDL_QueryTexture(&_digits[0]->Get(), 0, 0, &width, &height);
-        for (auto n = 0; n < 10; ++n)
-        {
-            int w, h;
-            SDL_QueryTexture(&_digits[n]->Get(), 0, 0, &w, &h);
-            if (width != w || height != h)
-            {
-                LOG_WARN() << " not using fixed-width font\n";
-            }
-        }
-        _rectDigit = { 0,0,width,height };
+        _colon = _font->DrawText(rm, renderer, ":", sdlColor);
+
+        _rectColon = _colon->GetBounds();
+        _rectDigit = _digits[0]->GetBounds();
     }
 }
