@@ -52,14 +52,13 @@ namespace Gambit
     void NumberFont::MakeTextures(ResourceManager &rm, Renderer &renderer, Color color)
     {
         char number[2];
-        SDL_Color sdlColor{ color.red, color.green, color.blue };
         for (auto n = 0; n < 10; ++n)
         {
             itoa(n, number, 10);
-            _digits[n] = _font->CreateTexture(rm, renderer, number, sdlColor);
+            _digits[n] = _font->CreateTexture(rm, renderer, number, color);
         }
 
-        _colon = _font->CreateTexture(rm, renderer, ":", sdlColor);
+        _colon = _font->CreateTexture(rm, renderer, ":", color);
 
         _rectColon = _colon->GetBounds();
         _rectDigit = _digits[0]->GetBounds();

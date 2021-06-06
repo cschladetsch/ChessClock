@@ -1,0 +1,55 @@
+{
+    "root" : "folder_name",                 // root folder of the skin's resources
+    "atlas" : "atlas_name",                 // default to ${folder_name}/atlas.png, can be overridden
+    "sprites" : "sprites_name",             // default to ${folder_name}/sprites.json', can be overridden
+    "timer_font": [ "font_name", size ],    // must be fixed-width
+    "name_font": [ "font_name", size ],     // can be variable-width
+
+    "background": "sprite_name",
+
+    "pause_button": {
+        "layer": 1,
+        "background": {                     // treated as a sprite
+            "name": "sprite_name",
+            "destination": [ 100, 100, 100, 100 ], // target location. if 2d, just place sprite
+            "tint": [ 80, 80, 120 ]
+        },
+        "image": {      // treated as a sprite
+            "name": "other_sprite_name",
+            "destination": [ 100, 100, 100, 100 ], // target location. if 2d, just place sprite
+            "tint": [ 80, 80, 120 ]
+        },
+        "callback": "PausedPressed"         // callback to C++ code
+    },
+    "settings_button": {
+        // ...
+    },
+    "play_button": {
+        // ...
+    },
+
+    "left_name":
+    {
+        "destination": [ 10, 10 ]
+    },
+    "right_name": 
+    {
+        "destination": [ -300, 10 ]
+    },
+    "timers": {
+        "on": {
+            "back_tint": [r,g,b],
+            "fore_tint": [r,g,b]
+        },
+        "off": {
+            "back_tint": [r,g,b],
+            "fore_tint": [r,g,b]
+        },
+        "left": {
+            "destination": [ 100, 300],     // top-left of timer
+        },
+        "right": {
+            "destination": [ -500, 300],     // top-left of timer
+        }
+    }
+}

@@ -1,0 +1,82 @@
+{
+   "background": 
+	{
+		"type" : "sprite",
+        "location": [ 0, 0, 800, 480 ]
+    }
+	
+	"pawn_black": 
+	{
+		"type" : "sprite",
+		"location": [ 800, 0, 32, 64 ]
+    }
+	
+	"pawn_white": 
+	{
+		"type" : "sprite",
+		"location": [ 832, 0, 32, 64 ]
+    }
+	
+	"king_white": 
+	{
+		"type" : "sprite",
+		"location": [ 864, 16, 80, 80 ]
+    }
+	
+	"king_black": 
+	{
+		"type" : "sprite",
+		"location": [ 864, 16, 80, 80 ]
+    }
+	
+	"icon_resume": 
+	{
+		"type" : "sprite",
+		"location": [ 800, 96, 48, 80 ]
+    }
+	
+	"icon_pause": 
+	{
+		"type" : "sprite",
+		"location": [ 848, 96, 48, 80 ]
+    }
+	
+	"icon_settings": 
+	{
+		"type" : "sprite",
+		"location": [ 904, 96, 88, 88 ]
+    }
+	
+	"icon_sound": 
+	{
+		"type" : "sprite",
+		"location": [ 904, 96, 88, 88 ]
+    }
+	
+	"clock_face_colored": 
+	{
+		"type" : "sprite",
+		"location": [ 0, 480, 388, 208 ]
+    }
+	
+	"button_side_colored": 
+	{
+		"type" : "sprite",
+		"location": [ 388, 480, 248, 128 ]
+    }
+	
+	"button_middle_colored": 
+	{
+		"type" : "sprite",
+		"location": [ 0, 688, 272, 128 ]
+    }
+	
+	"colors":
+	{
+		"type" : "tint_list",
+		"active_player" : [ 56, 71, 34 ],
+		"low_time_inactive" : [ 80, 40, 38 0 ],
+		"low_time_active" : [ 121, 44, 42 ],
+		"button_pressed" : [ 48, 46, 44 ]
+	}
+}

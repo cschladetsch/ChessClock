@@ -2,6 +2,8 @@
 
 #include "Gambit/Resource.hpp"
 #include "Gambit/Vector2.hpp"
+#include "Gambit/Color.hpp"
+#include "Gambit/Detail/HashStringColorPair.hpp"
 
 namespace Gambit
 {
@@ -9,6 +11,10 @@ namespace Gambit
         : public Resource<_TTF_Font>
     {
         static inline Logger _log{ "Font" };
+
+        typedef std::unordered_map<std::pair<string, Color>, TexturePtr> Cache;
+
+        mutable Cache _cache;
 
     public:
         Font(ResourceId const &id, _TTF_Font *font)
@@ -27,6 +33,7 @@ namespace Gambit
 
         static FontPtr LoadFont(std::string const& fileName, ResourceId const &id, int pointSize);
 
-        TexturePtr CreateTexture(ResourceManager &, Renderer &, const char *text, SDL_Color color) const;
+        virtual TexturePtr CreateTexture(ResourceManager &, Renderer &, std::string const &text, Color color) const;
     };
 }
+

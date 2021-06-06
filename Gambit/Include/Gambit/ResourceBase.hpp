@@ -17,6 +17,7 @@ namespace Gambit
         std::string GetName() const { return _resourceId.GetName(); }
         ResourceId const& GetResourceId() const { return _resourceId; }
 
+    public:
         ResourceBase() { }
         ResourceBase(ResourceId resourceId)
             : _resourceId(resourceId) { }

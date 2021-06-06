@@ -6,7 +6,8 @@
 namespace Gambit
 {
     template <class Ty>
-    class Resource : public ResourceBase
+    class Resource
+        : public ResourceBase
     {
         typedef Ty Type;
 
