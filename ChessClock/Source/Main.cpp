@@ -5,7 +5,6 @@
 #include "ChessClock/TestScene.hpp"
 
 using namespace Gambit;
-using namespace ChessClock::TestScene;
 
 int main(int argc, char** argv)
 {
@@ -15,6 +14,13 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    return Context<Values>(argv[1], Setup, Step, ProcessEvents).Run();
+    ChessClock::MainScene scene;
+    typedef ChessClock::MainScene::Ctx Ctx;
+
+    return Ctx(argv[1],
+        [&scene](Ctx& ctx) { return scene.Setup(ctx); },
+        [&scene](Ctx& ctx) { return scene.Step(ctx); },
+        [&scene](Ctx& ctx) { return scene.ProcessEvents(ctx); })
+        .Run();
 }
 
