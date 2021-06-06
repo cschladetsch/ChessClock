@@ -6,16 +6,16 @@
 
 namespace Gambit
 {
-    NumberFont::NumberFont(ResourceId const& id, FontPtr font)
+    TimerFont::TimerFont(ResourceId const& id, FontPtr font)
         : ResourceBase(id), _font(font)
     {
     }
 
-    void NumberFont::DrawTime(Renderer&, Vector2 topLeft, uint8_t minutes, uint8_t seconds) const
+    void TimerFont::DrawTime(Renderer&, Vector2 topLeft, uint8_t minutes, uint8_t seconds) const
     {
     }
 
-    void NumberFont::DrawTime(Renderer &renderer, Vector2 topLeft, uint8_t minutes, uint8_t seconds, uint8_t millis) const
+    void TimerFont::DrawTime(Renderer &renderer, Vector2 topLeft, uint8_t minutes, uint8_t seconds, uint8_t millis) const
     {
         DrawDigitPair(renderer, topLeft, minutes);
         topLeft.x += _rectDigit.width * 2;
@@ -28,14 +28,19 @@ namespace Gambit
         DrawDigitPair(renderer, topLeft, millis);
     }
 
-    void NumberFont::DrawColon(Renderer &renderer, Vector2 const& topLeft) const
+    void TimerFont::DrawColon(Renderer &renderer, Vector2 const& topLeft) const
     {
         Rect rect{ topLeft.x, topLeft.y, _rectColon.width, _rectColon.height };
         renderer.WriteTexture(_colon, nullptr, &rect);
     }
 
-    void NumberFont::DrawDigitPair(Renderer &renderer, Vector2 const& topleft, uint8_t number) const
+    void TimerFont::DrawDigitPair(Renderer &renderer, Vector2 const& topleft, uint8_t number) const
     {
+        if (number > 99)
+        {
+            LOG_WARN() << "attempt to draw number with value " << number << "\n";
+        }
+
         number %= 100;
 
         Rect firstDigit{ topleft.x, topleft.y, _rectDigit.width, _rectDigit.height };
@@ -51,23 +56,23 @@ namespace Gambit
 
     std::string itos(int n)
     {
-	   const int max_size = std::numeric_limits<int>::digits10 + 1 /*sign*/ + 1 /*0-terminator*/;
-	   char buffer[max_size] = {0};
-	   sprintf(buffer, "%d", n);
-	   return std::string(buffer);
+        constexpr int max_size = std::numeric_limits<int>::digits10 + 1 /*sign*/ + 1 /*0-terminator*/;
+        char buffer[max_size] = {0};
+        sprintf(buffer, "%d", n);
+        return std::string(buffer);
     }
 
-    void NumberFont::MakeTextures(ResourceManager &rm, Renderer &renderer, Color color)
+    void TimerFont::MakeTextures(ResourceManager &rm, Renderer &renderer, Color color)
     {
         for (auto n = 0; n < 10; ++n)
         {
             auto str = itos(n);
             _digits[n] = _font->CreateTexture(rm, renderer, str.c_str(), color);
         }
+        _rectDigit = _digits[0]->GetBounds();
 
         _colon = _font->CreateTexture(rm, renderer, ":", color);
-
         _rectColon = _colon->GetBounds();
-        _rectDigit = _digits[0]->GetBounds();
     }
 }
+

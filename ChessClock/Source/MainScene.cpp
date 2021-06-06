@@ -27,7 +27,7 @@ namespace ChessClock
 
         values.font = resources.LoadResource<Font>("AdobeFanHeitiStd-Bold.otf", 100);
         values.background = resources.LoadResource<Texture>("sample.bmp", &renderer, 800, 480);
-        values.numberFont = resources.CreateResource<NumberFont>("Numbers", values.font);
+        values.numberFont = resources.CreateResource<TimerFont>("Numbers", values.font);
         values.numberFont->MakeTextures(resources, renderer, Color{ 255,255,0 });
         values.text = values.font->CreateTexture(resources, renderer, "Hello world", { 255,255,255 });
         values.textBounds = values.text->GetBounds();

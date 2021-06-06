@@ -6,7 +6,7 @@
 
 namespace Gambit
 {
-    class NumberFont
+    class TimerFont
         : public ResourceBase
     {
         typedef std::array<TexturePtr, 10> Digits;
@@ -19,7 +19,7 @@ namespace Gambit
         TexturePtr _colon;
 
     public:
-        NumberFont(ResourceId const& id, FontPtr font);
+        TimerFont(ResourceId const& id, FontPtr font);
 
         void MakeTextures(ResourceManager &, Renderer &, Color);
 

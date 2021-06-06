@@ -26,7 +26,7 @@ namespace Gambit
 
     class Transform;
     class Font;
-    class NumberFont;
+    class TimerFont;
     class Texture;
     class Button;
     class Object;
@@ -35,7 +35,7 @@ namespace Gambit
     typedef shared_ptr<TextEntry> TextEntryPtr;
     typedef shared_ptr<Button> ButtonPtr;
     typedef shared_ptr<Font> FontPtr;
-    typedef shared_ptr<NumberFont> NumberFontPtr;
+    typedef shared_ptr<TimerFont> NumberFontPtr;
     typedef shared_ptr<Texture> TexturePtr;
     typedef shared_ptr<Object> ObjectPtr;
     typedef shared_ptr<ResourceBase> ResourceBasePtr;
