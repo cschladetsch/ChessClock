@@ -1,8 +1,11 @@
 #pragma once
 
 #include <memory>
-#include <string>
 #include <vector>
+#include <string>
+#include <iostream>
+#include <sstream>
+#include <functional>
 
 #include "Gambit/Config.hpp"
 

@@ -1,8 +1,6 @@
 #pragma once
 
-#include <string>
-#include <iostream>
-#include <sstream>
+#include "Gambit/ForwardReferences.hpp"
 
 namespace Gambit
 {
@@ -19,7 +17,7 @@ namespace Gambit
     class Logger
     {
         ELogLevel _logLevel;
-        std::string _source;
+        string _source;
         mutable std::stringstream _null;
 
     public:
