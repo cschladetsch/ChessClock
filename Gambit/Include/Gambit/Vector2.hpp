@@ -8,9 +8,9 @@ namespace Gambit
 
     struct Vector2
     {
-        float x, y;
+        int x, y;
 
-        Vector2(float x, float y)
+        Vector2(int x, int y)
         {
             this->x = x;
             this->y = y;
@@ -38,7 +38,7 @@ namespace Gambit
 
         float Distance(Vector2 const& other)
         {
-            return SDL_sqrtf(other.x * x + other.y * y);
+            return SDL_sqrtf((float)(other.x * x + other.y * y));
         }
     };
 }

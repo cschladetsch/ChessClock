@@ -30,7 +30,7 @@ namespace Gambit
 
     void NumberFont::DrawColon(Renderer &renderer, Vector2 const& topLeft) const
     {
-        Rect rect{ (int)topLeft.x, (int)topLeft.y, _rectColon.width, _rectColon.height };
+        Rect rect{ topLeft.x, topLeft.y, _rectColon.width, _rectColon.height };
         renderer.WriteTexture(_colon, nullptr, &rect);
     }
 
@@ -38,8 +38,8 @@ namespace Gambit
     {
         number %= 100;
 
-        Rect firstDigit{ (int)topleft.x, (int)topleft.y, _rectDigit.width, _rectDigit.height };
-        Rect secondDigit{ (int)topleft.x + (int)_rectDigit.width, (int)topleft.y, _rectDigit.width, _rectDigit.height };
+        Rect firstDigit{ topleft.x, topleft.y, _rectDigit.width, _rectDigit.height };
+        Rect secondDigit{ topleft.x + _rectDigit.width, topleft.y, _rectDigit.width, _rectDigit.height };
         
         auto digit0 = number / 10;
         auto digit1 = number % 10;

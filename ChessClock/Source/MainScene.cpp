@@ -1,4 +1,3 @@
-#include "Gambit/Font.hpp"
 #include "Gambit/Texture.hpp"
 #include "Gambit/NumberFont.hpp"
 
@@ -14,17 +13,16 @@ namespace ChessClock
         FontPtr font;
         TexturePtr background;
         TexturePtr text;
+        Rect textBounds;
         NumberFontPtr numberFont;
-        Rect bounds;
-
         Game game;
     };
 
-    bool MainScene::Setup(Ctx &ctx)
+    bool MainScene::Setup(Ctx& ctx)
     {
         ctx.values = std::make_shared<Values>();
-        Renderer &renderer = ctx.renderer;
-        ResourceManager &resources = ctx.resources;
+        Renderer& renderer = ctx.renderer;
+        ResourceManager& resources = ctx.resources;
         auto& values = *ctx.values;
 
         values.font = resources.LoadResource<Font>("AdobeFanHeitiStd-Bold.otf", 100);
@@ -32,20 +30,19 @@ namespace ChessClock
         values.numberFont = resources.CreateResource<NumberFont>("Numbers", values.font);
         values.numberFont->MakeTextures(resources, renderer, Color{ 255,255,0 });
         values.text = values.font->CreateTexture(resources, renderer, "Hello world", { 255,255,255 });
-        values.bounds = values.text->GetBounds();
+        values.textBounds = values.text->GetBounds();
 
-        ctx.steps.push_back([this](auto& ctx) { return MainScene::StepWriteBackground(ctx); });
-        ctx.steps.push_back([this](auto& ctx) { return MainScene::StepWriteText(ctx); });
-        ctx.steps.push_back([this](auto& ctx) { return MainScene::StepWriteTimers(ctx); });
-        ctx.steps.push_back([this](auto& ctx) { return MainScene::StepPresent(ctx); });
+        AddStep(ctx, &MainScene::StepWriteBackground);
+        AddStep(ctx, &MainScene::StepWriteText);
+        AddStep(ctx, &MainScene::StepWriteTimers);
+        AddStep(ctx, &MainScene::StepPresent);
 
         return true;
     }
 
-    bool MainScene::Step(Ctx &ctx)
+    void MainScene::AddStep(Ctx& ctx, bool(MainScene::* method)(Ctx&))
     {
-        //return ctx.renderer.Clear();
-        return true;
+        ctx.steps.push_back([this, method](auto& ctx) { return (this->*method)(ctx); });
     }
 
     bool MainScene::StepWriteBackground(Ctx &ctx)
@@ -55,7 +52,7 @@ namespace ChessClock
 
     bool MainScene::StepWriteText(Ctx &ctx)
     {
-        return ctx.renderer.WriteTexture(ctx.values->text, nullptr, &ctx.values->bounds);
+        return ctx.renderer.WriteTexture(ctx.values->text, nullptr, &ctx.values->textBounds);
     }
 
     bool MainScene::StepWriteTimers(Ctx &ctx)
