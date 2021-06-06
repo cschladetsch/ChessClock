@@ -14,7 +14,7 @@ namespace Gambit
         typedef std::function<bool(Context<Values> &) > ContextFunction;
 
     private:
-        Logger _log{ "Run" };
+        Logger _log{ "Context" };
 
     public:
         Renderer renderer;
@@ -30,14 +30,13 @@ namespace Gambit
             CreateRenderer();
         }
 
-        Context(const char* resourceFolder, ContextFunction setup, ContextFunction step, ContextFunction processEvents)
+        Context(const char* resourceFolder, ContextFunction setup, ContextFunction processEvents)
             : resources(renderer, resourceFolder)
         {
             CreateRenderer();
             TTF_Init();
 
             setup(*this);
-            steps.push_back(step);
             eventProcessors.push_back(processEvents);
         }
 

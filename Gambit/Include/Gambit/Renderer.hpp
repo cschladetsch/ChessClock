@@ -29,6 +29,7 @@ namespace Gambit
         bool Present();
 
         bool WriteTexture(TexturePtr texture, Rect const *source, Rect const *dest) const;
+        bool WriteTexture(TexturePtr texture, Vector2 const &topLeft) const;
     };
 }
 

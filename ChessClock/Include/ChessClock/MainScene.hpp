@@ -7,7 +7,7 @@ namespace ChessClock
 {
     class MainScene
     {
-        static inline Gambit::Logger _log{ "Scene" };
+        static inline Gambit::Logger _log{ "MainScene" };
 
     public:
         struct Values;

@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include "Gambit/Context.hpp"
-#include "ChessClock/TestScene.hpp"
+#include "ChessClock/MainScene.hpp"
 
 using namespace Gambit;
 
@@ -19,7 +19,6 @@ int main(int argc, char** argv)
 
     return Ctx(argv[1],
         [&scene](Ctx& ctx) { return scene.Setup(ctx); },
-        [&scene](Ctx& ctx) { return scene.Step(ctx); },
         [&scene](Ctx& ctx) { return scene.ProcessEvents(ctx); })
         .Run();
 }

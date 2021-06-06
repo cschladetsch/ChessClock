@@ -1,6 +1,7 @@
 #include "Gambit/ThirdParty/SDL.hpp"
 #include "Gambit/Texture.hpp"
 #include "Gambit/Renderer.hpp"
+#include "Gambit/Vector2.hpp"
 
 namespace Gambit
 {
@@ -55,6 +56,14 @@ namespace Gambit
     {
         SDL_RenderPresent(_renderer);
         return true;
+    }
+
+    bool Renderer::WriteTexture(TexturePtr texture, Vector2 const& topLeft) const
+    {
+        auto dest = texture->GetBounds();
+        dest.top = topLeft.y;
+        dest.left = topLeft.x;
+        return WriteTexture(texture, nullptr, &dest);
     }
 
     bool Renderer::WriteTexture(TexturePtr texture, Rect const *source = nullptr, Rect const *dest = nullptr) const
