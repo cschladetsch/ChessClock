@@ -23,7 +23,7 @@ namespace Gambit
         mutable std::stringstream _null;
 
     public:
-        Logger(const char* source, ELogLevel logLevel = ELogLevel::None);
+        Logger(const char* source, ELogLevel logLevel = ELogLevel::Debug);
 
         std::ostream& Info(const char* file, int line) const;
         std::ostream& Debug(const char* file, int line) const;

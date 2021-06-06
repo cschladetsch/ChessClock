@@ -77,12 +77,34 @@ namespace ChessClock
         {
             switch (event.type)
             {
-            case SDL_KEYDOWN:
-                exit(0);
-                break;
+                case SDL_KEYDOWN:
+                {
+                    switch (event.key.keysym.sym)
+                    {
+                        case SDLK_ESCAPE:
+                        {
+                            exit(0);
+                            return false;
+                        }
+
+                        case SDLK_LEFT:
+                        {
+                            LOG_INFO() << "Pressed left\n";
+                            break;
+                        }
+
+                        case SDLK_RIGHT:
+                        {
+                            LOG_INFO() << "Pressed right\n";
+                            break;
+                        }
+                    }
+                    break;
+                }
             }
         }
 
         return true;
     }
 }
+
