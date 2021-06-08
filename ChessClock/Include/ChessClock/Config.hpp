@@ -4,5 +4,6 @@
 
 namespace ChessClock
 {
+    using namespace Gambit;
 }
 
