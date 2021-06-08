@@ -17,10 +17,10 @@ namespace Gambit
         template <class ...Args>
         static shared_ptr<Atlas> Load(std::string const& baseName, ResourceId const& id, Args... args)
         {
-            return LoadAtlas(id, baseName);
+            return LoadAtlas(baseName, id);
         }
 
     private:
-        static shared_ptr<Atlas> LoadAtlas(ResourceId const& id, string const& baseName);
+        static shared_ptr<Atlas> LoadAtlas(string const& baseName, ResourceId const& id);
     };
 }

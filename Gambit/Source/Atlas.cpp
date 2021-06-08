@@ -8,7 +8,7 @@ namespace Gambit
     {
     }
 
-    shared_ptr<Atlas> Atlas::LoadAtlas(ResourceId const& id, string const& baseName)
+    shared_ptr<Atlas> Atlas::LoadAtlas(string const& baseName, ResourceId const& id)
     {
         string fileName = baseName + ".png";
         string spritesName = baseName + ".json";
