@@ -6,13 +6,21 @@
 namespace Gambit
 {
     class Atlas
+        : public ResourceBase
     {
         static inline Logger _log{ "Atlas" };
         TexturePtr _texture;
 
     public:
-        Atlas(ResourceManager &);
+        Atlas(SDL_Surface *surface, const string &spritsJson);
 
-        bool Load(const char* fileName);
+        template <class ...Args>
+        static shared_ptr<Atlas> Load(std::string const& baseName, ResourceId const& id, Args... args)
+        {
+            return LoadAtlas(id, baseName);
+        }
+
+    private:
+        static shared_ptr<Atlas> LoadAtlas(ResourceId const& id, string const& baseName);
     };
 }

@@ -35,7 +35,9 @@ namespace Gambit
     class Object;
     class TextEntry;
     class Sprite;
+    class Atlas;
 
+    typedef shared_ptr<Atlas> AtlasPtr;
     typedef shared_ptr<Sprite> SpritePtr;
     typedef shared_ptr<TextEntry> TextEntryPtr;
     typedef shared_ptr<Button> ButtonPtr;

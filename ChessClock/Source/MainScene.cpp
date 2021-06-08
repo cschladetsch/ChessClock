@@ -1,5 +1,6 @@
 #include "Gambit/Texture.hpp"
 #include "Gambit/TimerFont.hpp"
+#include "Gambit/Atlas.hpp"
 
 #include "ChessClock/MainScene.hpp"
 #include "ChessClock/Game.hpp"
@@ -15,6 +16,7 @@ namespace ChessClock
         TexturePtr text;
         Rect textBounds;
         NumberFontPtr numberFont;
+        AtlasPtr atlas;
         Game game;
     };
 
@@ -31,6 +33,7 @@ namespace ChessClock
         values.numberFont->MakeTextures(resources, renderer, Color{ 255,255,0 });
         values.text = values.font->CreateTexture(resources, renderer, "Hello world", { 255,255,255 });
         values.textBounds = values.text->GetBounds();
+        values.atlas = resources.LoadResource<Atlas>("Lichess\\atlas");
 
         AddStep(ctx, &MainScene::StepWriteBackground);
         AddStep(ctx, &MainScene::StepWriteText);
