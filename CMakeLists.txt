@@ -7,7 +7,9 @@ include(cotire)
 
 set(GAMBIT_DIR ${PROJECT_SOURCE_DIR}/Gambit)
 set(THIRD_PARTY ${GAMBIT_DIR}/ThirdParty)
+set(SDL_IMAGE_ROOT ${CMAKE_SOURCE_DIR}/Gambit/ThirdParty/SDL2_image-2.0.5)
 
+include_directories(${SDL_IMAGE_ROOT}/include)
 include_directories(${GAMBIT_DIR}/Include)
 include_directories(${THIRD_PARTY}/SDL/include)
 include_directories(${THIRD_PARTY}/SDL_ttf)

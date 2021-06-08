@@ -3,9 +3,7 @@ cmake_minimum_required(VERSION 3.12)
 set(PROJECT_NAME CClock)
 project(${PROJECT_NAME})
 
-set(SDL_IMAGE_ROOT ${CMAKE_SOURCE_DIR}/Gambit/ThirdParty/SDL2_image-2.0.5)
 include_directories(Include/)
-include_directories(${SDL_IMAGE_ROOT}/include)
 
 file(GLOB_RECURSE SOURCE_FILES Source/*.cpp)
 file(GLOB_RECURSE INCLUDE_FILES Include/*.hpp)

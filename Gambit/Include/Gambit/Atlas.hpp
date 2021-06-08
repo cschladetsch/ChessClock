@@ -2,9 +2,8 @@
 
 #include "Gambit/Logger.hpp"
 #include "Gambit/ResourceManager.hpp"
-#include "ChessClock/Config.hpp"
 
-namespace ChessClock
+namespace Gambit
 {
     class Atlas
     {

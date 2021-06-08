@@ -1,11 +1,9 @@
 #include "Gambit/ThirdParty/SDL.hpp"
-#include "ChessClock/Atlas.hpp"
+#include "Gambit/Atlas.hpp"
 #include "SDL_image.h"
 
-namespace ChessClock
+namespace Gambit
 {
-    using namespace Gambit;
-
     bool Atlas::Load(const char* fileName)
     {
         SDL_Surface *surface = IMG_Load(fileName);
