@@ -1,12 +1,16 @@
+#include "SDL_image.h"
+
 #include "Gambit/ThirdParty/SDL.hpp"
+#include "Gambit/ThirdParty/Json.hpp"
 #include "Gambit/Renderer.hpp"
 #include "Gambit/Texture.hpp"
 #include "Gambit/Atlas.hpp"
 #include "Gambit/Exceptions.hpp"
-#include "SDL_image.h"
 
 namespace Gambit
 {
+    using nlohmann::json;
+
     Atlas::Atlas(TexturePtr texture, const string &spritesName)
         : _atlasTexture(texture)
     {
@@ -18,6 +22,25 @@ namespace Gambit
 
     bool Atlas::ReadSprites(const string& fileName)
     {
+        std::ifstream inFile(fileName.c_str());
+        if (!inFile)
+        {
+            LOG_ERROR() << "Couldn't load json from " << LOG_VALUE(fileName) << "\n";
+            return false;
+        }
+
+        json j;
+        try
+        {
+            inFile >> j;
+        }
+        catch (std::exception& e)
+        {
+            LOG_ERROR() << "Error reading json " << LOG_VALUE(fileName) << "\n";
+            LOG_ERROR() << "Error reading json " << e.what() << "\n";
+            return false;
+        }
+
         return false;
     }
 
