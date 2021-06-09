@@ -33,7 +33,7 @@ namespace ChessClock
         values.numberFont->MakeTextures(resources, renderer, Color{ 255,255,0 });
         values.text = values.font->CreateTexture(resources, renderer, "Hello world", { 255,255,255 });
         values.textBounds = values.text->GetBounds();
-        values.atlas = resources.LoadResource<Atlas>("Lichess\\atlas");
+        values.atlas = resources.LoadResource<Atlas>("Lichess\\atlas", resources, &renderer);
 
         AddStep(ctx, &MainScene::StepWriteBackground);
         AddStep(ctx, &MainScene::StepWriteText);

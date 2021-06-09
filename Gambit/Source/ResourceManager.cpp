@@ -35,6 +35,19 @@ namespace Gambit
         return std::move(result);
     }
 
+    bool ResourceManager::AddResource(ResourceId const &id, ResourceBasePtr resource)
+    {
+        auto iter = _objectToResources.find(id.GetGuid());
+        if (iter != _objectToResources.end())
+        {
+            LOG_WARN() << "Attempt to add resource with exisiting id " << id.GetGuid() << "\n";
+            return false;
+        }
+
+        _objectToResources[id.GetGuid()] = { resource->GetGuid() };
+        return true;
+    }
+
     bool ResourceManager::AddResource(Object const& owner, ResourceBasePtr resource)
     {
         auto const &resourceId = owner.GetResourceId();

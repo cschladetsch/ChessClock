@@ -58,6 +58,7 @@ namespace Gambit
         string MakeResourceFilename(const char* name);
 
         bool AddResource(Object const&, ResourceBasePtr);
+        bool AddResource(ResourceId const &, ResourceBasePtr);
 
         std::vector<ResourceBasePtr> GetResources(Object const&);
 
