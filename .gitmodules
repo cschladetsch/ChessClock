@@ -32,6 +32,3 @@
 [submodule "Gambit/ThirdParty/CppEvents"]
 	path = Gambit/ThirdParty/CppEvents
 	url = https://github.com/cschladetsch/CppEvents.git
-[submodule "Gambit/ThirdParty/SDL_image-1"]
-	path = Gambit/ThirdParty/SDL_image-1
-	url = git://github.com/cschladetsch/SDL_image-1.git
