@@ -12,3 +12,5 @@ namespace Gambit
         Rect(int left, int top, int width, int height);
     };
 }
+
+std::ostream& operator<<(std::ostream& s, Gambit::Rect&);

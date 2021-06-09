@@ -8,11 +8,13 @@ namespace Gambit
     {
         typedef uint8_t Channel;
 
-        Channel red;
-        Channel green;
-        Channel blue;
-        Channel alpha;
+        // default to hotpink
+        Channel red{ 0xff };
+        Channel green{ 0x69 };
+        Channel blue{ 0xb4 };
+        Channel alpha{ 0xff };
 
+        Color() { }
         Color(Channel r, Channel g, Channel b, Channel a = 0xff)
             : red(r), green(g), blue(b), alpha(a)
         {
@@ -32,7 +34,7 @@ namespace std
     {
 		inline size_t operator()(const Gambit::Color& color) const
         {
-            return color.red << 24 | color.green << 16 | color.blue << 8 | color.alpha;
+            return *reinterpret_cast<const uint32_t *>(&color);
         }
     };
 

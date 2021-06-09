@@ -2,6 +2,7 @@
 
 #include "Gambit/Logger.hpp"
 #include "Gambit/Rect.hpp"
+#include "Gambit/Color.hpp"
 #include "Gambit/ResourceManager.hpp"
 
 namespace Gambit
@@ -12,9 +13,11 @@ namespace Gambit
         static inline Logger _log{ "Atlas" };
 
         typedef std::unordered_map<string, Rect> Sprites;
+        typedef std::unordered_map<string, Color> TintList;
 
         TexturePtr _atlasTexture;;
         Sprites _sprites;
+        TintList _tintList;
 
     public:
         Atlas(TexturePtr atlasTexture, const string &spritsJson);
