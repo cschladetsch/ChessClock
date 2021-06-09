@@ -17,6 +17,8 @@ TODO: Add separate [Building](Building.md) instructions.
 ### Raspberry Pi Setup
 ```bash
 $ sudo apt-get install libsdl1.2-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev
+$ sudo apt-get install libsdl1.2-dev
+$ sudo apt-get install libsdl-image1.2-dev
 ```
 
 ### Building
