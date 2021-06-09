@@ -12,6 +12,15 @@ This image is a conceptual render of the final product. It only shows relative s
 
 ## Building
 
+TODO: Add separate [Building](Building.md) instructions.
+
+### Raspberry Pi Setup
+```bash
+$ sudo apt-get install libsdl1.2-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev
+```
+
+### Building
+
 Simply, `./run` will build and run the app on either Windows10 or Raspberry Pi. Or anything else I think. 
 
 For more details:
