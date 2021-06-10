@@ -2,6 +2,7 @@
 
 #include "Gambit/Config.hpp"
 
+//#pragma pack push(1)
 namespace Gambit
 {
     struct Color
@@ -26,6 +27,7 @@ namespace Gambit
         }
     };
 }
+//#pragma pack(pop)
 
 namespace std
 {
