@@ -22,6 +22,8 @@ namespace Gambit
     public:
         Atlas(TexturePtr atlasTexture, const string &spritsJson);
 
+        std::pair<bool, Rect> GetSprite(string const& name) const;
+        bool WriteSprite(Renderer &, string const& name, const Rect &destRect) const;
         bool WriteSprite(Renderer &, string const& name, TexturePtr texture, const Rect &destRect) const;
 
         template <class ...Args>

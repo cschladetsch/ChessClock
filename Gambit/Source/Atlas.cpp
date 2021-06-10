@@ -11,24 +11,24 @@ namespace Gambit
 {
     using nlohmann::json;
 
-    Atlas::Atlas(TexturePtr texture, const string &spritesName)
+    Atlas::Atlas(TexturePtr texture, const string& spritesName)
         : _atlasTexture(texture)
     {
         if (!ReadSprites(spritesName))
         {
-            LOG_ERROR() << "Failed to sprites from " << LOG_VALUE(spritesName) <<  "\n";
+            LOG_ERROR() << "Failed to sprites from " << LOG_VALUE(spritesName) << "\n";
         }
     }
 
-    Rect GetRect(nlohmann::json& json, const char *name)
+    Rect GetRect(nlohmann::json& json, const char* name)
     {
-        auto const &rc = json[name].get<std::vector<int>>();
+        auto const& rc = json[name].get<std::vector<int>>();
         return Rect(rc[0], rc[1], rc[2], rc[3]);
     }
 
-    Color GetColor(nlohmann::json& json, const char *name)
+    Color GetColor(nlohmann::json& json, const char* name)
     {
-        auto const &rc = json[name].get<std::vector<int>>();
+        auto const& rc = json[name].get<std::vector<int>>();
         return Color(rc[0], rc[1], rc[2]);
     }
 
@@ -45,11 +45,11 @@ namespace Gambit
         {
             json j;
             inFile >> j;
-            for (auto &item : j.items())
+            for (auto& item : j.items())
             {
-                auto &name = item.key();
-                auto &value = item.value();
-                auto &type = value["type"];
+                auto& name = item.key();
+                auto& value = item.value();
+                auto& type = value["type"];
                 if (type == "sprite")
                 {
                     _sprites[name] = GetRect(value, "location");
@@ -77,21 +77,50 @@ namespace Gambit
         return false;
     }
 
-    bool Atlas::WriteSprite(Renderer &renderer, string const& name, TexturePtr texture, const Rect &destRect) const
+    std::pair<bool, Rect> Atlas::GetSprite(string const& name) const
     {
         auto found = _sprites.find(name);
         if (found == _sprites.end())
         {
-            LOG_ERROR() << "No sprite named " << name << " found\n.";
+            LOG_WARN() << "No sprite named " << name << " found\n.";
+            return std::make_pair(false, Rect{});
+        }
+        return std::make_pair(true, found->second);
+    }
+
+    bool Atlas::WriteSprite(Renderer& renderer, string const& name, const Rect& destRect) const
+    {
+        auto found = GetSprite(name);
+        if (!found.first)
+        {
             return false;
         }
-        auto srcRect = found->second;
+        SDL_RenderCopyEx(
+            renderer.GetRenderer(),
+            &_atlasTexture->Get(),
+            ToSdlRect(found.second),
+            ToSdlRect(destRect),
+            0, // angle
+            nullptr, // center
+            SDL_FLIP_NONE // renderFlip
+        );
+
+        return true;
+    }
+
+    bool Atlas::WriteSprite(Renderer &renderer, string const& name, TexturePtr destTexture, const Rect &destRect) const
+    {
+        auto found = GetSprite(name);
+        if (!found.first)
+        {
+            return false;
+        }
         /*
         SDL_RenderCopyEx(
             texture, 
             &srcRect, 
             &destRect);
-            */
+        */
         GAMBIT_NOT_IMPLEMENTED_1("WriteSprite");
     }
 

@@ -12,6 +12,7 @@ namespace ChessClock
     struct MainScene::Values
     {
         FontPtr font;
+        TexturePtr backBuffer;
         TexturePtr background;
         TexturePtr text;
         Rect textBounds;
@@ -36,8 +37,8 @@ namespace ChessClock
         values.atlas = resources.LoadResource<Atlas>("Lichess\\atlas", resources, &renderer);
 
         AddStep(ctx, &MainScene::StepWriteBackground);
-        AddStep(ctx, &MainScene::StepWriteText);
-        AddStep(ctx, &MainScene::StepWriteTimers);
+        //AddStep(ctx, &MainScene::StepWriteText);
+        //AddStep(ctx, &MainScene::StepWriteTimers);
         AddStep(ctx, &MainScene::StepPresent);
 
         return true;
@@ -50,7 +51,9 @@ namespace ChessClock
 
     bool MainScene::StepWriteBackground(Context &ctx)
     {
-        return ctx.renderer.WriteTexture(ctx.values->background, nullptr, nullptr);
+        auto& atlas = ctx.values->atlas;
+        auto& renderer = ctx.renderer;
+        return atlas->WriteSprite(renderer, "background", Rect{ 0,0,800,480 });
     }
 
     bool MainScene::StepWriteText(Context &ctx)
@@ -64,7 +67,7 @@ namespace ChessClock
         uint32_t millis = SDL_GetTicks();
         uint32_t seconds = millis / 1000;
         uint32_t minutes = seconds / 60;
-        ctx.values->numberFont->DrawTime(ctx.renderer, destPoint, minutes%60, seconds%60, millis%100);
+        ctx.values->numberFont->DrawTime(ctx.renderer, destPoint, minutes%60, seconds%60, millis%10);
         return true;
     }
 

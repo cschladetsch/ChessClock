@@ -11,6 +11,11 @@ namespace Gambit
         Rect();
         Rect(int left, int top, int width, int height);
     };
+
+    inline SDL_Rect* ToSdlRect(Rect const& rect)
+    {
+        return reinterpret_cast<SDL_Rect*>(const_cast<Rect *>(&rect));
+    }
 }
 
 std::ostream& operator<<(std::ostream& s, Gambit::Rect&);
