@@ -9,13 +9,13 @@ namespace Gambit
     {
         SDL_Surface *surface = SDL_LoadBMP(fileName.c_str());
         if (surface == nullptr) {
-            LOG_ERROR() << "SDL_LoadBMP: " << SDL_GetError() << std::endl;
+            LOG_ERROR() << "SDL_LoadBMP: " << LOG_VALUE(SDL_GetError()) << std::endl;
             return 0;
         }
 
         SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer.GetRenderer(), surface);
         if (texture == nullptr) {
-            LOG_ERROR() << "SDL_CreateTextureFromSurface: " << SDL_GetError() << std::endl;
+            LOG_ERROR() << "SDL_CreateTextureFromSurface: " << LOG_VALUE(SDL_GetError()) << std::endl;
             SDL_FreeSurface(surface);
             return 0;
         }

@@ -14,6 +14,7 @@ namespace Gambit
             LOG_ERROR() << "Failed to load font " << fileName << "\n";
             return 0;
         }
+        LOG_DEBUG() << "Loaded font " << LOG_VALUE(fileName) << LOG_VALUE(pointSize) << "\n";
         return std::make_shared<Font>(id, font);
     }
 
