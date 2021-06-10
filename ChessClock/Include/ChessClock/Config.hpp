@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Gambit/Config.hpp"
+#include "Gambit/Rect.hpp"
 
 namespace ChessClock
 {

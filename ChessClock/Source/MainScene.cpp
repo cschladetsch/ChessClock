@@ -4,6 +4,7 @@
 
 #include "ChessClock/MainScene.hpp"
 #include "ChessClock/Game.hpp"
+#include "ChessClock/Global.hpp"
 
 namespace ChessClock
 {
@@ -29,7 +30,7 @@ namespace ChessClock
         auto& values = *ctx.values;
 
         values.font = resources.LoadResource<Font>("AdobeFanHeitiStd-Bold.otf", 100);
-        values.background = resources.LoadResource<Texture>("sample.bmp", &renderer, 800, 480);
+        values.background = resources.LoadResource<Texture>("sample.bmp", &renderer, global.ScreenWidth(), global.ScreenHeight());
         values.numberFont = resources.CreateResource<TimerFont>("Numbers", values.font);
         values.numberFont->MakeTextures(resources, renderer, Color{ 255,255,0 });
         values.text = values.font->CreateTexture(resources, renderer, "Hello world", { 255,255,255 });

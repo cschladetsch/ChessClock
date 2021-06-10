@@ -20,12 +20,14 @@ namespace Gambit
             return 0;
         }
         SDL_FreeSurface(surface);
+        LOG_INFO() << "Created texture " << texture << "\n";
 
         return std::make_shared<Texture>(id, texture);
     }
 
     void Texture::Deleter(SDL_Texture *texture)
     {
+        LOG_INFO() << "Deleting texture " << texture << "\n";
         SDL_DestroyTexture(texture);
     }
 
