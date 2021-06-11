@@ -50,7 +50,7 @@
 	"icon_sound": 
 	{
 		"type" : "sprite",
-		"location": [ 904, 96, 88, 88 ]
+		"location": [ 800, 184, 112, 88 ]
     },
 	
 	"clock_face_colored": 
@@ -70,6 +70,12 @@
 		"type" : "sprite",
 		"location": [ 0, 688, 272, 128 ]
     },
+	
+	"time_bar":
+	{
+		"type" : "sprite",
+		"location": [ 0, 816, 388, 16 ]
+	},
 	
 	"colors":
 	{
