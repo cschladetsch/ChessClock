@@ -22,7 +22,7 @@ namespace ChessClock
         values.headerFont = resources.LoadResource<Font>("AdobeFanHeitiStd-Bold.otf", 30);
         values.background = resources.LoadResource<Texture>("sample.bmp", &renderer, global.ScreenWidth(), global.ScreenHeight());
         values.numberFont = resources.CreateResource<TimerFont>("Numbers", values.font);
-        values.numberFont->MakeTextures(resources, renderer, Color{ 255,255,0 });
+        values.numberFont->MakeTextures(resources, renderer, Color{ 255,255,255 });
 
         values.leftNameText = values.headerFont->CreateTexture(resources, renderer, "Spamfilter", { 255,255,255 });
         values.rightNameText = values.headerFont->CreateTexture(resources, renderer, "monoRail", { 255,255,255 });
@@ -60,7 +60,7 @@ namespace ChessClock
 
     void MainScene::WriteHeader(Atlas const& atlas, Context &ctx, Renderer& renderer) const
     {
-        int y = -11;
+        int y = 6;
         atlas.WriteSprite(renderer, "pawn_white", Vector2{ 30, y });
         atlas.WriteSprite(renderer, "pawn_black", Vector2{ 800 - 30 - 25, y });
 
@@ -94,7 +94,7 @@ namespace ChessClock
         uint32_t millis = SDL_GetTicks();
         auto &player = ctx.values->game.CurrentPlayer();
         player.UpdateTime(millis);
-        Vector2 destPoint{ 75, 110 };
+        Vector2 destPoint{ 55, 110 };
         uint32_t seconds = millis / 1000;
         uint32_t minutes = seconds / 60;
         ctx.values->numberFont->DrawTime(ctx.renderer, destPoint, minutes % 60, seconds % 60);

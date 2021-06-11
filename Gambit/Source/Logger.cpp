@@ -1,5 +1,11 @@
 #include "Gambit/Logger.hpp"
 
+
+extern "C"
+{
+    uint32_t SDL_GetTicks();
+}
+
 namespace Gambit
 {
     Logger::Logger(const char* source, ELogLevel level)
@@ -49,7 +55,8 @@ namespace Gambit
 #endif
         string fl = file;
         fl = fl.substr(strlen(lead));
-        return std::cout << fg::reset << fg::gray << style::dim << fl << "(" << line << "):" << style::bold << " [" << color <<  level << fg::gray << "]: {" << fg::magenta << _source << fg::gray << "}:\n" << fg::blue;
+        auto millis = SDL_GetTicks()/1000.0f;
+        return std::cout << fg::reset << style::italic << millis << "ms: " << fg::reset << fg::gray << style::dim << fl << "(" << line << "):" << style::bold << " [" << color << level << fg::gray << "]: {" << fg::magenta << _source << fg::gray << "}:\n" << fg::blue;
     }
 }
 

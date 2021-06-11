@@ -12,7 +12,7 @@ namespace Gambit
 
     protected:
         typedef ::nlohmann::detail::iteration_proxy_value<nlohmann::detail::iter_impl<nlohmann::json>> JsonNext;
-        virtual bool Parse(JsonNext &next) = 0;
+        virtual bool ParseJson(JsonNext &next) = 0;
 
     public:
         bool ReadJson(const char* fileName);

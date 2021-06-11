@@ -5,31 +5,33 @@
 
 namespace Gambit
 {
+    using ifstream = std::ifstream;
+    using exception = std::exception;
     using nlohmann::json;
 
     bool JsonReader::ReadJson(const char* fileName)
     {
-        std::ifstream inFile(fileName);
-        if (!inFile)
+        try
         {
-            LOG_ERROR() << "Couldn't open " << LOG_VALUE(fileName) << "\n";
-            return false;
-        }
-
-        json j;
-        inFile >> j;
-        for (auto &item : j.items())
-        {
-            try
+            ifstream inFile(fileName);
+            if (!inFile)
             {
-                Parse(item);
-            }
-            catch (std::exception& e)
-            {
-                LOG_ERROR() << "Error reading json " << LOG_VALUE(fileName) << "\n";
-                LOG_ERROR() << "Error reading json " << e.what() << "\n";
+                LOG_ERROR() << "Couldn't open " << LOG_VALUE(fileName) << "\n";
                 return false;
             }
+
+            json j;
+            inFile >> j;
+            for (auto& item : j.items())
+            {
+                ParseJson(item);
+            }
+        }
+        catch (exception& e)
+        {
+            LOG_ERROR() << "Error reading json " << LOG_VALUE(fileName) << "\n";
+            LOG_ERROR() << "Error reading json " << e.what() << "\n";
+            return false;
         }
 
         return true;

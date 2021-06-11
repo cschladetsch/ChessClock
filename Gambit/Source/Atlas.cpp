@@ -35,7 +35,7 @@ namespace Gambit
         return Color(rc[0], rc[1], rc[2]);
     }
 
-    bool Atlas::Parse(JsonNext &item)
+    bool Atlas::ParseJson(JsonNext &item)
     {
         auto& name = item.key();
         auto& value = item.value();

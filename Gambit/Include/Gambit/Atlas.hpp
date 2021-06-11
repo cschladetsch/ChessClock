@@ -44,6 +44,6 @@ namespace Gambit
         bool ReadSprites(const string &fileName);
         bool SpriteNotFound(const string& name) const;
 
-        bool Parse(JsonNext &item);
+        bool ParseJson(JsonNext &item);
     };
 }
