@@ -8,13 +8,13 @@
 	"pawn_black": 
 	{
 		"type" : "sprite",
-		"location": [ 800, 0, 32, 64 ]
+		"location": [ 800, 54, 32, 42 ]
     },
 	
 	"pawn_white": 
 	{
 		"type" : "sprite",
-		"location": [ 832, 0, 32, 64 ]
+		"location": [ 832, 54, 32, 42 ]
     },
 	
 	"king_white": 
@@ -83,6 +83,8 @@
 		"active_player" : [ 56, 71, 34 ],
 		"low_time_inactive" : [ 80, 40, 38 ],
 		"low_time_active" : [ 121, 44, 42 ],
-		"button_pressed" : [ 48, 46, 44 ]
+		"button_pressed" : [ 48, 46, 44 ],
+		"time_bar_green" : [ 98, 153, 36 ],
+		"time_bar_red" : [ ]
 	}
 }
