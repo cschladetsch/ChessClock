@@ -4,6 +4,7 @@
 #include "Gambit/Logger.hpp"
 #include "ChessClock/UiCallBacks.hpp"
 #include "ChessClock/Player.hpp"
+#include "ChessClock/Navigation.hpp"
 
 namespace ChessClock
 {
@@ -11,19 +12,25 @@ namespace ChessClock
         : public UiCallBacks
     {
         static inline Logger _log{ "Game " };
-        Player playerLeft, playerRight;
+        Player _playerLeft, _playerRight;
+        bool _paused{ true };
+        EColor _currentColor;
+        Navigation _navigation;
 
     public:
-        Game();
+        Game(Navigation &nav);
 
-        void Left();
-        void Right();
+        bool IsPaused() const { return _paused;  }
+        void LeftPressed();
+        void RightPressed();
 
+        Player& CurrentPlayer();
         void Settings();
-        void Pause();
+        void Pause(bool pause = true);
         void Sound();
 
     private:
         void RegisterCallbacks();
+        void GoBack();
     };
 }

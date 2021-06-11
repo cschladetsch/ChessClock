@@ -7,6 +7,7 @@ namespace ChessClock
     class UiCallBacks
     {
         static inline Gambit::Logger _log{ "CallBacks" };
+
     public:
         typedef std::function<void()> Callback;
 
@@ -20,6 +21,4 @@ namespace ChessClock
 
         void Call(string const& name) const;
     };
-
-
 }

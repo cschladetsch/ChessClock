@@ -5,4 +5,5 @@
 namespace ChessClock
 {
     using namespace Gambit;
+    using string = std::string;
 }

@@ -19,7 +19,9 @@ namespace ChessClock
         Rect textBounds;
         NumberFontPtr numberFont;
         AtlasPtr atlas;
-        Game game;
+        Navigation navigation;
+        Game game{ navigation };
+        bool trackMouse;
     };
 
     bool MainScene::Setup(Context& ctx)
@@ -29,7 +31,7 @@ namespace ChessClock
         ResourceManager& resources = ctx.resources;
         auto& values = *ctx.values;
 
-        values.font = resources.LoadResource<Font>("AdobeFanHeitiStd-Bold.otf", 100);
+        values.font = resources.LoadResource<Font>("AdobeFanHeitiStd-Bold.otf", 120);
         values.background = resources.LoadResource<Texture>("sample.bmp", &renderer, global.ScreenWidth(), global.ScreenHeight());
         values.numberFont = resources.CreateResource<TimerFont>("Numbers", values.font);
         values.numberFont->MakeTextures(resources, renderer, Color{ 255,255,0 });
@@ -39,7 +41,7 @@ namespace ChessClock
 
         AddStep(ctx, &MainScene::StepWriteBackground);
         //AddStep(ctx, &MainScene::StepWriteText);
-        //AddStep(ctx, &MainScene::StepWriteTimers);
+        AddStep(ctx, &MainScene::StepWriteTimers);
         AddStep(ctx, &MainScene::StepPresent);
 
         return true;
@@ -54,7 +56,14 @@ namespace ChessClock
     {
         auto& atlas = ctx.values->atlas;
         auto& renderer = ctx.renderer;
-        return atlas->WriteSprite(renderer, "background", Rect{ 0,0,800,480 });
+        atlas->WriteSprite(renderer, "background", Rect{ 0,0,800,480 });
+
+        int width = 100;
+        atlas->WriteSprite(renderer, "icon_settings", Rect{ 85, 295, width, width });
+        atlas->WriteSprite(renderer, "icon_pause", Rect{ 350, 295, width, width });
+        atlas->WriteSprite(renderer, "icon_sound", Rect{ 615, 295, width, width });
+        return true;
+
     }
 
     bool MainScene::StepWriteText(Context &ctx)
@@ -64,11 +73,19 @@ namespace ChessClock
 
     bool MainScene::StepWriteTimers(Context &ctx)
     {
-        Vector2 destPoint{ 100, 100 };
+        auto& values = ctx.values;
+        auto& game = values->game;
+        if (game.IsPaused())
+        {
+            return true;
+        }
         uint32_t millis = SDL_GetTicks();
+        auto &player = ctx.values->game.CurrentPlayer();
+        player.UpdateTime(millis);
+        Vector2 destPoint{ 75, 110 };
         uint32_t seconds = millis / 1000;
         uint32_t minutes = seconds / 60;
-        ctx.values->numberFont->DrawTime(ctx.renderer, destPoint, minutes%60, seconds%60, millis%10);
+        ctx.values->numberFont->DrawTime(ctx.renderer, destPoint, minutes % 60, seconds % 60);
         return true;
     }
 
@@ -98,6 +115,16 @@ namespace ChessClock
                     break;
                 }
 
+                case SDL_MOUSEMOTION:
+                {
+                    if (!ctx.values->trackMouse)
+                    {
+                        continue;
+                    }
+                    LOG_INFO() << "x: " << event.motion.x << ", y: " << event.motion.y << "\n";
+                    break;
+                }
+
                 case SDL_KEYDOWN:
                 {
                     switch (event.key.keysym.sym)
@@ -109,6 +136,11 @@ namespace ChessClock
                             return false;
                         }
 
+                        case SDLK_m:
+                        {
+                            ctx.values->trackMouse = !ctx.values->trackMouse;
+                            return true;
+                        }
                         case SDLK_LEFT:
                         {
                             LOG_INFO() << "Pressed left\n";

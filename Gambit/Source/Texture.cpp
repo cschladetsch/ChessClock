@@ -20,7 +20,7 @@ namespace Gambit
             return 0;
         }
         SDL_FreeSurface(surface);
-        LOG_INFO() << "Created texture " << texture << "\n";
+        LOG_INFO() << "Created texture " << LOG_VALUE(fileName) << LOG_VALUE(id) << "\n";
 
         return std::make_shared<Texture>(id, texture);
     }

@@ -42,7 +42,7 @@ namespace Gambit
 
     std::ostream& Logger::PrintLead(const char* file, int line, const char *level) const
     {
-        return std::cout << file << "(" << line << "):" << " [" << level << "]: [[" << _source << "]]: ";
+        return std::cout << file << "(" << line << "):" << " [" << level << "]: {" << _source << "}: \n\t";
     }
 
     std::ostream& Logger::Print(const char* file, int line, const char *level, const char* text) const

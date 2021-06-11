@@ -13,26 +13,33 @@ namespace ChessClock
         call->second();
     }
 
-    Game::Game()
+    Game::Game(Navigation &nav)
+        : _navigation(nav)
     {
         RegisterCallbacks();
     }
 
+    Player& Game::CurrentPlayer()
+    {
+        return _playerLeft;
+    }
+
     void Game::RegisterCallbacks()
     {
-        _callbacks["Left"] = [this]() { return this->Left(); };
-        _callbacks["Right"] = [this]() { return this->Right(); };
+        _callbacks["Left"] = [this]() { return this->LeftPressed(); };
+        _callbacks["Right"] = [this]() { return this->RightPressed(); };
         _callbacks["Pause"] = [this]() { return this->Pause(); };
         _callbacks["Settings"] = [this]() { return this->Settings(); };
         _callbacks["Sound"] = [this]() { return this->Sound(); };
+        _callbacks["Back"] = [this]() { return this->GoBack(); };
     }
 
-    void Game::Left()
+    void Game::LeftPressed()
     {
         LOG_INFO() << "Left\n";
     }
 
-    void Game::Right()
+    void Game::RightPressed()
     {
         LOG_INFO() << "Right\n";
     }
@@ -42,7 +49,7 @@ namespace ChessClock
         LOG_INFO() << "Settings\n";
     }
 
-    void Game::Pause()
+    void Game::Pause(bool paused)
     {
         LOG_INFO() << "Pause\n";
     }
@@ -50,5 +57,10 @@ namespace ChessClock
     void Game::Sound()
     {
         LOG_INFO() << "Sound\n";
+    }
+
+    void Game::GoBack() 
+    { 
+        _navigation.GoBack();
     }
 }

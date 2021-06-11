@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Gambit/ForwardReferences.hpp"
+#include "Gambit/Logger.hpp"
 #include "Gambit/ThirdParty/Guid.hpp"
 #include "Gambit/EResourceType.hpp"
 
@@ -29,6 +30,11 @@ namespace Gambit
             return left._guid == right._guid;
         }
     };
+}
+
+inline std::ostream& operator<<(std::ostream& out, Gambit::ResourceId const& id)
+{
+    return out << "Id: [" << LOG_VALUE(id.GetGuid()) << LOG_VALUE(id.GetName()) << "]";
 }
 
 namespace std
