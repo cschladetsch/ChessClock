@@ -13,9 +13,14 @@ namespace ChessClock
     struct MainScene::Values
     {
         FontPtr font;
+        FontPtr headerFont;
+        FontPtr footerFont;
         TexturePtr backBuffer;
         TexturePtr background;
-        TexturePtr text;
+        TexturePtr leftNameText;
+        TexturePtr rightNameText;
+        TexturePtr versusText;
+
         Rect textBounds;
         NumberFontPtr numberFont;
         AtlasPtr atlas;

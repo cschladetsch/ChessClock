@@ -79,12 +79,18 @@ namespace Gambit
         return false;
     }
 
+    std::set<string> _notFound;
+
     std::pair<bool, Rect> Atlas::GetSprite(string const& name) const
     {
         auto found = _sprites.find(name);
         if (found == _sprites.end())
         {
-            LOG_WARN() << "No sprite named " << name << " found\n.";
+            if (_notFound.find(name) == _notFound.end())
+            {
+                SpriteNotFound(name);
+                _notFound.insert(name);
+            }
             return std::make_pair(false, Rect{});
         }
         return std::make_pair(true, found->second);
@@ -102,10 +108,15 @@ namespace Gambit
         auto found = GetSprite(name);
         if (!found.first)
         {
-            LOG_ERROR() << "Sprite " << name << " not found\n";
-            return false;
+            return SpriteNotFound(name);
         }
         return WriteSprite(renderer, found.second, destRect);
+    }
+
+    bool Atlas::SpriteNotFound(const string& name) const
+    {
+        LOG_ERROR() << "No sprite named " << name << " found\n.";
+        return false;
     }
 
     bool Atlas::WriteSprite(Renderer& renderer, Rect const& sourceRect, Rect const& destRect) const

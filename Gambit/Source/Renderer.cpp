@@ -61,8 +61,8 @@ namespace Gambit
     bool Renderer::WriteTexture(TexturePtr texture, Vector2 const& topLeft) const
     {
         auto dest = texture->GetBounds();
-        dest.top = topLeft.y;
-        dest.left = topLeft.x;
+        dest.left = topLeft.y;
+        dest.top = topLeft.x;
         return WriteTexture(texture, nullptr, &dest);
     }
 
@@ -76,7 +76,7 @@ namespace Gambit
             LOG_ERROR() << "Failed to write texture " << texture->GetName() << ": " << SDL_GetError() << std::endl;
             return false;
         }
-        
+
         return true;
     }
 }

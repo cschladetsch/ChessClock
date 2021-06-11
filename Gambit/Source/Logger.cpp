@@ -14,7 +14,7 @@ namespace Gambit
     std::ostream& Logger::Info(const char* file, int line) const
     {
         if (ELogLevel::Info <= _logLevel)
-            return PrintLead(file, line, "INFO");
+            return PrintLead(file, line, fg::green, "INFO");
 
         return _null;
     }
@@ -22,7 +22,7 @@ namespace Gambit
     std::ostream& Logger::Debug(const char* file, int line) const
     {
         if (ELogLevel::Debug <= _logLevel)
-            return PrintLead(file, line, "DEBUG");
+            return PrintLead(file, line, fg::cyan, "DEBUG");
 
         return _null;
     }
@@ -30,24 +30,26 @@ namespace Gambit
     std::ostream& Logger::Warn(const char* file, int line) const
     {
         if (ELogLevel::Warn <= _logLevel)
-            return PrintLead(file, line, "WARN");
+            return PrintLead(file, line, fg::yellow, "WARN");
 
         return _null;
     }
 
     std::ostream& Logger::Error(const char* file, int line) const
     {
-        return PrintLead(file, line, "ERROR");
+        return PrintLead(file, line, fg::red, "ERROR");
     }
 
-    std::ostream& Logger::PrintLead(const char* file, int line, const char *level) const
+    std::ostream& Logger::PrintLead(const char* file, int line, rang::fg const &color, const char *level) const
     {
-        return std::cout << file << "(" << line << "):" << " [" << level << "]: {" << _source << "}: \n\t";
-    }
-
-    std::ostream& Logger::Print(const char* file, int line, const char *level, const char* text) const
-    {
-        return PrintLead(file, line, level) << std::endl;
+#if WIN32
+        char *lead = "C:\\Users\\chris\\repos\\ChessClock\\";
+#else
+        char* lead = "/home/chris/ChessClock";
+#endif
+        string fl = file;
+        fl = fl.substr(strlen(lead));
+        return std::cout << fg::reset << fg::gray << style::dim << fl << "(" << line << "):" << style::bold << " [" << color <<  level << fg::gray << "]: {" << fg::magenta << _source << fg::gray << "}:\n" << fg::blue;
     }
 }
 

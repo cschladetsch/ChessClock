@@ -19,11 +19,15 @@ namespace ChessClock
         auto& values = *ctx.values;
 
         values.font = resources.LoadResource<Font>("AdobeFanHeitiStd-Bold.otf", 120);
+        values.headerFont = resources.LoadResource<Font>("AdobeFanHeitiStd-Bold.otf", 30);
         values.background = resources.LoadResource<Texture>("sample.bmp", &renderer, global.ScreenWidth(), global.ScreenHeight());
         values.numberFont = resources.CreateResource<TimerFont>("Numbers", values.font);
         values.numberFont->MakeTextures(resources, renderer, Color{ 255,255,0 });
-        values.text = values.font->CreateTexture(resources, renderer, "Hello world", { 255,255,255 });
-        values.textBounds = values.text->GetBounds();
+
+        values.leftNameText = values.headerFont->CreateTexture(resources, renderer, "Spamfilter", { 255,255,255 });
+        values.rightNameText = values.headerFont->CreateTexture(resources, renderer, "monoRail", { 255,255,255 });
+        values.versusText = values.headerFont->CreateTexture(resources, renderer, "vs", { 255,255,255 });
+
         values.atlas = resources.LoadResource<Atlas>("Lichess\\atlas", resources, &renderer);
 
         AddStep(ctx, &MainScene::StepWriteBackground);
@@ -43,44 +47,50 @@ namespace ChessClock
     {
         auto& atlas = ctx.values->atlas;
         auto& renderer = ctx.renderer;
+        auto& resources = ctx.resources;
 
         atlas->WriteSprite(renderer, "background", Rect{ 0,0,800,480 });
-        WriteHeader(*atlas, ctx.values->font, renderer);
+        WriteHeader(*atlas, ctx, renderer);
         WriteButtons(*atlas, renderer);
-        WriteFooter(*atlas, ctx.values->font, renderer);
+        WriteFooter(*atlas, ctx, renderer);
 
         return true;
 
     }
 
-    void MainScene::WriteHeader(Atlas const& atlas, FontPtr, Renderer& renderer) const
+    void MainScene::WriteHeader(Atlas const& atlas, Context &ctx, Renderer& renderer) const
     {
+        int y = -11;
+        atlas.WriteSprite(renderer, "pawn_white", Vector2{ 30, y });
+        atlas.WriteSprite(renderer, "pawn_black", Vector2{ 800 - 30 - 25, y });
+
+        y = 14;
+        renderer.WriteTexture(ctx.values->leftNameText, Vector2(85, y));
+        renderer.WriteTexture(ctx.values->versusText, Vector2(400 - 12, y));
+        renderer.WriteTexture(ctx.values->rightNameText, Vector2(580, y));
     }
 
-    void MainScene::WriteFooter(Atlas const& atlas, FontPtr, Renderer& renderer) const
+    void MainScene::WriteFooter(Atlas const& atlas, Context &ctx, Renderer& renderer) const
     {
     }
 
     void MainScene::WriteButtons(Atlas const &atlas, Renderer &renderer) const
     {
         atlas.WriteSprite(renderer, "icon_settings", Vector2{ 85, 295 });
-        atlas.WriteSprite(renderer, "icon_pause", Vector2{ 350, 295 });
+        atlas.WriteSprite(renderer, "icon_pause", Vector2{ 375, 295 });
         atlas.WriteSprite(renderer, "icon_sound", Vector2{ 615, 295 });
-    }
-
-    bool MainScene::StepWriteText(Context &ctx)
-    {
-        return ctx.renderer.WriteTexture(ctx.values->text, nullptr, &ctx.values->textBounds);
     }
 
     bool MainScene::StepWriteTimers(Context &ctx)
     {
         auto& values = ctx.values;
         auto& game = values->game;
+        /*
         if (game.IsPaused())
         {
             return true;
         }
+        */
         uint32_t millis = SDL_GetTicks();
         auto &player = ctx.values->game.CurrentPlayer();
         player.UpdateTime(millis);

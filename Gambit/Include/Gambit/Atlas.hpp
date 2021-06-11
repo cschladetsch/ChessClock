@@ -39,5 +39,6 @@ namespace Gambit
         static shared_ptr<Atlas> LoadAtlas(ResourceManager &, Renderer &, string const& baseName, ResourceId const& id);
         bool WriteSprite(Renderer &, Rect const &sourceRect, Rect const &destRect) const;
         bool ReadSprites(const string &fileName);
+        bool SpriteNotFound(const string& name) const;
     };
 }

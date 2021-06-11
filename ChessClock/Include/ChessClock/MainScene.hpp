@@ -21,7 +21,6 @@ namespace ChessClock
         bool Setup(Context &);
         bool ProcessEvents(Context &);
 
-        bool StepWriteText(Context &);
         bool StepPresent(Context &);
         bool StepWriteTimers(Context& ctx);
         bool StepWriteBackground(Context& ctx);
@@ -29,8 +28,8 @@ namespace ChessClock
     protected:
         void AddStep(Context&, bool(MainScene::*method)(Context&));
         void WriteButtons(Atlas const& atlas, Renderer& renderer) const;
-        void WriteHeader(Atlas const& atlas, FontPtr, Renderer& renderer) const;
-        void WriteFooter(Atlas const& atlas, FontPtr, Renderer& renderer) const;
+        void WriteHeader(Atlas const& atlas, Context &, Renderer& renderer) const;
+        void WriteFooter(Atlas const& atlas, Context &, Renderer& renderer) const;
     };
 }
 
