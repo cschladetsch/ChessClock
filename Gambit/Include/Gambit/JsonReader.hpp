@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Gambit/ForwardReferences.hpp"
+#include "Gambit/ThirdParty/Json.hpp"
 #include "Gambit/Logger.hpp"
 
 namespace Gambit
@@ -9,9 +10,11 @@ namespace Gambit
     {
         static inline Logger _log{ "JsonReader" };
 
-    public:
-        bool Read(const char* fileName);
+    protected:
+        typedef ::nlohmann::detail::iteration_proxy_value<nlohmann::detail::iter_impl<nlohmann::json>> JsonNext;
+        virtual bool Parse(JsonNext &next) = 0;
 
-        virtual bool ReadJson(std::ifstream &) = 0;
+    public:
+        bool ReadJson(const char* fileName);
     };
 }

@@ -4,16 +4,19 @@
 #include "Gambit/Rect.hpp"
 #include "Gambit/Color.hpp"
 #include "Gambit/ResourceManager.hpp"
+#include "Gambit/JsonReader.hpp"
 
 namespace Gambit
 {
     class Atlas
         : public ResourceBase
+        , public JsonReader
     {
         static inline Logger _log{ "Atlas" };
 
         typedef std::unordered_map<string, Rect> Sprites;
         typedef std::unordered_map<string, Color> TintList;
+        typedef JsonReader::JsonNext JsonNext;
 
         TexturePtr _atlasTexture;;
         Sprites _sprites;
@@ -40,5 +43,7 @@ namespace Gambit
         bool WriteSprite(Renderer &, Rect const &sourceRect, Rect const &destRect) const;
         bool ReadSprites(const string &fileName);
         bool SpriteNotFound(const string& name) const;
+
+        bool Parse(JsonNext &item);
     };
 }

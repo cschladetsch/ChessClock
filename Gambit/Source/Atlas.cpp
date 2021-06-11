@@ -11,12 +11,13 @@
 
 namespace Gambit
 {
+    using namespace std;
     using nlohmann::json;
 
     Atlas::Atlas(TexturePtr texture, const string& spritesName)
         : _atlasTexture(texture)
     {
-        if (!ReadSprites(spritesName))
+        if (!ReadJson(spritesName.c_str()))
         {
             LOG_ERROR() << "Failed to sprites from " << LOG_VALUE(spritesName) << "\n";
         }
@@ -24,64 +25,41 @@ namespace Gambit
 
     Rect GetRect(nlohmann::json& json, const char* name)
     {
-        auto const& rc = json[name].get<std::vector<int>>();
+        auto const& rc = json[name].get<vector<int>>();
         return Rect(rc[0], rc[1], rc[2], rc[3]);
     }
 
     Color GetColor(nlohmann::json& json, const char* name)
     {
-        auto const& rc = json[name].get<std::vector<int>>();
+        auto const& rc = json[name].get<vector<int>>();
         return Color(rc[0], rc[1], rc[2]);
     }
 
-    bool Atlas::ReadSprites(const string& fileName)
+    bool Atlas::Parse(JsonNext &item)
     {
-        std::ifstream inFile(fileName.c_str());
-        if (!inFile)
+        auto& name = item.key();
+        auto& value = item.value();
+        auto& type = value["type"];
+        if (type == "sprite")
         {
-            LOG_ERROR() << "Couldn't load json from " << LOG_VALUE(fileName) << "\n";
-            return false;
-        }
-
-        try
-        {
-            json j;
-            inFile >> j;
-            for (auto& item : j.items())
-            {
-                auto& name = item.key();
-                auto& value = item.value();
-                auto& type = value["type"];
-                if (type == "sprite")
-                {
-                    _sprites[name] = GetRect(value, "location");
-                    continue;
-                }
-
-                if (type == "tint_list")
-                {
-                    _tintList["active_player"] = GetColor(value, "active_player");
-                    _tintList["low_time_inactive"] = GetColor(value, "low_time_inactive");
-                    _tintList["low_time_active"] = GetColor(value, "low_time_active");
-                    _tintList["button_pressed"] = GetColor(value, "button_pressed");
-                }
-            }
-
+            _sprites[name] = GetRect(value, "location");
             return true;
         }
-        catch (std::exception& e)
+
+        if (type == "tint_list")
         {
-            LOG_ERROR() << "Error reading json " << LOG_VALUE(fileName) << "\n";
-            LOG_ERROR() << "Error reading json " << e.what() << "\n";
-            return false;
+            _tintList["active_player"] = GetColor(value, "active_player");
+            _tintList["low_time_inactive"] = GetColor(value, "low_time_inactive");
+            _tintList["low_time_active"] = GetColor(value, "low_time_active");
+            _tintList["button_pressed"] = GetColor(value, "button_pressed");
         }
 
-        return false;
+        return true;
     }
 
-    std::set<string> _notFound;
+    set<string> _notFound;
 
-    std::pair<bool, Rect> Atlas::GetSprite(string const& name) const
+    pair<bool, Rect> Atlas::GetSprite(string const& name) const
     {
         auto found = _sprites.find(name);
         if (found == _sprites.end())
@@ -91,9 +69,9 @@ namespace Gambit
                 SpriteNotFound(name);
                 _notFound.insert(name);
             }
-            return std::make_pair(false, Rect{});
+            return make_pair(false, Rect{});
         }
-        return std::make_pair(true, found->second);
+        return make_pair(true, found->second);
     }
 
     bool Atlas::WriteSprite(Renderer& renderer, string const& name, const Vector2& topLeft) const
@@ -157,9 +135,9 @@ namespace Gambit
             return 0;
         }
 
-        auto ptr = std::make_shared<Texture>(resources.NewId(), texture);
+        auto ptr = make_shared<Texture>(resources.NewId(), texture);
         resources.AddResource(ptr->GetResourceId(), ptr);
 
-        return std::make_shared<Atlas>(ptr, spritesName);
+        return make_shared<Atlas>(ptr, spritesName);
     }
 }
