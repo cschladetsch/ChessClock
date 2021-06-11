@@ -32,6 +32,8 @@ namespace Gambit
     };
 }
 
+using namespace rang;
+
 inline std::ostream& operator<<(std::ostream& out, Gambit::ResourceId const& id)
 {
     return out << "Id: [" << LOG_VALUE(id.GetGuid()) << LOG_VALUE(id.GetName()) << "]";

@@ -42,7 +42,7 @@ namespace Gambit
     {
         if (number > 99)
         {
-            LOG_WARN() << "attempt to two-digit draw number with value " << number << "\n";
+            LOG_WARN() << "attempt to two-digit draw number with " << LOG_VALUE(number) << "\n";
         }
 
         number %= 100;
@@ -69,14 +69,17 @@ namespace Gambit
 
     void TimerFont::MakeTextures(ResourceManager &rm, Renderer &renderer, Color color)
     {
+        Color dark{ 0,0,0 };
         for (auto n = 0; n < 10; ++n)
         {
             auto str = itos(n);
             _digits[n] = _font->CreateTexture(rm, renderer, str.c_str(), color);
+            _darkDigits[n] = _font->CreateTexture(rm, renderer, str.c_str(), dark);
         }
         _rectDigit = _digits[0]->GetBounds();
 
         _colon = _font->CreateTexture(rm, renderer, ":", color);
+        _darkColon = _font->CreateTexture(rm, renderer, ":", dark);
         _rectColon = _colon->GetBounds();
     }
 }

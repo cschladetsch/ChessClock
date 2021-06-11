@@ -13,10 +13,12 @@ namespace Gambit
         static inline Logger _log{ "NumberFont" };
 
         Digits _digits;
+        Digits _darkDigits;
         Rect _rectDigit;
         Rect _rectColon;
         FontPtr _font;
         TexturePtr _colon;
+        TexturePtr _darkColon;
 
     public:
         TimerFont(ResourceId const& id, FontPtr font);
