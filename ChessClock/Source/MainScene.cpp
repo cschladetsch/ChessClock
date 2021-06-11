@@ -87,6 +87,7 @@ namespace ChessClock
     {
         auto &values = *ctx.values;
         auto &game = values.game;
+        /*
         if (game.IsPaused())
         {
             return true;
@@ -98,6 +99,8 @@ namespace ChessClock
         uint32_t seconds = millis / 1000;
         uint32_t minutes = seconds / 60;
         values.numberFont->DrawTime(ctx.renderer, destPoint, minutes % 60, seconds % 60);
+        */
+        game.Update();
         return true;
     }
 

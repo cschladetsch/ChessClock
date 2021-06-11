@@ -1,35 +1,35 @@
+#include "Gambit/Logger.hpp"
 #include "ChessClock/Player.hpp"
 
 namespace ChessClock
 {
-    void PlayerTime::Subtract(float seconds)
-    {
-        auto millis = seconds / 1000.f;
-        auto newMillis = this->millis - millis;
-        if (newMillis < 0)
-        {
-            seconds--;
-            if (seconds < 0)
-            {
-                minutes--;
-                if (minutes > 0)
-                {
-                    seconds += 60;
-                }
-            }
-
-            newMillis -= 1000;
-        }
-
-        millis = newMillis;
-    }
-
     void Player::Pause(bool paused)
     {
+        _paused = paused;
+        LOG_INFO() << LOG_VALUE(_color) << LOG_VALUE(paused) << "\n";
     }
 
-    void Player::UpdateTime(float deltaTime)
+    void Player::SetTimeControl(TimeControl timeControl)
     {
-        RemainingTime.Subtract(deltaTime / 1000.0f);
+        RemainingTime.Reset(timeControl);
+    }
+
+    void Player::UpdateTime(MilliSeconds millisConsumed)
+    {
+        if (_paused)
+        {
+            return;
+        }
+
+        RemainingTime.Subtract(millisConsumed);
+        RemainingTime.Add(IncrementSeconds*1000);
+
+        if (!RemainingTime.IsPositive())
+        {
+            _timedOutTime = SDL_GetTicks();
+            _timedOut = true;
+            LOG_INFO() << LOG_VALUE(_color) << LOG_VALUE(_timedOutTime) << "\n";
+            return;
+        }
     }
 }

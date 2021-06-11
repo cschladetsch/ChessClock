@@ -1,39 +1,32 @@
 #pragma once
 
-#include "ChessClock/ForwardReferences.hpp"
+#include "ChessClock/EGameState.hpp"
+#include "ChessClock/PlayerTime.hpp"
 
 namespace ChessClock
 {
-    enum class EColor
-    {
-        None,
-        White,
-        Black,
-    };
-
-    struct PlayerTime
-    {
-        int hours{ 0 }, minutes{ 0 }, seconds{ 0 }, millis{ 0 };
-
-        void Subtract(float seconds);
-
-        bool IsPositive() const { return hours > 0 && minutes > 0 && seconds > 0 && millis > 0; }
-    };
-
     class Player
     {
+        static inline Logger _log{ "Player" };
         bool _paused{ true };
 
     public:
         string Name;
         PlayerTime RemainingTime;
         int IncrementSeconds{ 0 };
-        EColor Color{ EColor::None };
+        EColor _color{ EColor::None };
+        WallClockTimeMillis _timedOutTime{ 0 };
+        bool _timedOut{ false };
 
     public:
         Player() {}
 
+        void SetTimeControl(TimeControl timeControl);
+        void SetColor(EColor color) { _color = color; }
+        EColor GetColor() const { return _color; }
         void Pause(bool paused = true);
-        void UpdateTime(float deltaSeconds);
+        void UpdateTime(MilliSeconds millisConsumed);
+        bool TimedOut() const { return _timedOut; }
+        TimeUnit TimedOutTime() const { return _timedOutTime; }
     };
 }

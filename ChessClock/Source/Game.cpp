@@ -19,15 +19,71 @@ namespace ChessClock
         RegisterCallbacks();
     }
 
-    Player const &Game::CurrentPlayer() const
+    void Game::ResetGame()
     {
-        return _playerLeft;
+        SetTimeControl(_timeControl);
+        Pause();
     }
 
-    Player &Game::CurrentPlayer()
+    void Game::SetGameState(EGameState state)
     {
-        return _playerLeft;
+        LOG_INFO() << "SetGameState " << LOG_VALUE(state) << "\n";
     }
+
+    void Game::SetTimeControl(TimeControl timeControl)
+    {
+        if (!_paused)
+        {
+            Pause();
+        }
+        ResetGame();
+        _playerLeft.SetTimeControl(timeControl);
+        _playerRight.SetTimeControl(timeControl);
+    }
+
+    void Game::Update()
+    {
+        if (_paused)
+        {
+            return;
+        }
+        TimeUnit currentTicks = SDL_GetTicks();
+        _gameTime += (TimeUnit)currentTicks - (TimeUnit)_lastGameTime;
+        _lastGameTime = (TimeUnit)currentTicks;
+    }
+
+    EColor Game::PlayerTimedOut() const
+    {
+        if (_playerLeft.TimedOut())
+        {
+            return _playerLeft.GetColor();
+        }
+
+        return _playerRight.TimedOut() ? _playerRight.GetColor() : EColor::None;
+    }
+
+    void Game::SetColor(ESide side, EColor color)
+    {
+        if (side == ESide::Left)
+        {
+            _playerLeft.SetColor(color);
+            _playerRight.SetColor(color == EColor::White ? EColor::Black : EColor::White);
+        }
+        else 
+        {
+            _playerRight.SetColor(color);
+            _playerLeft.SetColor(color == EColor::White ? EColor::Black : EColor::White);
+        }
+    }
+
+    Player& Game::WhitePlayer() { return _playerLeft.GetColor() == EColor::White ? _playerLeft : _playerRight; }
+    Player& Game::BlackPlayer() { return _playerLeft.GetColor() == EColor::Black ? _playerLeft : _playerRight; }
+
+    Player const& Game::WhitePlayer() const { return _playerLeft.GetColor() == EColor::White ? _playerLeft : _playerRight; }
+    Player const& Game::BlackPlayer() const { return _playerLeft.GetColor() == EColor::Black ? _playerLeft : _playerRight; }
+
+    Player &Game::CurrentPlayer() { return _currentColor == EColor::White ? WhitePlayer() : BlackPlayer(); }
+    Player const &Game::CurrentPlayer() const { return _currentColor == EColor::White ? WhitePlayer() : BlackPlayer(); }
 
     void Game::RegisterCallbacks()
     {
@@ -42,11 +98,27 @@ namespace ChessClock
     void Game::LeftPressed()
     {
         LOG_INFO() << "Left\n";
+        if (_paused)
+        {
+            return;
+        }
+        TimeUnit now = TimeNow();
+        TimeUnit delta = now - _lastGameTime;
+        _lastGameTime = now;
+        _playerLeft.UpdateTime(delta);
     }
 
     void Game::RightPressed()
     {
         LOG_INFO() << "Right\n";
+        if (_paused)
+        {
+            return;
+        }
+        TimeUnit now = TimeNow();
+        TimeUnit delta = now - _lastGameTime;
+        _lastGameTime = now;
+        _playerRight.UpdateTime(delta);
     }
 
     void Game::Settings()
@@ -57,8 +129,13 @@ namespace ChessClock
     void Game::Pause(bool paused)
     {
         _paused = paused;
-        _pauseTime = SDL_GetTicks();
-        LOG_INFO() << LOG_VALUE(paused) << "\n";
+        if (!paused)
+        {
+            _lastGameTime = SDL_GetTicks();
+        }
+        CurrentPlayer().Pause(paused);
+
+        LOG_INFO() << LOG_VALUE(paused) << LOG_VALUE(_gameTime) << "\n";
     }
 
     void Game::Sound()
