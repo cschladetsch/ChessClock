@@ -54,7 +54,7 @@ namespace Gambit
             _tintList["button_pressed"] = GetColor(value, "button_pressed");
         }
 
-        return true;
+        return false;
     }
 
     set<string> _notFound;
@@ -74,6 +74,12 @@ namespace Gambit
         return make_pair(true, found->second);
     }
 
+    bool Atlas::SpriteNotFound(const string& name) const
+    {
+        LOG_ERROR() << "No sprite named " << name << " found\n.";
+        return false;
+    }
+
     bool Atlas::WriteSprite(Renderer& renderer, string const& name, const Vector2& topLeft) const
     {
         auto found = GetSprite(name);
@@ -89,12 +95,6 @@ namespace Gambit
             return SpriteNotFound(name);
         }
         return WriteSprite(renderer, found.second, destRect);
-    }
-
-    bool Atlas::SpriteNotFound(const string& name) const
-    {
-        LOG_ERROR() << "No sprite named " << name << " found\n.";
-        return false;
     }
 
     bool Atlas::WriteSprite(Renderer& renderer, Rect const& sourceRect, Rect const& destRect) const
