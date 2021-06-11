@@ -8,37 +8,35 @@
 namespace Gambit
 {
     TimerFont::TimerFont(ResourceId const& id, FontPtr font)
-        : ResourceBase(id), _font(font)
+        : ResourceBase(id), _font(font), DarkOffset(7,9)
     {
     }
 
-    Vector2 TimerFont::DrawTime(Renderer &renderer, Vector2 topLeft, uint8_t minutes, uint8_t seconds) const
+    void TimerFont::DrawTime(Renderer& renderer, Vector2 topLeft, uint8_t minutes, uint8_t seconds) const
     {
-        DrawDigitPair(renderer, topLeft, minutes);
-        topLeft.x += _rectDigit.width * 2;
-        DrawColon(renderer, topLeft);
-        topLeft.x += _rectColon.width;
-        DrawDigitPair(renderer, topLeft, seconds);
-        topLeft.x += _rectDigit.width * 2;
-        return topLeft;
+        DrawTime(renderer, _darkDigits, _darkColon, topLeft + DarkOffset, minutes, seconds);
+        DrawTime(renderer, _digits, _colon, topLeft, minutes, seconds);
     }
 
-    Vector2 TimerFont::DrawTime(Renderer &renderer, Vector2 topLeft, uint8_t minutes, uint8_t seconds, uint8_t millis) const
+    void TimerFont::DrawTime(Renderer& renderer, Digits const& digits, TexturePtr colon,  Vector2 topLeft, uint8_t minutes, uint8_t seconds) const
     {
-        topLeft = DrawTime(renderer, topLeft, minutes, seconds);
-        DrawColon(renderer, topLeft);
-        topLeft.x += _rectColon.width;
-        return DrawDigitPair(renderer, topLeft, millis);
+        auto tl = topLeft;
+        DrawDigitPair(renderer, digits, tl, minutes);
+        tl.x += _rectDigit.width * 2;
+        DrawColon(renderer, colon, tl);
+        tl.x += _rectColon.width;
+        DrawDigitPair(renderer, digits, tl, seconds);
+        tl.x += _rectDigit.width * 2;
     }
 
-    Vector2 TimerFont::DrawColon(Renderer &renderer, Vector2 const& topLeft) const
+    Vector2 TimerFont::DrawColon(Renderer &renderer, TexturePtr colon, Vector2 const& topLeft) const
     {
         Rect rect{ topLeft.x, topLeft.y, _rectColon.width, _rectColon.height };
-        renderer.WriteTexture(_colon, nullptr, &rect);
+        renderer.WriteTexture(colon, nullptr, &rect);
         return topLeft + Vector2(_rectColon.left + topLeft.x, topLeft.y);
     }
 
-    Vector2 TimerFont::DrawDigitPair(Renderer &renderer, Vector2 const& topleft, uint8_t number) const
+    Vector2 TimerFont::DrawDigitPair(Renderer &renderer, Digits const &digits, Vector2 const& topleft, uint8_t number) const
     {
         if (number > 99)
         {
@@ -53,8 +51,8 @@ namespace Gambit
         auto digit0 = number / 10;
         auto digit1 = number % 10;
 
-        renderer.WriteTexture(_digits[digit0], nullptr, &firstDigit);
-        renderer.WriteTexture(_digits[digit1], nullptr, &secondDigit);
+        renderer.WriteTexture(digits[digit0], nullptr, &firstDigit);
+        renderer.WriteTexture(digits[digit1], nullptr, &secondDigit);
 
         return Vector2(secondDigit.left + _rectDigit.width*2, _rectDigit.height);
     }
