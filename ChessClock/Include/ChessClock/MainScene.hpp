@@ -1,7 +1,10 @@
 #pragma once
 
+#include "Gambit/ForwardReferences.hpp"
 #include "Gambit/Context.hpp"
 #include "Gambit/Logger.hpp"
+
+#include "ChessClock/Config.hpp"
 
 namespace ChessClock
 {
@@ -25,6 +28,9 @@ namespace ChessClock
 
     protected:
         void AddStep(Context&, bool(MainScene::*method)(Context&));
+        void WriteButtons(Atlas const& atlas, Renderer& renderer) const;
+        void WriteHeader(Atlas const& atlas, FontPtr, Renderer& renderer) const;
+        void WriteFooter(Atlas const& atlas, FontPtr, Renderer& renderer) const;
     };
 }
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include "SDL_stdinc.h"
 
 namespace Gambit

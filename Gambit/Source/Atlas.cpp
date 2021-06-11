@@ -4,6 +4,8 @@
 #include "Gambit/ThirdParty/Json.hpp"
 #include "Gambit/Renderer.hpp"
 #include "Gambit/Texture.hpp"
+#include "Gambit/Rect.hpp"
+#include "Gambit/Vector2.hpp"
 #include "Gambit/Atlas.hpp"
 #include "Gambit/Exceptions.hpp"
 
@@ -88,40 +90,41 @@ namespace Gambit
         return std::make_pair(true, found->second);
     }
 
+    bool Atlas::WriteSprite(Renderer& renderer, string const& name, const Vector2& topLeft) const
+    {
+        auto found = GetSprite(name);
+        auto destRect = Rect{ topLeft.x, topLeft.y, found.second.width, found.second.height };
+        return !found.first ? false : WriteSprite(renderer, found.second, destRect);
+    }
+
     bool Atlas::WriteSprite(Renderer& renderer, string const& name, const Rect& destRect) const
     {
         auto found = GetSprite(name);
         if (!found.first)
         {
+            LOG_ERROR() << "Sprite " << name << " not found\n";
             return false;
         }
-        SDL_RenderCopyEx(
+        return WriteSprite(renderer, found.second, destRect);
+    }
+
+    bool Atlas::WriteSprite(Renderer& renderer, Rect const& sourceRect, Rect const& destRect) const
+    {
+        auto result = SDL_RenderCopyEx(
             renderer.GetRenderer(),
             &_atlasTexture->Get(),
-            ToSdlRect(found.second),
+            ToSdlRect(sourceRect),
             ToSdlRect(destRect),
             0, // angle
             nullptr, // center
             SDL_FLIP_NONE // renderFlip
         );
-
-        return true;
-    }
-
-    bool Atlas::WriteSprite(Renderer &renderer, string const& name, TexturePtr destTexture, const Rect &destRect) const
-    {
-        auto found = GetSprite(name);
-        if (!found.first)
+        if (result != 0)
         {
+            LOG_ERROR() << "WriteSprite: " << LOG_VALUE(SDL_GetError()) << "\n";
             return false;
         }
-        /*
-        SDL_RenderCopyEx(
-            texture, 
-            &srcRect, 
-            &destRect);
-        */
-        GAMBIT_NOT_IMPLEMENTED_1("WriteSprite");
+        return true;
     }
 
     shared_ptr<Atlas> Atlas::LoadAtlas(ResourceManager &resources, Renderer &renderer, string const& baseName, ResourceId const& id)

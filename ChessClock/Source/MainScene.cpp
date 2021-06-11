@@ -5,24 +5,11 @@
 #include "ChessClock/MainScene.hpp"
 #include "ChessClock/Game.hpp"
 #include "ChessClock/Global.hpp"
+#include "ChessClock/MainScene.Values.hpp"
 
 namespace ChessClock
 {
     using namespace Gambit;
-
-    struct MainScene::Values
-    {
-        FontPtr font;
-        TexturePtr backBuffer;
-        TexturePtr background;
-        TexturePtr text;
-        Rect textBounds;
-        NumberFontPtr numberFont;
-        AtlasPtr atlas;
-        Navigation navigation;
-        Game game{ navigation };
-        bool trackMouse;
-    };
 
     bool MainScene::Setup(Context& ctx)
     {
@@ -56,14 +43,29 @@ namespace ChessClock
     {
         auto& atlas = ctx.values->atlas;
         auto& renderer = ctx.renderer;
-        atlas->WriteSprite(renderer, "background", Rect{ 0,0,800,480 });
 
-        int width = 100;
-        atlas->WriteSprite(renderer, "icon_settings", Rect{ 85, 295, width, width });
-        atlas->WriteSprite(renderer, "icon_pause", Rect{ 350, 295, width, width });
-        atlas->WriteSprite(renderer, "icon_sound", Rect{ 615, 295, width, width });
+        atlas->WriteSprite(renderer, "background", Rect{ 0,0,800,480 });
+        WriteHeader(*atlas, ctx.values->font, renderer);
+        WriteButtons(*atlas, renderer);
+        WriteFooter(*atlas, ctx.values->font, renderer);
+
         return true;
 
+    }
+
+    void MainScene::WriteHeader(Atlas const& atlas, FontPtr, Renderer& renderer) const
+    {
+    }
+
+    void MainScene::WriteFooter(Atlas const& atlas, FontPtr, Renderer& renderer) const
+    {
+    }
+
+    void MainScene::WriteButtons(Atlas const &atlas, Renderer &renderer) const
+    {
+        atlas.WriteSprite(renderer, "icon_settings", Vector2{ 85, 295 });
+        atlas.WriteSprite(renderer, "icon_pause", Vector2{ 350, 295 });
+        atlas.WriteSprite(renderer, "icon_sound", Vector2{ 615, 295 });
     }
 
     bool MainScene::StepWriteText(Context &ctx)
@@ -94,71 +96,5 @@ namespace ChessClock
         return ctx.renderer.Present();
     }
 
-    bool MainScene::ProcessEvents(Context &ctx)
-    {
-        SDL_Event event;
-        while (SDL_PollEvent(&event))
-        {
-            switch (event.type)
-            {
-                case SDL_MOUSEBUTTONDOWN:
-                {
-                    switch (event.button.button)
-                    {
-                        case SDL_BUTTON_LEFT:
-                        {
-                            Vector2 where{ event.button.x, event.button.y };
-                            LOG_INFO() << "Pressed " << where << "\n";
-                            break;
-                        }
-                    }
-                    break;
-                }
-
-                case SDL_MOUSEMOTION:
-                {
-                    if (!ctx.values->trackMouse)
-                    {
-                        continue;
-                    }
-                    LOG_INFO() << "x: " << event.motion.x << ", y: " << event.motion.y << "\n";
-                    break;
-                }
-
-                case SDL_KEYDOWN:
-                {
-                    switch (event.key.keysym.sym)
-                    {
-                        case SDLK_ESCAPE:
-                        {
-                            LOG_INFO() << "Pressed Escape\n";
-                            exit(0);
-                            return false;
-                        }
-
-                        case SDLK_m:
-                        {
-                            ctx.values->trackMouse = !ctx.values->trackMouse;
-                            return true;
-                        }
-                        case SDLK_LEFT:
-                        {
-                            LOG_INFO() << "Pressed left\n";
-                            break;
-                        }
-
-                        case SDLK_RIGHT:
-                        {
-                            LOG_INFO() << "Pressed right\n";
-                            break;
-                        }
-                    }
-                    break;
-                }
-            }
-        }
-
-        return true;
-    }
 }
 

@@ -22,9 +22,9 @@ namespace Gambit
     public:
         Atlas(TexturePtr atlasTexture, const string &spritsJson);
 
-        std::pair<bool, Rect> GetSprite(string const& name) const;
-        bool WriteSprite(Renderer &, string const& name, const Rect &destRect) const;
-        bool WriteSprite(Renderer &, string const& name, TexturePtr texture, const Rect &destRect) const;
+        std::pair<bool, Rect> GetSprite(string const &name) const;
+        bool WriteSprite(Renderer &, string const& name, const Rect& destRect) const;
+        bool WriteSprite(Renderer &, string const &name, Vector2 const &topLeft) const;
 
         template <class ...Args>
         static shared_ptr<Atlas> Load(std::string const& baseName, ResourceId const& id, Args... args)
@@ -37,6 +37,7 @@ namespace Gambit
 
     private:
         static shared_ptr<Atlas> LoadAtlas(ResourceManager &, Renderer &, string const& baseName, ResourceId const& id);
+        bool WriteSprite(Renderer &, Rect const &sourceRect, Rect const &destRect) const;
         bool ReadSprites(const string &fileName);
     };
 }
