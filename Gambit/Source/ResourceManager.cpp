@@ -32,7 +32,7 @@ namespace Gambit
         {
             //result.push_back(_idToResource[guid]);
         }
-        return std::move(result);
+        return result;
     }
 
     bool ResourceManager::AddResource(ResourceId const &id, ResourceBasePtr resource)
