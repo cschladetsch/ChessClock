@@ -14,3 +14,10 @@ namespace Gambit
 
     using string = std::string;
 }
+
+extern "C"
+{
+    uint32_t SDL_GetTicks();
+}
+
+

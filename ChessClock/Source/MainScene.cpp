@@ -18,7 +18,7 @@ namespace ChessClock
         ResourceManager& resources = ctx.resources;
         auto& values = *ctx.values;
 
-        values.font = resources.LoadResource<Font>("AdobeFanHeitiStd-Bold.otf", 120);
+        values.font = resources.LoadResource<Font>("AdobeFanHeitiStd-Bold.otf", 135);
         values.headerFont = resources.LoadResource<Font>("AdobeFanHeitiStd-Bold.otf", 30);
         values.background = resources.LoadResource<Texture>("sample.bmp", &renderer, global.ScreenWidth(), global.ScreenHeight());
         values.numberFont = resources.CreateResource<TimerFont>("Numbers", values.font);
@@ -31,9 +31,10 @@ namespace ChessClock
         values.atlas = resources.LoadResource<Atlas>("Lichess\\atlas", resources, &renderer);
 
         AddStep(ctx, &MainScene::StepWriteBackground);
-        //AddStep(ctx, &MainScene::StepWriteText);
         AddStep(ctx, &MainScene::StepWriteTimers);
         AddStep(ctx, &MainScene::StepPresent);
+
+        values.game.Pause(false);
 
         return true;
     }
@@ -45,29 +46,30 @@ namespace ChessClock
 
     bool MainScene::StepWriteBackground(Context &ctx)
     {
-        auto& atlas = ctx.values->atlas;
+        auto& atlas = *ctx.values->atlas;
         auto& renderer = ctx.renderer;
         auto& resources = ctx.resources;
 
-        atlas->WriteSprite(renderer, "background", Rect{ 0,0,800,480 });
-        WriteHeader(*atlas, ctx, renderer);
-        WriteButtons(*atlas, renderer);
-        WriteFooter(*atlas, ctx, renderer);
+        atlas.WriteSprite(renderer, "background", Rect{ 0,0,800,480 });
+        WriteHeader(atlas, ctx, renderer);
+        WriteButtons(atlas, renderer);
+        WriteFooter(atlas, ctx, renderer);
 
         return true;
-
     }
 
     void MainScene::WriteHeader(Atlas const& atlas, Context &ctx, Renderer& renderer) const
     {
+        Values const& values = *ctx.values;
+
         int y = 6;
         atlas.WriteSprite(renderer, "pawn_white", Vector2{ 30, y });
         atlas.WriteSprite(renderer, "pawn_black", Vector2{ 800 - 30 - 25, y });
 
         y = 14;
-        renderer.WriteTexture(ctx.values->leftNameText, Vector2(85, y));
-        renderer.WriteTexture(ctx.values->versusText, Vector2(400 - 12, y));
-        renderer.WriteTexture(ctx.values->rightNameText, Vector2(580, y));
+        renderer.WriteTexture(values.leftNameText, Vector2(85, y));
+        renderer.WriteTexture(values.versusText, Vector2(400 - 12, y));
+        renderer.WriteTexture(values.rightNameText, Vector2(580, y));
     }
 
     void MainScene::WriteFooter(Atlas const& atlas, Context &ctx, Renderer& renderer) const
@@ -83,21 +85,19 @@ namespace ChessClock
 
     bool MainScene::StepWriteTimers(Context &ctx)
     {
-        auto& values = ctx.values;
-        auto& game = values->game;
-        /*
+        auto &values = *ctx.values;
+        auto &game = values.game;
         if (game.IsPaused())
         {
             return true;
         }
-        */
         uint32_t millis = SDL_GetTicks();
-        auto &player = ctx.values->game.CurrentPlayer();
+        auto &player = game.CurrentPlayer();
         player.UpdateTime(millis);
-        Vector2 destPoint{ 50, 110 };
+        Vector2 destPoint{ 35, 95 };
         uint32_t seconds = millis / 1000;
         uint32_t minutes = seconds / 60;
-        ctx.values->numberFont->DrawTime(ctx.renderer, destPoint, minutes % 60, seconds % 60);
+        values.numberFont->DrawTime(ctx.renderer, destPoint, minutes % 60, seconds % 60);
         return true;
     }
 
@@ -105,6 +105,5 @@ namespace ChessClock
     {
         return ctx.renderer.Present();
     }
-
 }
 

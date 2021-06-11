@@ -16,6 +16,7 @@ namespace ChessClock
         bool _paused{ true };
         EColor _currentColor;
         Navigation _navigation;
+        uint32_t _pauseTime;
 
     public:
         Game(Navigation &nav);
@@ -24,7 +25,9 @@ namespace ChessClock
         void LeftPressed();
         void RightPressed();
 
-        Player& CurrentPlayer();
+        Player const &CurrentPlayer() const;
+        Player &CurrentPlayer();
+
         void Settings();
         void Pause(bool pause = true);
         void Sound();

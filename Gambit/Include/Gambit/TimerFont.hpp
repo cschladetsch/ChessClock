@@ -31,7 +31,7 @@ namespace Gambit
 
     private:
         void DrawTime(Renderer& renderer, Digits const& digits, TexturePtr colon, Vector2 topLeft, uint8_t minutes, uint8_t seconds) const;
-        Vector2 DrawDigitPair(Renderer &, Digits const &, Vector2 const &topLeft, uint8_t number) const;
-        Vector2 DrawColon(Renderer&, TexturePtr colon, Vector2 const& topLeft) const;
+        void DrawDigitPair(Renderer &, Digits const &, Vector2 const &topLeft, uint8_t number) const;
+        void DrawColon(Renderer&, TexturePtr colon, Vector2 const& topLeft) const;
     };
 }

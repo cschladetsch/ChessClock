@@ -8,7 +8,7 @@
 namespace Gambit
 {
     TimerFont::TimerFont(ResourceId const& id, FontPtr font)
-        : ResourceBase(id), _font(font), DarkOffset(7,9)
+        : ResourceBase(id), _font(font), DarkOffset(7,7)
     {
     }
 
@@ -26,17 +26,15 @@ namespace Gambit
         DrawColon(renderer, colon, tl);
         tl.x += _rectColon.width;
         DrawDigitPair(renderer, digits, tl, seconds);
-        tl.x += _rectDigit.width * 2;
     }
 
-    Vector2 TimerFont::DrawColon(Renderer &renderer, TexturePtr colon, Vector2 const& topLeft) const
+    void TimerFont::DrawColon(Renderer &renderer, TexturePtr colon, Vector2 const& topLeft) const
     {
         Rect rect{ topLeft.x, topLeft.y, _rectColon.width, _rectColon.height };
         renderer.WriteTexture(colon, nullptr, &rect);
-        return topLeft + Vector2(_rectColon.left + topLeft.x, topLeft.y);
     }
 
-    Vector2 TimerFont::DrawDigitPair(Renderer &renderer, Digits const &digits, Vector2 const& topleft, uint8_t number) const
+    void TimerFont::DrawDigitPair(Renderer &renderer, Digits const &digits, Vector2 const& topleft, uint8_t number) const
     {
         if (number > 99)
         {
@@ -53,8 +51,6 @@ namespace Gambit
 
         renderer.WriteTexture(digits[digit0], nullptr, &firstDigit);
         renderer.WriteTexture(digits[digit1], nullptr, &secondDigit);
-
-        return Vector2(secondDigit.left + _rectDigit.width*2, _rectDigit.height);
     }
 
     std::string itos(int n)

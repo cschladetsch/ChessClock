@@ -19,7 +19,12 @@ namespace ChessClock
         RegisterCallbacks();
     }
 
-    Player& Game::CurrentPlayer()
+    Player const &Game::CurrentPlayer() const
+    {
+        return _playerLeft;
+    }
+
+    Player &Game::CurrentPlayer()
     {
         return _playerLeft;
     }
@@ -51,7 +56,9 @@ namespace ChessClock
 
     void Game::Pause(bool paused)
     {
-        LOG_INFO() << "Pause\n";
+        _paused = paused;
+        _pauseTime = SDL_GetTicks();
+        LOG_INFO() << LOG_VALUE(paused) << "\n";
     }
 
     void Game::Sound()
