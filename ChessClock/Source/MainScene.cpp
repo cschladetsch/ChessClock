@@ -25,7 +25,7 @@ namespace ChessClock
         values.numberFont->MakeTextures(resources, renderer, Color{ 255,255,255 });
 
         values.leftNameText = values.headerFont->CreateTexture(resources, renderer, "Spamfilter", { 255,255,255 });
-        values.rightNameText = values.headerFont->CreateTexture(resources, renderer, "monoRail", { 255,255,255 });
+        values.rightNameText = values.headerFont->CreateTexture(resources, renderer, "monoRAIL", { 255,255,255 });
         values.versusText = values.headerFont->CreateTexture(resources, renderer, "vs", { 255,255,255 });
 
         values.atlas = resources.LoadResource<Atlas>("Lichess\\atlas", resources, &renderer);
@@ -94,7 +94,7 @@ namespace ChessClock
         uint32_t millis = SDL_GetTicks();
         auto &player = ctx.values->game.CurrentPlayer();
         player.UpdateTime(millis);
-        Vector2 destPoint{ 55, 110 };
+        Vector2 destPoint{ 50, 110 };
         uint32_t seconds = millis / 1000;
         uint32_t minutes = seconds / 60;
         ctx.values->numberFont->DrawTime(ctx.renderer, destPoint, minutes % 60, seconds % 60);
