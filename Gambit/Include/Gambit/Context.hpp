@@ -70,7 +70,7 @@ namespace Gambit
             }
             catch (std::exception &e)
             {
-                LOG_ERROR() << "Exception: " << e.what() << std::endl;
+                LOG_ERROR() << "Exception: " << fg::red << e.what() << std::endl;
                 return 1;
             }
 

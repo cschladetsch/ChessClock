@@ -4,7 +4,6 @@ TEST_CASE("Test Scene", "[scene]")
 {
     SECTION("Create scene")
     {
-
     }
 }
 

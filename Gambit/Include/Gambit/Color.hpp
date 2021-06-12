@@ -39,5 +39,4 @@ namespace std
             return *reinterpret_cast<const uint32_t *>(&color);
         }
     };
-
 }

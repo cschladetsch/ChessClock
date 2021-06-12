@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Gambit/ForwardReferences.hpp"
+#include "Gambit/Logger.hpp"
 
 namespace ChessClock
 {

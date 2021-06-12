@@ -9,6 +9,6 @@ TEST_CASE("Transform operations", "[transform]")
 
     SECTION("Cannot add dupe child")
     {
-}
+    }
 }
 

@@ -4,8 +4,6 @@
 
 #include "ChessClock/MainScene.hpp"
 #include "ChessClock/Game.hpp"
-#include "ChessClock/PlayerTime.hpp"
-#include "ChessClock/Global.hpp"
 #include "ChessClock/MainScene.Values.hpp"
 
 namespace ChessClock
@@ -19,7 +17,7 @@ namespace ChessClock
         ResourceManager& resources = ctx.resources;
         auto& values = *ctx.values;
 
-        values.font = resources.LoadResource<Font>("AdobeFanHeitiStd-Bold.otf", 135);
+        values.font = resources.LoadResource<Font>("AdobeFanHeitiStd-Bold.otf", 125);
         values.headerFont = resources.LoadResource<Font>("AdobeFanHeitiStd-Bold.otf", 30);
         values.numberFont = resources.CreateResource<TimerFont>("Numbers", values.font);
         values.numberFont->MakeTextures(resources, renderer, Color{ 255,255,255 });
@@ -31,13 +29,13 @@ namespace ChessClock
         values.atlas = resources.LoadResource<Atlas>("Lichess\\atlas", resources, &renderer);
 
         AddStep(ctx, &MainScene::StepWriteBackground);
-        AddStep(ctx, &MainScene::StepWriteTimers);
+        AddStep(ctx, &MainScene::StepGame);
         AddStep(ctx, &MainScene::StepPresent);
 
         values.game.SetGameState(EGameState::Playing);
         values.game.SetColor(ESide::Left, EColor::White);
         values.game.SetTimeControl(TimeControl{5, 0});
-        values.game.Pause(false);
+        values.game.GotoPause(false);
 
         return true;
     }
@@ -86,21 +84,29 @@ namespace ChessClock
         atlas.WriteSprite(renderer, "icon_sound", Vector2{ 615, 295 });
     }
 
-    bool MainScene::StepWriteTimers(Context &ctx)
+    void DrawTimer(MainScene::Values& values, Renderer &renderer, Vector2 location, Player const& player)
+    {
+        values.numberFont->DrawTime(renderer, location,
+            (uint8_t)player.GetMinutes(), (uint8_t)player.GetSeconds());
+    }
+
+    bool MainScene::StepGame(Context &ctx)
     {
         auto &values = *ctx.values;
         auto &game = values.game;
+        auto &renderer = ctx.renderer;
         if (game.IsPaused())
-        {
             return true;
-        }
+
         game.Update();
+
         Vector2 destPointLeft{ 35, 95 };
-        Vector2 destPointRight{ 450, 95 };
+        Vector2 destPointRight{ 438, 95 };
         auto const &left = game.LeftPlayer();
         auto const& right = game.RightPlayer();
-        values.numberFont->DrawTime(ctx.renderer, destPointLeft, left.GetMinutes(), left.GetSeconds());
-        values.numberFont->DrawTime(ctx.renderer, destPointRight, right.GetMinutes(), right.GetSeconds());
+        DrawTimer(values, renderer, destPointLeft, left);
+        DrawTimer(values, renderer, destPointRight, right);
+
         return true;
     }
 

@@ -1,39 +1,42 @@
 #pragma once
 
+#include "ChessClock/ForwardReferences.hpp"
 #include "ChessClock/EGameState.hpp"
 #include "ChessClock/PlayerTime.hpp"
+#include "ChessClock/EColor.hpp"
 
 namespace ChessClock
 {
     class Player
     {
         static inline Logger _log{ "Player" };
-        bool _paused{ true };
 
-    public:
-        string Name;
-        PlayerTime _remainingTime{ 0,0,0 };
+        string _name;
+        bool _paused{ true };
         int IncrementSeconds{ 0 };
         EColor _color{ EColor::None };
-        WallClockTimeMillis _timedOutTime{ 0 };
-        bool _timedOut{ false };
+        PlayerTime _remainingTime{ 0,0,0 };
 
     public:
         Player() {}
 
-        Minutes GetMinutes() const { return _remainingTime.GetMinutes(); }
-        Seconds GetSeconds() const { return _remainingTime.GetSeconds(); }
+        string GetName() const { return _name; }
+        void SetName(string name) { _name = name; }
 
         EColor GetColor() const { return _color; }
-        void Pause(bool paused = true);
-        void UpdateTime(MilliSeconds millisConsumed);
-        bool TimedOut() const { return _timedOut; }
-        TimeUnit TimedOutTime() const { return _timedOutTime; }
+
+        bool IsPaused() const { return _paused; }
+
+        Minutes GetMinutes() const { return _remainingTime.GetMinutes(); }
+        Seconds GetSeconds() const { return _remainingTime.GetSeconds(); }
+        TimeUnit HasTimedOut() const { return !_remainingTime.IsPositive(); }
 
     protected:
         friend class Game;
 
-        void SetTimeControl(TimeControl timeControl);
         void SetColor(EColor color) { _color = color; }
+        void Pause(bool paused = true);
+        void SetTimeControl(TimeControl timeControl);
+        void AddMillis(MilliSeconds millis) { _remainingTime.Add(millis); }
     };
 }

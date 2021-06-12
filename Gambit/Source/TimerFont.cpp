@@ -30,7 +30,7 @@ namespace Gambit
 
     void TimerFont::DrawColon(Renderer &renderer, TexturePtr colon, Vector2 const& topLeft) const
     {
-        Rect rect{ topLeft.x, topLeft.y, _rectColon.width, _rectColon.height };
+        Rect rect{ topLeft.x, topLeft.y - 10, _rectColon.width, _rectColon.height };
         renderer.WriteTexture(colon, nullptr, &rect);
     }
 

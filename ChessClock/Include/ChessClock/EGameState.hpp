@@ -1,23 +1,10 @@
 #pragma once
 
 #include <ostream>
-#include "ChessClock/ForwardReferences.hpp"
+#include "ChessClock/ESide.hpp"
 
 namespace ChessClock
 {
-    enum class EColor
-    {
-        None,
-        White,
-        Black,
-    };
-
-    enum class ESide
-    {
-        Left,
-        Right
-    };
-
     enum class EGameState
     {
         None,
@@ -50,12 +37,5 @@ namespace ChessClock
         }
 
         return out << "Unknown game state " << (int)state;
-    }
-
-    inline std::ostream& operator<<(std::ostream& out, EColor color)
-    {
-        if (color == EColor::White)
-            return out << "White";
-        return out << "Black";
     }
 }

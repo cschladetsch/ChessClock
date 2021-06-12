@@ -14,8 +14,8 @@ namespace ChessClock
 
         const Rect ScreenRect;
 
-        int ScreenWidth() const { return ScreenRect.width; }
-        int ScreenHeight() const { return ScreenRect.height; }
+        int GetScreenWidth() const { return ScreenRect.width; }
+        int GetScreenHeight() const { return ScreenRect.height; }
     };
 
     extern Global global;

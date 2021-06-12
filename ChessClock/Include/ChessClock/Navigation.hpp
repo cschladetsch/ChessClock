@@ -12,6 +12,8 @@ namespace ChessClock
 
     class Navigation
     {
+        ENavScreen _current{ ENavScreen::Main };
+
     public:
         Navigation() = default;
 
@@ -19,3 +21,4 @@ namespace ChessClock
         void GoBack();
     };
 }
+

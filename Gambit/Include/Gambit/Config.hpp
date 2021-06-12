@@ -20,4 +20,3 @@ extern "C"
     uint32_t SDL_GetTicks();
 }
 
-

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Gambit/Logger.hpp"
 #include "ChessClock/Config.hpp"
 
 namespace ChessClock

@@ -22,7 +22,7 @@ namespace ChessClock
         bool ProcessEvents(Context &);
 
         bool StepPresent(Context &);
-        bool StepWriteTimers(Context& ctx);
+        bool StepGame(Context& ctx);
         bool StepWriteBackground(Context& ctx);
 
     protected:

@@ -4,7 +4,6 @@
 
 #include "ChessClock/MainScene.hpp"
 #include "ChessClock/Game.hpp"
-#include "ChessClock/Global.hpp"
 
 namespace ChessClock
 {

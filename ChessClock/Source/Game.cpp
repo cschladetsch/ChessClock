@@ -2,17 +2,6 @@
 
 namespace ChessClock
 {
-    void UiCallBacks::Call(string const& name) const
-    {
-        auto call = _callbacks.find(name);
-        if (call == _callbacks.end())
-        {
-            LOG_ERROR() << " no callback for " << name << "\n";
-            return;
-        }
-        call->second();
-    }
-
     Game::Game(Navigation &nav)
         : _navigation(nav)
     {
@@ -22,7 +11,7 @@ namespace ChessClock
     void Game::ResetGame()
     {
         SetTimeControl(_timeControl);
-        Pause();
+        GotoPause();
     }
 
     void Game::SetGameState(EGameState state)
@@ -34,7 +23,7 @@ namespace ChessClock
     {
         if (!_paused)
         {
-            Pause();
+            GotoPause();
         }
         _playerLeft.SetTimeControl(timeControl);
         _playerRight.SetTimeControl(timeControl);
@@ -51,17 +40,17 @@ namespace ChessClock
         _gameTime += delta;
         _lastGameTime = now;
 
-        CurrentPlayer().UpdateTime(delta);
+        CurrentPlayer().AddMillis(-delta);
     }
 
     EColor Game::PlayerTimedOut() const
     {
-        if (_playerLeft.TimedOut())
+        if (_playerLeft.HasTimedOut())
         {
             return _playerLeft.GetColor();
         }
 
-        return _playerRight.TimedOut() ? _playerRight.GetColor() : EColor::None;
+        return _playerRight.HasTimedOut() ? _playerRight.GetColor() : EColor::None;
     }
 
     void Game::SetColor(ESide side, EColor color)
@@ -69,7 +58,7 @@ namespace ChessClock
         if (side == ESide::Left)
         {
             _playerLeft.SetColor(color);
-            _playerRight.SetColor(color == EColor::White ? EColor::Black : EColor::White);
+            _playerRight.SetColor(OtherColor(color));
         }
         else 
         {
@@ -78,71 +67,59 @@ namespace ChessClock
         }
     }
 
-    Player& Game::WhitePlayer() { return _playerLeft.GetColor() == EColor::White ? _playerLeft : _playerRight; }
-    Player& Game::BlackPlayer() { return _playerLeft.GetColor() == EColor::Black ? _playerLeft : _playerRight; }
-
-    Player const& Game::WhitePlayer() const { return _playerLeft.GetColor() == EColor::White ? _playerLeft : _playerRight; }
-    Player const& Game::BlackPlayer() const { return _playerLeft.GetColor() == EColor::Black ? _playerLeft : _playerRight; }
-
-    Player &Game::CurrentPlayer() { return _currentColor == EColor::White ? WhitePlayer() : BlackPlayer(); }
-    Player const &Game::CurrentPlayer() const { return _currentColor == EColor::White ? WhitePlayer() : BlackPlayer(); }
-
     void Game::RegisterCallbacks()
     {
         _callbacks["Left"] = [this]() { return this->LeftPressed(); };
         _callbacks["Right"] = [this]() { return this->RightPressed(); };
-        _callbacks["Pause"] = [this]() { return this->Pause(); };
-        _callbacks["Settings"] = [this]() { return this->ToSettings(); };
-        _callbacks["Sound"] = [this]() { return this->Sound(); };
+        _callbacks["Pause"] = [this]() { return this->GotoPause(); };
+        _callbacks["Settings"] = [this]() { return this->GotoSettings(); };
+        _callbacks["Sound"] = [this]() { return this->GotoSound(); };
         _callbacks["Back"] = [this]() { return this->GoBack(); };
     }
 
     void Game::LeftPressed()
     {
-        LOG_INFO() << "Left\n";
-        if (_paused)
-        {
+        if (_paused || &CurrentPlayer() == &RightPlayer())
             return;
-        }
-        TimeUnit now = TimeNow();
-        TimeUnit delta = now - _lastGameTime;
-        _lastGameTime = now;
-        _playerLeft.UpdateTime(delta);
+        ChangeTurn();
     }
 
     void Game::RightPressed()
     {
-        LOG_INFO() << "Right\n";
-        if (_paused)
-        {
+        if (_paused || &CurrentPlayer() == &LeftPlayer())
             return;
-        }
+        ChangeTurn();
+    }
+
+    void Game::ChangeTurn()
+    {
         TimeUnit now = TimeNow();
         TimeUnit delta = now - _lastGameTime;
         _lastGameTime = now;
-        _playerRight.UpdateTime(delta);
+        CurrentPlayer().AddMillis(-delta);
+        _currentColor = _currentColor == EColor::White ? EColor::Black : EColor::White;
     }
 
-    void Game::ToSettings()
-    {
-        LOG_INFO() << "Settings\n";
-    }
-
-    void Game::Pause(bool paused)
+    void Game::GotoPause(bool paused)
     {
         _paused = paused;
         if (!paused)
         {
-            _lastGameTime = SDL_GetTicks();
+            _lastGameTime = TimeNow();
         }
         CurrentPlayer().Pause(paused);
 
         LOG_INFO() << LOG_VALUE(paused) << LOG_VALUE(_gameTime) << "\n";
     }
 
-    void Game::Sound()
+    void Game::GotoSettings()
     {
-        LOG_INFO() << "Sound\n";
+        LOG_WARN() << "Goto Settings\n";
+    }
+
+    void Game::GotoSound()
+    {
+        LOG_WARN() << "Goto Sound\n";
     }
 
     void Game::GoBack() 

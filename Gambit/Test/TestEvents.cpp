@@ -67,5 +67,4 @@ TEST_CASE("Test event system", "[events]")
         REQUIRE(klass.newString == "foo");
         REQUIRE(klass.newNum == 10);
     }
-
 }
