@@ -23,15 +23,14 @@ add_subdirectory(Test)
 link_directories(/usr/lib/arm-linux-gnueabihf)
 
 if (WIN32)
-	target_link_libraries(${PROJECT_NAME}
-		Gambit
-		${SDL_IMAGE_ROOT}/lib/x64/SDL2_image.lib
-		)
+    target_link_libraries(${PROJECT_NAME}
+        Gambit
+        ${SDL_IMAGE_ROOT}/lib/x64/SDL2_image.lib
+        )
 else()
-	message(STATUS "Linking for pi")
-	target_link_libraries(${PROJECT_NAME}
-		Gambit
-		SDL_image
-		)
+    target_link_libraries(${PROJECT_NAME}
+        Gambit
+        SDL_image
+    )
 endif()
 
