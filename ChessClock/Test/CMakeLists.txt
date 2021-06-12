@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.12)
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake")
 include(cotire)
 
-set(PROJECT_NAME GambitTest)
+set(PROJECT_NAME ChessClockTest)
 
 project(${PROJECT_NAME})
 
@@ -20,9 +20,16 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     CXX_EXTENSIONS OFF)
 
 if (WIN32)
-    target_link_libraries(${PROJECT_NAME} SDL2 SDL2main SDL2_ttf freetyped harfbuzz-subset harfbuzz nlohmann_json::nlohmann_json crossguid )
+	target_link_libraries(${PROJECT_NAME}
+		Gambit
+		${SDL_IMAGE_ROOT}/lib/x64/SDL2_image.lib
+		)
 else()
-    target_link_libraries(${PROJECT_NAME} SDL2 SDL2main SDL2_ttf nlohmann_json::nlohmann_json crossguid )
+	message(STATUS "Linking for pi")
+	target_link_libraries(${PROJECT_NAME}
+		Gambit
+		SDL_image
+		)
 endif()
 
 cotire(${PROJECT_NAME})

@@ -52,6 +52,9 @@ namespace ChessClock
         auto& resources = ctx.resources;
 
         atlas.WriteSprite(renderer, "background", Rect{ 0,0,800,480 });
+        auto left = atlas.GetSprite("left_side");
+        atlas.WriteSprite(renderer, "left_side", left.second.GetTopLeft());
+
         WriteHeader(atlas, ctx, renderer);
         WriteButtons(atlas, renderer);
         WriteFooter(atlas, ctx, renderer);

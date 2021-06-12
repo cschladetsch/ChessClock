@@ -2,6 +2,7 @@
 #include "Gambit/Texture.hpp"
 #include "Gambit/Renderer.hpp"
 #include "Gambit/Vector2.hpp"
+#include "Gambit/Color.hpp"
 
 namespace Gambit
 {
@@ -55,6 +56,14 @@ namespace Gambit
     bool Renderer::Present()
     {
         SDL_RenderPresent(_renderer);
+        return true;
+    }
+
+    bool Renderer::WriteTexture(TexturePtr texture, Vector2 const& topLeft, Gambit::Color const &tint) const
+    {
+        SDL_SetTextureColorMod(&texture->Get(), tint.red, tint.green, tint.blue);
+        WriteTexture(texture, topLeft);
+        SDL_SetTextureColorMod(&texture->Get(), 255, 255, 255);
         return true;
     }
 

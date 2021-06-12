@@ -36,6 +36,7 @@ namespace Gambit
     class TextEntry;
     class Sprite;
     class Atlas;
+    struct Color;
 
     typedef shared_ptr<Atlas> AtlasPtr;
     typedef shared_ptr<Sprite> SpritePtr;

@@ -18,16 +18,23 @@ namespace Gambit
         typedef std::unordered_map<string, Color> TintList;
         typedef JsonReader::JsonNext JsonNext;
 
-        TexturePtr _atlasTexture;;
+        TexturePtr _atlasTexture;
         Sprites _sprites;
-        TintList _tintList;
+        TintList _tints;
+        mutable std::set<string> _tintsNotFound;
 
     public:
         Atlas(TexturePtr atlasTexture, const string &spritsJson);
 
         std::pair<bool, Rect> GetSprite(string const &name) const;
-        bool WriteSprite(Renderer &, string const& name, const Rect& destRect) const;
-        bool WriteSprite(Renderer &, string const &name, Vector2 const &topLeft) const;
+
+        bool WriteSprite(Renderer &, string const &name, const Rect &destRect) const;
+        bool WriteSprite(Renderer &, string const &name, const Vector2 &topLeft) const;
+        bool WriteSprite(Renderer &, string const &name, const Vector2 &destPoint, const string &tintName) const;
+
+        bool WriteRect(Renderer &, Rect const &sourceRect, const Vector2 &destPoint, Color const &color) const;
+        //bool WriteSprite(Renderer &, string const& name, const Vector2& destRect, const string& tintName) const;
+        //bool WriteSprite(Renderer &, string const &name, Rect const &sourceRect, Rect const &destRect, Color const &) const;
 
         template <class ...Args>
         static shared_ptr<Atlas> Load(std::string const& baseName, ResourceId const& id, Args... args)
@@ -39,10 +46,14 @@ namespace Gambit
         }
 
     private:
+        bool SpriteNotFound(const string& name) const;
+        bool TintNotFound(const string& name) const;
+
+        std::pair<bool, Color> GetTint(const string& name) const;
+
         static shared_ptr<Atlas> LoadAtlas(ResourceManager &, Renderer &, string const& baseName, ResourceId const& id);
         bool WriteSprite(Renderer &, Rect const &sourceRect, Rect const &destRect) const;
         bool ReadSprites(const string &fileName);
-        bool SpriteNotFound(const string& name) const;
 
         bool ParseJson(JsonNext &item);
     };

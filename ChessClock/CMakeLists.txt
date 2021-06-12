@@ -16,6 +16,10 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
         CXX_STANDARD 17
         CXX_EXTENSIONS OFF
         )
+
+
+add_subdirectory(Test)
+
 link_directories(/usr/lib/arm-linux-gnueabihf)
 
 if (WIN32)

@@ -35,7 +35,7 @@ namespace Gambit
         return Color(rc[0], rc[1], rc[2]);
     }
 
-    bool Atlas::ParseJson(JsonNext &item)
+    bool Atlas::ParseJson(JsonNext& item)
     {
         auto& name = item.key();
         auto& value = item.value();
@@ -48,10 +48,10 @@ namespace Gambit
 
         if (type == "tint_list")
         {
-            _tintList["active_player"] = GetColor(value, "active_player");
-            _tintList["low_time_inactive"] = GetColor(value, "low_time_inactive");
-            _tintList["low_time_active"] = GetColor(value, "low_time_active");
-            _tintList["button_pressed"] = GetColor(value, "button_pressed");
+            _tints["active_player"] = GetColor(value, "active_player");
+            _tints["low_time_inactive"] = GetColor(value, "low_time_inactive");
+            _tints["low_time_active"] = GetColor(value, "low_time_active");
+            _tints["button_pressed"] = GetColor(value, "button_pressed");
         }
 
         return false;
@@ -74,27 +74,66 @@ namespace Gambit
         return make_pair(true, found->second);
     }
 
+    std::pair<bool, Color> Atlas::GetTint(const string& name) const
+    {
+        auto found = _tints.find(name);
+        if (found == _tints.end())
+        {
+            LOG_ERROR() << "No tint named " << name << " found\n.";
+            _tintsNotFound.insert(name);
+            return { false, Color() };
+        }
+        return std::make_pair(true, found->second);
+    }
+
     bool Atlas::SpriteNotFound(const string& name) const
     {
         LOG_ERROR() << "No sprite named " << name << " found\n.";
         return false;
     }
 
-    bool Atlas::WriteSprite(Renderer& renderer, string const& name, const Vector2& topLeft) const
+    bool Atlas::TintNotFound(const string& name) const
+    {
+        LOG_ERROR() << "No tint named " << name << " found\n.";
+        return false;
+    }
+
+    bool Atlas::WriteSprite(Renderer& renderer, string const& name, const Vector2& destPoint, const string& tintName) const
     {
         auto found = GetSprite(name);
-        auto destRect = Rect{ topLeft.x, topLeft.y, found.second.width, found.second.height };
-        return !found.first ? false : WriteSprite(renderer, found.second, destRect);
+        if (!found.first)
+            return SpriteNotFound(name);
+
+        auto tintFound = GetTint(tintName);
+        if (!tintFound.first)
+            return TintNotFound(tintName);
+
+        auto texture = found.second;
+        auto tint = tintFound.second;
+
+        SDL_SetTextureColorMod(&_atlasTexture->Get(), tint.red, tint.green, tint.blue);
+        WriteRect(renderer, found.second, destPoint, tint);
+        SDL_SetTextureColorMod(&_atlasTexture->Get(), 255, 255, 255);
+
+        return true;
+    }
+
+    bool Atlas::WriteRect(Renderer &renderer, const Rect& sourceRect, const Vector2& destPoint, Color const& color) const
+    {
+        return false;
     }
 
     bool Atlas::WriteSprite(Renderer& renderer, string const& name, const Rect& destRect) const
     {
         auto found = GetSprite(name);
         if (!found.first)
-        {
             return SpriteNotFound(name);
-        }
         return WriteSprite(renderer, found.second, destRect);
+    }
+
+    bool Atlas::WriteSprite(Renderer&, string const& name, Vector2 const& topLeft) const
+    {
+        GAMBIT_NOT_IMPLEMENTED();
     }
 
     bool Atlas::WriteSprite(Renderer& renderer, Rect const& sourceRect, Rect const& destRect) const

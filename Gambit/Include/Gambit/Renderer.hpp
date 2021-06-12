@@ -30,6 +30,7 @@ namespace Gambit
 
         bool WriteTexture(TexturePtr texture, Rect const *source, Rect const *dest) const;
         bool WriteTexture(TexturePtr texture, Vector2 const &topLeft) const;
+        bool WriteTexture(TexturePtr texture, Vector2 const &topLeft, Gambit::Color const &tint) const;
     };
 }
 
