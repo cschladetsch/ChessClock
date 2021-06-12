@@ -17,8 +17,8 @@ namespace ChessClock
         MilliSeconds _lastGameTime{ 0 };
         TimeControl _timeControl{ 5,0 };
         Player _playerLeft, _playerRight;
-        EColor _currentColor{ EColor::White };
-        EGameState _gameState{ EGameState::None };
+        EColor _currentColor{ EColor::Black };
+        EGameState _gameState{ EGameState::Ready };
 
     public:
         Game(Navigation &nav);
@@ -34,7 +34,8 @@ namespace ChessClock
         TimeControl GetTimeControl() const { return _timeControl; }
         TimeControl GetTimeControl(ESide side) const;
 
-        bool IsPaused() const { return _paused;  }
+        void Pause(bool pause = true) { _paused = pause; }
+        bool IsPaused() const { return _paused; }
 
         void Update();
 
@@ -60,6 +61,7 @@ namespace ChessClock
         EColor GetPlayerTimedOut() const;
 
     private:
+        void RockerPressed();
         Player &CurrentPlayer() { return _currentColor == EColor::White ? WhitePlayer() : BlackPlayer(); }
 
         Player &WhitePlayer() { return _playerLeft.GetColor() == EColor::White ? _playerLeft : _playerRight; }

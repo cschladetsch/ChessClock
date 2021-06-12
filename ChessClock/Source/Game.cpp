@@ -85,16 +85,33 @@ namespace ChessClock
 
     void Game::LeftPressed()
     {
-        if (_paused || &CurrentPlayer() == &RightPlayer())
-            return;
-        ChangeTurn();
+        //if (_currentColor != CurrentPlayer().GetColor())
+            RockerPressed();
     }
 
     void Game::RightPressed()
     {
-        if (_paused || &CurrentPlayer() == &LeftPlayer())
+        //if (_currentColor != CurrentPlayer().GetColor())
+            RockerPressed();
+    }
+
+    void Game::RockerPressed()
+    {
+        if (_paused
+            && _gameState == EGameState::Ready
+            && _currentColor == EColor::Black)
+        {
+            _gameState = EGameState::Playing;
+            _currentColor = EColor::White;
+            _lastGameTime = TimeNow();
+            Pause(false);
             return;
-        ChangeTurn();
+        }
+        else
+        {
+            if (_gameState == EGameState::Playing)
+                ChangeTurn();
+        }
     }
 
     Player& Game::GetPlayer(ESide side)
