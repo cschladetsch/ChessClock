@@ -19,22 +19,30 @@ namespace ChessClock
         LOG_INFO() << "SetGameState " << LOG_VALUE(state) << "\n";
     }
 
+    void Game::SwapColors()
+    {
+        std::swap(_playerLeft, _playerRight);
+    }
+
     void Game::SetTimeControl(TimeControl timeControl)
     {
         if (!_paused)
-        {
             GotoPause();
-        }
+
         _playerLeft.SetTimeControl(timeControl);
         _playerRight.SetTimeControl(timeControl);
+    }
+
+    void Game::SetTimeControl(ESide side, TimeControl timeControl)
+    {
+        GetPlayer(side).SetTimeControl(timeControl);
     }
 
     void Game::Update()
     {
         if (_paused)
-        {
             return;
-        }
+
         TimeUnit now = TimeNow();
         TimeUnit delta = now - _lastGameTime;
         _gameTime += delta;
@@ -43,12 +51,10 @@ namespace ChessClock
         CurrentPlayer().AddMillis(-delta);
     }
 
-    EColor Game::PlayerTimedOut() const
+    EColor Game::GetPlayerTimedOut() const
     {
         if (_playerLeft.HasTimedOut())
-        {
             return _playerLeft.GetColor();
-        }
 
         return _playerRight.HasTimedOut() ? _playerRight.GetColor() : EColor::None;
     }
@@ -91,12 +97,19 @@ namespace ChessClock
         ChangeTurn();
     }
 
+    Player& Game::GetPlayer(ESide side)
+    {
+        return side == ESide::Left ? _playerLeft : _playerRight;
+    }
+
     void Game::ChangeTurn()
     {
         TimeUnit now = TimeNow();
         TimeUnit delta = now - _lastGameTime;
         _lastGameTime = now;
-        CurrentPlayer().AddMillis(-delta);
+        Player& currentPlayer = CurrentPlayer();
+        currentPlayer.AddMillis(-delta);
+        currentPlayer.AddSeconds(currentPlayer.GetIncrement());
         _currentColor = _currentColor == EColor::White ? EColor::Black : EColor::White;
     }
 
@@ -104,9 +117,8 @@ namespace ChessClock
     {
         _paused = paused;
         if (!paused)
-        {
             _lastGameTime = TimeNow();
-        }
+
         CurrentPlayer().Pause(paused);
 
         LOG_INFO() << LOG_VALUE(paused) << LOG_VALUE(_gameTime) << "\n";

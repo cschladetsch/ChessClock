@@ -34,7 +34,7 @@ namespace ChessClock
 
         values.game.SetGameState(EGameState::Playing);
         values.game.SetColor(ESide::Left, EColor::White);
-        values.game.SetTimeControl(TimeControl{5, 0});
+        values.game.SetTimeControl(TimeControl{5, 0, 5});
         values.game.GotoPause(false);
 
         return true;

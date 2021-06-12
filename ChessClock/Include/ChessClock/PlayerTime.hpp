@@ -8,24 +8,23 @@ namespace ChessClock
     {
         TimeControl _timeControl;
         TimeControl _remaining;
-        TimeUnit _incrementSeconds{ 0 };
 
     public:
         PlayerTime(int minutes, int seconds, int incrementSeconds = 0)
-            : _timeControl(minutes, seconds), _remaining(minutes, seconds)
-            , _incrementSeconds(incrementSeconds)
+            : _timeControl(minutes, seconds, incrementSeconds), _remaining(minutes, seconds)
         {
         }
 
         Minutes GetMinutes() const { return _remaining.GetMinutes(); }
         Seconds GetSeconds() const { return _remaining.GetSeconds(); }
+        Seconds GetIncrement() const { return _timeControl.GetIncrement(); }
 
         void Reset() { Reset(_timeControl); }
         void Reset(TimeControl timeControl) { _remaining = _timeControl = timeControl; }
         bool IsPositive() const { return _remaining.IsPositive(); }
 
-        void Add(MilliSeconds millis) { _remaining.AddMillis(millis); }
-        void Subtract(MilliSeconds millis) { Add(-millis); }
+        void AddMilliSeconds(MilliSeconds millis) { _remaining.AddMillis(millis); }
+        void Subtract(MilliSeconds millis) { AddMilliSeconds(-millis); }
     };
 
     TimeUnit TimeNow();

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "ChessClock/UiCallBacks.hpp"
 #include "ChessClock/Player.hpp"
 #include "ChessClock/Navigation.hpp"
+#include "ChessClock/UiCallBacks.hpp"
 
 namespace ChessClock
 {
@@ -11,14 +11,14 @@ namespace ChessClock
     {
         static inline Logger _log{ "Game" };
 
-        Player _playerLeft, _playerRight;
         bool _paused{ true };
         Navigation _navigation{ };
-        MilliSeconds _lastGameTime{ 0 };
         MilliSeconds _gameTime{ 0 };
+        MilliSeconds _lastGameTime{ 0 };
         TimeControl _timeControl{ 5,0 };
-        EGameState _gameState{ EGameState::None };
+        Player _playerLeft, _playerRight;
         EColor _currentColor{ EColor::White };
+        EGameState _gameState{ EGameState::None };
 
     public:
         Game(Navigation &nav);
@@ -55,13 +55,17 @@ namespace ChessClock
         void GotoPause(bool pause = true);
         void GotoSound();
 
-        EColor PlayerTimedOut() const;
+        void SwapColors();
+
+        EColor GetPlayerTimedOut() const;
 
     private:
         Player &CurrentPlayer() { return _currentColor == EColor::White ? WhitePlayer() : BlackPlayer(); }
 
         Player &WhitePlayer() { return _playerLeft.GetColor() == EColor::White ? _playerLeft : _playerRight; }
         Player &BlackPlayer() { return _playerLeft.GetColor() == EColor::Black ? _playerLeft : _playerRight; }
+
+        Player& GetPlayer(ESide side);
 
         void RegisterCallbacks();
         void GoBack();

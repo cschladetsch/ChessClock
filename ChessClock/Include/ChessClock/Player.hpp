@@ -13,7 +13,6 @@ namespace ChessClock
 
         string _name;
         bool _paused{ true };
-        int IncrementSeconds{ 0 };
         EColor _color{ EColor::None };
         PlayerTime _remainingTime{ 0,0,0 };
 
@@ -30,6 +29,7 @@ namespace ChessClock
         Minutes GetMinutes() const { return _remainingTime.GetMinutes(); }
         Seconds GetSeconds() const { return _remainingTime.GetSeconds(); }
         TimeUnit HasTimedOut() const { return !_remainingTime.IsPositive(); }
+        Seconds GetIncrement() const { return _remainingTime.GetIncrement(); }
 
     protected:
         friend class Game;
@@ -37,6 +37,7 @@ namespace ChessClock
         void SetColor(EColor color) { _color = color; }
         void Pause(bool paused = true);
         void SetTimeControl(TimeControl timeControl);
-        void AddMillis(MilliSeconds millis) { _remainingTime.Add(millis); }
+        void AddMillis(MilliSeconds millis) { _remainingTime.AddMilliSeconds(millis); }
+        void AddSeconds(Seconds seconds) { _remainingTime.AddMilliSeconds(seconds*1000); }
     };
 }

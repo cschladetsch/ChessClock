@@ -55,6 +55,13 @@ namespace ChessClock
                     return true;
                 }
 
+                case SDLK_UP:
+                {
+                    LOG_INFO() << "Swap sides\n";
+                    values.game.SwapColors();
+                    break;
+                }
+
                 case SDLK_LEFT:
                 {
                     LOG_INFO() << "Pressed left\n";
