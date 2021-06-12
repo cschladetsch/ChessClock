@@ -3,6 +3,8 @@
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
 #
 
+Cppcheck-cppcheck-build-dir
+
 .idea
 cmake-build-debug
 cmake-build-release

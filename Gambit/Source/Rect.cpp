@@ -14,7 +14,7 @@ namespace Gambit
 }
 
 
-std::ostream& operator<<(std::ostream& s, Gambit::Rect &rc)
+std::ostream& operator<<(std::ostream& s, Gambit::Rect const &rc)
 {
     return s << '[' << rc.left << ", " << rc.top << ", " << rc.width << ", " << rc.height << ']';
 }
