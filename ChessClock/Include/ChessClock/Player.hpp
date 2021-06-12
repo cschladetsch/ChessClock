@@ -37,7 +37,7 @@ namespace ChessClock
         void SetColor(EColor color) { _color = color; }
         void Pause(bool paused = true);
         void SetTimeControl(TimeControl timeControl);
-        void AddMillis(MilliSeconds millis) { _remainingTime.AddMilliSeconds(millis); }
-        void AddSeconds(Seconds seconds) { _remainingTime.AddMilliSeconds(seconds*1000); }
+        void AddMillis(MilliSeconds millis) { _remainingTime.AddMillis(millis); }
+        void AddSeconds(Seconds seconds) { _remainingTime.AddMillis(seconds*1000); }
     };
 }
