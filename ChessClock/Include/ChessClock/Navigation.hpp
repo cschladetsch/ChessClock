@@ -13,6 +13,8 @@ namespace ChessClock
     class Navigation
     {
     public:
+        Navigation() = default;
+
         void Goto(ENavScreen scene);
         void GoBack();
     };

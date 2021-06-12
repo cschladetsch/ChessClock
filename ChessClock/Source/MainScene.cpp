@@ -4,6 +4,7 @@
 
 #include "ChessClock/MainScene.hpp"
 #include "ChessClock/Game.hpp"
+#include "ChessClock/PlayerTime.hpp"
 #include "ChessClock/Global.hpp"
 #include "ChessClock/MainScene.Values.hpp"
 
@@ -20,7 +21,6 @@ namespace ChessClock
 
         values.font = resources.LoadResource<Font>("AdobeFanHeitiStd-Bold.otf", 135);
         values.headerFont = resources.LoadResource<Font>("AdobeFanHeitiStd-Bold.otf", 30);
-        values.background = resources.LoadResource<Texture>("sample.bmp", &renderer, global.ScreenWidth(), global.ScreenHeight());
         values.numberFont = resources.CreateResource<TimerFont>("Numbers", values.font);
         values.numberFont->MakeTextures(resources, renderer, Color{ 255,255,255 });
 
@@ -34,6 +34,9 @@ namespace ChessClock
         AddStep(ctx, &MainScene::StepWriteTimers);
         AddStep(ctx, &MainScene::StepPresent);
 
+        values.game.SetGameState(EGameState::Playing);
+        values.game.SetColor(ESide::Left, EColor::White);
+        values.game.SetTimeControl(TimeControl{5, 0});
         values.game.Pause(false);
 
         return true;
@@ -87,20 +90,17 @@ namespace ChessClock
     {
         auto &values = *ctx.values;
         auto &game = values.game;
-        /*
         if (game.IsPaused())
         {
             return true;
         }
-        uint32_t millis = SDL_GetTicks();
-        auto &player = game.CurrentPlayer();
-        player.UpdateTime(millis);
-        Vector2 destPoint{ 35, 95 };
-        uint32_t seconds = millis / 1000;
-        uint32_t minutes = seconds / 60;
-        values.numberFont->DrawTime(ctx.renderer, destPoint, minutes % 60, seconds % 60);
-        */
         game.Update();
+        Vector2 destPointLeft{ 35, 95 };
+        Vector2 destPointRight{ 450, 95 };
+        auto const &left = game.LeftPlayer();
+        auto const& right = game.RightPlayer();
+        values.numberFont->DrawTime(ctx.renderer, destPointLeft, left.GetMinutes(), left.GetSeconds());
+        values.numberFont->DrawTime(ctx.renderer, destPointRight, right.GetMinutes(), right.GetSeconds());
         return true;
     }
 

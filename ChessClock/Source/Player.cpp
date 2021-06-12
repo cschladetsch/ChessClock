@@ -11,7 +11,7 @@ namespace ChessClock
 
     void Player::SetTimeControl(TimeControl timeControl)
     {
-        RemainingTime.Reset(timeControl);
+        _remainingTime.Reset(timeControl);
     }
 
     void Player::UpdateTime(MilliSeconds millisConsumed)
@@ -21,12 +21,12 @@ namespace ChessClock
             return;
         }
 
-        RemainingTime.Subtract(millisConsumed);
-        RemainingTime.Add(IncrementSeconds*1000);
+        _remainingTime.Subtract(millisConsumed);
+        _remainingTime.Add(IncrementSeconds*1000);
 
-        if (!RemainingTime.IsPositive())
+        if (!_remainingTime.IsPositive())
         {
-            _timedOutTime = SDL_GetTicks();
+            _timedOutTime = TimeNow();
             _timedOut = true;
             LOG_INFO() << LOG_VALUE(_color) << LOG_VALUE(_timedOutTime) << "\n";
             return;

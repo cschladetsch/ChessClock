@@ -16,7 +16,6 @@ namespace ChessClock
         FontPtr headerFont;
         FontPtr footerFont;
         TexturePtr backBuffer;
-        TexturePtr background;
         TexturePtr leftNameText;
         TexturePtr rightNameText;
         TexturePtr versusText;

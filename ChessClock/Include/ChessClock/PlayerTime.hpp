@@ -4,36 +4,48 @@
 
 namespace ChessClock
 {
-    typedef int64_t TimeUnit, MilliSeconds, WallClockTimeMillis;
+    typedef int64_t TimeUnit, Minutes, Seconds, MilliSeconds, WallClockTimeMillis;
 
-    struct TimeControl
+    class TimeControl
     {
-        TimeUnit minutes{ 0 }, seconds{ 0 }, millis{ 0 };
-        TimeUnit IncrementSeconds;
+        TimeUnit _totalMillis{ 0 };
+
+    public:
+        TimeControl(TimeUnit minutes, TimeUnit seconds)
+        {
+            _totalMillis = (minutes * 60 + seconds) * 1000;
+        }
+
+        Seconds GetTotalSeconds() const { return _totalMillis / 1000; }
+        Minutes GetMinutes() const { return GetTotalSeconds()/ 60; }
+        Seconds GetSeconds() const { return GetTotalSeconds() % 60; }
+        MilliSeconds GetMillis() const { return _totalMillis % 1000; }
+
+        void AddMillis(MilliSeconds millis) { _totalMillis += millis; }
+
+        bool IsPositive() const { return _totalMillis > 0; }
     };
 
     class PlayerTime
     {
         TimeControl _timeControl;
+        TimeControl _remaining;
+        TimeUnit _incrementSeconds{ 0 };
 
     public:
-        TimeUnit minutes{ 0 }, seconds{ 0 }, millis{ 0 };
-
-        void Reset()
+        PlayerTime(int minutes, int seconds, int incrementSeconds = 0)
+            : _timeControl(minutes, seconds), _remaining(minutes, seconds), _incrementSeconds(incrementSeconds)
         {
-            Reset(_timeControl);
         }
 
-        void Reset(TimeControl timeControl)
-        {
-            _timeControl = timeControl;
-            minutes = timeControl.minutes;
-            seconds = timeControl.seconds;
-        }
+        Minutes GetMinutes() const { return _remaining.GetMinutes(); }
+        Seconds GetSeconds() const { return _remaining.GetSeconds(); }
 
-        bool IsPositive() const { return minutes > 0 || seconds > 0 || millis > 0; }
+        void Reset() { Reset(_timeControl); }
+        void Reset(TimeControl timeControl) { _remaining = _timeControl = timeControl; }
+        bool IsPositive() const { return _remaining.IsPositive(); }
 
-        void Add(MilliSeconds millis);
+        void Add(MilliSeconds millis) { _remaining.AddMillis(millis); }
         void Subtract(MilliSeconds millis) { Add(-millis); }
     };
 

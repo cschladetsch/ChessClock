@@ -36,7 +36,6 @@ namespace ChessClock
         {
             Pause();
         }
-        ResetGame();
         _playerLeft.SetTimeControl(timeControl);
         _playerRight.SetTimeControl(timeControl);
     }
@@ -47,9 +46,12 @@ namespace ChessClock
         {
             return;
         }
-        TimeUnit currentTicks = SDL_GetTicks();
-        _gameTime += (TimeUnit)currentTicks - (TimeUnit)_lastGameTime;
-        _lastGameTime = (TimeUnit)currentTicks;
+        TimeUnit now = TimeNow();
+        TimeUnit delta = now - _lastGameTime;
+        _gameTime += delta;
+        _lastGameTime = now;
+
+        CurrentPlayer().UpdateTime(delta);
     }
 
     EColor Game::PlayerTimedOut() const
@@ -90,7 +92,7 @@ namespace ChessClock
         _callbacks["Left"] = [this]() { return this->LeftPressed(); };
         _callbacks["Right"] = [this]() { return this->RightPressed(); };
         _callbacks["Pause"] = [this]() { return this->Pause(); };
-        _callbacks["Settings"] = [this]() { return this->Settings(); };
+        _callbacks["Settings"] = [this]() { return this->ToSettings(); };
         _callbacks["Sound"] = [this]() { return this->Sound(); };
         _callbacks["Back"] = [this]() { return this->GoBack(); };
     }
@@ -121,7 +123,7 @@ namespace ChessClock
         _playerRight.UpdateTime(delta);
     }
 
-    void Game::Settings()
+    void Game::ToSettings()
     {
         LOG_INFO() << "Settings\n";
     }
