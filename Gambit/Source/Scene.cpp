@@ -54,8 +54,7 @@ namespace Gambit
     {
         auto& name = item.key();
         auto& value = item.value();
-        auto const& id = _resourceManager->NewId();
-        ObjectPtr object = std::make_shared<Object>(name.c_str(), id, *_resourceManager);
+        ObjectPtr object = _resourceManager->CreateObject(name);
 
         auto& sprite = value["sprite"];
         auto& location = value["location"];
@@ -63,6 +62,7 @@ namespace Gambit
 
         object->Sprite = sprite;
         object->Position = Vector2(location[0], location[1]);
+        object->Layer = layer;
 
         if (value.contains("mirror"))
         {

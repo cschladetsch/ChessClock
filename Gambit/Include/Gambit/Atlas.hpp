@@ -1,5 +1,7 @@
 #pragma once
 
+#include <set>
+
 #include "Gambit/Logger.hpp"
 #include "Gambit/Rect.hpp"
 #include "Gambit/Color.hpp"

@@ -22,7 +22,6 @@ namespace Gambit
         ObjectPtr _parent;
 
     public:
-
         string Name;
         Vector2 Position;
         float Rotation{ 0 };

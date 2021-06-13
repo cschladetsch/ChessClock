@@ -1,13 +1,11 @@
 #pragma once
 
-#include <set>
-#include <fstream>
 #include <unordered_map>
 
 #include "Gambit/Resource.hpp"
 #include "Gambit/ResourceLoader.hpp"
-#include "Gambit/Scene.hpp"
 #include "Gambit/Object.hpp"
+#include "Gambit/Scene.hpp"
 
 namespace Gambit
 {
@@ -16,10 +14,11 @@ namespace Gambit
         static inline Logger _log{ "ResourceManager" };
 
         typedef std::unordered_map<ResourceId, ResourceBasePtr> IdToResources;
-        typedef std::unordered_map<ResourceId, std::vector<Guid>> ObjectToResources;
+        typedef std::unordered_map<ResourceId, ObjectPtr> IdToObject;
 
         IdToResources _idToResource;
-        ObjectToResources _objectToResources;
+        IdToObject _idToObject;
+
         Renderer const* _renderer;
         string _rootFolder;
 
@@ -40,6 +39,12 @@ namespace Gambit
             return resource;
         }
 
+        ObjectPtr CreateObject(const string &name)
+        {
+            auto object = std::make_shared<Object>(name, NewId(), *this);
+            return _idToObject[object->GetResourceId().GetGuid()] = object;
+        }
+
         template <class Res, class ...Args>
         shared_ptr<Res> CreateResource(const char* name, Args... args)
         {
@@ -58,45 +63,17 @@ namespace Gambit
 
         string MakeResourceFilename(const char* name);
 
-        bool AddResource(Object const&, ResourceBasePtr);
-        bool AddResource(ResourceId const &, ResourceBasePtr);
-
-        std::vector<ResourceBasePtr> GetResources(Object const&);
-
-
-		/*
-        template <class Ty>
-        std::vector<ComponentPtr> GetComponents(Object const& object) const
+        ResourceBasePtr GetResource(ResourceId const& id) const
         {
-            auto found = _objectToComponents.find(object.GetResourceId());
-            if (found == _objectToComponents.end())
-            {
-                return std::vector<ComponentPtr>();
-            }
-            std::vector<ComponentPtr> results;
-            for (auto component : *found)
-            {
-                if (Ty* value = dynamic_cast<Ty>(&*component))
-                {
-                    results.push_back(value);
-                }
-            }
-            return results;
-        }
-	*/
-
-	/*
-        template <class Ty>
-        Resource<Ty> *GetResource(ResourceId const&rid)
-        {
-            auto found = _idToResource(rid);
+            auto found = _idToResource.find(id);
             if (found == _idToResource.end())
-            {
                 return 0;
-            }
-
-            return dynamic_cast<Resource<Ty> *>(found->second);
+            return found->second;
         }
-	*/
+
+        void AddResource(ResourceId const& id, ResourceBasePtr resource)
+        {
+            _idToResource[id] = resource;
+        }
     };
 }
