@@ -1,5 +1,7 @@
 #pragma once
 
+#include <map>
+
 #include "Gambit/ForwardReferences.hpp"
 #include "Gambit/Resource.hpp"
 #include "Gambit/JsonReader.hpp"
@@ -12,11 +14,11 @@ namespace Gambit
     {
         static inline Logger _log{ "Scene" };
 
-        typedef std::unordered_map<string, Object> Objects;
+        typedef std::map<int, ObjectPtr> LayerToRoot;
 
         ResourceManager* _resourceManager;
         Atlas const* _atlas;
-        ObjectPtr _root;
+        LayerToRoot _layerToRoots;
 
     public:
         Scene(ResourceId const &, ResourceManager&, Atlas const &, const char* fileName);
@@ -30,7 +32,8 @@ namespace Gambit
             return LoadScene(resources, fileName, *atlas);
         }
 
-        ObjectPtr GetRoot() const { return _root; }
+        ObjectPtr GetRoot(ObjectPtr object);
+        void AddObject(ObjectPtr object);
 
         void PreUpdate();
         void Update();

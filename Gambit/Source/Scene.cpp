@@ -15,13 +15,27 @@ namespace Gambit
         , _resourceManager(&resourceManager)
         , _atlas(&atlas)
     {
-        _root = make_shared<Object>("root", resourceManager.NewId(), resourceManager);
-
         if (!ReadJson(fileName))
-        {
             LOG_ERROR() << "Failed to load scene from " << LOG_VALUE(fileName) << "\n";
-            return;
+    }
+
+    ObjectPtr Scene::GetRoot(ObjectPtr object)
+    {
+        if (!object)
+        {
+            LOG_ERROR() << "null object";
+            return 0;
         }
+        int layer = object->Layer;
+        auto root = _layerToRoots.find(layer);
+        if (root != _layerToRoots.end())
+        {
+            return root->second;
+        }
+
+        std::stringstream out;
+        out << "Root" << layer << std::ends;
+        return _layerToRoots[layer] = make_shared<Object>(out.str(), _resourceManager->NewId(), *_resourceManager);
     }
 
     void Scene::PreUpdate()
@@ -40,14 +54,21 @@ namespace Gambit
     {
     }
 
+    bool logRender;
+
     void Scene::Render(Renderer &renderer) const
     {
-        for (auto& object : _root->GetChildren())
+        for (auto& root : _layerToRoots)
         {
-            if (!object->Sprite.empty())
+            for (auto& object : root.second->GetChildren())
             {
-                _atlas->WriteSprite(renderer, *object);
-                //_atlas->WriteSprite(renderer, object->Sprite, object->Position, object->Tint);
+                if (!object->Sprite.empty())
+                {
+                    if (logRender)
+                        LOG_DEBUG() << "Drawing " << LOG_VALUE(object->Name) << ", " << LOG_VALUE(object->Layer) << "\n";
+
+                    _atlas->WriteSprite(renderer, *object);
+                }
             }
         }
     }
@@ -59,6 +80,11 @@ namespace Gambit
     shared_ptr<Scene> Scene::LoadScene(ResourceManager &resources, string const &fileName, Atlas const &atlas)
     {
         return make_shared<Scene>(resources.NewId(), resources, atlas, fileName.c_str());
+    }
+
+    void Scene::AddObject(ObjectPtr object)
+    {
+        GetRoot(object)->AddChild(object);
     }
 
     bool Scene::ParseJson(JsonNext& item)
@@ -82,7 +108,7 @@ namespace Gambit
         SetValue(value, "mirror", object, &Object::Mirror);
         SetValue(value, "tint", object, &Object::Tint);
 
-        _root->AddChild(objectPtr);
+        AddObject(objectPtr);
 
         return false;
     }

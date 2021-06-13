@@ -58,6 +58,8 @@ namespace ChessClock
         renderer.WriteTexture(values.leftNameText, Vector2(85, y));
         renderer.WriteTexture(values.versusText, Vector2(400 - 12, y));
         renderer.WriteTexture(values.rightNameText, Vector2(580, y));
+
+        values.debugTick = false;
         return true;
     }
 

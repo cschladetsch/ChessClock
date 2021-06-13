@@ -25,29 +25,29 @@ namespace Gambit
     public:
         Logger(const char* source, ELogLevel logLevel = ELogLevel::Verbose);
 
-        std::ostream& Info(const char* file, int line) const;
-        std::ostream& Debug(const char* file, int line) const;
-        std::ostream& Warn(const char* file, int line) const;
-        std::ostream& Error(const char* file, int line) const;
+        std::ostream& Info(const char* file, int line, const char *function) const;
+        std::ostream& Debug(const char* file, int line, const char *function) const;
+        std::ostream& Warn(const char* file, int line, const char *function) const;
+        std::ostream& Error(const char* file, int line, const char *function) const;
 
     private:
-        std::ostream& PrintLead(const char* file, int line, rang::fg const &color, const char *level) const;
+        std::ostream& PrintLead(const char* file, int line, const char *func, rang::fg const &color, const char *level) const;
         std::ostream& Print(const char* file, int line, const char* level, const char* text) const;
     };
 }
 
 #define LOG_INFO() \
-    _log.Info(__FILE__, __LINE__)
+    _log.Info(__FILE__, __LINE__, __FUNCTION__)
 
 #define LOG_DEBUG() \
-    _log.Debug(__FILE__, __LINE__)
+    _log.Debug(__FILE__, __LINE__, __FUNCTION__)
 
 #define LOG_WARN() \
-    _log.Warn(__FILE__, __LINE__)
+    _log.Warn(__FILE__, __LINE__, __FUNCTION__)
 
 #define LOG_ERROR() \
-    _log.Error(__FILE__, __LINE__)
+    _log.Error(__FILE__, __LINE__, __FUNCTION__)
 
 #define LOG_VALUE(X) \
-    " | " << ::rang::style::underline << NAMEOF(X) << ::rang::style::reset << ::rang::fg::green << "=" << X
+    "| " << ::rang::style::underline << ::rang::style::bold << NAMEOF(X) << ::rang::style::reset << ::rang::fg::blue << "=" << X << " "
 

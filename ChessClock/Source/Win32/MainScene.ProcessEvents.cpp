@@ -2,6 +2,11 @@
 #include "ChessClock/MainScene.hpp"
 #include "ChessClock/MainScene.Values.hpp"
 
+namespace Gambit
+{
+    extern bool logRender;
+}
+
 namespace ChessClock
 {
     bool MainScene::ProcessEvents(Context& ctx)
@@ -41,6 +46,12 @@ namespace ChessClock
             {
                 switch (event.key.keysym.sym)
                 {
+                case SDLK_d:
+                {
+                    ctx.values->debugTick = true;
+                    Gambit::logRender = !Gambit::logRender;
+                    continue;
+                }
                 case SDLK_ESCAPE:
                 {
                     LOG_INFO() << "Pressed Escape\n";

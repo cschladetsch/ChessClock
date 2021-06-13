@@ -1,11 +1,5 @@
 #include "Gambit/Logger.hpp"
 
-
-extern "C"
-{
-    uint32_t SDL_GetTicks();
-}
-
 namespace Gambit
 {
     Logger::Logger(const char* source, ELogLevel level)
@@ -17,36 +11,36 @@ namespace Gambit
         _source = source;
     }
 
-    std::ostream& Logger::Info(const char* file, int line) const
+    std::ostream& Logger::Info(const char* file, int line, const char *func) const
     {
         if (ELogLevel::Info <= _logLevel)
-            return PrintLead(file, line, fg::green, "INFO");
+            return PrintLead(file, line, func, fg::green, "INFO");
 
         return _null;
     }
 
-    std::ostream& Logger::Debug(const char* file, int line) const
+    std::ostream& Logger::Debug(const char* file, int line, const char *func) const
     {
         if (ELogLevel::Debug <= _logLevel)
-            return PrintLead(file, line, fg::cyan, "DEBUG");
+            return PrintLead(file, line, func, fg::cyan, "DEBUG");
 
         return _null;
     }
 
-    std::ostream& Logger::Warn(const char* file, int line) const
+    std::ostream& Logger::Warn(const char* file, int line, const char *func) const
     {
         if (ELogLevel::Warn <= _logLevel)
-            return PrintLead(file, line, fg::yellow, "WARN");
+            return PrintLead(file, line, func, fg::yellow, "WARN");
 
         return _null;
     }
 
-    std::ostream& Logger::Error(const char* file, int line) const
+    std::ostream& Logger::Error(const char* file, int line, const char *func) const
     {
-        return PrintLead(file, line, fg::red, "ERROR");
+        return PrintLead(file, line, func, fg::red, "ERROR");
     }
 
-    std::ostream& Logger::PrintLead(const char* file, int line, rang::fg const &color, const char *level) const
+    std::ostream& Logger::PrintLead(const char* file, int line, const char *func, rang::fg const &color, const char *level) const
     {
 #if WIN32
         char *lead = "C:\\Users\\chris\\repos\\ChessClock\\";
@@ -56,7 +50,11 @@ namespace Gambit
         string fl = file;
         fl = fl.substr(strlen(lead));
         auto millis = SDL_GetTicks()/1000.0f;
-        return std::cout << fg::reset << style::italic << millis << "ms: " << fg::reset << fg::gray << style::dim << fl << "(" << line << "):" << style::bold << " [" << color << level << fg::gray << "]: {" << fg::magenta << _source << fg::gray << "}:\n" << fg::blue;
+        std::cout << style::reset << fg::reset << style::italic << fg::yellow << millis;
+        std::cout << "ms: " << fg::reset << fg::gray << style::dim << fl << "(" << line << "): ";
+        std::cout << fg::cyan << func << fg::gray << ": " << style::bold << "\n";
+        std::cout << "\t[" << color << level << fg::gray << "]: {" << fg::magenta << _source << fg::gray << "}:\n" << fg::blue;
+        return std::cout << "\t";
     }
 }
 

@@ -11,4 +11,8 @@
     <vs-configurations>
         <config>Debug</config>
     </vs-configurations>
+    <exclude>
+        <path name="ThirdParty/"/>
+        <path name="../Gambit/Include/Gambit/ThirdParty/"/>
+    </exclude>
 </project>
