@@ -79,10 +79,15 @@ namespace Gambit
 
     bool Atlas::WriteRect(Renderer &renderer, const Rect& sourceRect, const Rect& destRect, Color const& tint) const
     {
-        SDL_SetTextureColorMod(&_atlasTexture->Get(), tint.red, tint.green, tint.blue);
-        WriteRect(renderer, sourceRect, destRect);
-        SDL_SetTextureColorMod(&_atlasTexture->Get(), 0, 0, 0);
-        return SDL_GetError() == 0;
+        int result = 0;
+        CALL_SDL(SDL_SetTextureColorMod(&_atlasTexture->Get(), tint.red, tint.green, tint.blue));
+        if (!WriteRect(renderer, sourceRect, destRect))
+        {
+            LOG_ERROR() << "WriteRect\n";
+            return false;
+        }
+        CALL_SDL(SDL_SetTextureColorMod(&_atlasTexture->Get(), 255, 255, 255));
+        return result == 0;
     }
 
     bool Atlas::WriteSprite(Renderer& renderer, string const& name, const Rect& destRect) const
@@ -100,14 +105,13 @@ namespace Gambit
         if (!found.first)
             return SpriteNotFound(name);
         Rect const& dest = found.second;
-        LOG_INFO() << "Draw " << name << " at " << topLeft << "\n";
-
         return WriteRect(renderer, found.second, Rect(topLeft.x, topLeft.y, dest.width, dest.height));
     }
 
     bool Atlas::WriteRect(Renderer& renderer, Rect const& sourceRect, Rect const& destRect) const
     {
-        auto result = SDL_RenderCopyEx(
+        int result = 0;
+        CALL_SDL(SDL_RenderCopyEx(
             renderer.GetRenderer(),
             &_atlasTexture->Get(),
             ToSdlRect(sourceRect),
@@ -115,15 +119,9 @@ namespace Gambit
             0, // angle
             nullptr, // center
             SDL_FLIP_NONE // renderFlip
-        );
+        ));
 
-        if (result != 0)
-        {
-            LOG_ERROR() << "WriteSprite: " << LOG_VALUE(SDL_GetError()) << "\n";
-            return false;
-        }
-
-        return true;
+        return result == 0;
     }
 
     shared_ptr<Atlas> Atlas::LoadAtlas(ResourceManager &resources, Renderer &renderer, string const& baseName, ResourceId const& id)
