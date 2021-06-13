@@ -39,13 +39,14 @@ namespace Gambit
     {
     }
 
-    void Scene::Render(Renderer &renderer)
+    void Scene::Render(Renderer &renderer) const
     {
         for (auto& object : _root->GetChildren())
         {
             if (!object->Sprite.empty())
             {
-                _atlas->WriteSprite(renderer, object->Sprite, object->Position, object->Tint);
+                _atlas->WriteSprite(renderer, *object);
+                //_atlas->WriteSprite(renderer, object->Sprite, object->Position, object->Tint);
             }
         }
     }

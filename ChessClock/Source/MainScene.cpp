@@ -30,7 +30,6 @@ namespace ChessClock
         values.scene = resources.LoadResource<Scene>("Lichess\\scene_playing.json", resources, values.atlas);
 
         AddStep(ctx, &MainScene::RenderScene);
-        //AddStep(ctx, &MainScene::RenderBackground);
         AddStep(ctx, &MainScene::StepGame);
         AddStep(ctx, &MainScene::Present);
 
@@ -46,47 +45,6 @@ namespace ChessClock
     {
         ctx.steps.push_back([this, method](auto& ctx) { return (this->*method)(ctx); });
     }
-/*
-    bool MainScene::RenderBackground(Context &ctx)
-    {
-        auto& atlas = *ctx.values->atlas;
-        auto& renderer = ctx.renderer;
-        auto& resources = ctx.resources;
-
-        atlas.WriteSprite(renderer, "background", Rect{ 0,0,800,480 });
-
-        WriteHeader(atlas, ctx, renderer);
-        WriteButtons(atlas, renderer);
-        WriteFooter(atlas, ctx, renderer);
-
-        return true;
-    }
-
-    void MainScene::WriteHeader(Atlas const& atlas, Context &ctx, Renderer& renderer) const
-    {
-        Values const& values = *ctx.values;
-
-        int y = 6;
-        atlas.WriteSprite(renderer, "pawn_white", Vector2{ 30, y });
-        atlas.WriteSprite(renderer, "pawn_black", Vector2{ 800 - 30 - 25, y });
-
-        y = 14;
-        renderer.WriteTexture(values.leftNameText, Vector2(85, y));
-        renderer.WriteTexture(values.versusText, Vector2(400 - 12, y));
-        renderer.WriteTexture(values.rightNameText, Vector2(580, y));
-    }
-
-    void MainScene::WriteFooter(Atlas const& atlas, Context &ctx, Renderer& renderer) const
-    {
-    }
-
-    void MainScene::WriteButtons(Atlas const &atlas, Renderer &renderer) const
-    {
-        atlas.WriteSprite(renderer, "icon_settings", Vector2{ 85, 295 });
-        atlas.WriteSprite(renderer, "icon_pause", Vector2{ 375, 295 });
-        atlas.WriteSprite(renderer, "icon_sound", Vector2{ 615, 295 });
-    }
-    */
 
     bool MainScene::RenderScene(Context& ctx)
     {

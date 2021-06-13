@@ -37,7 +37,7 @@ namespace Gambit
         void PostUpdate();
 
         void PreRender();
-        void Render(Renderer &renderer);
+        void Render(Renderer &renderer) const;
         void PostRender();
 
     private:

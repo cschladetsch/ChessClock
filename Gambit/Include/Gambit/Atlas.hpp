@@ -44,6 +44,8 @@ namespace Gambit
             return LoadAtlas(resources, *renderer, baseName, id);
         }
 
+        bool WriteSprite(Renderer &renderer, Object const &object) const;
+
     private:
         bool SpriteNotFound(const string& name) const;
         bool TintNotFound(const string& name) const;

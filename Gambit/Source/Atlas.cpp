@@ -85,6 +85,11 @@ namespace Gambit
         return std::make_pair(true, found->second);
     }
 
+    bool Atlas::WriteSprite(Renderer& renderer, Object const& object) const
+    {
+        return WriteSprite(renderer, object.Sprite, object.Position, object.Tint);
+    }
+
     bool Atlas::SpriteNotFound(const string& name) const
     {
         if (_notFound.find(name) != _notFound.end())
@@ -124,18 +129,17 @@ namespace Gambit
             if (!tintFound.first)
                 return TintNotFound(tintName);
             tint = tintFound.second;
+            return WriteRect(renderer, found.second, Rect{ destPoint.x, destPoint.y, rect.width, rect.height }, tint);
         }
 
-        WriteRect(renderer, found.second, Rect{ destPoint.x, destPoint.y, rect.width, rect.height }, tint);
-
-        return true;
+        return WriteRect(renderer, found.second, Rect{ destPoint.x, destPoint.y, rect.width, rect.height });
     }
 
     bool Atlas::WriteRect(Renderer &renderer, const Rect& sourceRect, const Rect& destRect, Color const& tint) const
     {
         SDL_SetTextureColorMod(&_atlasTexture->Get(), tint.red, tint.green, tint.blue);
         WriteRect(renderer, sourceRect, destRect);
-        SDL_SetTextureColorMod(&_atlasTexture->Get(), 255, 255, 255);
+        SDL_SetTextureColorMod(&_atlasTexture->Get(), 0, 0, 0);
         return SDL_GetError() == 0;
     }
 
