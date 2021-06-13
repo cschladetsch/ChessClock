@@ -2,26 +2,30 @@
 
 #include "Gambit/ForwardReferences.hpp"
 #include "Gambit/Resource.hpp"
+#include "Gambit/JsonReader.hpp"
 
 namespace Gambit
 {
     class Scene
-        : Resource<Scene>
+        : public ResourceBase
+        , JsonReader
     {
-        TransformPtr _root;
+        static inline Logger _log{ "Scene" };
+
         typedef std::unordered_map<string, Object> Objects;
 
-        Objects _objects;
+        ResourceManager* _resourceManager;
+        TransformPtr _root;
 
     public:
-        Scene();
+        Scene(ResourceId const &, ResourceManager&, const char* fileName);
 
         template <class ...Args>
-        shared_ptr<Scene> Load(const char* fileName, Args ...args)
+        static shared_ptr<Scene> Load(std::string const& fileName, ResourceId const& id, Args... args)
         {
             auto tuple = std::tuple{ args... };
-            ResourceManager const *rm = std::get<0>(tuple);
-            return LoadScene(rm, fileName);
+            auto& resources = std::get<0>(tuple);
+            return LoadScene(resources, fileName);
         }
 
         TransformPtr GetRoot() const { return _root; }
@@ -35,6 +39,7 @@ namespace Gambit
         void PostRender();
 
     private:
-        shared_ptr<Scene> LoadScene(ResourceManager &, const char* fileName);
+        static shared_ptr<Scene> LoadScene(ResourceManager &, string const &fileName);
+        bool ParseJson(JsonNext &item);
     };
 }

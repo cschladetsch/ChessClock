@@ -6,6 +6,7 @@
 
 #include "Gambit/Resource.hpp"
 #include "Gambit/ResourceLoader.hpp"
+#include "Gambit/Scene.hpp"
 #include "Gambit/Object.hpp"
 
 namespace Gambit

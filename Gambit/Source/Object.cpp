@@ -4,8 +4,9 @@
 
 namespace Gambit
 {
-    Object::Object(ResourceManager& rm, ResourceId const& resourceId)
-        : _resourceManager(&rm), _resourceId(resourceId)
+    Object::Object(ResourceId const&resourceId, ResourceManager& resourceManager)
+        : _resourceManager(&resourceManager)
+        , ResourceBase(resourceId)
     {
     }
 

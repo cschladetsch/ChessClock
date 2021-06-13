@@ -18,6 +18,7 @@ namespace ChessClock
         TexturePtr leftNameText;
         TexturePtr rightNameText;
         TexturePtr versusText;
+        ScenePtr scene;
 
         Rect textBounds;
         NumberFontPtr numberFont;

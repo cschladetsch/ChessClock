@@ -3,14 +3,14 @@
 	{
 		"sprite" : "background",
 		"location" : [ 0, 0 ],
-		"layer" : 0,
+		"layer" : 0
 	},
 	
 	"left_clock_face":
 	{
 		"sprite" : "clock_face_colored",
 		"location" : [ 8, 64 ],
-		"layer" : 1,
+		"layer" : 1
 	},
 	
 	"right_clock_face":

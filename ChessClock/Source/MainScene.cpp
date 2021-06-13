@@ -27,6 +27,7 @@ namespace ChessClock
         values.versusText = values.headerFont->CreateTexture(resources, renderer, "vs", { 255,255,255 });
 
         values.atlas = resources.LoadResource<Atlas>("Lichess\\atlas", resources, &renderer);
+        values.scene = resources.LoadResource<Scene>("Lichess\\scene_playing.json", resources);
 
         AddStep(ctx, &MainScene::StepWriteBackground);
         AddStep(ctx, &MainScene::StepGame);
