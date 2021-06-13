@@ -52,7 +52,7 @@ namespace Gambit
 
     bool Atlas::WriteSprite(Renderer& renderer, Object const& object) const
     {
-        return WriteSprite(renderer, object.Sprite, object.Position, object.Tint);
+        return WriteSprite(renderer, object.Sprite, object.Position);// , object.Tint);
     }
 
     bool Atlas::WriteSprite(Renderer& renderer, string const& name, const Vector2& destPoint, const string& tintName) const

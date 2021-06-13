@@ -3,11 +3,12 @@
 #include "Gambit/ResourceManager.hpp"
 #include "Gambit/ThirdParty/Json.hpp"
 
+// conversion 
+#pragma warning (disable:4244)
+
 namespace Gambit
 {
     using namespace std;
-
-#pragma warning (disable:4244)
 
     Scene::Scene(ResourceId const &id, ResourceManager &resourceManager, Atlas const &atlas, const char* fileName)
         : ResourceBase(id)

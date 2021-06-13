@@ -22,7 +22,7 @@ namespace ChessClock
         values.numberFont = resources.CreateResource<TimerFont>("Numbers", values.font);
         values.numberFont->MakeTextures(resources, renderer, Color{ 255,255,255 });
 
-        values.leftNameText = values.headerFont->CreateTexture(resources, renderer, "Spamfilter", { 255,255,255 });
+        values.leftNameText = values.headerFont->CreateTexture(resources, renderer, "Spamfilter", { 255,5,0 });
         values.rightNameText = values.headerFont->CreateTexture(resources, renderer, "monoRAIL", { 255,255,255 });
         values.versusText = values.headerFont->CreateTexture(resources, renderer, "vs", { 255,255,255 });
 
@@ -70,14 +70,15 @@ namespace ChessClock
     bool MainScene::StepGame(Context &ctx)
     {
         auto &values = *ctx.values;
+        auto &renderer = ctx.renderer;
         auto &game = values.game;
+
         if (!game.IsPaused())
             game.Update();
 
         Vector2 destPointLeft{ 35, 95 };
         Vector2 destPointRight{ 438, 95 };
 
-        auto &renderer = ctx.renderer;
         DrawTimer(values, renderer, destPointLeft, game.LeftPlayer());
         DrawTimer(values, renderer, destPointRight, game.RightPlayer());
 
