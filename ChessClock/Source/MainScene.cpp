@@ -93,7 +93,8 @@ namespace ChessClock
         auto& renderer = ctx.renderer;
         auto& values = *ctx.values;
 
-        ctx.values->scene->Render(ctx.renderer);
+        values.atlas->WriteSprite(renderer, "background", Rect{ 0,0,800,480 });
+        values.scene->Render(ctx.renderer);
 
         int y = 14;
         renderer.WriteTexture(values.leftNameText, Vector2(85, y));

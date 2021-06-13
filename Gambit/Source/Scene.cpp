@@ -45,7 +45,7 @@ namespace Gambit
         {
             if (!object->Sprite.empty())
             {
-                _atlas->WriteSprite(renderer, object->Sprite, object->Position);
+                _atlas->WriteSprite(renderer, object->Sprite, object->Position, object->Tint);
             }
         }
     }

@@ -26,6 +26,16 @@ namespace Gambit
             return left.red == right.red && left.green == right.green && left.blue == right.blue && left.alpha == right.alpha;
         }
     };
+
+    struct Colors
+    {
+        static inline Color White{ 255, 255, 255 };
+        static inline Color Black{ 0,0,0 };
+        static inline Color Red{ 255,0,0 };
+        static inline Color Gree{ 0,255,0 };
+        static inline Color Blue{ 0,0,255 };
+    };
+
 }
 //#pragma pack(pop)
 

@@ -1,3 +1,5 @@
+#include <set>
+
 #include "SDL_image.h"
 
 #include "Gambit/ThirdParty/SDL.hpp"
@@ -95,33 +97,46 @@ namespace Gambit
 
     bool Atlas::TintNotFound(const string& name) const
     {
-        LOG_ERROR() << "No tint named " << name << " found\n.";
+        auto found = _tints.find(name);
+        if (found == _tints.end())
+        {
+            LOG_ERROR() << "No tint named '" << name << "' found\n.";
+            return false;
+        }
+
+        _tintsNotFound.insert(name);
         return false;
     }
 
     bool Atlas::WriteSprite(Renderer& renderer, string const& name, const Vector2& destPoint, const string& tintName) const
     {
+        //LOG_DEBUG() << "Render sprite " << name << "\n";
+
         auto found = GetSprite(name);
         if (!found.first)
             return SpriteNotFound(name);
+        auto rect = found.second;
 
-        auto tintFound = GetTint(tintName);
-        if (!tintFound.first)
-            return TintNotFound(tintName);
+        auto tint = Colors::White;
+        if (!tintName.empty())
+        {
+            auto tintFound = GetTint(tintName);
+            if (!tintFound.first)
+                return TintNotFound(tintName);
+            tint = tintFound.second;
+        }
 
-        auto texture = found.second;
-        auto tint = tintFound.second;
-
-        SDL_SetTextureColorMod(&_atlasTexture->Get(), tint.red, tint.green, tint.blue);
-        WriteRect(renderer, found.second, destPoint, tint);
-        SDL_SetTextureColorMod(&_atlasTexture->Get(), 255, 255, 255);
+        WriteRect(renderer, found.second, Rect{ destPoint.x, destPoint.y, rect.width, rect.height }, tint);
 
         return true;
     }
 
-    bool Atlas::WriteRect(Renderer &renderer, const Rect& sourceRect, const Vector2& destPoint, Color const& color) const
+    bool Atlas::WriteRect(Renderer &renderer, const Rect& sourceRect, const Rect& destRect, Color const& tint) const
     {
-        return false;
+        SDL_SetTextureColorMod(&_atlasTexture->Get(), tint.red, tint.green, tint.blue);
+        WriteRect(renderer, sourceRect, destRect);
+        SDL_SetTextureColorMod(&_atlasTexture->Get(), 255, 255, 255);
+        return SDL_GetError() == 0;
     }
 
     bool Atlas::WriteSprite(Renderer& renderer, string const& name, const Rect& destRect) const
@@ -129,7 +144,8 @@ namespace Gambit
         auto found = GetSprite(name);
         if (!found.first)
             return SpriteNotFound(name);
-        return WriteSprite(renderer, found.second, destRect);
+        //LOG_INFO() << "Draw " << name << " at " << destRect << "\n";
+        return WriteRect(renderer, found.second, destRect);
     }
 
     bool Atlas::WriteSprite(Renderer &renderer, string const& name, Vector2 const& topLeft) const
@@ -138,10 +154,12 @@ namespace Gambit
         if (!found.first)
             return SpriteNotFound(name);
         Rect const& dest = found.second;
-        return WriteSprite(renderer, found.second, Rect(topLeft.x, topLeft.y, dest.width, dest.height));
+        LOG_INFO() << "Draw " << name << " at " << topLeft << "\n";
+
+        return WriteRect(renderer, found.second, Rect(topLeft.x, topLeft.y, dest.width, dest.height));
     }
 
-    bool Atlas::WriteSprite(Renderer& renderer, Rect const& sourceRect, Rect const& destRect) const
+    bool Atlas::WriteRect(Renderer& renderer, Rect const& sourceRect, Rect const& destRect) const
     {
         auto result = SDL_RenderCopyEx(
             renderer.GetRenderer(),
@@ -157,6 +175,7 @@ namespace Gambit
             LOG_ERROR() << "WriteSprite: " << LOG_VALUE(SDL_GetError()) << "\n";
             return false;
         }
+
         return true;
     }
 

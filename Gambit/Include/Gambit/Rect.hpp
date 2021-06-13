@@ -20,6 +20,9 @@ namespace Gambit
         return reinterpret_cast<SDL_Rect*>(const_cast<Rect *>(&rect));
     }
 
+    inline std::ostream& operator<<(std::ostream& s, const Gambit::Rect &rc)
+    {
+        return s << '[' << rc.left << ", " << rc.top << ", " << rc.width << ", " << rc.height << ']';
+    }
 }
 
-std::ostream& operator<<(std::ostream& s, Gambit::Rect&);

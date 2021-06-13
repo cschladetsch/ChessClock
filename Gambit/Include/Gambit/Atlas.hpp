@@ -51,7 +51,8 @@ namespace Gambit
         std::pair<bool, Color> GetTint(const string& name) const;
 
         static shared_ptr<Atlas> LoadAtlas(ResourceManager &, Renderer &, string const& baseName, ResourceId const& id);
-        bool WriteSprite(Renderer &, Rect const &sourceRect, Rect const &destRect) const;
+        bool WriteRect(Renderer &, Rect const &sourceRect, Rect const &destRect) const;
+        bool WriteRect(Renderer &, Rect const &sourceRect, Rect const &destRect, Color const& tint) const;
         bool ReadSprites(const string &fileName);
 
         bool ParseJson(JsonNext &item);
