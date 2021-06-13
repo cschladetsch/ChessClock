@@ -35,7 +35,7 @@ namespace ChessClock
 
         values.game.SetGameState(EGameState::Playing);
         values.game.SetColor(ESide::Left, EColor::White);
-        values.game.SetTimeControl(TimeControl{5, 0, 5});
+        values.game.SetTimeControl(TimeControl{5, 0, 3});
         values.game.Pause();
 
         return true;
@@ -71,16 +71,15 @@ namespace ChessClock
     {
         auto &values = *ctx.values;
         auto &game = values.game;
-        auto &renderer = ctx.renderer;
         if (!game.IsPaused())
             game.Update();
 
         Vector2 destPointLeft{ 35, 95 };
         Vector2 destPointRight{ 438, 95 };
-        auto const &left = game.LeftPlayer();
-        auto const& right = game.RightPlayer();
-        DrawTimer(values, renderer, destPointLeft, left);
-        DrawTimer(values, renderer, destPointRight, right);
+
+        auto &renderer = ctx.renderer;
+        DrawTimer(values, renderer, destPointLeft, game.LeftPlayer());
+        DrawTimer(values, renderer, destPointRight, game.RightPlayer());
 
         return true;
     }

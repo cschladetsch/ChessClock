@@ -16,7 +16,7 @@ namespace Gambit
     using namespace std;
     using nlohmann::json;
 
-    static set<string> _notFound;
+    static set<string> _spritesNotFound;
     static set<string> _tintsNotFound;
 
     Atlas::Atlas(TexturePtr texture, const string& spritesName)
@@ -26,40 +26,6 @@ namespace Gambit
         {
             LOG_ERROR() << "Failed to load Atlas from " << LOG_VALUE(spritesName) << "\n";
         }
-    }
-
-    Rect GetRect(nlohmann::json& json, const char* name)
-    {
-        auto const& rc = json[name].get<vector<int>>();
-        return Rect(rc[0], rc[1], rc[2], rc[3]);
-    }
-
-    Color GetColor(nlohmann::json& json, const char* name)
-    {
-        auto const& rc = json[name].get<vector<int>>();
-        return Color(rc[0], rc[1], rc[2]);
-    }
-
-    bool Atlas::ParseJson(JsonNext& item)
-    {
-        auto& name = item.key();
-        auto& value = item.value();
-        auto& type = value["type"];
-        if (type == "sprite")
-        {
-            _sprites[name] = GetRect(value, "location");
-            return true;
-        }
-
-        if (type == "tint_list")
-        {
-            _tints["active_player"] = GetColor(value, "active_player");
-            _tints["low_time_inactive"] = GetColor(value, "low_time_inactive");
-            _tints["low_time_active"] = GetColor(value, "low_time_active");
-            _tints["button_pressed"] = GetColor(value, "button_pressed");
-        }
-
-        return false;
     }
 
     pair<bool, Rect> Atlas::GetSprite(string const& name) const
@@ -78,8 +44,7 @@ namespace Gambit
         auto found = _tints.find(name);
         if (found == _tints.end())
         {
-            LOG_ERROR() << "No tint named " << name << " found\n.";
-            _tintsNotFound.insert(name);
+            TintNotFound(name);
             return { false, Color() };
         }
         return std::make_pair(true, found->second);
@@ -88,29 +53,6 @@ namespace Gambit
     bool Atlas::WriteSprite(Renderer& renderer, Object const& object) const
     {
         return WriteSprite(renderer, object.Sprite, object.Position, object.Tint);
-    }
-
-    bool Atlas::SpriteNotFound(const string& name) const
-    {
-        if (_notFound.find(name) != _notFound.end())
-        {
-            LOG_ERROR() << "No sprite named " << name << " found\n.";
-        }
-        _notFound.insert(name);
-        return false;
-    }
-
-    bool Atlas::TintNotFound(const string& name) const
-    {
-        auto found = _tints.find(name);
-        if (found == _tints.end())
-        {
-            LOG_ERROR() << "No tint named '" << name << "' found\n.";
-            return false;
-        }
-
-        _tintsNotFound.insert(name);
-        return false;
     }
 
     bool Atlas::WriteSprite(Renderer& renderer, string const& name, const Vector2& destPoint, const string& tintName) const
@@ -174,6 +116,7 @@ namespace Gambit
             nullptr, // center
             SDL_FLIP_NONE // renderFlip
         );
+
         if (result != 0)
         {
             LOG_ERROR() << "WriteSprite: " << LOG_VALUE(SDL_GetError()) << "\n";
@@ -206,5 +149,61 @@ namespace Gambit
         resources.AddResource(ptr->GetResourceId(), ptr);
 
         return make_shared<Atlas>(ptr, spritesName);
+    }
+
+    bool Atlas::SpriteNotFound(const string& name) const
+    {
+        if (_spritesNotFound.find(name) != _spritesNotFound.end())
+        {
+            LOG_ERROR() << "No sprite named '" << name << "' found\n.";
+            return false;
+        }
+        _spritesNotFound.insert(name);
+        return false;
+    }
+
+    bool Atlas::TintNotFound(const string& name) const
+    {
+        if (_tintsNotFound.find(name) != _tintsNotFound.end())
+        {
+            LOG_ERROR() << "No tint named '" << name << "' found\n.";
+            return false;
+        }
+        _tintsNotFound.insert(name);
+        return false;
+    }
+
+    Rect GetRect(nlohmann::json& json, const char* name)
+    {
+        auto const& rc = json[name].get<vector<int>>();
+        return Rect(rc[0], rc[1], rc[2], rc[3]);
+    }
+
+    Color GetColor(nlohmann::json& json, const char* name)
+    {
+        auto const& rc = json[name].get<vector<int>>();
+        return Color(rc[0], rc[1], rc[2]);
+    }
+
+    bool Atlas::ParseJson(JsonNext& item)
+    {
+        auto& name = item.key();
+        auto& value = item.value();
+        auto& type = value["type"];
+        if (type == "sprite")
+        {
+            _sprites[name] = GetRect(value, "location");
+            return true;
+        }
+
+        if (type == "tint_list")
+        {
+            _tints["active_player"] = GetColor(value, "active_player");
+            _tints["low_time_inactive"] = GetColor(value, "low_time_inactive");
+            _tints["low_time_active"] = GetColor(value, "low_time_active");
+            _tints["button_pressed"] = GetColor(value, "button_pressed");
+        }
+
+        return false;
     }
 }
