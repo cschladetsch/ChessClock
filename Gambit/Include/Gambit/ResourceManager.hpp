@@ -25,6 +25,12 @@ namespace Gambit
     public:
         ResourceManager(Renderer const &renderer, const char *rootFolder);
 
+        ObjectPtr CreateObject(const string &name)
+        {
+            auto object = std::make_shared<Object>(name, NewId(), *this);
+            return _idToObject[object->GetResourceId().GetGuid()] = object;
+        }
+
         template <class Res, class ...Args>
         shared_ptr<Res> LoadResource(const char* name, Args... args)
         {
@@ -37,12 +43,6 @@ namespace Gambit
             }
             _idToResource[id] = resource->SharedBase();
             return resource;
-        }
-
-        ObjectPtr CreateObject(const string &name)
-        {
-            auto object = std::make_shared<Object>(name, NewId(), *this);
-            return _idToObject[object->GetResourceId().GetGuid()] = object;
         }
 
         template <class Res, class ...Args>
@@ -59,10 +59,6 @@ namespace Gambit
             return resource;
         }
 
-        ResourceId NewId() const;
-
-        string MakeResourceFilename(const char* name);
-
         ResourceBasePtr GetResource(ResourceId const& id) const
         {
             auto found = _idToResource.find(id);
@@ -75,5 +71,9 @@ namespace Gambit
         {
             _idToResource[id] = resource;
         }
+
+        ResourceId NewId() const;
+
+        string MakeResourceFilename(const char* name);
     };
 }

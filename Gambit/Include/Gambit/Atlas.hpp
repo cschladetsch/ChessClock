@@ -1,7 +1,5 @@
 #pragma once
 
-#include <set>
-
 #include "Gambit/Logger.hpp"
 #include "Gambit/Rect.hpp"
 #include "Gambit/Color.hpp"
@@ -23,7 +21,6 @@ namespace Gambit
         TexturePtr _atlasTexture;
         Sprites _sprites;
         TintList _tints;
-        mutable std::set<string> _tintsNotFound;
 
     public:
         Atlas(TexturePtr atlasTexture, const string &spritsJson);

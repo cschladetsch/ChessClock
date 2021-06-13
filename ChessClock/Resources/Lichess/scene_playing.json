@@ -23,34 +23,32 @@
 	
 	"button_settings":
 	{
+		"type" : "button",
 		"sprite" : "button_side_colored",
-		"location" : [ 8, 280 ],
-		"layer" : 1,
-		"tint" : "button_pressed"
-	},
-	
-	"button_volume":
-	{
-		"sprite" : "button_side_colored",
-		"location" : [ 544, 280 ],
-		"layer" : 1,
-		"mirror" : true,
-		"tint" : "button_pressed"
+		"callback" : "SettingsPressed"
 	},
 	
 	"button_pause":
 	{
+		"type" : "button",
 		"sprite" : "button_middle_colored",
-		"location" : [ 264, 280 ],
-		"layer" : 1,
-		"tint" : "button_pressed"
+		"callback": "PausePressed"
+	},
+	
+	"button_volume":
+	{
+		"type" : "button",
+		"sprite" : "button_side_colored",
+		"callback": "VolumePressed"
 	},
 	
 	"icon_settings" :
 	{
+		"type" : "sprite",
 		"sprite" : "icon_settings",
 		"location" : [ 80, 288 ],
-		"layer" : 2
+		"layer": 2,
+		"callback" : "SettingsPressed"
 	},
 	
 	"icon_pause" :

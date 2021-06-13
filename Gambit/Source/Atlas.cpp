@@ -14,6 +14,9 @@ namespace Gambit
     using namespace std;
     using nlohmann::json;
 
+    static set<string> _notFound;
+    static set<string> _tintsNotFound;
+
     Atlas::Atlas(TexturePtr texture, const string& spritesName)
         : _atlasTexture(texture)
     {
@@ -56,8 +59,6 @@ namespace Gambit
 
         return false;
     }
-
-    set<string> _notFound;
 
     pair<bool, Rect> Atlas::GetSprite(string const& name) const
     {
