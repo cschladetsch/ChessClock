@@ -22,7 +22,7 @@ namespace Gambit
         ResourceBase(ResourceId resourceId)
             : _resourceId(resourceId) { }
 
-        std::shared_ptr<ResourceBase> SharedBase() { return shared_from_this(); }
+        std::shared_ptr<ResourceBase> SharedBase() { return std::enable_shared_from_this<ResourceBase>::shared_from_this(); }
     };
 }
 

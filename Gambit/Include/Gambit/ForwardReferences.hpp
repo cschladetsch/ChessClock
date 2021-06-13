@@ -27,7 +27,6 @@ namespace Gambit
     class ResourceBase;
     class Renderer;
 
-    class Transform;
     class Font;
     class TimerFont;
     class Texture;
@@ -49,6 +48,5 @@ namespace Gambit
     typedef shared_ptr<Texture> TexturePtr;
     typedef shared_ptr<Object> ObjectPtr;
     typedef shared_ptr<ResourceBase> ResourceBasePtr;
-    typedef shared_ptr<Transform> TransformPtr;
 }
 

@@ -15,7 +15,7 @@ namespace Gambit
         typedef std::unordered_map<string, Object> Objects;
 
         ResourceManager* _resourceManager;
-        TransformPtr _root;
+        ObjectPtr _root;
 
     public:
         Scene(ResourceId const &, ResourceManager&, const char* fileName);
@@ -28,7 +28,7 @@ namespace Gambit
             return LoadScene(resources, fileName);
         }
 
-        TransformPtr GetRoot() const { return _root; }
+        ObjectPtr GetRoot() const { return _root; }
 
         void PreUpdate();
         void Update();

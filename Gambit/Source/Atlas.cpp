@@ -19,7 +19,7 @@ namespace Gambit
     {
         if (!ReadJson(spritesName.c_str()))
         {
-            LOG_ERROR() << "Failed to sprites from " << LOG_VALUE(spritesName) << "\n";
+            LOG_ERROR() << "Failed to load Atlas from " << LOG_VALUE(spritesName) << "\n";
         }
     }
 
@@ -64,11 +64,7 @@ namespace Gambit
         auto found = _sprites.find(name);
         if (found == _sprites.end())
         {
-            if (_notFound.find(name) == _notFound.end())
-            {
-                SpriteNotFound(name);
-                _notFound.insert(name);
-            }
+            SpriteNotFound(name);
             return make_pair(false, Rect{});
         }
         return make_pair(true, found->second);
@@ -88,7 +84,11 @@ namespace Gambit
 
     bool Atlas::SpriteNotFound(const string& name) const
     {
-        LOG_ERROR() << "No sprite named " << name << " found\n.";
+        if (_notFound.find(name) != _notFound.end())
+        {
+            LOG_ERROR() << "No sprite named " << name << " found\n.";
+        }
+        _notFound.insert(name);
         return false;
     }
 
@@ -131,9 +131,13 @@ namespace Gambit
         return WriteSprite(renderer, found.second, destRect);
     }
 
-    bool Atlas::WriteSprite(Renderer&, string const& name, Vector2 const& topLeft) const
+    bool Atlas::WriteSprite(Renderer &renderer, string const& name, Vector2 const& topLeft) const
     {
-        GAMBIT_NOT_IMPLEMENTED();
+        auto found = GetSprite(name);
+        if (!found.first)
+            return SpriteNotFound(name);
+        Rect const& dest = found.second;
+        return WriteSprite(renderer, found.second, Rect(topLeft.x, topLeft.y, dest.width, dest.height));
     }
 
     bool Atlas::WriteSprite(Renderer& renderer, Rect const& sourceRect, Rect const& destRect) const

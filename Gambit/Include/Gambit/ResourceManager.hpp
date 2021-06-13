@@ -15,7 +15,7 @@ namespace Gambit
     {
         static inline Logger _log{ "ResourceManager" };
 
-        typedef std::unordered_map<ResourceId, std::weak_ptr<ResourceBase>> IdToResources;
+        typedef std::unordered_map<ResourceId, ResourceBasePtr> IdToResources;
         typedef std::unordered_map<ResourceId, std::vector<Guid>> ObjectToResources;
 
         IdToResources _idToResource;

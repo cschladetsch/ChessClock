@@ -9,7 +9,9 @@ namespace Gambit
 
     struct Vector2
     {
-        int x, y;
+        int x{ 0 }, y{ 0 };
+
+        Vector2() = default;
 
         Vector2(int x, int y)
         {

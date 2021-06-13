@@ -3,8 +3,7 @@
 #include "nlohmann/json.hpp"
 
 #include "Gambit/ResourceBase.hpp"
-#include "Gambit/Transform.hpp"
-
+#include "Gambit/Vector2.hpp"
 
 using nlohmann::json;
 
@@ -19,29 +18,6 @@ namespace Gambit
     {
         j.at("x").get_to(v.x);
         j.at("y").get_to(v.y);
-    }
-
-    void to_json(json& j, Transform const& tr)
-    {
-        std::vector<Guid> children;
-        for (auto& child : tr.GetChildren())
-        {
-            children.push_back(child.first.GetGuid());
-        }
-
-        j = json{ {"position", tr.position}, {"rotation", tr.rotation}, {"scale", tr.scale}, {"children", children} };
-    }
-
-    void from_json(const json& j, Transform& tr)
-    {
-        j.at("position").get_to(tr.position);
-        j.at("rotation").get_to(tr.rotation);
-        j.at("scale").get_to(tr.scale);
-        auto childIds = j["children"].get<std::vector<std::string>>();
-        for (auto& id : childIds)
-        {
-            tr.AddChild(Guid{ id });
-        }
     }
 }
 

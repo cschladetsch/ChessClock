@@ -19,22 +19,6 @@ namespace Gambit
         return ResourceId();
     }
 
-    std::vector<ResourceBasePtr> ResourceManager::GetResources(Object const& object)
-    {
-        auto const &resourceId = object.GetResourceId();
-        auto iter = _objectToResources.find(resourceId.GetGuid());
-        if (iter == _objectToResources.end())
-        {
-            return std::move(std::vector<ResourceBasePtr>());
-        }
-        std::vector<ResourceBasePtr> result;
-        for (auto const& resource: _objectToResources[object.GetResourceId().GetGuid()])
-        {
-            //result.push_back(_idToResource[guid]);
-        }
-        return result;
-    }
-
     bool ResourceManager::AddResource(ResourceId const &id, ResourceBasePtr resource)
     {
         auto iter = _objectToResources.find(id.GetGuid());
