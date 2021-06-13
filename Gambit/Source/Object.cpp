@@ -35,6 +35,16 @@ namespace Gambit
             _resources.erase(found);
     }
 
+    ResourceBasePtr Object::GetResource(Guid const& guid) const
+    {
+        for (auto &resource : _resources)
+        {
+            if (resource->GetGuid() == guid)
+                return resource;
+        }
+        return nullptr;
+    }
+
     bool Object::AddChild(ObjectPtr object)
     {
         auto found = find(_children.begin(), _children.end(), object);

@@ -2,7 +2,6 @@
 
 #include "Gambit/ForwardReferences.hpp"
 #include "Gambit/ResourceId.hpp"
-#include "Gambit/MetaData.hpp"
 
 namespace Gambit
 {
@@ -10,7 +9,6 @@ namespace Gambit
         : public std::enable_shared_from_this<ResourceBase> 
     {
         ResourceId _resourceId;
-        MetaData _metaData;
 
     public:
         Guid GetGuid() const { return _resourceId.GetGuid(); }

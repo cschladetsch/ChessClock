@@ -27,11 +27,12 @@ namespace ChessClock
         values.versusText = values.headerFont->CreateTexture(resources, renderer, "vs", { 255,255,255 });
 
         values.atlas = resources.LoadResource<Atlas>("Lichess\\atlas", resources, &renderer);
-        values.scene = resources.LoadResource<Scene>("Lichess\\scene_playing.json", resources);
+        values.scene = resources.LoadResource<Scene>("Lichess\\scene_playing.json", resources, values.atlas);
 
-        AddStep(ctx, &MainScene::StepWriteBackground);
+        AddStep(ctx, &MainScene::RenderScene);
+        //AddStep(ctx, &MainScene::RenderBackground);
         AddStep(ctx, &MainScene::StepGame);
-        AddStep(ctx, &MainScene::StepPresent);
+        AddStep(ctx, &MainScene::Present);
 
         values.game.SetGameState(EGameState::Playing);
         values.game.SetColor(ESide::Left, EColor::White);
@@ -45,16 +46,14 @@ namespace ChessClock
     {
         ctx.steps.push_back([this, method](auto& ctx) { return (this->*method)(ctx); });
     }
-
-    bool MainScene::StepWriteBackground(Context &ctx)
+/*
+    bool MainScene::RenderBackground(Context &ctx)
     {
         auto& atlas = *ctx.values->atlas;
         auto& renderer = ctx.renderer;
         auto& resources = ctx.resources;
 
         atlas.WriteSprite(renderer, "background", Rect{ 0,0,800,480 });
-        //auto left = atlas.GetSprite("left_side");
-        //atlas.WriteSprite(renderer, "left_side", left.second.GetTopLeft());
 
         WriteHeader(atlas, ctx, renderer);
         WriteButtons(atlas, renderer);
@@ -87,6 +86,21 @@ namespace ChessClock
         atlas.WriteSprite(renderer, "icon_pause", Vector2{ 375, 295 });
         atlas.WriteSprite(renderer, "icon_sound", Vector2{ 615, 295 });
     }
+    */
+
+    bool MainScene::RenderScene(Context& ctx)
+    {
+        auto& renderer = ctx.renderer;
+        auto& values = *ctx.values;
+
+        ctx.values->scene->Render(ctx.renderer);
+
+        int y = 14;
+        renderer.WriteTexture(values.leftNameText, Vector2(85, y));
+        renderer.WriteTexture(values.versusText, Vector2(400 - 12, y));
+        renderer.WriteTexture(values.rightNameText, Vector2(580, y));
+        return true;
+    }
 
     void DrawTimer(MainScene::Values& values, Renderer &renderer, Vector2 location, Player const& player)
     {
@@ -112,7 +126,7 @@ namespace ChessClock
         return true;
     }
 
-    bool MainScene::StepPresent(Context &ctx)
+    bool MainScene::Present(Context &ctx)
     {
         return ctx.renderer.Present();
     }

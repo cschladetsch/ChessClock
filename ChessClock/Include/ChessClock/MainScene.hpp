@@ -21,9 +21,11 @@ namespace ChessClock
         bool Setup(Context &);
         bool ProcessEvents(Context &);
 
-        bool StepPresent(Context &);
+        bool Present(Context &);
         bool StepGame(Context& ctx);
-        bool StepWriteBackground(Context& ctx);
+
+        bool RenderScene(Context& ctx);
+        bool RenderBackground(Context& ctx);
 
     protected:
         void AddStep(Context&, bool(MainScene::*method)(Context&));
