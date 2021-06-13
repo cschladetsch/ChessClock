@@ -23,6 +23,7 @@ namespace Gambit
 
     public:
 
+        string Name;
         Vector2 Position;
         float Rotation{ 0 };
         float Scale{ 1 };
@@ -30,7 +31,6 @@ namespace Gambit
         int Layer{ 0 };
         bool Mirror{ false };
         string Tint;
-        string Name;
 
         Object(string name, ResourceId const&, ResourceManager& resourceManager);
 

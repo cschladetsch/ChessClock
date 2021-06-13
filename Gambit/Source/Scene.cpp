@@ -1,5 +1,4 @@
 #include "Gambit/Scene.hpp"
-#include "Gambit/Transform.hpp"
 #include "Gambit/ResourceManager.hpp"
 #include "Gambit/ThirdParty/Json.hpp"
 

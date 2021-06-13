@@ -1,5 +1,4 @@
 #include "Gambit/Object.hpp"
-#include "Gambit/Transform.hpp"
 #include "Gambit/Exceptions.hpp"
 #include "Gambit/ResourceManager.hpp"
 
