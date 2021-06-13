@@ -10,10 +10,10 @@ namespace Gambit
     {
         Info = 1,
         Debug = 2,
-        Warn = 3,
-        Error = 4,
-        Verbose = 5,
-        None = 6,
+        Warn = 4,
+        Error = 8,
+        Verbose = 16,
+        None = 32,
     };
 
     class Logger
@@ -32,7 +32,6 @@ namespace Gambit
 
     private:
         std::ostream& PrintLead(const char* file, int line, const char *func, rang::fg const &color, const char *level) const;
-        std::ostream& Print(const char* file, int line, const char* level, const char* text) const;
     };
 }
 
@@ -49,5 +48,5 @@ namespace Gambit
     _log.Error(__FILE__, __LINE__, __FUNCTION__)
 
 #define LOG_VALUE(X) \
-    "| " << ::rang::style::underline << ::rang::style::bold << NAMEOF(X) << ::rang::style::reset << ::rang::fg::blue << "=" << X << " "
+    "\n\t\t" << rg::style::underline << rg::style::bold << rg::fg::blue << NAMEOF(X) << rg::style::reset << rg::fg::gray << "=" << X
 

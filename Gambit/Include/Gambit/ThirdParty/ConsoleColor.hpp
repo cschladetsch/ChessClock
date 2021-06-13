@@ -4,4 +4,5 @@
 
 using namespace rang;
 
+namespace rg = ::rang;
 
