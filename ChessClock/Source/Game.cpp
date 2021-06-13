@@ -143,12 +143,14 @@ namespace ChessClock
 
     void Game::GotoSettings()
     {
-        LOG_WARN() << "Goto Settings\n";
+        LOG_INFO() << "Goto Settings\n";
+        Pause();
     }
 
     void Game::GotoSound()
     {
-        LOG_WARN() << "Goto Sound\n";
+        LOG_INFO() << "Goto Sound\n";
+        Pause();
     }
 
     void Game::GoBack() 

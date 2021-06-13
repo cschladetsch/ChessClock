@@ -65,7 +65,7 @@ namespace Gambit
                 if (!object->Sprite.empty())
                 {
                     if (logRender)
-                        LOG_DEBUG() << "Drawing " << LOG_VALUE(object->Name) << ", " << LOG_VALUE(object->Layer) << "\n";
+                        LOG_DEBUG() << "Drawing " << LOG_VALUE(object->Name) << ", " << LOG_VALUE(object->Layer) << LOG_VALUE(object->Tint) << LOG_VALUE(object->Mirror) << "\n";
 
                     _atlas->WriteSprite(renderer, *object);
                 }

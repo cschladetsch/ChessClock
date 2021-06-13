@@ -46,21 +46,22 @@ namespace Gambit
 
     bool Renderer::Clear()
     {
-        SDL_RenderClear(_renderer);
+        CALL_SDL(SDL_RenderClear(_renderer));
         return true;
     }
 
     bool Renderer::Present()
     {
         SDL_RenderPresent(_renderer);
+        ++_frameNumber;
         return true;
     }
 
     bool Renderer::WriteTexture(TexturePtr texture, Vector2 const& topLeft, Gambit::Color const &tint) const
     {
-        SDL_SetTextureColorMod(&texture->Get(), tint.red, tint.green, tint.blue);
-        WriteTexture(texture, topLeft);
-        SDL_SetTextureColorMod(&texture->Get(), 255, 255, 255);
+        CALL_SDL(SDL_SetTextureColorMod(&texture->Get(), tint.red, tint.green, tint.blue));
+        CALL(WriteTexture(texture, topLeft));
+        CALL_SDL(SDL_SetTextureColorMod(&texture->Get(), 255, 255, 255));
         return true;
     }
 
@@ -76,12 +77,7 @@ namespace Gambit
     {
         SDL_Rect *srcRect = reinterpret_cast<SDL_Rect *>(const_cast<Rect *>(source));
         SDL_Rect *destRect = reinterpret_cast<SDL_Rect *>(const_cast<Rect *>(dest));
-        int result = SDL_RenderCopy(_renderer, &texture->Get(), srcRect, destRect);
-        if (result != 0)
-        {
-            LOG_ERROR() << "Failed to write texture " << texture->GetName() << ": " << SDL_GetError() << std::endl;
-            return false;
-        }
+        CALL_SDL(SDL_RenderCopy(_renderer, &texture->Get(), srcRect, destRect));
 
         return true;
     }

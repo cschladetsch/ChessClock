@@ -15,7 +15,10 @@ namespace Gambit
     using string = std::string;
 }
 
-extern "C"
-{
-    uint32_t SDL_GetTicks();
-}
+#define CALL(X) \
+    do {\
+        if (!(X)) \
+            LOG_ERROR() << #X; \
+        return false; \
+    } while (0)
+

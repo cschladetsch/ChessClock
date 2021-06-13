@@ -18,6 +18,7 @@ extern "C"
     struct SDL_Renderer;
     struct SDL_Window;
     struct SDL_Rect;
+    uint32_t SDL_GetTicks();
 }
 
 namespace Gambit
