@@ -11,7 +11,7 @@ namespace Gambit
     {
         static inline Logger _log{ "AudioClip" };
 
-        SDL_AudioCVT cvt; 
+        SDL_AudioCVT cvt;
 
     public:
         AudioClip(ResourceId const &id, const char *file);
