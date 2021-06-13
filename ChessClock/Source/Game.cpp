@@ -16,7 +16,7 @@ namespace ChessClock
 
     void Game::SetGameState(EGameState state)
     {
-        LOG_INFO() << LOG_VALUE(state) << "\n";
+        LOG_INFO() << "Change state:" << LOG_VALUE(state) << "\n";
     }
 
     void Game::SwapColors()

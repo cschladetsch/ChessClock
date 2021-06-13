@@ -19,7 +19,7 @@ namespace Gambit
     bool Renderer::Construct(const char *title)
     {
         int result = 0;
-        CALL_SDL(SDL_Init(SDL_INIT_VIDEO));
+        CALL_SDL(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO));
 
         _window = SDL_CreateWindow(title, 0, 0, Width, Height, SDL_WINDOW_SHOWN);
         if (_window == nullptr) {

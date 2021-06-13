@@ -37,8 +37,10 @@ namespace Gambit
     class Sprite;
     class Atlas;
     class Scene;
+    class AudioClip;
     struct Color;
 
+    typedef shared_ptr<Scene> AudioClipPtr;
     typedef shared_ptr<Scene> ScenePtr;
     typedef shared_ptr<Atlas> AtlasPtr;
     typedef shared_ptr<Sprite> SpritePtr;
