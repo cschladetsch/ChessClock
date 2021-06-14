@@ -11,7 +11,8 @@ namespace Gambit
     {
         static inline Logger _log{ "AudioClip" };
 
-        SDL_AudioCVT cvt;
+        static SDL_AudioCVT null_cvt;
+        SDL_AudioCVT cvt{ null_cvt };
 
     public:
         AudioClip(ResourceId const &id, const char *file);
@@ -24,3 +25,4 @@ namespace Gambit
         void DeleteRaw(uint8_t *ptr);
     };
 }
+

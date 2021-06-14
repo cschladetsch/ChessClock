@@ -3,6 +3,8 @@
 
 namespace Gambit
 {
+    SDL_AudioCVT AudioClip::null_cvt;
+
     AudioClip::AudioClip(ResourceId const &id, const char *file)
         : ResourceBase(id)
     {
