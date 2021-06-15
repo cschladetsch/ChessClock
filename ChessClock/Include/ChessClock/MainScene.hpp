@@ -14,6 +14,10 @@ namespace ChessClock
     {
         static inline Gambit::Logger _log{ "MainScene" };
 
+        typedef string MainScene:: *Member;
+        typedef std::unordered_map<string, Member> JsonItemToMember;
+
+        JsonItemToMember _jsonToMember;
         string _jsonConfig;
         string _defaultFont;
         string _atlasName;
@@ -25,7 +29,10 @@ namespace ChessClock
 
         MainScene() = default;
         MainScene(const char *jsonConfig)
-            : _jsonConfig(jsonConfig) { }
+            : _jsonConfig(jsonConfig)
+        {
+            SetMemberFieldWriters();
+        }
 
         bool Setup(Context &);
         bool StepGame(Context& ctx);
@@ -34,6 +41,7 @@ namespace ChessClock
         bool RenderScene(Context& ctx);
 
     protected:
+        void SetMemberFieldWriters();
         void AddStep(Context&, bool(MainScene::*method)(Context&));
         bool ParseJson(JsonNext &next) override;
     };

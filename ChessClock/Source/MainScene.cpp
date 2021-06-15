@@ -12,16 +12,25 @@ namespace ChessClock
 
     bool MainScene::ParseJson(JsonNext &item)
     {
-        auto key = item.key();
+        auto &key = item.key();
 
-        if (key == "font")
-            SetValue(item, "font", this, &MainScene::_defaultFont);
-        if (key == "atlas")
-            SetValue(item, "atlas", this, &MainScene::_atlasName);
-        if (key == "scene")
-            SetValue(item, "scene", this, &MainScene::_sceneName);
+        auto found = _jsonToMember.find(key);
+        if (found == _jsonToMember.end())
+        {
+            LOG_WARN() << "No member called '" << key << "' found in MainScene";
+            return false;
+        }
+
+        (this->*found->second) = item.value();
 
         return true;
+    }
+
+    void MainScene::SetMemberFieldWriters()
+    {
+        _jsonToMember["font"] = &MainScene::_defaultFont;
+        _jsonToMember["atlas"] = &MainScene::_atlasName;
+        _jsonToMember["scene"] = &MainScene::_sceneName;
     }
 
     bool MainScene::Setup(Context& ctx)
