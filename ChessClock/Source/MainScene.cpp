@@ -2,8 +2,9 @@
 #include "Gambit/TimerFont.hpp"
 #include "Gambit/Atlas.hpp"
 
-#include "ChessClock/MainScene.hpp"
 #include "ChessClock/Game.hpp"
+#include "ChessClock/Global.hpp"
+#include "ChessClock/MainScene.hpp"
 #include "ChessClock/MainScene.Values.hpp"
 
 namespace ChessClock
@@ -17,7 +18,7 @@ namespace ChessClock
         auto found = _jsonToMember.find(key);
         if (found == _jsonToMember.end())
         {
-            LOG_WARN() << "No member called '" << key << "' found in MainScene\n";
+            LOG_WARN() << "No member named '" << key << "' found in MainScene\n";
             return false;
         }
 
@@ -36,36 +37,40 @@ namespace ChessClock
     bool MainScene::Setup(Context& ctx)
     {
         if (!ReadJson(_jsonConfig.c_str()))
-        {
             return false;
-        }
+
         ctx.values = std::make_shared<Values>();
-        Renderer& renderer = ctx.renderer;
-        ResourceManager& resources = ctx.resources;
-        auto& values = *ctx.values;
-
-        values.font = resources.LoadResource<Font>(_defaultFont.c_str(), 125);
-        values.headerFont = resources.LoadResource<Font>(_defaultFont.c_str(), 30);
-        values.numberFont = resources.CreateResource<TimerFont>("Numbers", values.font);
-        values.numberFont->MakeTextures(resources, renderer, Color{ 255,255,255 });
-
-        values.leftNameText = values.headerFont->CreateTexture(resources, renderer, "Spamfilter", { 255,255,255 });
-        values.rightNameText = values.headerFont->CreateTexture(resources, renderer, "monoRAIL", { 255,255,255 });
-        values.versusText = values.headerFont->CreateTexture(resources, renderer, "vs", { 255,255,255 });
-
-        values.atlas = resources.LoadResource<Atlas>(_atlasName.c_str(), resources, &renderer);
-        values.scene = resources.LoadResource<Scene>(_sceneName.c_str(), resources, values.atlas);
+        LoadResources(ctx.resources, ctx.renderer, *ctx.values);
 
         AddStep(ctx, &MainScene::RenderScene);
         AddStep(ctx, &MainScene::StepGame);
         AddStep(ctx, &MainScene::Present);
 
+        Prepare(ctx);
+
+        return true;
+    }
+
+    void MainScene::LoadResources(ResourceManager &resources, Renderer &renderer, Values &values)
+    {
+        values.font = resources.LoadResource<Font>(_defaultFont.c_str(), 125);
+        values.headerFont = resources.LoadResource<Font>(_defaultFont.c_str(), 30);
+        values.numberFont = resources.CreateResource<TimerFont>("Numbers", values.font);
+        values.numberFont->MakeTextures(resources, renderer, Color{ 255,255,255 });
+        values.leftNameText = values.headerFont->CreateTexture(resources, renderer, "Spamfilter", { 255,255,255 });
+        values.rightNameText = values.headerFont->CreateTexture(resources, renderer, "monoRAIL", { 255,255,255 });
+        values.versusText = values.headerFont->CreateTexture(resources, renderer, "vs", { 255,255,255 });
+        values.atlas = resources.LoadResource<Atlas>(_atlasName.c_str(), resources, &renderer);
+        values.scene = resources.LoadResource<Scene>(_sceneName.c_str(), resources, values.atlas);
+    }
+
+    void MainScene::Prepare(Context &ctx)
+    {
+        Values &values = *ctx.values;
         values.game.SetGameState(EGameState::Playing);
         values.game.SetColor(ESide::Left, EColor::White);
         values.game.SetTimeControl(TimeControl{5, 0, 3});
         values.game.Pause();
-
-        return true;
     }
 
     void MainScene::AddStep(Context& ctx, bool(MainScene::* method)(Context&))
@@ -78,7 +83,7 @@ namespace ChessClock
         auto& renderer = ctx.renderer;
         auto& values = *ctx.values;
 
-        values.atlas->WriteSprite(renderer, "background", Rect{ 0,0,800,480 });
+        values.atlas->WriteSprite(renderer, "background", global.ScreenRect);
         values.scene->Render(ctx.renderer);
 
         int y = 14;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Gambit/Logger.hpp"
+
 #include "ChessClock/Config.hpp"
 
 namespace ChessClock
@@ -23,3 +24,4 @@ namespace ChessClock
         void Call(string const& name) const;
     };
 }
+

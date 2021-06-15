@@ -18,6 +18,7 @@ namespace ChessClock
         TexturePtr leftNameText;
         TexturePtr rightNameText;
         TexturePtr versusText;
+
         ScenePtr scene;
 
         Rect textBounds;
@@ -25,8 +26,8 @@ namespace ChessClock
         AtlasPtr atlas;
         Navigation navigation;
         Game game{ navigation };
-        bool trackMouse;
 
+        bool trackMouse;
         bool debugTick;
     };
 }

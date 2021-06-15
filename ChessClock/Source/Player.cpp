@@ -1,4 +1,5 @@
 #include "Gambit/Logger.hpp"
+
 #include "ChessClock/Player.hpp"
 
 namespace ChessClock

@@ -1,4 +1,5 @@
 #include "Gambit/Vector2.hpp"
+
 #include "ChessClock/MainScene.hpp"
 #include "ChessClock/MainScene.Values.hpp"
 

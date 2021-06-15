@@ -12,10 +12,12 @@ namespace ChessClock
         static inline Logger _log{ "Game" };
 
         bool _paused{ true };
+
         Navigation _navigation{ };
         MilliSeconds _gameTime{ 0 };
         MilliSeconds _lastGameTime{ 0 };
         TimeControl _timeControl{ 5,0 };
+
         Player _playerLeft, _playerRight;
         EColor _currentColor{ EColor::Black };
         EGameState _gameState{ EGameState::Ready };

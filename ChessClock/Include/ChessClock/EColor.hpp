@@ -29,6 +29,7 @@ namespace ChessClock
         case EColor::Black:
             return out << "Black";
         }
+
         return out << "Uknown color " << (int)(color);
     }
 }

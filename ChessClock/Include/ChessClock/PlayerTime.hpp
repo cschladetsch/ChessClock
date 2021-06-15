@@ -21,6 +21,7 @@ namespace ChessClock
 
         void Reset() { Reset(_timeControl); }
         void Reset(TimeControl timeControl) { _remaining = _timeControl = timeControl; }
+
         bool IsPositive() const { return _remaining.IsPositive(); }
 
         void AddMillis(MilliSeconds millis) { _remaining.AddMillis(millis); }
@@ -29,3 +30,4 @@ namespace ChessClock
 
     TimeUnit TimeNow();
 }
+

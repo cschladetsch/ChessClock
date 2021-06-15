@@ -5,7 +5,6 @@
 namespace ChessClock
 {
     using namespace Gambit;
-
     using string = Gambit::string;
 }
 

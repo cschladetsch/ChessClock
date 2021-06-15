@@ -18,10 +18,11 @@ namespace ChessClock
             _totalMillis = (minutes * 60 + seconds) * 1000;
         }
 
-        Seconds GetTotalSeconds() const { return _totalMillis / 1000; }
         Minutes GetMinutes() const { return GetTotalSeconds() / 60; }
         Seconds GetSeconds() const { return GetTotalSeconds() % 60; }
         MilliSeconds GetMillis() const { return _totalMillis % 1000; }
+
+        Seconds GetTotalSeconds() const { return _totalMillis / 1000; }
         Seconds GetIncrement() const { return _increment; }
 
         void AddMillis(MilliSeconds millis) { _totalMillis += millis; } 
