@@ -17,7 +17,7 @@ namespace ChessClock
         auto found = _jsonToMember.find(key);
         if (found == _jsonToMember.end())
         {
-            LOG_WARN() << "No member called '" << key << "' found in MainScene";
+            LOG_WARN() << "No member called '" << key << "' found in MainScene\n";
             return false;
         }
 
@@ -49,7 +49,7 @@ namespace ChessClock
         values.numberFont = resources.CreateResource<TimerFont>("Numbers", values.font);
         values.numberFont->MakeTextures(resources, renderer, Color{ 255,255,255 });
 
-        values.leftNameText = values.headerFont->CreateTexture(resources, renderer, "Spamfilter", { 255,5,0 });
+        values.leftNameText = values.headerFont->CreateTexture(resources, renderer, "Spamfilter", { 255,255,255 });
         values.rightNameText = values.headerFont->CreateTexture(resources, renderer, "monoRAIL", { 255,255,255 });
         values.versusText = values.headerFont->CreateTexture(resources, renderer, "vs", { 255,255,255 });
 

@@ -15,7 +15,7 @@ namespace ChessClock
         static inline Gambit::Logger _log{ "MainScene" };
 
         typedef string MainScene:: *Member;
-        typedef std::unordered_map<string, Member> JsonItemToMember;
+        typedef std::map<string, Member> JsonItemToMember;
 
         JsonItemToMember _jsonToMember;
         string _jsonConfig;
