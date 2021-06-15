@@ -63,6 +63,12 @@ namespace Gambit
 
     void TimerFont::MakeTextures(ResourceManager &rm, Renderer &renderer, Color color)
     {
+        if (!_font)
+        {
+            LOG_WARN() << "Empty " << LOG_VALUE(_font) << "\n";
+            return;
+        }
+
         Color dark{ 0,0,0 };
         for (auto n = 0; n < 10; ++n)
         {

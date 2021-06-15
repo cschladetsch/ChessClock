@@ -10,15 +10,33 @@ namespace ChessClock
 {
     using namespace Gambit;
 
+    bool MainScene::ParseJson(JsonNext &item)
+    {
+        auto key = item.key();
+
+        if (key == "font")
+            SetValue(item, "font", this, &MainScene::_defaultFont);
+        if (key == "atlas")
+            SetValue(item, "atlas", this, &MainScene::_atlasName);
+        if (key == "scene")
+            SetValue(item, "scene", this, &MainScene::_sceneName);
+
+        return true;
+    }
+
     bool MainScene::Setup(Context& ctx)
     {
+        if (!ReadJson(_jsonConfig.c_str()))
+        {
+            return false;
+        }
         ctx.values = std::make_shared<Values>();
         Renderer& renderer = ctx.renderer;
         ResourceManager& resources = ctx.resources;
         auto& values = *ctx.values;
 
-        values.font = resources.LoadResource<Font>("AdobeFanHeitiStd-Bold.otf", 125);
-        values.headerFont = resources.LoadResource<Font>("AdobeFanHeitiStd-Bold.otf", 30);
+        values.font = resources.LoadResource<Font>(_defaultFont.c_str(), 125);
+        values.headerFont = resources.LoadResource<Font>(_defaultFont.c_str(), 30);
         values.numberFont = resources.CreateResource<TimerFont>("Numbers", values.font);
         values.numberFont->MakeTextures(resources, renderer, Color{ 255,255,255 });
 
@@ -26,8 +44,8 @@ namespace ChessClock
         values.rightNameText = values.headerFont->CreateTexture(resources, renderer, "monoRAIL", { 255,255,255 });
         values.versusText = values.headerFont->CreateTexture(resources, renderer, "vs", { 255,255,255 });
 
-        values.atlas = resources.LoadResource<Atlas>("Lichess\\atlas", resources, &renderer);
-        values.scene = resources.LoadResource<Scene>("Lichess\\scene_playing.json", resources, values.atlas);
+        values.atlas = resources.LoadResource<Atlas>(_atlasName.c_str(), resources, &renderer);
+        values.scene = resources.LoadResource<Scene>(_sceneName.c_str(), resources, values.atlas);
 
         AddStep(ctx, &MainScene::RenderScene);
         AddStep(ctx, &MainScene::StepGame);

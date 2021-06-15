@@ -3,35 +3,39 @@
 #include "Gambit/ForwardReferences.hpp"
 #include "Gambit/Context.hpp"
 #include "Gambit/Logger.hpp"
+#include "Gambit/JsonReader.hpp"
 
 #include "ChessClock/Config.hpp"
 
 namespace ChessClock
 {
     class MainScene
+        : JsonReader
     {
         static inline Gambit::Logger _log{ "MainScene" };
+
+        string _jsonConfig;
+        string _defaultFont;
+        string _atlasName;
+        string _sceneName;
 
     public:
         struct Values;
         typedef Gambit::Context<Values> Context;
 
         MainScene() = default;
+        MainScene(const char *jsonConfig)
+            : _jsonConfig(jsonConfig) { }
 
         bool Setup(Context &);
-        bool ProcessEvents(Context &);
-
-        bool Present(Context &);
         bool StepGame(Context& ctx);
-
+        bool ProcessEvents(Context &);
+        bool Present(Context &);
         bool RenderScene(Context& ctx);
-        bool RenderBackground(Context& ctx);
 
     protected:
         void AddStep(Context&, bool(MainScene::*method)(Context&));
-        void WriteButtons(Atlas const& atlas, Renderer& renderer) const;
-        void WriteHeader(Atlas const& atlas, Context &, Renderer& renderer) const;
-        void WriteFooter(Atlas const& atlas, Context &, Renderer& renderer) const;
+        bool ParseJson(JsonNext &next) override;
     };
 }
 
