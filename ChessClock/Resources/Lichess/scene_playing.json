@@ -25,6 +25,7 @@
 	{
 		"type" : "button",
 		"sprite" : "button_side_colored",
+		"location" : [ 8, 280 ],
 		"callback" : "SettingsPressed"
 	},
 	
@@ -32,6 +33,7 @@
 	{
 		"type" : "button",
 		"sprite" : "button_middle_colored",
+		"location" : [ 264, 280 ],
 		"callback": "PausePressed"
 	},
 	
@@ -39,6 +41,8 @@
 	{
 		"type" : "button",
 		"sprite" : "button_side_colored",
+		"location" : [ 544, 280 ],
+		"mirror" : true,
 		"callback": "VolumePressed"
 	},
 	
