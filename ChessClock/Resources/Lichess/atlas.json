@@ -32,24 +32,28 @@
 	"icon_resume": 
 	{
 		"type" : "sprite",
+		"tint" : "any_player",
 		"location": [ 800, 96, 48, 80 ]
     },
 	
 	"icon_pause": 
 	{
 		"type" : "sprite",
+		"tint" : "any_player",
 		"location": [ 848, 96, 48, 80 ]
     },
 	
 	"icon_settings": 
 	{
 		"type" : "sprite",
+		"tint" : "any_player",
 		"location": [ 904, 96, 88, 88 ]
     },
 	
 	"icon_sound": 
 	{
 		"type" : "sprite",
+		"tint" : "any_player",
 		"location": [ 800, 184, 112, 88 ]
     },
 	
@@ -62,12 +66,14 @@
 	"button_side_colored": 
 	{
 		"type" : "sprite",
+		"tint" : "any_player",
 		"location": [ 388, 480, 248, 128 ]
     },
 	
 	"button_middle_colored": 
 	{
 		"type" : "sprite",
+		"tint" : "any_player",
 		"location": [ 0, 688, 272, 128 ]
     },
 	
@@ -82,10 +88,11 @@
 		"type" : "tint_list",
 		"active_player" : [ 56, 71, 34 ],
 		"inactive_player" : [ 26, 41, 8 ],
+		"any_player" : [ 36, 61, 28 ],
 		"low_time_inactive" : [ 80, 40, 38 ],
 		"low_time_active" : [ 121, 44, 42 ],
 		"button_pressed" : [ 48, 46, 44 ],
 		"time_bar_green" : [ 98, 153, 36 ],
-		"time_bar_red" : [ ]
+		"time_bar_red" : [ 255,30,20]
 	}
 }
