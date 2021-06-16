@@ -81,7 +81,7 @@
 	{
 		"type" : "tint_list",
 		"active_player" : [ 56, 71, 34 ],
-		"inactive_player" : [ 36, 51, 14 ],
+		"inactive_player" : [ 26, 41, 8 ],
 		"low_time_inactive" : [ 80, 40, 38 ],
 		"low_time_active" : [ 121, 44, 42 ],
 		"button_pressed" : [ 48, 46, 44 ],
