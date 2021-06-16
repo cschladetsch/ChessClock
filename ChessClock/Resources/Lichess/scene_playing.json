@@ -10,6 +10,7 @@
 	{
 		"sprite" : "clock_face_colored",
 		"location" : [ 8, 64 ],
+		"tint":  "active_player",
 		"layer" : 1
 	},
 	
@@ -18,6 +19,7 @@
 		"sprite" : "clock_face_colored",
 		"location" : [ 404, 64 ],
 		"layer" : 1,
+		"tint":  "active_player",
 		"mirror" : true
 	},
 	
@@ -26,6 +28,7 @@
 		"type" : "button",
 		"sprite" : "button_side_colored",
 		"location" : [ 8, 280 ],
+		"tint":  "active_player",
 		"callback" : "SettingsPressed"
 	},
 	
@@ -34,6 +37,7 @@
 		"type" : "button",
 		"sprite" : "button_middle_colored",
 		"location" : [ 264, 280 ],
+		"tint":  "active_player",
 		"callback": "PausePressed"
 	},
 	
@@ -43,6 +47,7 @@
 		"sprite" : "button_side_colored",
 		"location" : [ 544, 280 ],
 		"mirror" : true,
+		"tint":  "active_player",
 		"callback": "VolumePressed"
 	},
 	
