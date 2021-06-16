@@ -47,15 +47,15 @@ namespace Gambit
         bool WriteSprite(Renderer &renderer, Object const &object) const;
 
     private:
+        static shared_ptr<Atlas> LoadAtlas(ResourceManager &, Renderer &, string const& baseName, ResourceId const& id);
+
         bool SpriteNotFound(const string& name) const;
         bool TintNotFound(const string& name) const;
 
         std::pair<bool, Color> GetTint(const string& name) const;
 
-        static shared_ptr<Atlas> LoadAtlas(ResourceManager &, Renderer &, string const& baseName, ResourceId const& id);
         bool WriteRect(Renderer &, Rect const &sourceRect, Rect const &destRect) const;
         bool WriteRect(Renderer &, Rect const &sourceRect, Rect const &destRect, Color const& tint) const;
-        bool ReadSprites(const string &fileName);
 
         bool ParseJson(JsonNext &item);
     };

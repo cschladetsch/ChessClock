@@ -19,7 +19,7 @@
 		"sprite" : "clock_face_colored",
 		"location" : [ 404, 64 ],
 		"layer" : 1,
-		"tint":  "active_player",
+		"tint":  "inactive_player",
 		"mirror" : true
 	},
 	

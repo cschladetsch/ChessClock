@@ -197,6 +197,7 @@ namespace Gambit
         if (type == "tint_list")
         {
             _tints["active_player"] = GetColor(value, "active_player");
+            _tints["inactive_player"] = GetColor(value, "inactive_player");
             _tints["low_time_inactive"] = GetColor(value, "low_time_inactive");
             _tints["low_time_active"] = GetColor(value, "low_time_active");
             _tints["button_pressed"] = GetColor(value, "button_pressed");
