@@ -130,10 +130,11 @@ namespace ChessClock
         currentPlayer.AddSeconds(currentPlayer.GetIncrement());
         _currentColor = _currentColor == EColor::White ? EColor::Black : EColor::White;
 
+        _leftFace->Tint = _rightFace->Tint = "inactive_player";
         if (LeftPlayer().GetColor() == _currentColor)
-            _leftFace->Tint = "active_player";
+            _rightFace->Tint = "active_player";
         else
-            _rightFace->Tint = "inactive_player";
+            _leftFace->Tint = "active_player";
     }
 
     void Game::GotoPause(bool paused)

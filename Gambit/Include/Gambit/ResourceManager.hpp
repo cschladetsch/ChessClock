@@ -31,7 +31,7 @@ namespace Gambit
         bool AddObject(Object *obj)
         {
             _idToObject[obj->GetResourceId()] = std::make_shared<Object>(*obj);
-            LOG_DEBUG() << this << LOG_VALUE(obj->GetResourceId().GetName()) << LOG_VALUE(obj) << LOG_VALUE(_idToObject.size()) << "\n";
+            //LOG_VERBOSE() << this << LOG_VALUE(obj->GetResourceId().GetName()) << LOG_VALUE(obj) << LOG_VALUE(_idToObject.size()) << "\n";
             return true;
         }
 

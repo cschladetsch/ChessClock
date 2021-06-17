@@ -31,6 +31,7 @@ namespace Gambit
                 return iter.second;
         }
 
+        LOG_ERROR() << "Couldn't find object " << LOG_VALUE(name) << "\n";
         return 0;
     }
 }
