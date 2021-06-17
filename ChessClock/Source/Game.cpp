@@ -132,9 +132,12 @@ namespace ChessClock
 
         _leftFace->Tint = _rightFace->Tint = "inactive_player";
         if (LeftPlayer().GetColor() == _currentColor)
-            _rightFace->Tint = "active_player";
-        else
             _leftFace->Tint = "active_player";
+        else
+            _rightFace->Tint = "active_player";
+
+        _rightFace->Tint = "active_player";
+        _leftFace->Tint = "active_player";
     }
 
     void Game::GotoPause(bool paused)
