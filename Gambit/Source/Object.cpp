@@ -7,6 +7,8 @@ namespace Gambit
     Object::Object(string name, ResourceId const&resourceId, ResourceManager& resourceManager)
         : Name(name), _resourceId(resourceId), _resourceManager(&resourceManager)
     {
+        _resourceManager->AddObject(this);
+        LOG_DEBUG() << LOG_VALUE(_resourceManager->GetObjects().size()) << "\n";
     }
 
     bool Object::HasResource(ResourceBasePtr resource) const

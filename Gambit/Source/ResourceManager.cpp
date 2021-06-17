@@ -17,5 +17,21 @@ namespace Gambit
     {
         return ResourceId();
     }
+
+    ResourceId ResourceManager::NewId(string const &name) const
+    {
+        return ResourceId(name);
+    }
+
+    ObjectPtr ResourceManager::FindObject(string const &name)
+    {
+        for (auto &iter : _idToObject)
+        {
+            if (iter.first.GetName() == name)
+                return iter.second;
+        }
+
+        return 0;
+    }
 }
 

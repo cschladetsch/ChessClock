@@ -1,3 +1,4 @@
+#include "Gambit/Object.hpp"
 #include "ChessClock/Game.hpp"
 
 namespace ChessClock
@@ -128,6 +129,11 @@ namespace ChessClock
         currentPlayer.AddMillis(-delta);
         currentPlayer.AddSeconds(currentPlayer.GetIncrement());
         _currentColor = _currentColor == EColor::White ? EColor::Black : EColor::White;
+
+        if (LeftPlayer().GetColor() == _currentColor)
+            _leftFace->Tint = "active_player";
+        else
+            _rightFace->Tint = "inactive_player";
     }
 
     void Game::GotoPause(bool paused)

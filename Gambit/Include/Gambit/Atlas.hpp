@@ -41,7 +41,7 @@ namespace Gambit
             auto tuple = std::tuple{ args... };
             auto& resources = std::get<0>(tuple);
             auto* renderer = std::get<1>(tuple);
-            return LoadAtlas(resources, *renderer, baseName, id);
+            return LoadAtlas(*resources, *renderer, baseName, id);
         }
 
         bool WriteSprite(Renderer &renderer, Object const &object) const;

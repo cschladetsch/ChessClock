@@ -22,6 +22,8 @@ namespace Gambit
             : _guid(xg::newGuid()) { }
         ResourceId(Guid id) 
             : _guid(id) { }
+        ResourceId(string name)
+            : _guid(xg::newGuid()), _name(name) { }
         ResourceId(Guid id, string name) 
             : _guid(id), _name(name) { }
 

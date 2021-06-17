@@ -4,12 +4,14 @@
 
 #include "Gambit/Resource.hpp"
 #include "Gambit/ResourceLoader.hpp"
+#include "Gambit/NonCopyable.hpp"
 #include "Gambit/Object.hpp"
 #include "Gambit/Scene.hpp"
 
 namespace Gambit
 {
     class ResourceManager
+        : NonCopyable
     {
         static inline Logger _log{ "ResourceManager" };
 
@@ -24,11 +26,20 @@ namespace Gambit
 
     public:
         ResourceManager(Renderer const &renderer, const char *rootFolder);
+        ResourceManager(ResourceManager &) = delete;
+
+        bool AddObject(Object *obj)
+        {
+            _idToObject[obj->GetResourceId()] = std::make_shared<Object>(*obj);
+            LOG_DEBUG() << this << LOG_VALUE(obj->GetResourceId().GetName()) << LOG_VALUE(obj) << LOG_VALUE(_idToObject.size()) << "\n";
+            return true;
+        }
+
+        IdToObject const &GetObjects() const { return _idToObject; }
 
         ObjectPtr CreateObject(const string &name)
         {
-            auto object = std::make_shared<Object>(name, NewId(), *this);
-            return _idToObject[object->GetResourceId().GetGuid()] = object;
+            return std::make_shared<Object>(name, NewId(name), *this);
         }
 
         template <class Res, class ...Args>
@@ -73,7 +84,10 @@ namespace Gambit
         }
 
         ResourceId NewId() const;
+        ResourceId NewId(string const &name) const;
 
         string MakeResourceFilename(const char* name);
+
+        ObjectPtr FindObject(string const &name);
     };
 }

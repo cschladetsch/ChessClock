@@ -17,6 +17,7 @@ namespace ChessClock
         MilliSeconds _gameTime{ 0 };
         MilliSeconds _lastGameTime{ 0 };
         TimeControl _timeControl{ 5,0 };
+        ObjectPtr _leftFace, _rightFace;
 
         Player _playerLeft, _playerRight;
         EColor _currentColor{ EColor::Black };
@@ -24,6 +25,8 @@ namespace ChessClock
 
     public:
         Game(Navigation &nav);
+
+        void SetFaces(ObjectPtr left, ObjectPtr right) { _leftFace = left;  _rightFace = right; }
 
         void ResetGame();
 

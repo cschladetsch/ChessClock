@@ -29,7 +29,7 @@ namespace Gambit
             auto tuple = std::tuple{ args... };
             auto& resources = std::get<0>(tuple);
             auto& atlas = std::get<1>(tuple);
-            return LoadScene(resources, fileName, *atlas);
+            return LoadScene(*resources, fileName, *atlas);
         }
 
         ObjectPtr GetRoot(ObjectPtr object);
@@ -42,6 +42,8 @@ namespace Gambit
         void PreRender();
         void Render(Renderer &renderer) const;
         void PostRender();
+
+        ObjectPtr FindChild(string const &) const;
 
     private:
         static shared_ptr<Scene> LoadScene(ResourceManager &, string const &fileName, Atlas const &atlas);

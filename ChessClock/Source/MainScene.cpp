@@ -51,6 +51,15 @@ namespace ChessClock
         return true;
     }
 
+    void MainScene::Prepare(Context &ctx)
+    {
+        Values &values = *ctx.values;
+        values.game.SetGameState(EGameState::Playing);
+        values.game.SetColor(ESide::Left, EColor::White);
+        values.game.SetTimeControl(TimeControl{5, 0, 3});
+        values.game.Pause();
+    }
+
     void MainScene::LoadResources(ResourceManager &resources, Renderer &renderer, Values &values)
     {
         values.font = resources.LoadResource<Font>(_defaultFont.c_str(), 125);
@@ -60,17 +69,12 @@ namespace ChessClock
         values.leftNameText = values.headerFont->CreateTexture(resources, renderer, "Spamfilter", { 255,255,255 });
         values.rightNameText = values.headerFont->CreateTexture(resources, renderer, "monoRAIL", { 255,255,255 });
         values.versusText = values.headerFont->CreateTexture(resources, renderer, "vs", { 255,255,255 });
-        values.atlas = resources.LoadResource<Atlas>(_atlasName.c_str(), resources, &renderer);
-        values.scene = resources.LoadResource<Scene>(_sceneName.c_str(), resources, values.atlas);
-    }
+        values.atlas = resources.LoadResource<Atlas>(_atlasName.c_str(), &resources, &renderer);
+        values.scene = resources.LoadResource<Scene>(_sceneName.c_str(), &resources, values.atlas);
 
-    void MainScene::Prepare(Context &ctx)
-    {
-        Values &values = *ctx.values;
-        values.game.SetGameState(EGameState::Playing);
-        values.game.SetColor(ESide::Left, EColor::White);
-        values.game.SetTimeControl(TimeControl{5, 0, 3});
-        values.game.Pause();
+        auto leftFace = resources.FindObject("left_clock_flace");
+        auto rightFace = resources.FindObject("right_clock_flace");
+        values.game.SetFaces(leftFace, rightFace);
     }
 
     void MainScene::AddStep(Context& ctx, bool(MainScene::* method)(Context&))

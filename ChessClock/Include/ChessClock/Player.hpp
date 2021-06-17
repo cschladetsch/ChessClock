@@ -15,10 +15,9 @@ namespace ChessClock
         bool _paused{ true };
         EColor _color{ EColor::None };
         PlayerTime _remainingTime{ 0,0,0 };
+        ObjectPtr _object;
 
     public:
-        Player() {}
-
         string GetName() const { return _name; }
         void SetName(string name) { _name = name; }
 

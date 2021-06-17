@@ -19,6 +19,11 @@ namespace Gambit
             LOG_ERROR() << "Failed to load scene from " << LOG_VALUE(fileName) << "\n";
     }
 
+    ObjectPtr Scene::FindChild(string const &name) const
+    {
+        return _resourceManager->FindObject(name);
+    }
+
     ObjectPtr Scene::GetRoot(ObjectPtr object)
     {
         if (!object)
