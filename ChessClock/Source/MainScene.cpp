@@ -72,8 +72,8 @@ namespace ChessClock
         values.atlas = resources.LoadResource<Atlas>(_atlasName.c_str(), &resources, &renderer);
         values.scene = resources.LoadResource<Scene>(_sceneName.c_str(), &resources, values.atlas);
 
-        auto leftFace = resources.FindObject("left_clock_face");
-        auto rightFace = resources.FindObject("right_clock_face");
+        auto leftFace = values.scene->FindChild("left_clock_face");
+        auto rightFace = values.scene->FindChild("right_clock_face");
         values.game.SetFaces(leftFace, rightFace);
     }
 
