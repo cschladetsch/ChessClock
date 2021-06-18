@@ -2,8 +2,4 @@
 
 namespace ChessClock
 {
-    class Lichess
-    {
-        Lichess();
-    }
 }
