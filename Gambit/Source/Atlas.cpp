@@ -12,7 +12,6 @@
 namespace Gambit
 {
     using namespace std;
-    using nlohmann::json;
 
     static set<string> _spritesNotFound;
     static set<string> _tintsNotFound;
@@ -171,13 +170,13 @@ namespace Gambit
         return false;
     }
 
-    Rect GetRect(nlohmann::json& json, const char* name)
+    Rect GetRect(Json& json, const char* name)
     {
         auto const& rc = json[name].get<vector<int>>();
         return Rect(rc[0], rc[1], rc[2], rc[3]);
     }
 
-    Color GetColor(nlohmann::json& json, const char* name)
+    Color GetColor(Json& json, const char* name)
     {
         auto const& rc = json[name].get<vector<int>>();
         return Color(rc[0], rc[1], rc[2]);

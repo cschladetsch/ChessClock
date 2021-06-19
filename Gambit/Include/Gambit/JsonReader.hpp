@@ -43,7 +43,7 @@ namespace Gambit
         virtual bool ParseJson(JsonNext &next) = 0;
 
         template <class Ty, class Cl>
-        bool SetValue(JsonNext const &item, string const &name, Cl *instance, Ty(Cl:: *member), std::function<Ty(nlohmann::json &j)> convert = nullptr)
+        bool SetValue(JsonNext const &item, string const &name, Cl *instance, Ty(Cl:: *member), std::function<Ty(Json &j)> convert = nullptr)
         {
             if (item.key() != name)
                 return false;
