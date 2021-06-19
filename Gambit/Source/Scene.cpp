@@ -114,7 +114,7 @@ namespace Gambit
 
         AddObject(objectPtr);
 
-        return false;
+        return true;
     }
 }
 

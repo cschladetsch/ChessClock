@@ -203,6 +203,6 @@ namespace Gambit
             _tints["button_pressed"] = GetColor(value, "button_pressed");
         }
 
-        return false;
+        return true;
     }
 }

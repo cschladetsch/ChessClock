@@ -66,7 +66,7 @@ namespace Gambit
                 {
                     if (!ParseJson(item))
                     {
-                        LOG_WARN() << "Failed to parse '" << item.key() << '\'\n';
+                        LOG_WARN() << "Failed to parse '" << item.key() << "'\n";
                     }
                 }
             }
