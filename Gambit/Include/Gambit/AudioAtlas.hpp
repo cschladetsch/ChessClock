@@ -10,7 +10,7 @@ namespace Gambit
 {
     class AudioAtlas
         : public ResourceBase
-        , JsonReader
+        , JsonReader<AudioAtlas>
     {
         static inline Logger _log{ "AudioAtlas" };
         typedef std::unordered_map<string, AudioClipPtr> StringToAudioClip;

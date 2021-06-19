@@ -31,18 +31,15 @@ namespace ChessClock
         return true;
     }
 
-    void MainScene::SetMemberFieldWriters()
-    {
-        _jsonToMember["font"] = &MainScene::_defaultFont;
-        _jsonToMember["atlas"] = &MainScene::_atlasName;
-        _jsonToMember["scene"] = &MainScene::_sceneName;
-    }
+    //void MainScene::SetMemberFieldWriters()
+    //{
+    //    _jsonToMember["font"] = &MainScene::_defaultFont;
+    //    _jsonToMember["atlas"] = &MainScene::_atlasName;
+    //    _jsonToMember["scene"] = &MainScene::_sceneName;
+    //}
 
     bool MainScene::Setup(Context& ctx)
     {
-        if (!ReadJson(_jsonConfig.c_str()))
-            return false;
-
         ctx.values = std::make_shared<Values>();
         LoadResources(ctx.resources, ctx.renderer, *ctx.values);
 

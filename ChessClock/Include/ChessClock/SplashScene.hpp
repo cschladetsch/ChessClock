@@ -8,11 +8,17 @@ namespace ChessClock
     using namespace Gambit;
 
     class SplashScene
-        : JsonReader
+        : JsonReader<SplashScene>
     {
     public:
         struct Values;
         typedef Gambit::Context<Values> Context;
+
+        SplashScene() = default;
+        SplashScene(const char *jsonConfig)
+            : JsonReader(jsonConfig)
+        {
+        }
 
         bool Setup(Context &ctx);
         bool ProcessEvents(Context &);

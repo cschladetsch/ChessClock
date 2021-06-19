@@ -15,8 +15,7 @@ namespace Gambit
         , _resourceManager(&resourceManager)
         , _atlas(&atlas)
     {
-        if (!ReadJson(fileName))
-            LOG_ERROR() << "Failed to load scene from " << LOG_VALUE(fileName) << "\n";
+        ReadJsonEx(fileName);
     }
 
     ObjectPtr Scene::FindChild(string const &name) const

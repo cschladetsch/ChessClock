@@ -1,18 +1,36 @@
 #pragma once
 
+#include <fstream>
+
 #include "Gambit/ForwardReferences.hpp"
 #include "Gambit/ThirdParty/Json.hpp"
 #include "Gambit/Logger.hpp"
 
 namespace Gambit
 {
+    template <class Ty>
     class JsonReader
     {
         static inline Logger _log{ "JsonReader" };
 
     protected:
+        typedef std::map<string, string (Ty::*)> NameToMember;
+
+        NameToMember _jsonToMember;
+
+    protected:
         JsonReader() = default;
+        JsonReader(NameToMember const &names)
+            : _jsonToMember(names)
+        {
+        }
+
         JsonReader(const char *fileName)
+        {
+            ReadJsonEx(fileName);
+        }
+
+        void ReadJsonEx(const char *fileName)
         {
             if (!ReadJson(fileName))
             {
@@ -36,7 +54,38 @@ namespace Gambit
             return true;
         }
 
-    public:
-        bool ReadJson(const char* fileName);
+    private:
+        using ifstream = std::ifstream;
+
+        using exception = std::exception;
+        //using nlohmann::json;
+
+        bool ReadJson(const char *fileName)
+        {
+            try
+            {
+                std::ifstream inFile(fileName);
+                if (!inFile)
+                {
+                    LOG_ERROR() << "Couldn't open " << LOG_VALUE(fileName) << "\n";
+                    return false;
+                }
+
+                nlohmann::json j;
+                inFile >> j;
+                for (auto &item : j.items())
+                {
+                    ParseJson(item);
+                }
+            }
+            catch (exception &e)
+            {
+                LOG_ERROR() << "Error reading json " << LOG_VALUE(fileName) << "\n";
+                LOG_ERROR() << "Error reading json " << e.what() << "\n";
+                return false;
+            }
+
+            return true;
+        }
     };
 }

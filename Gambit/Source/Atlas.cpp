@@ -20,10 +20,7 @@ namespace Gambit
     Atlas::Atlas(TexturePtr texture, const string& spritesName)
         : _atlasTexture(texture)
     {
-        if (!ReadJson(spritesName.c_str()))
-        {
-            LOG_ERROR() << "Failed to load Atlas from " << LOG_VALUE(spritesName) << "\n";
-        }
+        ReadJsonEx(spritesName.c_str());
     }
 
     pair<bool, Rect> Atlas::GetSprite(string const& name) const

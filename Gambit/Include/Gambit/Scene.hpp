@@ -10,7 +10,7 @@ namespace Gambit
 {
     class Scene
         : public ResourceBase
-        , JsonReader
+        , JsonReader<Scene>
     {
         static inline Logger _log{ "Scene" };
 

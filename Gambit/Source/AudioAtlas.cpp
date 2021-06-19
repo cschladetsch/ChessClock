@@ -5,20 +5,17 @@
 namespace Gambit
 {
     AudioAtlas::AudioAtlas(ResourceId const &id, const char *fileName)
-        : ResourceBase(id)
     {
-        auto defaultDriver = SDL_GetCurrentAudioDriver();
-        int result = SDL_AudioInit(defaultDriver);
-        if (result != 0)
-        {
-            LOG_ERROR() << "Failed to init audio driver " << defaultDriver << "\n";
-            return;
-        }
-
-        if (!ReadJson(fileName))
-        {
-            LOG_ERROR() << "Couldn't read AudioAtlas " << fileName << "\n";
-        }
+    //    : ResourceBase(id)
+    //    , JsonReader(fileName)
+    //{
+    //    auto defaultDriver = SDL_GetCurrentAudioDriver();
+    //    int result = SDL_AudioInit(defaultDriver);
+    //    if (result != 0)
+    //    {
+    //        LOG_ERROR() << "Failed to init audio driver " << defaultDriver << "\n";
+    //        return;
+    //    }
     }
 
     void AudioAtlas::SetVolume(float zeroToOne)
@@ -48,6 +45,6 @@ namespace Gambit
 
     bool AudioAtlas::ParseJson(JsonNext &next)
     {
-        GAMBIT_NOT_IMPLEMENTED();
+        return true;// GAMBIT_NOT_IMPLEMENTED();
     }
 }
