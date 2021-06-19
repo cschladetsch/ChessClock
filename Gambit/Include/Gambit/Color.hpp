@@ -34,7 +34,6 @@ namespace Gambit
         static inline Color Gree{ 0,255,0 };
         static inline Color Blue{ 0,0,255 };
     };
-
 }
 
 namespace std

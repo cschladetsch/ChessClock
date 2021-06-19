@@ -10,7 +10,7 @@ namespace Gambit
 {
     class Atlas
         : public ResourceBase
-        , public JsonReader
+        , JsonReader
     {
         static inline Logger _log{ "Atlas" };
 
@@ -29,6 +29,7 @@ namespace Gambit
         bool WriteSprite(Renderer &, string const &name, const Rect &destRect) const;
         bool WriteSprite(Renderer &, string const &name, const Vector2 &topLeft) const;
         bool WriteSprite(Renderer &, string const &name, const Vector2 &destPoint, const string &tintName) const;
+        bool WriteSprite(Renderer &, Object const &object) const;
 
         template <class ...Args>
         static shared_ptr<Atlas> Load(std::string const& baseName, ResourceId const& id, Args... args)
@@ -38,8 +39,6 @@ namespace Gambit
             auto* renderer = std::get<1>(tuple);
             return LoadAtlas(*resources, *renderer, baseName, id);
         }
-
-        bool WriteSprite(Renderer &renderer, Object const &object) const;
 
     private:
         static shared_ptr<Atlas> LoadAtlas(ResourceManager &, Renderer &, string const& baseName, ResourceId const& id);

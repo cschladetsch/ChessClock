@@ -18,9 +18,7 @@ namespace Gambit
 
     public:
         Font(ResourceId const &id, _TTF_Font *font)
-            : Resource<_TTF_Font>(font, id, Deleter)
-        {
-        }
+            : Resource<_TTF_Font>(font, id, Deleter) { }
 
         static void Deleter(_TTF_Font *font);
 
