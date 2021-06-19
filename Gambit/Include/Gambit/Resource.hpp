@@ -15,9 +15,7 @@ namespace Gambit
 
     public:
         Resource(Type* resource, ResourceId const &id, std::function<void(Ty*)> deleter)
-            : _resource(resource, deleter), ResourceBase(id)
-        {
-        }
+            : _resource(resource, deleter), ResourceBase(id) { }
 
         bool Exists() const
         {

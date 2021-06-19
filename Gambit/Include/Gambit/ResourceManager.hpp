@@ -26,12 +26,10 @@ namespace Gambit
 
     public:
         ResourceManager(Renderer const &renderer, const char *rootFolder);
-        ResourceManager(ResourceManager &) = delete;
 
         bool AddObject(Object *obj)
         {
             _idToObject[obj->GetResourceId()] = std::make_shared<Object>(*obj);
-            //LOG_VERBOSE() << this << LOG_VALUE(obj->GetResourceId().GetName()) << LOG_VALUE(obj) << LOG_VALUE(_idToObject.size()) << "\n";
             return true;
         }
 
@@ -50,6 +48,7 @@ namespace Gambit
             auto resource = ResourceLoader<Res>::Load(fileName, id, args...);
             if (!resource)
             {
+                LOG_ERROR() << "Failed to load resource '" << name << "'\n";
                 return 0;
             }
             _idToResource[id] = resource->SharedBase();
@@ -63,7 +62,7 @@ namespace Gambit
             shared_ptr<Res> resource = std::make_shared<Res>(id, args...);
             if (!resource)
             {
-                LOG_ERROR() << "Failed to make resource type `" << NAMEOF_TYPE(Res) << " from resource " << name << "\n";
+                LOG_ERROR() << "Failed to make resource type '" << NAMEOF_TYPE(Res) << "' from resource " << name << "'\n";
                 return 0;
             }
             _idToResource[id] = resource->SharedBase();

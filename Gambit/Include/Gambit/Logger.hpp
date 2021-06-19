@@ -48,5 +48,5 @@ namespace Gambit
     _log.Error(__FILE__, __LINE__, __FUNCTION__)
 
 #define LOG_VALUE(X) \
-    "\n\t\t" << rg::style::underline << rg::style::bold << rg::fg::blue << NAMEOF(X) << rg::style::reset << rg::fg::gray << "=" << X
+    "\t\t" << rg::style::underline << rg::style::bold << rg::fg::blue << NAMEOF(X) << rg::style::reset << rg::fg::gray << "=" << X << "\n"
 

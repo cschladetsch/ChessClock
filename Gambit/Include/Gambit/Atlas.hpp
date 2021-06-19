@@ -16,7 +16,6 @@ namespace Gambit
 
         typedef std::unordered_map<string, Rect> Sprites;
         typedef std::unordered_map<string, Color> TintList;
-        typedef JsonReader::JsonNext JsonNext;
 
         TexturePtr _atlasTexture;
         Sprites _sprites;

@@ -21,6 +21,7 @@ namespace Gambit
         SDL_Window *GetWindow() const { return _window; }
         SDL_Renderer *GetRenderer() const { return _renderer; }
 
+    public:
         Renderer();
         ~Renderer();
 
