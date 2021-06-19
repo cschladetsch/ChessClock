@@ -11,7 +11,7 @@ if [ "$OSTYPE" == "msys" ]; then
 	echo '...'
 	msbuild.exe *.sln
 else
-	sudo apt -y install libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev libsdl2-mixer-dev
+	sudo apt -y install libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev libsdl2-mixer-dev make cmake vim
 	make
 	sudo apt autoremove
 fi
