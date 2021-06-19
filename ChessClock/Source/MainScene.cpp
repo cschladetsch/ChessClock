@@ -11,6 +11,9 @@ namespace ChessClock
 {
     using namespace Gambit;
 
+    float _lastTime;
+    int _frames;
+
     bool MainScene::ParseJson(JsonNext &item)
     {
         auto &key = item.key();
@@ -104,9 +107,6 @@ namespace ChessClock
         values.numberFont->DrawTime(renderer, location,
             (uint8_t)player.GetMinutes(), (uint8_t)player.GetSeconds());
     }
-
-    float _lastTime;
-    int _frames;
 
     void MainScene::DebugFrameRate()
     {
