@@ -1,7 +1,12 @@
 #!/bin/bash
 
+echo '**** Building ChessClock ****'
+
+sudo apt -y install libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev libsdl2-mixer-dev
 git submodule init
 git submodule update --recursive
+
+sudo apt autoremove
 
 mkdir -p build && cd build && cmake .. $*
 
