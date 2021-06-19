@@ -20,6 +20,7 @@ namespace Gambit
 
     protected:
         JsonReader() = default;
+
         JsonReader(NameToMember const &names)
             : _jsonToMember(names)
         {
@@ -55,33 +56,23 @@ namespace Gambit
         }
 
     private:
-        using ifstream = std::ifstream;
-
-        using exception = std::exception;
-        //using nlohmann::json;
-
         bool ReadJson(const char *fileName)
         {
             try
             {
-                std::ifstream inFile(fileName);
-                if (!inFile)
-                {
-                    LOG_ERROR() << "Couldn't open " << LOG_VALUE(fileName) << "\n";
-                    return false;
-                }
-
-                nlohmann::json j;
-                inFile >> j;
+                Json j;
+                std::ifstream(fileName) >> j;
                 for (auto &item : j.items())
                 {
-                    ParseJson(item);
+                    if (!ParseJson(item))
+                    {
+                        LOG_WARN() << "Failed to parse '" << item.key() << '\'\n';
+                    }
                 }
             }
-            catch (exception &e)
+            catch (std::exception &e)
             {
-                LOG_ERROR() << "Error reading json " << LOG_VALUE(fileName) << "\n";
-                LOG_ERROR() << "Error reading json " << e.what() << "\n";
+                LOG_ERROR() << "Error reading json " << LOG_VALUE(fileName) << LOG_VALUE(e.what()) << "\n";
                 return false;
             }
 
