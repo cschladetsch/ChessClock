@@ -22,10 +22,13 @@ namespace ChessClock
         string _defaultFont;
         string _atlasName;
         string _sceneName;
+        static int _frameNumber;
 
     public:
         struct Values;
         typedef Gambit::Context<Values> Context;
+
+        static int GetFrameNumber() { return _frameNumber; }
 
         MainScene() = default;
         MainScene(const char *jsonConfig)

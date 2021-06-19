@@ -13,6 +13,7 @@ namespace ChessClock
 
     float _lastTime;
     int _frames;
+    int MainScene::_frameNumber{ 0 };
 
     bool MainScene::ParseJson(JsonNext &item)
     {
@@ -112,18 +113,20 @@ namespace ChessClock
     {
         ++_frames;
         auto now = TimeNowSeconds();
-        auto delta = now - _lastTime;
-        if (delta > 3)
+        auto deltaSeconds = now - _lastTime;
+        if (deltaSeconds > 5)
         {
             _lastTime = now;
-            auto fps = (_frames) / delta;
-            LOG_INFO() << LOG_VALUE(fps) << "\n";
+            auto fps = round((_frames) / deltaSeconds);
+            LOG_DEBUG() << LOG_VALUE(fps) << "\n";
+            _frames = 0;
         }
     }
 
     bool MainScene::StepGame(Context &ctx)
     {
         DebugFrameRate();
+        ++_frameNumber;
 
         auto &values = *ctx.values;
         auto &renderer = ctx.renderer;
