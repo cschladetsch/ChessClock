@@ -14,3 +14,4 @@ namespace Gambit
         Component,
     };
 }
+

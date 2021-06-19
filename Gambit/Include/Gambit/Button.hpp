@@ -24,3 +24,4 @@ namespace Gambit
         TexturePtr GetTexture() const { return _texture; }
     };
 }
+

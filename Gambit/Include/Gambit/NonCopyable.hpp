@@ -8,6 +8,7 @@ namespace Gambit
 
     private:
         NonCopyable(NonCopyable &) = delete;
+        NonCopyable(NonCopyable &&) = delete;
         NonCopyable& operator =(NonCopyable &) = delete;
     };
 }

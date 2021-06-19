@@ -87,7 +87,7 @@ namespace Gambit
                 {
                     if (!(*func)(*this))
                     {
-                        LOG_ERROR() << "Removing failed stage";
+                        LOG_ERROR() << "Removing failed stage\n";
                         func = dupes.erase(func);
                     }
                     else
