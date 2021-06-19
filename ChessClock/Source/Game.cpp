@@ -44,7 +44,7 @@ namespace ChessClock
         if (_paused)
             return;
 
-        TimeUnit now = TimeNow();
+        TimeUnit now = TimeNowMillis();
         TimeUnit delta = now - _lastGameTime;
         _gameTime += delta;
         _lastGameTime = now;
@@ -104,7 +104,7 @@ namespace ChessClock
         {
             _gameState = EGameState::Playing;
             _currentColor = EColor::White;
-            _lastGameTime = TimeNow();
+            _lastGameTime = TimeNowMillis();
             Pause(false);
             return;
         }
@@ -122,7 +122,7 @@ namespace ChessClock
 
     void Game::ChangeTurn()
     {
-        TimeUnit now = TimeNow();
+        TimeUnit now = TimeNowMillis();
         TimeUnit delta = now - _lastGameTime;
         _lastGameTime = now;
         Player& currentPlayer = CurrentPlayer();
@@ -144,7 +144,7 @@ namespace ChessClock
     {
         _paused = paused;
         if (!paused)
-            _lastGameTime = TimeNow();
+            _lastGameTime = TimeNowMillis();
 
         CurrentPlayer().Pause(paused);
 

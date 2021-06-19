@@ -31,10 +31,6 @@ namespace Gambit
         bool WriteSprite(Renderer &, string const &name, const Vector2 &topLeft) const;
         bool WriteSprite(Renderer &, string const &name, const Vector2 &destPoint, const string &tintName) const;
 
-        bool WriteRect(Renderer &, Rect const &sourceRect, const Vector2 &destPoint, Color const &color) const;
-        //bool WriteSprite(Renderer &, string const& name, const Vector2& destRect, const string& tintName) const;
-        //bool WriteSprite(Renderer &, string const &name, Rect const &sourceRect, Rect const &destRect, Color const &) const;
-
         template <class ...Args>
         static shared_ptr<Atlas> Load(std::string const& baseName, ResourceId const& id, Args... args)
         {

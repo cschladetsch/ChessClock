@@ -108,21 +108,22 @@ namespace ChessClock
     float _lastTime;
     int _frames;
 
-    TimeUnit TimeNowSeconds()
-    {
-        return TimeNow() / 1000;
-    }
-
-    bool MainScene::StepGame(Context &ctx)
+    void MainScene::DebugFrameRate()
     {
         ++_frames;
         auto now = TimeNowSeconds();
         auto delta = now - _lastTime;
-        if (delta > 1) {
+        if (delta > 3)
+        {
             _lastTime = now;
             auto fps = (_frames) / delta;
             LOG_INFO() << LOG_VALUE(fps) << "\n";
         }
+    }
+
+    bool MainScene::StepGame(Context &ctx)
+    {
+        DebugFrameRate();
 
         auto &values = *ctx.values;
         auto &renderer = ctx.renderer;

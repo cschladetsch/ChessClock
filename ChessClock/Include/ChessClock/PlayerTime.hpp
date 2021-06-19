@@ -28,6 +28,7 @@ namespace ChessClock
         void Subtract(MilliSeconds millis) { AddMillis(-millis); }
     };
 
-    TimeUnit TimeNow();
+    TimeUnit TimeNowMillis();
+    float TimeNowSeconds();
 }
 

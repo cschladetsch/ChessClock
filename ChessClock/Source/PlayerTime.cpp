@@ -3,8 +3,13 @@
 
 namespace ChessClock
 {
-    TimeUnit TimeNow()
+    TimeUnit TimeNowMillis()
     {
         return (TimeUnit)SDL_GetTicks();
+    }
+
+    float TimeNowSeconds()
+    {
+        return (float)TimeNowMillis() / 1000;
     }
 }
