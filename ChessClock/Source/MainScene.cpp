@@ -128,8 +128,6 @@ namespace ChessClock
         DebugFrameRate();
         ++_frameNumber;
 
-        ++_frameNumber;
-
         auto &values = *ctx.values;
         auto &renderer = ctx.renderer;
         auto &game = values.game;
