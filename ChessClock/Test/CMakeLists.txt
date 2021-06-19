@@ -25,10 +25,9 @@ if (WIN32)
 		${SDL_IMAGE_ROOT}/lib/x64/SDL2_image.lib
 		)
 else()
-	message(STATUS "Linking for pi")
 	target_link_libraries(${PROJECT_NAME}
 		Gambit
-		SDL_image
+		SDL2_image
 		)
 endif()
 

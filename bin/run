@@ -1,6 +1,8 @@
 #!/bin/bash
 
 resources=../ChessClock/Resources/
+config=main.json
+
 prefix=.
 if [ "$OSTYPE" == "msys" ]; then
 	prefix=./Debug
@@ -11,5 +13,5 @@ if [ "$1" == "test" ]; then
 	exit $?
 fi
 
-$prefix/CClock $resources
+$prefix/CClock $resources $config
 

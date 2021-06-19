@@ -7,7 +7,7 @@ namespace ChessClock
 {
     struct Global
     {
-        explicit Global(Rect& screenRect)
+        explicit Global(const Rect& screenRect)
             : ScreenRect(screenRect)
         {
         }

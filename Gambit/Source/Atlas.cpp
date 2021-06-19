@@ -130,18 +130,28 @@ namespace Gambit
         string spritesName = baseName + ".json";
 
         auto flags = IMG_INIT_PNG;
-        if (!IMG_Init(flags))
+	auto init = IMG_Init(flags);
+        if (init != flags)
         {
             LOG_ERROR() << "Failed to initialise image lib " << IMG_GetError() << "\n";
             return 0;
         }
 
-        SDL_Texture *texture = IMG_LoadTexture(renderer.GetRenderer(), fileName.c_str());
-        if (!texture)
-        {
+	SDL_Surface *surface = IMG_Load(fileName.c_str());
+	if (!surface)
+	{
             LOG_ERROR() << "Failed to load " << LOG_VALUE(fileName) << LOG_VALUE(IMG_GetError()) <<  "\n";
             return 0;
-        }
+	}
+	
+	uint32_t key;
+	if (SDL_GetColorKey(surface, &key) == 0)
+	{
+		SDL_SetColorKey(surface, SDL_RLEACCEL, key);
+	}
+
+	SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer.GetRenderer(), surface);
+	SDL_FreeSurface(surface);
 
         auto ptr = make_shared<Texture>(resources.NewId(), texture);
         resources.AddResource(ptr->GetResourceId(), ptr);

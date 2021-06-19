@@ -30,7 +30,7 @@ if (WIN32)
 else()
     target_link_libraries(${PROJECT_NAME}
         Gambit
-        SDL_image
+        SDL2_image
     )
 endif()
 
