@@ -16,12 +16,14 @@ TODO: Add separate [Building](Building.md) instructions.
 
 ### Raspberry Pi Setup
 ```bash
-$ sudo apt-get install libsdl2-dev libsdl2-image-dev libsdl2-ttf2.0-dev libsdl2-mixer-dev
+$ sudo apt update
+# sudo apt install git-lfs
+$ sudo apt install libsdl2-dev libsdl2-image-dev libsdl2-ttf2.0-dev libsdl2-mixer-dev
 ```
 
 ### Building
 
-Simply, `./build run` will build and run the app on either Windows10 or Raspberry Pi. Or anything else I think. 
+Simply, `./run` will build and run the app on either Windows10 or Raspberry Pi. Or anything else I think. 
 
 For more details:
 
