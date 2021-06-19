@@ -23,12 +23,12 @@ namespace ChessClock
             {
                 switch (event.button.button)
                 {
-                case SDL_BUTTON_LEFT:
-                {
-                    Vector2 where{ event.button.x, event.button.y };
-                    LOG_INFO() << "Pressed " << where << "\n";
-                    break;
-                }
+                    case SDL_BUTTON_LEFT:
+                    {
+                        Vector2 where{ event.button.x, event.button.y };
+                        LOG_INFO() << "Pressed " << where << "\n";
+                        break;
+                    }
                 }
                 break;
             }
