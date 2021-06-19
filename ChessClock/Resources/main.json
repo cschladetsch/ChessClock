@@ -1,5 +1,4 @@
 {
-	"bork": "foobar",
 	"font": "AdobeFanHeitiStd-Bold.otf",
 	"atlas": "Lichess/atlas",
 	"scene": "Lichess/scene_playing.json"

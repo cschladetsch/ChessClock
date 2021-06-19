@@ -105,8 +105,25 @@ namespace ChessClock
             (uint8_t)player.GetMinutes(), (uint8_t)player.GetSeconds());
     }
 
+    float _lastTime;
+    int _frames;
+
+    TimeUnit TimeNowSeconds()
+    {
+        return TimeNow() / 1000;
+    }
+
     bool MainScene::StepGame(Context &ctx)
     {
+        ++_frames;
+        auto now = TimeNowSeconds();
+        auto delta = now - _lastTime;
+        if (delta > 1) {
+            _lastTime = now;
+            auto fps = (_frames) / delta;
+            LOG_INFO() << LOG_VALUE(fps) << "\n";
+        }
+
         auto &values = *ctx.values;
         auto &renderer = ctx.renderer;
         auto &game = values.game;

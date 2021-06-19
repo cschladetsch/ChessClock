@@ -70,7 +70,6 @@ namespace Gambit
         }
 
         return WriteRect(renderer, found.second, Rect{ destPoint.x, destPoint.y, rect.width, rect.height }, tint);
-        //return WriteRect(renderer, found.second, Rect{ destPoint.x, destPoint.y, rect.width, rect.height });
     }
 
     bool Atlas::WriteRect(Renderer &renderer, const Rect& sourceRect, const Rect& destRect, Color const& tint) const
