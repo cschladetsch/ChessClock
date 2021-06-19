@@ -28,7 +28,7 @@ namespace ChessClock
         Navigation navigation;
         Game game{ navigation };
 
-        bool trackMouse;
-        bool debugTick;
+        bool trackMouse{ false };
+        bool debugTick{ false };
     };
 }
