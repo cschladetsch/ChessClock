@@ -16,13 +16,12 @@ TODO: Add separate [Building](Building.md) instructions.
 
 ### Raspberry Pi Setup
 ```bash
-$ # sudo apt-get install libsdl1.2-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev
-$ sudo apt-get install libsdl2-dev libsdl2-image-dev libsdl-ttf2.0-dev
+$ sudo apt-get install libsdl2-dev libsdl2-image-dev libsdl2-ttf2.0-dev libsdl2-mixer-dev
 ```
 
 ### Building
 
-Simply, `./run` will build and run the app on either Windows10 or Raspberry Pi. Or anything else I think. 
+Simply, `./build run` will build and run the app on either Windows10 or Raspberry Pi. Or anything else I think. 
 
 For more details:
 
@@ -40,7 +39,7 @@ Otherwise simply run `make`.
 
 The output will be in `../bin` folder in either case. There is a `run` script in that folder.
 
-For windows, set Debug command arguments to `..\..\ChessClock\Resources\` to run from Visual Studio.
+For windows, set Debug command arguments to `..\..\ChessClock\Resources\ main.json` to run from Visual Studio.
 
 ## Ingredients
 * [Hardware](../../wiki/Hardware)
