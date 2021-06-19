@@ -1,7 +1,5 @@
 #include <set>
 
-#include "SDL_image.h"
-
 #include "Gambit/ThirdParty/SDL.hpp"
 #include "Gambit/ThirdParty/Json.hpp"
 #include "Gambit/Renderer.hpp"
@@ -57,8 +55,6 @@ namespace Gambit
 
     bool Atlas::WriteSprite(Renderer& renderer, string const& name, const Vector2& destPoint, const string& tintName) const
     {
-        //LOG_DEBUG() << "Render sprite " << name << "\n";
-
         auto found = GetSprite(name);
         if (!found.first)
             return SpriteNotFound(name);
@@ -95,7 +91,6 @@ namespace Gambit
         auto found = GetSprite(name);
         if (!found.first)
             return SpriteNotFound(name);
-        //LOG_INFO() << "Draw " << name << " at " << destRect << "\n";
         return WriteRect(renderer, found.second, destRect);
     }
 
@@ -130,28 +125,27 @@ namespace Gambit
         string spritesName = baseName + ".json";
 
         auto flags = IMG_INIT_PNG;
-	auto init = IMG_Init(flags);
-        if (init != flags)
+        if (flags != IMG_Init(flags))
         {
             LOG_ERROR() << "Failed to initialise image lib " << IMG_GetError() << "\n";
             return 0;
         }
 
-	SDL_Surface *surface = IMG_Load(fileName.c_str());
-	if (!surface)
-	{
-            LOG_ERROR() << "Failed to load " << LOG_VALUE(fileName) << LOG_VALUE(IMG_GetError()) <<  "\n";
-            return 0;
-	}
-	
-	uint32_t key;
-	if (SDL_GetColorKey(surface, &key) == 0)
-	{
-		SDL_SetColorKey(surface, SDL_RLEACCEL, key);
-	}
+        SDL_Surface *surface = IMG_Load(fileName.c_str());
+        if (!surface)
+        {
+                LOG_ERROR() << "Failed to load " << LOG_VALUE(fileName) << LOG_VALUE(IMG_GetError()) <<  "\n";
+                return 0;
+        }
 
-	SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer.GetRenderer(), surface);
-	SDL_FreeSurface(surface);
+        uint32_t key;
+        if (SDL_GetColorKey(surface, &key) == 0)
+        {
+            SDL_SetColorKey(surface, SDL_RLEACCEL, key);
+        }
+
+        SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer.GetRenderer(), surface);
+        SDL_FreeSurface(surface);
 
         auto ptr = make_shared<Texture>(resources.NewId(), texture);
         resources.AddResource(ptr->GetResourceId(), ptr);
