@@ -9,10 +9,10 @@ mkdir -p build && cd build && cmake .. $*
 
 if [ "$OSTYPE" == "msys" ]; then
 	echo '...'
-	msbuild.exe *.sln
+	time msbuild.exe *.sln
 else
 	sudo apt -y install libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev libsdl2-mixer-dev make cmake vim
-	make
+	time make
 	sudo apt autoremove
 fi
 
