@@ -2,6 +2,7 @@
 
 #include "Gambit/ThirdParty/SDL.hpp"
 #include "Gambit/ThirdParty/Json.hpp"
+
 #include "Gambit/Renderer.hpp"
 #include "Gambit/Texture.hpp"
 #include "Gambit/Rect.hpp"

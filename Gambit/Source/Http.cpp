@@ -1,6 +1,6 @@
-#define CPPHTTPLIB_OPENSSL_SUPPORT7
+//#define CPPHTTPLIB_OPENSSL_SUPPORT7
 
-#include "Gambit/ThirdParty/Http.hpp"
+//#include "Gambit/ThirdParty/Http.hpp"
 
 namespace Gambit
 {
