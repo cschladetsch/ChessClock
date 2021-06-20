@@ -42,11 +42,12 @@ namespace Gambit
 
     std::ostream& Logger::PrintLead(const char* file, int line, const char *func, rang::fg const &color, const char *level) const
     {
-#if WIN32
-        char *lead = "C:\\Users\\chris\\repos\\ChessClock\\";
-#else
-        char* lead = "/home/chris/ChessClock";
-#endif
+//#if WIN32
+//        const char *lead = "C:\\Users\\chris\\repos\\ChessClock\\";
+//#else
+//        const char* lead = "/home/chris/ChessClock";
+//#endif
+        const char *lead = "";
         string fl = file;
         fl = fl.substr(strlen(lead));
         auto millis = SDL_GetTicks()/1000.0f;

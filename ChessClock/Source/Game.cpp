@@ -168,3 +168,4 @@ namespace ChessClock
         _navigation.GoBack();
     }
 }
+
