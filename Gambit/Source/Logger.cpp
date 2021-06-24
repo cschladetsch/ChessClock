@@ -5,11 +5,6 @@
 
 #include "Gambit/Logger.hpp"
 
-//#ifdef WIN32
-//#define WIN32_LEAN_AND_MEAN
-//#include <windows.h>
-//#endif
-
 // deprecated 'localtime'
 #pragma warning (disable:4996)
 
@@ -38,13 +33,6 @@ namespace Gambit
         {
             _logFile->close();
             _logFile.reset();
-//#if WIN32
-//            string code = "c:/Users/chris/AppData/Local/Programs/Microsoft\ VS\ Code/bin/code";
-//            string cmd = R"--(c:\windows\system32\cmd.exe)--";
-//            string exec = "start " + code + " " + _logFileName;
-//            ShellExecute(0, "open", code.c_str(), _logFileName.c_str(), 0, SW_SHOWDEFAULT);
-//            //system(exec.c_str());
-//#endif
         }
     }
 
@@ -114,29 +102,18 @@ namespace Gambit
         const char *lead = "";
         string fileName = file;
         auto fileNameLength = fileName.size();
-        if (fileNameLength > 60)
+        if (fileNameLength > 50)
         {
             fileName = "..." + fileName.substr(40);
         }
         auto millis = SDL_GetTicks()/1000.0f;
-        stringstream stream;
+        ostream &stream = _tee ? *_tee : cout;
         stream << style::reset << fg::reset << style::italic << fg::yellow << millis;
         stream << "ms: " << fg::reset << fg::gray << style::dim << fileName << "(" << line << "): ";
         stream << fg::cyan << func << fg::gray << ": " << style::bold << "\n";
         stream << "\t[" << color << level << fg::gray << "]: {" << fg::magenta << _source << fg::gray << "}:\n" << fg::blue;
         stream << "\t" << ends;
-        auto str = stream.str();
-        if (_tee)
-            return *_tee << str;
-        return cout << str;
-
-        //if (_logFile)
-        //{
-        //    replace(str.begin(), str.end(), '\n', '|');
-        //    *_logFile << str.c_str() << '\n';
-        //    _logFile->flush();
-        //}
-        //return  << str;
+        return stream;
     }
 }
 

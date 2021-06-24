@@ -8,13 +8,13 @@
 
 namespace Gambit
 {
-    template <class Ty>
+    template <class Class>
     class JsonReader
     {
         static inline Logger _log{ "JsonReader" };
 
     protected:
-        typedef std::map<string, string (Ty::*)> NameToMember;
+        typedef std::map<string, string (Class::*)> NameToMember;
 
         NameToMember _jsonToMember;
 
@@ -42,8 +42,8 @@ namespace Gambit
         typedef ::nlohmann::detail::iteration_proxy_value<nlohmann::detail::iter_impl<nlohmann::json>> JsonNext;
         virtual bool ParseJson(JsonNext &next) = 0;
 
-        template <class Ty, class Cl>
-        bool SetValue(JsonNext const &item, string const &name, Cl *instance, Ty(Cl:: *member), std::function<Ty(Json &j)> convert = nullptr)
+        template <class Ty>
+        bool SetValue(JsonNext const &item, string const &name, Class *instance, Ty(Class:: *member), std::function<Ty(Json &j)> convert = nullptr)
         {
             if (item.key() != name)
                 return false;
