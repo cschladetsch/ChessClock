@@ -16,8 +16,8 @@ namespace Gambit
         ELogLevel _logLevel;
         string _source;
         mutable std::stringstream _null;
-        static std::shared_ptr<std::ofstream> _logFile;
 
+        static std::shared_ptr<std::fstream> _logFile;
         static std::string _logFileName;
         static bool _triedOpenLogFile;
         static shared_ptr<teestream> _tee;

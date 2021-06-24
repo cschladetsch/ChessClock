@@ -22,6 +22,7 @@ file(GLOB ALL_SOURCES
 add_library(${PROJECT_NAME}
     ${ALL_SOURCES}
     ${ALL_HEADERS})
+cotire(${PROJECT_NAME})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     CXX_STANDARD 20

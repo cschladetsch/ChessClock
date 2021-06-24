@@ -1,16 +1,92 @@
 {
-	"left_clock_face": {
-		"sprite": "clock_face_colored",
-		"location": [ 8, 64 ],
-		"tint": "active_player",
-		"layer": 1
+	"background":
+	{
+		"sprite" : "background",
+		"location" : [ 0, 0 ],
+		"layer" : 0
+	},
+	
+	"left_clock_face":
+	{
+		"sprite" : "clock_face_colored",
+		"location" : [ 8, 64 ],
+		"tint":  "active_player",
+		"layer" : 1
+	},
+	
+	"right_clock_face":
+	{
+		"sprite" : "clock_face_colored",
+		"location" : [ 404, 64 ],
+		"layer" : 1,
+		"tint":  "inactive_player",
+		"mirror" : true
+	},
+	
+	"button_settings":
+	{
+		"type" : "button",
+		"sprite" : "button_side_colored",
+		"location" : [ 8, 280 ],
+		"tint":  "active_player",
+		"callback" : "SettingsPressed"
+	},
+	
+	"button_pause":
+	{
+		"type" : "button",
+		"sprite" : "button_middle_colored",
+		"location" : [ 264, 280 ],
+		"tint":  "active_player",
+		"callback": "PausePressed"
+	},
+	
+	"button_volume":
+	{
+		"type" : "button",
+		"sprite" : "button_side_colored",
+		"location" : [ 544, 280 ],
+		"mirror" : true,
+		"tint":  "active_player",
+		"callback": "VolumePressed"
+	},
+	
+	"icon_settings" :
+	{
+		"type" : "sprite",
+		"sprite" : "icon_settings",
+		"location" : [ 80, 288 ],
+		"layer": 2,
+		"callback" : "SettingsPressed"
+	},
+	
+	"icon_pause" :
+	{
+		"sprite" : "icon_pause",
+		"location" : [ 368, 288 ],
+		"layer" : 2
+	},
+	
+	"icon_sound" :
+	{
+		"sprite" : "icon_sound",
+		"location" : [ 616, 288 ],
+		"layer" : 2
 	},
 
-	"right_clock_face": {
-		"sprite": "clock_face_colored",
-		"location": [ 404, 64 ],
-		"layer": 1,
-		"tint": "inactive_player",
-		"mirror": true
+	"pawn_white" :
+	{
+		"sprite" : "pawn_white",
+		"location" : [ 22, 11 ],
+		"layer" : 1
+	},
+	
+	"pawn_black" :
+	{
+		"sprite" : "pawn_black",
+		"location" : [ 745, 11 ],
+		"layer" : 1
 	}
 }
+
+
