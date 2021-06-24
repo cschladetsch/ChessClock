@@ -120,6 +120,11 @@ namespace ChessClock
         return side == ESide::Left ? _playerLeft : _playerRight;
     }
 
+    void Game::SetFaces(ObjectPtr left, ObjectPtr right) 
+    {
+        _leftFace = left;  _rightFace = right;
+    }
+
     void Game::ChangeTurn()
     {
         TimeUnit now = TimeNowMillis();

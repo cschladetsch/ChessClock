@@ -31,13 +31,6 @@ namespace ChessClock
         return true;
     }
 
-    //void MainScene::SetMemberFieldWriters()
-    //{
-    //    _jsonToMember["font"] = &MainScene::_defaultFont;
-    //    _jsonToMember["atlas"] = &MainScene::_atlasName;
-    //    _jsonToMember["scene"] = &MainScene::_sceneName;
-    //}
-
     bool MainScene::Setup(Context& ctx)
     {
         ctx.values = std::make_shared<Values>();

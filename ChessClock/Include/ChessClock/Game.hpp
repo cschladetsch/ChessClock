@@ -26,7 +26,7 @@ namespace ChessClock
     public:
         Game(Navigation &nav);
 
-        void SetFaces(ObjectPtr left, ObjectPtr right) { _leftFace = left;  _rightFace = right; }
+        void SetFaces(ObjectPtr left, ObjectPtr right);
 
         void ResetGame();
 

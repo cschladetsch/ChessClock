@@ -18,6 +18,7 @@ namespace ChessClock
         string _defaultFont;
         string _atlasName;
         string _sceneName;
+        string _showFps;
         static int _frameNumber;
 
     public:
@@ -33,6 +34,7 @@ namespace ChessClock
                     {"font", &MainScene::_defaultFont},
                     {"atlas", &MainScene::_atlasName},
                     {"scene", &MainScene::_sceneName},
+                    {"showFps", &MainScene::_showFps},
                 })
         {
             ReadJsonEx(jsonConfig);

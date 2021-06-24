@@ -1,29 +1,30 @@
 #pragma once
 
-#include "Gambit/ForwardReferences.hpp"
+#include <fstream>
+
 #include "Gambit/ThirdParty/nameof.hpp"
 #include "Gambit/ThirdParty/ConsoleColor.hpp"
 
+#include "Gambit/ForwardReferences.hpp"
+#include "Gambit/ELogLevel.hpp"
+#include "Gambit/TeeStream.hpp"
+
 namespace Gambit
 {
-    enum class ELogLevel
-    {
-        Info = 1,
-        Debug = 2,
-        Warn = 4,
-        Error = 8,
-        Verbose = 16,
-        None = 32,
-    };
-
     class Logger
     {
         ELogLevel _logLevel;
         string _source;
         mutable std::stringstream _null;
+        static std::shared_ptr<std::ofstream> _logFile;
+
+        static std::string _logFileName;
+        static bool _triedOpenLogFile;
+        static shared_ptr<teestream> _tee;
 
     public:
         Logger(const char* source, ELogLevel logLevel = ELogLevel::Verbose);
+        static void CloseFile();
 
         std::ostream& Info(const char* file, int line, const char *function) const;
         std::ostream& Debug(const char* file, int line, const char *function) const;
@@ -31,6 +32,7 @@ namespace Gambit
         std::ostream& Error(const char* file, int line, const char *function) const;
 
     private:
+        bool OpenLogFile();
         std::ostream& PrintLead(const char* file, int line, const char *func, rang::fg const &color, const char *level) const;
     };
 }

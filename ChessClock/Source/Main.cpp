@@ -18,9 +18,11 @@ int main(int argc, char** argv)
     ChessClock::MainScene scene(config.c_str());
     typedef ChessClock::MainScene::Context Ctx;
 
-    return Ctx(resources.c_str(),
+    auto result = Ctx(resources.c_str(),
         [&scene](Ctx& ctx) { return scene.Setup(ctx); },
         [&scene](Ctx& ctx) { return scene.ProcessEvents(ctx); })
         .Run();
+
+    return result;
 }
 

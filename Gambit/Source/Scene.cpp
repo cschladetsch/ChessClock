@@ -58,7 +58,7 @@ namespace Gambit
     {
     }
 
-    bool logRender;
+    bool logRender{ true };
 
     void Scene::Render(Renderer &renderer) const
     {
