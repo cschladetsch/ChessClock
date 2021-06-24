@@ -7,13 +7,12 @@ set(PROJECT_NAME GambitTest)
 
 project(${PROJECT_NAME})
 
-file(GLOB TEST_SOURCES
-    "*.cpp"
-) 
+file(GLOB TEST_SOURCES "*.cpp") 
 
 include_directories(${PROJECT_INCLUDE_DIR})
 
 add_executable(${PROJECT_NAME} ${TEST_SOURCES} ${ALL_HEADERS})
+cotire(${PROJECT_NAME})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     CXX_STANDARD 17
@@ -25,5 +24,4 @@ else()
     target_link_libraries(${PROJECT_NAME} SDL2 SDL2main SDL2_ttf nlohmann_json::nlohmann_json crossguid )
 endif()
 
-cotire(${PROJECT_NAME})
 

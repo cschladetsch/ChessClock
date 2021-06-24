@@ -19,8 +19,9 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
         CXX_EXTENSIONS OFF
         )
 
-
-add_subdirectory(Test)
+if (BUILD_TESTS)
+    add_subdirectory(Test)
+endif()
 
 link_directories(/usr/lib/arm-linux-gnueabihf)
 

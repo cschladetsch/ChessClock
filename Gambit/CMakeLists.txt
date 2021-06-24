@@ -28,7 +28,9 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     CXX_STANDARD 20
     CXX_EXTENSIONS OFF)
 
-add_subdirectory(Test)
+if (BUILD_TESTS)
+    add_subdirectory(Test)
+endif()
 
 if (WIN32)
     target_link_libraries(${PROJECT_NAME} SDL2 SDL2main SDL2_ttf freetyped harfbuzz-subset harfbuzz nlohmann_json::nlohmann_json crossguid )
@@ -36,5 +38,4 @@ else()
     target_link_libraries(${PROJECT_NAME} SDL2 SDL2main SDL2_ttf nlohmann_json::nlohmann_json crossguid )
 endif()
 
-cotire(${PROJECT_NAME})
 
