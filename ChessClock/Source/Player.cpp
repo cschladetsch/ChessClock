@@ -15,3 +15,4 @@ namespace ChessClock
         _remainingTime.Reset(timeControl);
     }
 }
+

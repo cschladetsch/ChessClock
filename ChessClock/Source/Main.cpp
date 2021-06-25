@@ -10,7 +10,7 @@ int main(int argc, char** argv)
 {
     if (argc < 3)
     {
-        std::cerr << rang::fg::red << "Resources folder and config filename required\n";
+        std::cerr << rang::fg::red << "Resources folder and config filename required\n" << rang::fg::reset;
         return 1;
     }
 
@@ -19,11 +19,9 @@ int main(int argc, char** argv)
     ChessClock::GameRoot root(config.c_str());
     typedef ChessClock::GameRoot::Context Context;
 
-    auto result = Context(resources.c_str(),
+    return Context(resources.c_str(),
         [&root](Context& ctx) { return root.Setup(ctx); },
         [&root](Context& ctx) { return root.ProcessEvents(ctx); })
         .Run();
-
-    return result;
 }
 

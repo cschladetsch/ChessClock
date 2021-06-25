@@ -32,5 +32,5 @@ namespace ChessClock
     {
         return false;
     }
-
 }
+

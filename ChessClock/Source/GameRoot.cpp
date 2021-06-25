@@ -11,8 +11,8 @@ namespace ChessClock
 {
     using namespace Gambit;
 
-    float _lastTime;
     int _frames;
+    float _lastTime;
     int GameRoot::_frameNumber{ 0 };
 
     bool GameRoot::ParseJson(JsonNext &item)
@@ -124,8 +124,7 @@ namespace ChessClock
 
     void DrawTimer(GameRoot::Values& values, Renderer &renderer, Vector2 location, Player const& player)
     {
-        values.numberFont->DrawTime(renderer, location,
-            (uint8_t)player.GetMinutes(), (uint8_t)player.GetSeconds());
+        values.numberFont->DrawTime(renderer, location, (uint8_t)player.GetMinutes(), (uint8_t)player.GetSeconds());
     }
 
     void GameRoot::DebugFrameRate()

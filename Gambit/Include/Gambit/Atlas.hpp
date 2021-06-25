@@ -25,11 +25,8 @@ namespace Gambit
         Atlas(TexturePtr atlasTexture, const string &spritsJson);
 
         std::pair<bool, Rect> GetSprite(string const &name) const;
-
-        bool WriteSprite(Renderer &, string const &name, const Rect &destRect, bool mirror = false) const;
-        bool WriteSprite(Renderer &, string const &name, const Vector2 &topLeft, bool mirror = false) const;
-        bool WriteSprite(Renderer &, string const &name, const Vector2 &destPoint, const string &tintName, bool mirror = false) const;
         bool WriteSprite(Renderer &, Object const &object) const;
+        bool WriteSprite(Renderer &, string const &name, const Rect &destRect, bool mirror = false) const;
 
         template <class ...Args>
         static shared_ptr<Atlas> Load(std::string const& baseName, ResourceId const& id, Args... args)
@@ -41,12 +38,15 @@ namespace Gambit
         }
 
     private:
+        bool WriteSprite(Renderer &, string const &name, const Vector2 &topLeft, bool mirror = false) const;
+        bool WriteSprite(Renderer &, string const &name, const Vector2 &destPoint, const string &tintName, bool mirror = false) const;
+
         static shared_ptr<Atlas> LoadAtlas(ResourceManager &, Renderer &, string const& baseName, ResourceId const& id);
+
+        std::pair<bool, Color> GetTint(const string& name) const;
 
         bool SpriteNotFound(const string& name) const;
         bool TintNotFound(const string& name) const;
-
-        std::pair<bool, Color> GetTint(const string& name) const;
 
         bool WriteRect(Renderer &, Rect const &sourceRect, Rect const &destRect, bool mirror = false) const;
         bool WriteRect(Renderer &, Rect const &sourceRect, Rect const &destRect, Color const& tint, bool mirror = false) const;
@@ -56,3 +56,4 @@ namespace Gambit
         bool ParseJson(JsonNext &item);
     };
 }
+

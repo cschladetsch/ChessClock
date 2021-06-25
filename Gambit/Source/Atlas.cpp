@@ -50,6 +50,23 @@ namespace Gambit
         return WriteSprite(renderer, object.Sprite, object.Position, object.Tint, object.Mirror);
     }
 
+    bool Atlas::WriteSprite(Renderer& renderer, string const& name, const Rect& destRect, bool mirror) const
+    {
+        auto found = GetSprite(name);
+        if (!found.first)
+            return SpriteNotFound(name);
+        return WriteRect(renderer, found.second, destRect);
+    }
+
+    bool Atlas::WriteSprite(Renderer &renderer, string const& name, Vector2 const& topLeft, bool mirror) const
+    {
+        auto found = GetSprite(name);
+        if (!found.first)
+            return SpriteNotFound(name);
+        Rect const& dest = found.second;
+        return WriteRect(renderer, found.second, Rect(topLeft.x, topLeft.y, dest.width, dest.height));
+    }
+
     bool Atlas::WriteSprite(Renderer& renderer, string const& name, const Vector2& destPoint, const string& tintName, bool mirror) const
     {
         auto found = GetSprite(name);
@@ -75,28 +92,11 @@ namespace Gambit
         CALL_SDL(SDL_SetTextureColorMod(&_atlasTexture->Get(), tint.red, tint.green, tint.blue));
         if (!WriteRect(renderer, sourceRect, destRect, mirror))
         {
-            LOG_ERROR() << "WriteRect\n";
+            LOG_ERROR() << LOG_VALUE(sourceRect) << LOG_VALUE(destRect) << '\n';
             return false;
         }
         CALL_SDL(SDL_SetTextureColorMod(&_atlasTexture->Get(), 255, 255, 255));
         return result == 0;
-    }
-
-    bool Atlas::WriteSprite(Renderer& renderer, string const& name, const Rect& destRect, bool mirror) const
-    {
-        auto found = GetSprite(name);
-        if (!found.first)
-            return SpriteNotFound(name);
-        return WriteRect(renderer, found.second, destRect);
-    }
-
-    bool Atlas::WriteSprite(Renderer &renderer, string const& name, Vector2 const& topLeft, bool mirror) const
-    {
-        auto found = GetSprite(name);
-        if (!found.first)
-            return SpriteNotFound(name);
-        Rect const& dest = found.second;
-        return WriteRect(renderer, found.second, Rect(topLeft.x, topLeft.y, dest.width, dest.height));
     }
 
     bool Atlas::WriteRect(Renderer& renderer, Rect const& sourceRect, Rect const& destRect, bool mirror) const
@@ -130,8 +130,8 @@ namespace Gambit
         SDL_Surface *surface = IMG_Load(fileName.c_str());
         if (!surface)
         {
-                LOG_ERROR() << "Failed to load " << LOG_VALUE(fileName) << LOG_VALUE(IMG_GetError()) <<  "\n";
-                return 0;
+            LOG_ERROR() << "Failed to load " << LOG_VALUE(fileName) << LOG_VALUE(IMG_GetError()) <<  "\n";
+            return 0;
         }
 
         uint32_t key;
@@ -203,6 +203,7 @@ namespace Gambit
         auto& name = item.key();
         auto& value = item.value();
         auto& type = value["type"];
+
         if (type == "sprite")
         {
             _sprites[name] = GetRect(value, "location");
@@ -211,16 +212,22 @@ namespace Gambit
 
         if (type == "tint_list")
         {
-            _tints["active_player"] = GetColor(value, "active_player");
-            _tints["inactive_player"] = GetColor(value, "inactive_player");
-            _tints["low_time_inactive"] = GetColor(value, "low_time_inactive");
-            _tints["low_time_active"] = GetColor(value, "low_time_active");
-            _tints["button_pressed"] = GetColor(value, "button_pressed");
-            _tints["time_bar_green"] = GetColor(value, "time_bar_green");
-            _tints["time_bar_red"] = GetColor(value, "time_bar_red");
-            _tints["white"] = GetColor(value, "white");
+            auto names = 
+            { 
+                "active_player", "foo", "inactive_player", "low_time_inactive", "low_time_active",
+                "button_pressed", "time_bar_green", "time_bar_red", "white" 
+            };
+            for (auto const &name : names)
+            {
+                _tints[name] = GetColor(value, name);
+            }
+
+            return true;
         }
 
-        return true;
+        LOG_ERROR() << "Unknown atlas type '" << type << "'\n";
+
+        return false;
     }
 }
+

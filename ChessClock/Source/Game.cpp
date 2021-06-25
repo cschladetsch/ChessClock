@@ -1,4 +1,5 @@
 #include "Gambit/Object.hpp"
+
 #include "ChessClock/Game.hpp"
 #include "ChessClock/GameRoot.hpp"
 
@@ -175,7 +176,7 @@ namespace ChessClock
         CurrentPlayer().Pause(paused);
 
         _pauseButton->Tint = _paused ? "white" : "active_player";
-        LOG_INFO() << LOG_VALUE(paused) << LOG_VALUE(_gameTime) << "\n";
+        LOG_INFO() << LOG_VALUE(paused) << LOG_VALUE(_gameTime/1000.f) << "\n";
     }
 
     void Game::GoBack() 

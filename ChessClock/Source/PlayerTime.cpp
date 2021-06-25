@@ -10,6 +10,7 @@ namespace ChessClock
 
     float TimeNowSeconds()
     {
-        return (float)TimeNowMillis() / 1000;
+        return (float)TimeNowMillis()/1000.f;
     }
 }
+
