@@ -3,9 +3,12 @@
 #include "ChessClock/Player.hpp"
 #include "ChessClock/Navigation.hpp"
 #include "ChessClock/UiCallBacks.hpp"
+#include "ChessClock/GameRoot.hpp"
 
 namespace ChessClock
 {
+    class GameRoot;
+
     class Game
         : public UiCallBacks
     {
@@ -40,13 +43,10 @@ namespace ChessClock
         TimeControl GetTimeControl() const { return _timeControl; }
         TimeControl GetTimeControl(ESide side) const;
 
-        void Pause(bool pause = true) { _paused = pause; }
+        void Pause(bool pause = true);
         bool IsPaused() const { return _paused; }
 
         void Update();
-
-        void LeftPressed();
-        void RightPressed();
 
         void SetColor(ESide side, EColor color);
 
@@ -58,15 +58,17 @@ namespace ChessClock
 
         Player const &CurrentPlayer() const { return _currentColor == EColor::White ? WhitePlayer() : BlackPlayer(); }
 
-        void GotoSettings();
-        void GotoPause(bool pause = true);
-        void GotoSound();
-
         void SwapColors();
 
         EColor GetPlayerTimedOut() const;
 
+        void LeftPressed();
+        void RightPressed();
+
+        void OnPressed(GameRoot *root, GameRoot::Context &context, Vector2 where) const;
+
     private:
+
         void RockerPressed();
         Player &CurrentPlayer() { return _currentColor == EColor::White ? WhitePlayer() : BlackPlayer(); }
 
@@ -75,7 +77,6 @@ namespace ChessClock
 
         Player& GetPlayer(ESide side);
 
-        void RegisterCallbacks();
         void GoBack();
 
         void ChangeTurn();

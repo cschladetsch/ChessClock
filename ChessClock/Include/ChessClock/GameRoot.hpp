@@ -9,12 +9,12 @@
 
 namespace ChessClock
 {
-    class MainScene
-        : JsonReader<MainScene>
+    class GameRoot
+        : JsonReader<GameRoot>
     {
         static inline Gambit::Logger _log{ "MainScene" };
 
-        typedef string MainScene:: *Member;
+        typedef string GameRoot:: *Member;
         string _defaultFont;
         string _atlasName;
         string _sceneName;
@@ -27,14 +27,14 @@ namespace ChessClock
 
         static int GetFrameNumber() { return _frameNumber; }
 
-        MainScene() = default;
-        MainScene(const char *jsonConfig)
+        GameRoot() = default;
+        GameRoot(const char *jsonConfig)
             : JsonReader(
                 { 
-                    {"font", &MainScene::_defaultFont},
-                    {"atlas", &MainScene::_atlasName},
-                    {"scene", &MainScene::_sceneName},
-                    {"showFps", &MainScene::_showFps},
+                    {"font", &GameRoot::_defaultFont},
+                    {"atlas", &GameRoot::_atlasName},
+                    {"scene", &GameRoot::_sceneName},
+                    {"showFps", &GameRoot::_showFps},
                 })
         {
             ReadJsonEx(jsonConfig);
@@ -43,13 +43,20 @@ namespace ChessClock
         bool Setup(Context &);
         bool ProcessEvents(Context &);
         bool Present(Context &);
+        void OnPressed(Context &, Vector2 where);
 
     protected:
         void DebugFrameRate();
 
+        void LeftRockerPressed(ObjectPtr sourceObject);
+        void RightRockerPressed(ObjectPtr sourceObject);
+        void SettingsPressed(ObjectPtr sourceObject);
+        void PausePressed(ObjectPtr sourceObject);
+        void VolumePressed(ObjectPtr sourceObject);
+
         void Prepare(Context &ctx);
         bool ParseJson(JsonNext &next) override;
-        void AddStep(Context&, bool(MainScene::*method)(Context&));
+        void AddStep(Context&, bool(GameRoot::*method)(Context&));
 
         void LoadResources(ResourceManager &, Renderer &, Values &values);
         bool StepGame(Context& ctx);

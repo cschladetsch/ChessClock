@@ -2,14 +2,14 @@
 #include "Gambit/TimerFont.hpp"
 #include "Gambit/Atlas.hpp"
 
-#include "ChessClock/MainScene.hpp"
+#include "ChessClock/GameRoot.hpp"
 #include "ChessClock/Game.hpp"
 
 namespace ChessClock
 {
     using namespace Gambit;
 
-    struct MainScene::Values
+    struct GameRoot::Values
     {
         Values() = default;
         Values(const Values &) = delete;

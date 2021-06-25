@@ -1,7 +1,7 @@
 #include "Gambit/Vector2.hpp"
 
-#include "ChessClock/MainScene.hpp"
-#include "ChessClock/MainScene.Values.hpp"
+#include "ChessClock/GameRoot.hpp"
+#include "ChessClock/GameRoot.Values.hpp"
 
 namespace Gambit
 {
@@ -10,7 +10,7 @@ namespace Gambit
 
 namespace ChessClock
 {
-    bool MainScene::ProcessEvents(Context& ctx)
+    bool GameRoot::ProcessEvents(Context& ctx)
     {
         Values& values = *ctx.values;
         SDL_Event event;
@@ -25,7 +25,9 @@ namespace ChessClock
                     {
                         case SDL_BUTTON_LEFT:
                         {
-                            LOG_INFO() << "Pressed " << Vector2{ event.button.x, event.button.y} << "\n";
+                            auto where = Vector2{ event.button.x, event.button.y };
+                            LOG_INFO() << "Pressed " << where << "\n";
+                            values.game.OnPressed(this, ctx, where);
                             break;
                         }
                     }

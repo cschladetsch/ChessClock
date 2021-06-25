@@ -31,6 +31,9 @@ namespace Gambit
         bool Mirror{ false };
         string Tint;
 
+        string Type;
+        string Callback;
+
         string const &GetName() const { return _resourceId.GetName(); }
 
         Object(string name, ResourceId const&, ResourceManager& resourceManager);

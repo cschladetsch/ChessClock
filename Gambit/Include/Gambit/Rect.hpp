@@ -13,6 +13,8 @@ namespace Gambit
         Rect(int left, int top, int width, int height);
 
         Vector2 GetTopLeft() const { return Vector2(top, left); }
+
+        bool Contains(Vector2 where) const;
     };
 
     inline SDL_Rect* ToSdlRect(Rect const& rect)

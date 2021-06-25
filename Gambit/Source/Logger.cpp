@@ -56,7 +56,7 @@ namespace Gambit
             _logFile = make_shared<fstream>(_logFileName.c_str(), fstream::out);
             if (_logFile->good())
             {
-                _tee = make_shared<teestream>(*_logFile, cout);
+                //_tee = make_shared<teestream>(*_logFile, cout);
             }
             return true;
         }

@@ -1,7 +1,7 @@
 #define SDL_MAIN_HANDLED
 
 #include <iostream>
-#include "ChessClock/MainScene.hpp"
+#include "ChessClock/GameRoot.hpp"
 
 using namespace Gambit;
 
@@ -15,12 +15,12 @@ int main(int argc, char** argv)
 
     string resources = argv[1];
     string config = resources + argv[2];
-    ChessClock::MainScene scene(config.c_str());
-    typedef ChessClock::MainScene::Context Ctx;
+    ChessClock::GameRoot root(config.c_str());
+    typedef ChessClock::GameRoot::Context Ctx;
 
     auto result = Ctx(resources.c_str(),
-        [&scene](Ctx& ctx) { return scene.Setup(ctx); },
-        [&scene](Ctx& ctx) { return scene.ProcessEvents(ctx); })
+        [&root](Ctx& ctx) { return root.Setup(ctx); },
+        [&root](Ctx& ctx) { return root.ProcessEvents(ctx); })
         .Run();
 
     return result;

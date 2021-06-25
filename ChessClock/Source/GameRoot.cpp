@@ -4,8 +4,8 @@
 
 #include "ChessClock/Game.hpp"
 #include "ChessClock/Global.hpp"
-#include "ChessClock/MainScene.hpp"
-#include "ChessClock/MainScene.Values.hpp"
+#include "ChessClock/GameRoot.hpp"
+#include "ChessClock/GameRoot.Values.hpp"
 
 namespace ChessClock
 {
@@ -13,9 +13,9 @@ namespace ChessClock
 
     float _lastTime;
     int _frames;
-    int MainScene::_frameNumber{ 0 };
+    int GameRoot::_frameNumber{ 0 };
 
-    bool MainScene::ParseJson(JsonNext &item)
+    bool GameRoot::ParseJson(JsonNext &item)
     {
         auto &key = item.key();
 
@@ -31,21 +31,21 @@ namespace ChessClock
         return true;
     }
 
-    bool MainScene::Setup(Context& ctx)
+    bool GameRoot::Setup(Context& ctx)
     {
         ctx.values = std::make_shared<Values>();
         LoadResources(ctx.resources, ctx.renderer, *ctx.values);
 
-        AddStep(ctx, &MainScene::RenderScene);
-        AddStep(ctx, &MainScene::StepGame);
-        AddStep(ctx, &MainScene::Present);
+        AddStep(ctx, &GameRoot::RenderScene);
+        AddStep(ctx, &GameRoot::StepGame);
+        AddStep(ctx, &GameRoot::Present);
 
         Prepare(ctx);
 
         return true;
     }
 
-    void MainScene::Prepare(Context &ctx)
+    void GameRoot::Prepare(Context &ctx)
     {
         Values &values = *ctx.values;
         values.game.SetGameState(EGameState::Playing);
@@ -53,12 +53,27 @@ namespace ChessClock
         values.game.SetTimeControl(TimeControl{5, 0, 3});
         values.game.Pause();
 
-        auto leftFace = values.scene->FindChild("left_clock_face");
-        auto rightFace = values.scene->FindChild("right_clock_face");
-        LOG_DEBUG() << LOG_VALUE(&*leftFace) << LOG_VALUE(&*rightFace) << "\n";
+        values.game.AddCallback("SettingsPressed", [this](auto source) { SettingsPressed(source); });
+        values.game.AddCallback("PausePressed", [this](auto source) { PausePressed(source); });
+        values.game.AddCallback("VolumePressed", [this](auto source) { VolumePressed(source); });
     }
 
-    void MainScene::LoadResources(ResourceManager &resources, Renderer &renderer, Values &values)
+    void GameRoot::SettingsPressed(ObjectPtr sourceObject)
+    {
+        LOG_DEBUG() << "Settings pressed from " << LOG_VALUE(sourceObject->GetName()) << "\n";
+    }
+
+    void GameRoot::PausePressed(ObjectPtr sourceObject)
+    {
+        LOG_DEBUG() << "Pause pressed from " << LOG_VALUE(sourceObject->GetName()) << "\n";
+    }
+
+    void GameRoot::VolumePressed(ObjectPtr sourceObject)
+    {
+        LOG_DEBUG() << "Volume pressed from " << LOG_VALUE(sourceObject->GetName()) << "\n";
+    }
+
+    void GameRoot::LoadResources(ResourceManager &resources, Renderer &renderer, Values &values)
     {
         values.font = resources.LoadResource<Font>(_defaultFont.c_str(), 125);
         values.headerFont = resources.LoadResource<Font>(_defaultFont.c_str(), 30);
@@ -75,12 +90,12 @@ namespace ChessClock
         values.game.SetFaces(leftFace, rightFace);
     }
 
-    void MainScene::AddStep(Context& ctx, bool(MainScene::* method)(Context&))
+    void GameRoot::AddStep(Context& ctx, bool(GameRoot::* method)(Context&))
     {
         ctx.steps.push_back([this, method](auto& ctx) { return (this->*method)(ctx); });
     }
 
-    bool MainScene::RenderScene(Context& ctx)
+    bool GameRoot::RenderScene(Context& ctx)
     {
         auto& renderer = ctx.renderer;
         auto& values = *ctx.values;
@@ -97,13 +112,13 @@ namespace ChessClock
         return true;
     }
 
-    void DrawTimer(MainScene::Values& values, Renderer &renderer, Vector2 location, Player const& player)
+    void DrawTimer(GameRoot::Values& values, Renderer &renderer, Vector2 location, Player const& player)
     {
         values.numberFont->DrawTime(renderer, location,
             (uint8_t)player.GetMinutes(), (uint8_t)player.GetSeconds());
     }
 
-    void MainScene::DebugFrameRate()
+    void GameRoot::DebugFrameRate()
     {
         ++_frames;
         auto now = TimeNowSeconds();
@@ -117,7 +132,7 @@ namespace ChessClock
         }
     }
 
-    bool MainScene::StepGame(Context &ctx)
+    bool GameRoot::StepGame(Context &ctx)
     {
         if (_showFps == "true")
             DebugFrameRate();
@@ -140,9 +155,20 @@ namespace ChessClock
         return true;
     }
 
-    bool MainScene::Present(Context &ctx)
+    bool GameRoot::Present(Context &ctx)
     {
         return ctx.renderer.Present();
     }
+
+    void GameRoot::OnPressed(Context &ctx, Vector2 where)
+    {
+        auto &scene = ctx.values->scene;
+        ObjectPtr button = scene->OnPressed(ctx.values->atlas, where);
+        if (!button)
+            return;
+
+        ctx.values->game.Call(button->GetName(), button);
+    }
+
 }
 

@@ -11,17 +11,17 @@ namespace ChessClock
         static inline Gambit::Logger _log{ "CallBacks" };
 
     public:
-        typedef std::function<void()> Callback;
+        typedef std::function<void(ObjectPtr source)> Callback;
 
     protected:
         typedef std::unordered_map<string, Callback> Callbacks;
         Callbacks _callbacks;
 
     public:
-        void AddCallback(string name, Callback);
-        void RemoveCallback(string name);
+        bool AddCallback(string const &name, Callback);
+        bool RemoveCallback(string const &name);
 
-        void Call(string const& name) const;
+        void Call(string const& name, ObjectPtr source) const;
     };
 }
 

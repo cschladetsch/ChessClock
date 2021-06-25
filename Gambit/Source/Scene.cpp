@@ -10,7 +10,7 @@ namespace Gambit
 {
     using namespace std;
 
-    Scene::Scene(ResourceId const &id, ResourceManager &resourceManager, Atlas const &atlas, const char* fileName)
+    Scene::Scene(ResourceId const &id, ResourceManager &resourceManager, Atlas const &atlas, const char *fileName)
         : ResourceBase(id)
         , _resourceManager(&resourceManager)
         , _atlas(&atlas)
@@ -25,7 +25,28 @@ namespace Gambit
         return _resourceManager->FindObject(name);
     }
 
-    ObjectPtr Scene::GetRoot(ObjectPtr object)
+    ObjectPtr Scene::OnPressed(AtlasPtr atlas, Vector2 where) const
+    {
+        LOG_INFO() << LOG_VALUE(where) << "\n";
+        for (auto const &button : _buttons)
+        {
+            auto pair = atlas->GetSprite(button->Sprite);
+            if (!pair.first)
+                continue;
+
+            auto &atlasRect = pair.second;
+            auto pos = button->Position;
+            auto rect = Rect{ pos.y, pos.x, atlasRect.width, atlasRect.height };
+            if (!rect.Contains(where))
+                continue;
+
+            return button;
+        }
+
+        return nullptr;
+    }
+
+    ObjectPtr Scene::GetLayer(ObjectPtr object)
     {
         if (!object)
         {
@@ -90,7 +111,18 @@ namespace Gambit
 
     void Scene::AddObject(ObjectPtr object)
     {
-        GetRoot(object)->AddChild(object);
+        if (!object)
+        {
+            LOG_WARN() << "Attempt to add null object\n";
+            return;
+        }
+
+        GetLayer(object)->AddChild(object);
+
+        if (object->Type == "button")
+        {
+            _buttons.push_back(object);
+        }
     }
 
     bool Scene::ParseJson(JsonNext& item)
@@ -109,6 +141,8 @@ namespace Gambit
         SetValue(value, "layer", object, &Object::Layer);
         SetValue(value, "mirror", object, &Object::Mirror);
         SetValue(value, "tint", object, &Object::Tint);
+        SetValue(value, "type", object, &Object::Type);
+        SetValue(value, "callback", object, &Object::Callback);
 
         AddObject(objectPtr);
 

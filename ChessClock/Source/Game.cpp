@@ -1,5 +1,6 @@
 #include "Gambit/Object.hpp"
 #include "ChessClock/Game.hpp"
+#include "ChessClock/GameRoot.hpp"
 
 #pragma warning("fix this")
 
@@ -8,13 +9,12 @@ namespace ChessClock
     Game::Game(Navigation &nav)
         : _navigation(nav)
     {
-        RegisterCallbacks();
     }
 
     void Game::ResetGame()
     {
         SetTimeControl(_timeControl);
-        GotoPause();
+        Pause();
     }
 
     void Game::SetGameState(EGameState state)
@@ -30,7 +30,7 @@ namespace ChessClock
     void Game::SetTimeControl(TimeControl timeControl)
     {
         if (!_paused)
-            GotoPause();
+            Pause();
 
         _playerLeft.SetTimeControl(timeControl);
         _playerRight.SetTimeControl(timeControl);
@@ -69,33 +69,23 @@ namespace ChessClock
             _playerLeft.SetColor(color);
             _playerRight.SetColor(OtherColor(color));
         }
-        else 
+        else
         {
             _playerRight.SetColor(color);
             _playerLeft.SetColor(color == EColor::White ? EColor::Black : EColor::White);
         }
     }
 
-    void Game::RegisterCallbacks()
-    {
-        _callbacks["Left"] = [this]() { return this->LeftPressed(); };
-        _callbacks["Right"] = [this]() { return this->RightPressed(); };
-        _callbacks["Pause"] = [this]() { return this->GotoPause(); };
-        _callbacks["Settings"] = [this]() { return this->GotoSettings(); };
-        _callbacks["Sound"] = [this]() { return this->GotoSound(); };
-        _callbacks["Back"] = [this]() { return this->GoBack(); };
-    }
-
     void Game::LeftPressed()
     {
         //if (_currentColor != CurrentPlayer().GetColor())
-            RockerPressed();
+        RockerPressed();
     }
 
     void Game::RightPressed()
     {
         //if (_currentColor != CurrentPlayer().GetColor())
-            RockerPressed();
+        RockerPressed();
     }
 
     void Game::RockerPressed()
@@ -117,12 +107,12 @@ namespace ChessClock
         }
     }
 
-    Player& Game::GetPlayer(ESide side)
+    Player &Game::GetPlayer(ESide side)
     {
         return side == ESide::Left ? _playerLeft : _playerRight;
     }
 
-    void Game::SetFaces(ObjectPtr left, ObjectPtr right) 
+    void Game::SetFaces(ObjectPtr left, ObjectPtr right)
     {
         _leftFace = left;
         _rightFace = right;
@@ -133,7 +123,7 @@ namespace ChessClock
         TimeUnit now = TimeNowMillis();
         TimeUnit delta = now - _lastGameTime;
         _lastGameTime = now;
-        Player& currentPlayer = CurrentPlayer();
+        Player &currentPlayer = CurrentPlayer();
         currentPlayer.AddMillis(-delta);
         currentPlayer.AddSeconds(currentPlayer.GetIncrement());
         _currentColor = _currentColor == EColor::White ? EColor::Black : EColor::White;
@@ -145,7 +135,12 @@ namespace ChessClock
             _rightFace->Tint = "active_player";
     }
 
-    void Game::GotoPause(bool paused)
+    void Game::OnPressed(GameRoot *root, GameRoot::Context &context, Vector2 where) const
+    {
+        root->OnPressed(context, where);
+    }
+
+    void Game::Pause(bool paused)
     {
         _paused = paused;
         if (!paused)
@@ -154,18 +149,6 @@ namespace ChessClock
         CurrentPlayer().Pause(paused);
 
         LOG_INFO() << LOG_VALUE(paused) << LOG_VALUE(_gameTime) << "\n";
-    }
-
-    void Game::GotoSettings()
-    {
-        LOG_INFO() << "Goto Settings\n";
-        Pause();
-    }
-
-    void Game::GotoSound()
-    {
-        LOG_INFO() << "Goto Sound\n";
-        Pause();
     }
 
     void Game::GoBack() 
