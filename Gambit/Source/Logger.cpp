@@ -50,7 +50,7 @@ namespace Gambit
         auto tm = *localtime(&t);
         stringstream stream;
         stream << put_time(&tm, "ChessClock-%m-%d-%H-%M.txt") << ends;
-        _logFileName = stream.str().c_str();
+        _logFileName = stream.str();
         try
         {
             _logFile = make_shared<fstream>(_logFileName.c_str(), fstream::out);
