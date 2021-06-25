@@ -51,6 +51,8 @@ namespace Gambit
         bool WriteRect(Renderer &, Rect const &sourceRect, Rect const &destRect, bool mirror = false) const;
         bool WriteRect(Renderer &, Rect const &sourceRect, Rect const &destRect, Color const& tint, bool mirror = false) const;
 
+        Rect GetRect(Json &json, const char *name);
+        Color GetColor(Json &json, const char *name);
         bool ParseJson(JsonNext &item);
     };
 }

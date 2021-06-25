@@ -93,7 +93,7 @@
 		"low_time_active" : [ 121, 44, 42 ],
 		"button_pressed" : [ 48, 46, 44 ],
 		"time_bar_green" : [ 98, 153, 36 ],
-		"time_bar_red" : [ 255,30,20],
+		"time_bar_red" : [ 255, 30, 20],
 		"white" : [ 255, 255, 255]
 	}
 }

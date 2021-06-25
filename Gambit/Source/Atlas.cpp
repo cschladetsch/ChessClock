@@ -174,14 +174,26 @@ namespace Gambit
         return false;
     }
 
-    Rect GetRect(Json& json, const char* name)
+    Rect Atlas::GetRect(Json& json, const char* name)
     {
+        if (!json.contains(name))
+        {
+            LOG_ERROR() << "Failed to read rect '" << name << "' element from atlas.\n";
+            return Rect();
+        }
+
         auto const& rc = json[name].get<vector<int>>();
         return Rect(rc[0], rc[1], rc[2], rc[3]);
     }
 
-    Color GetColor(Json& json, const char* name)
+    Color Atlas::GetColor(Json & json, const char *name)
     {
+        if (!json.contains(name))
+        {
+            LOG_ERROR() << "Failed to read color '" << name << "' element from atlas.\n";
+            return Color();
+        }
+
         auto const& rc = json[name].get<vector<int>>();
         return Color(rc[0], rc[1], rc[2]);
     }
@@ -206,7 +218,6 @@ namespace Gambit
             _tints["button_pressed"] = GetColor(value, "button_pressed");
             _tints["time_bar_green"] = GetColor(value, "time_bar_green");
             _tints["time_bar_red"] = GetColor(value, "time_bar_red");
-            _tints["paused_color"] = GetColor(value, "paused_color");
             _tints["white"] = GetColor(value, "white");
         }
 
