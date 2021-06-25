@@ -71,7 +71,7 @@ namespace Gambit
     ostream& Logger::Info(const char* file, int line, const char *func) const
     {
         if (ELogLevel::Info <= _logLevel)
-            return PrintLead(file, line, func, fg::green, "INFO");
+            return PrintLead(file, line, func, fg::green, "INFO ");
 
         return _null;
     }
@@ -87,7 +87,7 @@ namespace Gambit
     ostream& Logger::Warn(const char* file, int line, const char *func) const
     {
         if (ELogLevel::Warn <= _logLevel)
-            return PrintLead(file, line, func, fg::yellow, "WARN");
+            return PrintLead(file, line, func, fg::yellow, "WARN ");
 
         return _null;
     }
@@ -102,12 +102,12 @@ namespace Gambit
         const char *lead = "";
         string fileName = file;
         auto fileNameLength = fileName.size();
-        if (fileNameLength > 53)
+        if (fileNameLength > 33)
         {
-            fileName = "..." + fileName.substr(fileNameLength - 50);
+            fileName = "..." + fileName.substr(fileNameLength - 30);
         }
-        auto millis = SDL_GetTicks()/1000.0f;
         ostream &stream = _tee ? *_tee : cout;
+        //auto millis = SDL_GetTicks()/1000.0f;
         //stream << style::reset << fg::reset << style::italic << fg::yellow << millis;
         //stream << "ms: " << fg::reset << fg::gray << style::dim << fileName << "(" << line << "): ";
         //stream << fg::cyan << func << fg::gray << ": " << style::bold << "\n";
@@ -115,7 +115,7 @@ namespace Gambit
         //stream << "\t" << ends;
 
         stream << style::reset << fg::reset;
-        stream << "[" << color << level << fg::gray << "]: {" << fg::magenta << _source << fg::gray << "}: \t";
+        stream << "[" << color << level << fg::gray << "]: {" << fg::magenta << _source << fg::gray << "}: ";
         stream << style::dim << fileName << "(" << line << "): ";
         stream << fg::cyan << func << fg::gray << ": " << style::bold << "\n";
         stream << "\t" << ends;

@@ -54,6 +54,17 @@ namespace Gambit
                 (instance->*member) = item.value();
             return true;
         }
+    protected:
+        template <class Ty, class Class>
+        bool SetValue(nlohmann::json& item, const string &name, Class &object, Ty (Class::* member)
+            , std::function<Ty(nlohmann::json &j)> convert = [](nlohmann::json &j) { return j; })
+        {
+            if (!item.contains(name))
+                return false;
+
+            (object.*member) = convert(item[name]);
+            return true;
+        }
 
     private:
         bool ReadJson(const char *fileName)

@@ -101,14 +101,10 @@ namespace Gambit
         ObjectPtr objectPtr = _resourceManager->CreateObject(name);
         Object &object = *objectPtr;
 
-        if (value.contains("location"))
-        {
-            auto& location = value["location"];
-            object.Position = Vector2(location[0], location[1]);
-        }
-
-        //CJS TODO: 
+        //CJS TODO: why does this work if I make a variable to pass, rather than passing the lambda directly to SetValue(...)
+        std::function<Vector2 (nlohmann::json &j)>fun = [](nlohmann::json& j) ->Vector2 { return Vector2{ j[0], j[1] }; };
         //SetValue(value, "location", object, &Object::Position, [](nlohmann::json& j) { return Vector2{ j[0], j[1] }; });
+        SetValue(value, "location", object, &Object::Position, fun);
         SetValue(value, "sprite", object, &Object::Sprite);
         SetValue(value, "layer", object, &Object::Layer);
         SetValue(value, "mirror", object, &Object::Mirror);

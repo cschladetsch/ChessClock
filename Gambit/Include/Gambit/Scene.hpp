@@ -48,19 +48,6 @@ namespace Gambit
     private:
         static shared_ptr<Scene> LoadScene(ResourceManager &, string const &fileName, Atlas const &atlas);
 
-        template <class Ty>
-        bool SetValue(nlohmann::json& item, const string &name, Object &object, Ty (Object::* member), std::function<Ty (nlohmann::json &j)> convert = nullptr)
-        {
-            if (!item.contains(name))
-                return false;
-
-            if (convert)
-                (object.*member) = convert(item[name]);
-            else
-                (object.*member) = item[name];
-            return true;
-        }
-
         bool ParseJson(JsonNext &item);
     };
 }

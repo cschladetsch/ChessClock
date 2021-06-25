@@ -47,10 +47,10 @@ namespace Gambit
 
     bool Atlas::WriteSprite(Renderer& renderer, Object const& object) const
     {
-        return WriteSprite(renderer, object.Sprite, object.Position, object.Tint);
+        return WriteSprite(renderer, object.Sprite, object.Position, object.Tint, object.Mirror);
     }
 
-    bool Atlas::WriteSprite(Renderer& renderer, string const& name, const Vector2& destPoint, const string& tintName) const
+    bool Atlas::WriteSprite(Renderer& renderer, string const& name, const Vector2& destPoint, const string& tintName, bool mirror) const
     {
         auto found = GetSprite(name);
         if (!found.first)
@@ -66,14 +66,14 @@ namespace Gambit
             tint = tintFound.second;
         }
 
-        return WriteRect(renderer, found.second, Rect{ destPoint.x, destPoint.y, rect.width, rect.height }, tint);
+        return WriteRect(renderer, found.second, Rect{ destPoint.x, destPoint.y, rect.width, rect.height }, tint, mirror);
     }
 
-    bool Atlas::WriteRect(Renderer &renderer, const Rect& sourceRect, const Rect& destRect, Color const& tint) const
+    bool Atlas::WriteRect(Renderer &renderer, const Rect& sourceRect, const Rect& destRect, Color const& tint, bool mirror) const
     {
         int result = 0;
         CALL_SDL(SDL_SetTextureColorMod(&_atlasTexture->Get(), tint.red, tint.green, tint.blue));
-        if (!WriteRect(renderer, sourceRect, destRect))
+        if (!WriteRect(renderer, sourceRect, destRect, mirror))
         {
             LOG_ERROR() << "WriteRect\n";
             return false;
@@ -82,7 +82,7 @@ namespace Gambit
         return result == 0;
     }
 
-    bool Atlas::WriteSprite(Renderer& renderer, string const& name, const Rect& destRect) const
+    bool Atlas::WriteSprite(Renderer& renderer, string const& name, const Rect& destRect, bool mirror) const
     {
         auto found = GetSprite(name);
         if (!found.first)
@@ -90,7 +90,7 @@ namespace Gambit
         return WriteRect(renderer, found.second, destRect);
     }
 
-    bool Atlas::WriteSprite(Renderer &renderer, string const& name, Vector2 const& topLeft) const
+    bool Atlas::WriteSprite(Renderer &renderer, string const& name, Vector2 const& topLeft, bool mirror) const
     {
         auto found = GetSprite(name);
         if (!found.first)
@@ -99,7 +99,7 @@ namespace Gambit
         return WriteRect(renderer, found.second, Rect(topLeft.x, topLeft.y, dest.width, dest.height));
     }
 
-    bool Atlas::WriteRect(Renderer& renderer, Rect const& sourceRect, Rect const& destRect) const
+    bool Atlas::WriteRect(Renderer& renderer, Rect const& sourceRect, Rect const& destRect, bool mirror) const
     {
         int result = 0;
         CALL_SDL(SDL_RenderCopyEx(
@@ -109,7 +109,7 @@ namespace Gambit
             ToSdlRect(destRect),
             0, // angle
             nullptr, // center
-            SDL_FLIP_NONE // renderFlip
+            mirror ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE
         ));
 
         return result == 0;

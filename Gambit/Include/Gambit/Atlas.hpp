@@ -26,9 +26,9 @@ namespace Gambit
 
         std::pair<bool, Rect> GetSprite(string const &name) const;
 
-        bool WriteSprite(Renderer &, string const &name, const Rect &destRect) const;
-        bool WriteSprite(Renderer &, string const &name, const Vector2 &topLeft) const;
-        bool WriteSprite(Renderer &, string const &name, const Vector2 &destPoint, const string &tintName) const;
+        bool WriteSprite(Renderer &, string const &name, const Rect &destRect, bool mirror = false) const;
+        bool WriteSprite(Renderer &, string const &name, const Vector2 &topLeft, bool mirror = false) const;
+        bool WriteSprite(Renderer &, string const &name, const Vector2 &destPoint, const string &tintName, bool mirror = false) const;
         bool WriteSprite(Renderer &, Object const &object) const;
 
         template <class ...Args>
@@ -48,8 +48,8 @@ namespace Gambit
 
         std::pair<bool, Color> GetTint(const string& name) const;
 
-        bool WriteRect(Renderer &, Rect const &sourceRect, Rect const &destRect) const;
-        bool WriteRect(Renderer &, Rect const &sourceRect, Rect const &destRect, Color const& tint) const;
+        bool WriteRect(Renderer &, Rect const &sourceRect, Rect const &destRect, bool mirror = false) const;
+        bool WriteRect(Renderer &, Rect const &sourceRect, Rect const &destRect, Color const& tint, bool mirror = false) const;
 
         bool ParseJson(JsonNext &item);
     };
