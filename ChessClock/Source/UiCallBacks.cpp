@@ -1,18 +1,20 @@
 #include "Gambit/Object.hpp"
 
+#include "ChessClock/GameRoot.hpp"
 #include "ChessClock/UiCallBacks.hpp"
 
 namespace ChessClock
 {
-    void UiCallBacks::Call(string const& name, ObjectPtr object) const
+    void UiCallBacks::Call(GameRoot::Context &context, ObjectPtr object) const
     {
         auto call = _callbacks.find(object->Callback);
         if (call == _callbacks.end())
         {
-            LOG_ERROR() << "No callback for '" << name << "'\n";
+            LOG_ERROR() << "No callback for '" << object->Callback << "'\n";
             return;
         }
-        call->second(object);
+
+        call->second(context, object);
     }
 
     bool UiCallBacks::AddCallback(string const &name, Callback callback)

@@ -26,7 +26,6 @@ namespace ChessClock
                         case SDL_BUTTON_LEFT:
                         {
                             auto where = Vector2{ event.button.x, event.button.y };
-                            LOG_INFO() << "Pressed " << where << "\n";
                             values.game.OnPressed(this, ctx, where);
                             break;
                         }

@@ -48,11 +48,11 @@ namespace ChessClock
     protected:
         void DebugFrameRate();
 
-        void LeftRockerPressed(ObjectPtr sourceObject);
-        void RightRockerPressed(ObjectPtr sourceObject);
-        void SettingsPressed(ObjectPtr sourceObject);
-        void PausePressed(ObjectPtr sourceObject);
-        void VolumePressed(ObjectPtr sourceObject);
+        void LeftRockerPressed(Context &, ObjectPtr sourceObject);
+        void RightRockerPressed(Context &, ObjectPtr sourceObject);
+        void SettingsPressed(Context &, ObjectPtr sourceObject);
+        void PausePressed(Context &, ObjectPtr sourceObject);
+        void VolumePressed(Context &, ObjectPtr sourceObject);
 
         void Prepare(Context &ctx);
         bool ParseJson(JsonNext &next) override;

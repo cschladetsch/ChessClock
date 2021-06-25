@@ -53,22 +53,23 @@ namespace ChessClock
         values.game.SetTimeControl(TimeControl{5, 0, 3});
         values.game.Pause();
 
-        values.game.AddCallback("SettingsPressed", [this](auto source) { SettingsPressed(source); });
-        values.game.AddCallback("PausePressed", [this](auto source) { PausePressed(source); });
-        values.game.AddCallback("VolumePressed", [this](auto source) { VolumePressed(source); });
+        values.game.AddCallback("SettingsPressed", [this, &ctx](auto &ctx, auto source) { SettingsPressed(ctx, source); });
+        values.game.AddCallback("PausePressed", [this, &ctx](auto &ctx, auto source) { PausePressed(ctx, source); });
+        values.game.AddCallback("VolumePressed", [this, &ctx](auto &ctx, auto source) { VolumePressed(ctx, source); });
     }
 
-    void GameRoot::SettingsPressed(ObjectPtr sourceObject)
+    void GameRoot::SettingsPressed(Context &context, ObjectPtr sourceObject)
     {
         LOG_DEBUG() << "Settings pressed from " << LOG_VALUE(sourceObject->GetName()) << "\n";
     }
 
-    void GameRoot::PausePressed(ObjectPtr sourceObject)
+    void GameRoot::PausePressed(Context &context, ObjectPtr sourceObject)
     {
         LOG_DEBUG() << "Pause pressed from " << LOG_VALUE(sourceObject->GetName()) << "\n";
+        context.values->game.Pause(!context.values->game.IsPaused());
     }
 
-    void GameRoot::VolumePressed(ObjectPtr sourceObject)
+    void GameRoot::VolumePressed(Context &context, ObjectPtr sourceObject)
     {
         LOG_DEBUG() << "Volume pressed from " << LOG_VALUE(sourceObject->GetName()) << "\n";
     }
@@ -167,7 +168,7 @@ namespace ChessClock
         if (!button)
             return;
 
-        ctx.values->game.Call(button->GetName(), button);
+        ctx.values->game.Call(ctx, button);
     }
 
 }

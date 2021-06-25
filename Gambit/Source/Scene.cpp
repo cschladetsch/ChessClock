@@ -27,7 +27,6 @@ namespace Gambit
 
     ObjectPtr Scene::OnPressed(AtlasPtr atlas, Vector2 where) const
     {
-        LOG_INFO() << LOG_VALUE(where) << "\n";
         for (auto const &button : _buttons)
         {
             auto pair = atlas->GetSprite(button->Sprite);
@@ -35,7 +34,7 @@ namespace Gambit
                 continue;
 
             auto &atlasRect = pair.second;
-            auto pos = button->Position;
+            auto const &pos = button->Position;
             auto rect = Rect{ pos.y, pos.x, atlasRect.width, atlasRect.height };
             if (!rect.Contains(where))
                 continue;

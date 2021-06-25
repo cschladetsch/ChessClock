@@ -2,8 +2,6 @@
 #include "ChessClock/Game.hpp"
 #include "ChessClock/GameRoot.hpp"
 
-#pragma warning("fix this")
-
 namespace ChessClock
 {
     Game::Game(Navigation &nav)
@@ -78,24 +76,27 @@ namespace ChessClock
 
     void Game::LeftPressed()
     {
+        //if (IsPaused())
+        //    return;
+
         //if (_currentColor != CurrentPlayer().GetColor())
-        RockerPressed();
+            RockerPressed();
     }
 
     void Game::RightPressed()
     {
+        //if (IsPaused())
+        //    return;
+
         //if (_currentColor != CurrentPlayer().GetColor())
-        RockerPressed();
+            RockerPressed();
     }
 
     void Game::RockerPressed()
     {
-        if (_paused
-            && _gameState == EGameState::Ready
-            && _currentColor == EColor::Black)
+        if (_paused && _gameState == EGameState::Ready)
         {
             _gameState = EGameState::Playing;
-            _currentColor = EColor::White;
             _lastGameTime = TimeNowMillis();
             Pause(false);
             return;
