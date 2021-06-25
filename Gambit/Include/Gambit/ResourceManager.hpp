@@ -27,9 +27,9 @@ namespace Gambit
     public:
         ResourceManager(Renderer const &renderer, const char *rootFolder);
 
-        bool AddObject(Object *obj)
+        bool AddObject(ObjectPtr obj)
         {
-            _idToObject[obj->GetResourceId()] = std::make_shared<Object>(*obj);
+            _idToObject[obj->GetResourceId()] = obj;
             return true;
         }
 
@@ -37,7 +37,9 @@ namespace Gambit
 
         ObjectPtr CreateObject(const string &name)
         {
-            return std::make_shared<Object>(name, NewId(name), *this);
+            auto result = std::make_shared<Object>(name, NewId(name), *this);
+            AddObject(result);
+            return result;
         }
 
         template <class Res, class ...Args>

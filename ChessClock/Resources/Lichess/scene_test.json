@@ -3,6 +3,7 @@
 	{
 		"sprite" : "clock_face_colored",
 		"location" : [ 8, 64 ],
+		"tint":  "active_player",
 		"layer" : 1
 	},
 	
@@ -11,8 +12,7 @@
 		"sprite" : "clock_face_colored",
 		"location" : [ 404, 64 ],
 		"layer" : 1,
+		"tint":  "inactive_player",
 		"mirror" : true
 	}
 }
-
-

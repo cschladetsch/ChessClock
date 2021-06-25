@@ -32,14 +32,15 @@ namespace Gambit
             return left._guid == right._guid;
         }
     };
+
+    inline std::ostream& operator<<(std::ostream& out, Gambit::ResourceId const& id)
+    {
+        return out << "[" << LOG_VALUE(id.GetGuid()) << LOG_VALUE(id.GetName()) << "]";
+    }
+
 }
 
 using namespace rang;
-
-inline std::ostream& operator<<(std::ostream& out, Gambit::ResourceId const& id)
-{
-    return out << "Id: [" << LOG_VALUE(id.GetGuid()) << LOG_VALUE(id.GetName()) << "]";
-}
 
 namespace std
 {

@@ -16,6 +16,8 @@ namespace Gambit
         , _atlas(&atlas)
     {
         ReadJsonEx(fileName);
+
+        LOG_INFO() << "Created scene: " << LOG_VALUE(fileName) << "\n";
     }
 
     ObjectPtr Scene::FindChild(string const &name) const
@@ -58,7 +60,7 @@ namespace Gambit
     {
     }
 
-    bool logRender{ true };
+    bool logRender{ false };
 
     void Scene::Render(Renderer &renderer) const
     {
@@ -66,13 +68,13 @@ namespace Gambit
         {
             for (auto& object : root.second->GetChildren())
             {
-                if (!object->Sprite.empty())
-                {
-                    if (logRender)
-                        LOG_DEBUG() << "Drawing " << LOG_VALUE(object->Name) << ", " << LOG_VALUE(object->Layer) << LOG_VALUE(object->Tint) << LOG_VALUE(object->Mirror) << "\n";
+                if (object->Sprite.empty())
+                    continue;
 
-                    _atlas->WriteSprite(renderer, *object);
-                }
+                if (logRender)
+                    LOG_DEBUG() << "Drawing " << LOG_VALUE(object->GetResourceId()) << LOG_VALUE(object->Layer) << LOG_VALUE(object->Tint) << LOG_VALUE(object->Mirror) << "\n";
+
+                _atlas->WriteSprite(renderer, *object);
             }
         }
     }

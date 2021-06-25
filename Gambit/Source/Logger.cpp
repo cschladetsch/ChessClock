@@ -102,16 +102,22 @@ namespace Gambit
         const char *lead = "";
         string fileName = file;
         auto fileNameLength = fileName.size();
-        if (fileNameLength > 50)
+        if (fileNameLength > 53)
         {
-            fileName = "..." + fileName.substr(40);
+            fileName = "..." + fileName.substr(fileNameLength - 50);
         }
         auto millis = SDL_GetTicks()/1000.0f;
         ostream &stream = _tee ? *_tee : cout;
-        stream << style::reset << fg::reset << style::italic << fg::yellow << millis;
-        stream << "ms: " << fg::reset << fg::gray << style::dim << fileName << "(" << line << "): ";
+        //stream << style::reset << fg::reset << style::italic << fg::yellow << millis;
+        //stream << "ms: " << fg::reset << fg::gray << style::dim << fileName << "(" << line << "): ";
+        //stream << fg::cyan << func << fg::gray << ": " << style::bold << "\n";
+        //stream << "\t[" << color << level << fg::gray << "]: {" << fg::magenta << _source << fg::gray << "}:\n" << fg::blue;
+        //stream << "\t" << ends;
+
+        stream << style::reset << fg::reset;
+        stream << "[" << color << level << fg::gray << "]: {" << fg::magenta << _source << fg::gray << "}: \t";
+        stream << style::dim << fileName << "(" << line << "): ";
         stream << fg::cyan << func << fg::gray << ": " << style::bold << "\n";
-        stream << "\t[" << color << level << fg::gray << "]: {" << fg::magenta << _source << fg::gray << "}:\n" << fg::blue;
         stream << "\t" << ends;
         return stream;
     }

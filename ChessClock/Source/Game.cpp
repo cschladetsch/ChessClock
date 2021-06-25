@@ -1,6 +1,8 @@
 #include "Gambit/Object.hpp"
 #include "ChessClock/Game.hpp"
 
+#pragma warning("fix this")
+
 namespace ChessClock
 {
     Game::Game(Navigation &nav)
@@ -122,7 +124,8 @@ namespace ChessClock
 
     void Game::SetFaces(ObjectPtr left, ObjectPtr right) 
     {
-        _leftFace = left;  _rightFace = right;
+        _leftFace = left;
+        _rightFace = right;
     }
 
     void Game::ChangeTurn()
@@ -140,9 +143,6 @@ namespace ChessClock
             _leftFace->Tint = "active_player";
         else
             _rightFace->Tint = "active_player";
-
-        _rightFace->Tint = "active_player";
-        _leftFace->Tint = "active_player";
     }
 
     void Game::GotoPause(bool paused)

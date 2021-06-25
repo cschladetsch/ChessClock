@@ -31,7 +31,10 @@ namespace Gambit
         bool Mirror{ false };
         string Tint;
 
+        string const &GetName() const { return _resourceId.GetName(); }
+
         Object(string name, ResourceId const&, ResourceManager& resourceManager);
+        Object(const Object &) = delete;
 
         Resources const& GetResources() const { return _resources; }
         bool HasResource(ResourceBasePtr) const;

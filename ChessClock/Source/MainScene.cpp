@@ -52,6 +52,10 @@ namespace ChessClock
         values.game.SetColor(ESide::Left, EColor::White);
         values.game.SetTimeControl(TimeControl{5, 0, 3});
         values.game.Pause();
+
+        auto leftFace = values.scene->FindChild("left_clock_face");
+        auto rightFace = values.scene->FindChild("right_clock_face");
+        LOG_DEBUG() << LOG_VALUE(&*leftFace) << LOG_VALUE(&*rightFace) << "\n";
     }
 
     void MainScene::LoadResources(ResourceManager &resources, Renderer &renderer, Values &values)
@@ -115,7 +119,9 @@ namespace ChessClock
 
     bool MainScene::StepGame(Context &ctx)
     {
-        DebugFrameRate();
+        if (_showFps == "true")
+            DebugFrameRate();
+
         ++_frameNumber;
 
         auto &values = *ctx.values;

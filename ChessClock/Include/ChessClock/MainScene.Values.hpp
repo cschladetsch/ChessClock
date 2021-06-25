@@ -11,6 +11,9 @@ namespace ChessClock
 
     struct MainScene::Values
     {
+        Values() = default;
+        Values(const Values &) = delete;
+
         FontPtr font;
         FontPtr headerFont;
         FontPtr footerFont;

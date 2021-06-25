@@ -25,6 +25,7 @@ namespace ChessClock
 
     public:
         Game(Navigation &nav);
+        Game(const Game &) = delete;
 
         void SetFaces(ObjectPtr left, ObjectPtr right);
 
