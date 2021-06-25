@@ -21,16 +21,25 @@ namespace ChessClock
     {
         if (_callbacks.find(name) != _callbacks.end())
         {
-            LOG_ERROR() << "Will not override callback '" << LOG_VALUE(name) << "'\n";
+            LOG_WARN() << "Will not override callback '" << LOG_VALUE(name) << "'\n";
             return false;
         }
+
         _callbacks[name] = callback;
         return true;
     }
 
     bool UiCallBacks::RemoveCallback(string const &name)
     {
-        return false;
+        auto call = _callbacks.find(name);
+        if (call == _callbacks.end())
+        {
+            LOG_WARN() << "Attempt to remove unregistered callback '" << name << "'\n";
+            return false;
+        }
+
+        _callbacks.erase(call);
+        return true;
     }
 }
 
