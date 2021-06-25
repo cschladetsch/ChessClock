@@ -66,7 +66,7 @@ namespace ChessClock
     void GameRoot::PausePressed(Context &context, ObjectPtr sourceObject)
     {
         LOG_DEBUG() << "Pause pressed from " << LOG_VALUE(sourceObject->GetName()) << "\n";
-        context.values->game.Pause(!context.values->game.IsPaused());
+        context.values->game.TogglePause();
     }
 
     void GameRoot::VolumePressed(Context &context, ObjectPtr sourceObject)
@@ -86,9 +86,18 @@ namespace ChessClock
         values.atlas = resources.LoadResource<Atlas>(_atlasName.c_str(), &resources, &renderer);
         values.scene = resources.LoadResource<Scene>(_sceneName.c_str(), &resources, values.atlas);
 
-        auto leftFace = values.scene->FindChild("left_clock_face");
-        auto rightFace = values.scene->FindChild("right_clock_face");
-        values.game.SetFaces(leftFace, rightFace);
+        SetupGameSprites(resources, renderer, values);
+    }
+
+    void GameRoot::SetupGameSprites(ResourceManager &, Renderer &, Values &values)
+    {
+        auto &scene = *values.scene;
+        auto leftFace = scene.FindChild("left_clock_face");
+        auto rightFace = scene.FindChild("right_clock_face");
+        auto whitePawn = scene.FindChild("pawn_white");
+        auto blackPawn = scene.FindChild("pawn_black");
+        auto pauseButton = scene.FindChild("icon_pause");
+        values.game.SetSprites(leftFace, rightFace, whitePawn, blackPawn, pauseButton);
     }
 
     void GameRoot::AddStep(Context& ctx, bool(GameRoot::* method)(Context&))

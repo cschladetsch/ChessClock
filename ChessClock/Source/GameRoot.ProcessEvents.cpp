@@ -54,6 +54,12 @@ namespace ChessClock
                             continue;
                         }
 
+                        case SDLK_SPACE:
+                        {
+                            ctx.values->game.TogglePause();
+                            return true;
+                        }
+
                         case SDLK_ESCAPE:
                         {
                             LOG_INFO() << "Pressed Escape\n";

@@ -20,7 +20,10 @@ namespace ChessClock
         MilliSeconds _gameTime{ 0 };
         MilliSeconds _lastGameTime{ 0 };
         TimeControl _timeControl{ 5,0 };
+
         ObjectPtr _leftFace, _rightFace;
+        ObjectPtr _whitePawn, _blackPawn;
+        ObjectPtr _pauseButton;
 
         Player _playerLeft, _playerRight;
         EColor _currentColor{ EColor::White };
@@ -30,7 +33,7 @@ namespace ChessClock
         Game(Navigation &nav);
         Game(const Game &) = delete;
 
-        void SetFaces(ObjectPtr left, ObjectPtr right);
+        void SetSprites(ObjectPtr left, ObjectPtr right, ObjectPtr whitePawn, ObjectPtr blackPawn, ObjectPtr pauseButton);
 
         void ResetGame();
 
@@ -45,6 +48,7 @@ namespace ChessClock
 
         void Pause(bool pause = true);
         bool IsPaused() const { return _paused; }
+        void TogglePause() { Pause(!_paused); }
 
         void Update();
 

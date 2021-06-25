@@ -162,11 +162,14 @@ namespace Gambit
 
     bool Atlas::TintNotFound(const string& name) const
     {
-        if (_tintsNotFound.find(name) != _tintsNotFound.end())
+        static set<string> notFound;
+        if (_tintsNotFound.find(name) != _tintsNotFound.end() && notFound.find(name) == notFound.end())
         {
             LOG_ERROR() << "No tint named '" << name << "' found\n.";
+            notFound.insert(name);
             return false;
         }
+
         _tintsNotFound.insert(name);
         return false;
     }
@@ -201,6 +204,10 @@ namespace Gambit
             _tints["low_time_inactive"] = GetColor(value, "low_time_inactive");
             _tints["low_time_active"] = GetColor(value, "low_time_active");
             _tints["button_pressed"] = GetColor(value, "button_pressed");
+            _tints["time_bar_green"] = GetColor(value, "time_bar_green");
+            _tints["time_bar_red"] = GetColor(value, "time_bar_red");
+            _tints["paused_color"] = GetColor(value, "paused_color");
+            _tints["white"] = GetColor(value, "white");
         }
 
         return true;

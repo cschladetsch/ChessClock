@@ -82,6 +82,7 @@ namespace ChessClock
             ToggleColor();
             return true;
         }
+
         return false;
     }
 
@@ -128,10 +129,13 @@ namespace ChessClock
         return side == ESide::Left ? _playerLeft : _playerRight;
     }
 
-    void Game::SetFaces(ObjectPtr left, ObjectPtr right)
+    void Game::SetSprites(ObjectPtr left, ObjectPtr right, ObjectPtr whitePawn, ObjectPtr blackPawn, ObjectPtr pauseButton)
     {
         _leftFace = left;
         _rightFace = right;
+        _whitePawn = whitePawn;
+        _blackPawn = blackPawn;
+        _pauseButton = pauseButton;
     }
 
     void Game::ChangeTurn()
@@ -170,6 +174,7 @@ namespace ChessClock
 
         CurrentPlayer().Pause(paused);
 
+        _pauseButton->Tint = _paused ? "white" : "active_player";
         LOG_INFO() << LOG_VALUE(paused) << LOG_VALUE(_gameTime) << "\n";
     }
 

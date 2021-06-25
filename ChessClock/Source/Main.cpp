@@ -1,6 +1,7 @@
 #define SDL_MAIN_HANDLED
 
 #include <iostream>
+
 #include "ChessClock/GameRoot.hpp"
 
 using namespace Gambit;
@@ -9,18 +10,18 @@ int main(int argc, char** argv)
 {
     if (argc < 3)
     {
-        std::cerr << "Resources folder and config file required\n";
+        std::cerr << rang::fg::red << "Resources folder and config filename required\n";
         return 1;
     }
 
     string resources = argv[1];
     string config = resources + argv[2];
     ChessClock::GameRoot root(config.c_str());
-    typedef ChessClock::GameRoot::Context Ctx;
+    typedef ChessClock::GameRoot::Context Context;
 
-    auto result = Ctx(resources.c_str(),
-        [&root](Ctx& ctx) { return root.Setup(ctx); },
-        [&root](Ctx& ctx) { return root.ProcessEvents(ctx); })
+    auto result = Context(resources.c_str(),
+        [&root](Context& ctx) { return root.Setup(ctx); },
+        [&root](Context& ctx) { return root.ProcessEvents(ctx); })
         .Run();
 
     return result;

@@ -59,6 +59,7 @@ namespace ChessClock
         void AddStep(Context&, bool(GameRoot::*method)(Context&));
 
         void LoadResources(ResourceManager &, Renderer &, Values &values);
+        void SetupGameSprites(ResourceManager &, Renderer &, Values &values);
         bool StepGame(Context& ctx);
         bool RenderScene(Context& ctx);
     };
