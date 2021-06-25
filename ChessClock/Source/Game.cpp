@@ -12,6 +12,7 @@ namespace ChessClock
     void Game::ResetGame()
     {
         SetTimeControl(_timeControl);
+        SetColor(ESide::Left, EColor::White);
         Pause();
     }
 
@@ -70,31 +71,45 @@ namespace ChessClock
         else
         {
             _playerRight.SetColor(color);
-            _playerLeft.SetColor(color == EColor::White ? EColor::Black : EColor::White);
+            _playerLeft.SetColor(OtherColor(color));
         }
+    }
+
+    bool Game::ToggleWhenPaused()
+    {
+        if (IsPaused() && CurrentPlayer().GetColor() != _currentColor)
+        {
+            ToggleColor();
+            return true;
+        }
+        return false;
     }
 
     void Game::LeftPressed()
     {
-        //if (IsPaused())
-        //    return;
+        if (ToggleWhenPaused())
+            return;
 
-        //if (_currentColor != CurrentPlayer().GetColor())
-            RockerPressed();
+        RockerPressed();
     }
 
     void Game::RightPressed()
     {
-        //if (IsPaused())
-        //    return;
+        if (ToggleWhenPaused())
+            return;
 
-        //if (_currentColor != CurrentPlayer().GetColor())
-            RockerPressed();
+        RockerPressed();
     }
 
     void Game::RockerPressed()
     {
-        if (_paused && _gameState == EGameState::Ready)
+        if (IsPaused())
+        {
+            ToggleColor();
+            return;
+        }
+
+        if (_gameState == EGameState::Ready)
         {
             _gameState = EGameState::Playing;
             _lastGameTime = TimeNowMillis();
@@ -127,7 +142,13 @@ namespace ChessClock
         Player &currentPlayer = CurrentPlayer();
         currentPlayer.AddMillis(-delta);
         currentPlayer.AddSeconds(currentPlayer.GetIncrement());
-        _currentColor = _currentColor == EColor::White ? EColor::Black : EColor::White;
+
+        ToggleColor();
+    }
+
+    void Game::ToggleColor()
+    {
+        _currentColor = OtherColor(_currentColor);
 
         _leftFace->Tint = _rightFace->Tint = "inactive_player";
         if (LeftPlayer().GetColor() == _currentColor)

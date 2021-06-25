@@ -23,7 +23,7 @@ namespace ChessClock
         ObjectPtr _leftFace, _rightFace;
 
         Player _playerLeft, _playerRight;
-        EColor _currentColor{ EColor::Black };
+        EColor _currentColor{ EColor::White };
         EGameState _gameState{ EGameState::Ready };
 
     public:
@@ -68,6 +68,8 @@ namespace ChessClock
         void OnPressed(GameRoot *root, GameRoot::Context &context, Vector2 where) const;
 
     private:
+        bool ToggleWhenPaused();
+        void ToggleColor();
 
         void RockerPressed();
         Player &CurrentPlayer() { return _currentColor == EColor::White ? WhitePlayer() : BlackPlayer(); }
