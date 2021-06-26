@@ -7,6 +7,7 @@ namespace Gambit
 {
     class ResourceBase
         : public std::enable_shared_from_this<ResourceBase> 
+        , public NonCopyable
     {
         ResourceId _resourceId;
 

@@ -17,19 +17,8 @@ namespace Gambit
         Resource(Type* resource, ResourceId const &id, std::function<void(Ty*)> deleter)
             : _resource(resource, deleter), ResourceBase(id) { }
 
-        bool Exists() const
-        {
-            return _resource.get();
-        }
-
-        Type& Get()
-        {
-            return *_resource;
-        }
-
-        const Type& Get() const
-        {
-            return *_resource;
-        }
+        bool Exists() const { return _resource.get(); }
+        Type& Get() { return *_resource; }
+        const Type& Get() const { return *_resource; }
     };
 }

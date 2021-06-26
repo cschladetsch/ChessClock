@@ -8,6 +8,7 @@
 #include <functional>
 
 #include "Gambit/Config.hpp"
+#include "Gambit/NonCopyable.hpp"
 
 extern "C"
 {

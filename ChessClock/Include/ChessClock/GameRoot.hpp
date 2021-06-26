@@ -48,18 +48,16 @@ namespace ChessClock
     protected:
         void DebugFrameRate();
 
-        void LeftRockerPressed(Context &, ObjectPtr sourceObject);
-        void RightRockerPressed(Context &, ObjectPtr sourceObject);
+        void Prepare(Context &ctx);
+        bool ParseJson(JsonNext &next) override;
+        void LoadResources(ResourceManager &, Renderer &, Values &values);
+        void SetupGameSprites(ResourceManager &, Renderer &, Values &values);
+        void AddStep(Context&, bool(GameRoot::*method)(Context&));
+
         void SettingsPressed(Context &, ObjectPtr sourceObject);
         void PausePressed(Context &, ObjectPtr sourceObject);
         void VolumePressed(Context &, ObjectPtr sourceObject);
 
-        void Prepare(Context &ctx);
-        bool ParseJson(JsonNext &next) override;
-        void AddStep(Context&, bool(GameRoot::*method)(Context&));
-
-        void LoadResources(ResourceManager &, Renderer &, Values &values);
-        void SetupGameSprites(ResourceManager &, Renderer &, Values &values);
         bool StepGame(Context& ctx);
         bool RenderScene(Context& ctx);
     };

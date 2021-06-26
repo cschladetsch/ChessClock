@@ -14,9 +14,6 @@ namespace Gambit
         Rect _rect;
 
     public:
-        Event<Button> Pressed;
-        Event<Button> Relased;
-
         Button() = default;
         Button(FontPtr font, string text, SpritePtr background);
 

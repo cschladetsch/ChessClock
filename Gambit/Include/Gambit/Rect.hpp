@@ -11,6 +11,8 @@ namespace Gambit
 
         Rect() = default;
         Rect(int left, int top, int width, int height);
+        Rect(const Rect &other)
+            : top(other.top), left(other.left), width(other.width), height(other.height) { }
 
         Vector2 GetTopLeft() const { return Vector2(top, left); }
 

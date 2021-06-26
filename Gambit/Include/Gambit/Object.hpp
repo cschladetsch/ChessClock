@@ -4,11 +4,13 @@
 #include "Gambit/ResourceBase.hpp"
 #include "Gambit/Vector2.hpp"
 #include "Gambit/ForwardReferences.hpp"
+#include "Gambit/NonCopyable.hpp"
 
 namespace Gambit
 {
     class Object
         : public std::enable_shared_from_this<Object>
+        , public NonCopyable
     {
         static inline Logger _log{ "Object" };
 
@@ -23,36 +25,31 @@ namespace Gambit
 
     public:
         string Name;
+        string Sprite;
+        string Tint;
+        string Type;
+        string Callback;
         Vector2 Position;
         float Rotation{ 0 };
         float Scale{ 1 };
-        string Sprite;
         int Layer{ 0 };
         bool Mirror{ false };
-        string Tint;
-
-        string Type;
-        string Callback;
-
-        string const &GetName() const { return _resourceId.GetName(); }
 
         Object(string name, ResourceId const&, ResourceManager& resourceManager);
-        Object(const Object &) = delete;
 
+        string const &GetName() const { return _resourceId.GetName(); }
+        ResourceId const &GetResourceId() const { return _resourceId; }
+        ResourceBasePtr GetResource(Guid const &guid) const;
+        Children const& GetChildren() const { return _children; }
         Resources const& GetResources() const { return _resources; }
+        ObjectPtr GetParent();
+
         bool HasResource(ResourceBasePtr) const;
         bool AddResource(ResourceBasePtr);
         void RemoveResource(ResourceBasePtr);
-        ResourceBasePtr GetResource(Guid const &guid) const;
-
-        Children const& GetChildren() const { return _children; }
         bool HasChild(ObjectPtr) const;
         bool AddChild(ObjectPtr);
         void RemoveChild(ObjectPtr);
-
-        ObjectPtr GetParent();
         void SetParent(ObjectPtr);
-
-        ResourceId const &GetResourceId() const { return _resourceId; }
     };
 }

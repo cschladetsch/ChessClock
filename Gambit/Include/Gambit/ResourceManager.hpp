@@ -20,27 +20,15 @@ namespace Gambit
 
         IdToResources _idToResource;
         IdToObject _idToObject;
-
         Renderer const* _renderer;
         string _rootFolder;
 
     public:
         ResourceManager(Renderer const &renderer, const char *rootFolder);
 
-        bool AddObject(ObjectPtr obj)
-        {
-            _idToObject[obj->GetResourceId()] = obj;
-            return true;
-        }
-
+        bool AddObject(ObjectPtr obj);
+        ObjectPtr CreateObject(const string &name);
         IdToObject const &GetObjects() const { return _idToObject; }
-
-        ObjectPtr CreateObject(const string &name)
-        {
-            auto result = std::make_shared<Object>(name, NewId(name), *this);
-            AddObject(result);
-            return result;
-        }
 
         template <class Res, class ...Args>
         shared_ptr<Res> LoadResource(const char* name, Args... args)
@@ -71,24 +59,11 @@ namespace Gambit
             return resource;
         }
 
-        ResourceBasePtr GetResource(ResourceId const& id) const
-        {
-            auto found = _idToResource.find(id);
-            if (found == _idToResource.end())
-                return 0;
-            return found->second;
-        }
-
-        void AddResource(ResourceId const& id, ResourceBasePtr resource)
-        {
-            _idToResource[id] = resource;
-        }
-
+        void AddResource(ResourceId const &id, ResourceBasePtr resource);
+        ResourceBasePtr GetResource(ResourceId const &id) const;
         ResourceId NewId() const;
         ResourceId NewId(string const &name) const;
-
         string MakeResourceFilename(const char* name);
-
         ObjectPtr FindObject(string const &name);
     };
 }

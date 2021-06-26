@@ -42,21 +42,9 @@ namespace Gambit
         typedef ::nlohmann::detail::iteration_proxy_value<nlohmann::detail::iter_impl<nlohmann::json>> JsonNext;
         virtual bool ParseJson(JsonNext &next) = 0;
 
-        template <class Ty>
-        bool SetValue(JsonNext const &item, string const &name, Class *instance, Ty(Class:: *member), std::function<Ty(Json &j)> convert = nullptr)
-        {
-            if (item.key() != name)
-                return false;
-
-            if (convert)
-                (instance->*member) = convert(item.value());
-            else
-                (instance->*member) = item.value();
-            return true;
-        }
     protected:
-        template <class Ty, class Class>
-        bool SetValue(nlohmann::json& item, const string &name, Class &object, Ty (Class::* member)
+        template <class Ty, class Klass = Class>
+        bool SetValue(nlohmann::json& item, const string &name, Klass &object, Ty (Klass::* member)
             , std::function<Ty(nlohmann::json &j)> convert = [](nlohmann::json &j) { return j; })
         {
             if (!item.contains(name))
@@ -77,7 +65,7 @@ namespace Gambit
                 {
                     if (!ParseJson(item))
                     {
-                        LOG_WARN() << "Failed to parse '" << item.key() << "'\n";
+                        LOG_WARN() << "Failed to parse json key '" << item.key() << "'\n";
                     }
                 }
             }

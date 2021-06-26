@@ -27,14 +27,15 @@ namespace Gambit
 
         void Tee(std::ostream &other);
 
-        std::ostream& Info(const char *file, int line, const char *function) const;
-        std::ostream& Debug(const char *file, int line, const char *function) const;
-        std::ostream& Warn(const char *file, int line, const char *function) const;
-        std::ostream& Error(const char *file, int line, const char *function) const;
+        using ostream = std::ostream;
+        ostream& Info(const char *file, int line, const char *function) const;
+        ostream& Debug(const char *file, int line, const char *function) const;
+        ostream& Warn(const char *file, int line, const char *function) const;
+        ostream& Error(const char *file, int line, const char *function) const;
 
     private:
         bool OpenLogFile();
-        std::ostream& PrintLead(const char *file, int line, const char *func, rang::fg const &color, const char *level) const;
+        ostream& PrintLead(const char *file, int line, const char *func, rang::fg const &color, const char *level) const;
     };
 }
 

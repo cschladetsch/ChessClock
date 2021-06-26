@@ -3,7 +3,6 @@
 #include <iostream>
 
 #include "Gambit/ThirdParty/nameof.hpp"
-
 #include "Gambit/Config.hpp"
 #include "Gambit/Logger.hpp"
 #include "Gambit/ResourceBase.hpp"
@@ -25,3 +24,4 @@ namespace Gambit
         }
     };
 }
+
