@@ -5,19 +5,20 @@ project(${PROJECT_NAME})
 
 include_directories(Include/)
 
-file(GLOB_RECURSE SOURCE_FILES Source/*.cpp)
-file(GLOB_RECURSE INCLUDE_FILES Include/*.hpp)
+file(GLOB_RECURSE ALL_SOURCES Source/*.cpp)
+file(GLOB_RECURSE ALL_HEADERS Include/*.hpp)
 
 add_executable(${PROJECT_NAME}
-        ${SOURCE_FILES}
-        ${INCLUDE_FILES}
-        )
-cotire(${PROJECT_NAME})
+    ${ALL_SOURCES}
+    ${ALL_HEADERS}
+)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
-        CXX_STANDARD 17
-        CXX_EXTENSIONS OFF
-        )
+    CXX_STANDARD 17
+    CXX_EXTENSIONS OFF
+)
+
+cotire(${PROJECT_NAME})
 
 if (BUILD_TESTS)
     add_subdirectory(Test)
