@@ -78,7 +78,6 @@ namespace Gambit
         SDL_Rect *srcRect = reinterpret_cast<SDL_Rect *>(const_cast<Rect *>(source));
         SDL_Rect *destRect = reinterpret_cast<SDL_Rect *>(const_cast<Rect *>(dest));
         CALL_SDL(SDL_RenderCopy(_renderer, &texture->Get(), srcRect, destRect));
-
         return true;
     }
 }

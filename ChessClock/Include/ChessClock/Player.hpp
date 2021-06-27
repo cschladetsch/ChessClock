@@ -31,7 +31,7 @@ namespace ChessClock
         Seconds GetIncrement() const { return _remainingTime.GetIncrement(); }
 
     protected:
-        friend class Game;
+        friend class GamePlaying;
 
         void SetColor(EColor color) { _color = color; }
         void Pause(bool paused = true);

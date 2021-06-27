@@ -19,6 +19,8 @@ extern "C"
     struct SDL_Renderer;
     struct SDL_Window;
     struct SDL_Rect;
+    union SDL_Event;
+
     uint32_t SDL_GetTicks();
 }
 

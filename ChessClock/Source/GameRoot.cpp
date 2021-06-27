@@ -2,10 +2,13 @@
 #include "Gambit/TimerFont.hpp"
 #include "Gambit/Atlas.hpp"
 
-#include "ChessClock/Game.hpp"
+#include "ChessClock/ForwardReferences.hpp"
+
 #include "ChessClock/Global.hpp"
+#include "ChessClock/Values.hpp"
+
 #include "ChessClock/GameRoot.hpp"
-#include "ChessClock/GameRoot.Values.hpp"
+#include "ChessClock/GamePlaying.hpp"
 
 namespace ChessClock
 {
@@ -48,14 +51,14 @@ namespace ChessClock
     void GameRoot::Prepare(Context &ctx)
     {
         Values &values = *ctx.values;
-        values.game.SetGameState(EGameState::Playing);
-        values.game.SetColor(ESide::Left, EColor::White);
-        values.game.SetTimeControl(TimeControl{5, 0, 3});
-        values.game.Pause();
+        values.playing->SetGameState(EGameState::Playing);
+        values.playing->SetColor(ESide::Left, EColor::White);
+        values.playing->SetTimeControl(TimeControl{5, 0, 3});
+        values.playing->Pause();
 
-        values.game.AddCallback("SettingsPressed", [this, &ctx](auto &ctx, auto source) { SettingsPressed(ctx, source); });
-        values.game.AddCallback("PausePressed", [this, &ctx](auto &ctx, auto source) { PausePressed(ctx, source); });
-        values.game.AddCallback("VolumePressed", [this, &ctx](auto &ctx, auto source) { VolumePressed(ctx, source); });
+        values.playing->AddCallback("SettingsPressed", [this, &ctx](auto &ctx, auto source) { SettingsPressed(ctx, source); });
+        values.playing->AddCallback("PausePressed", [this, &ctx](auto &ctx, auto source) { PausePressed(ctx, source); });
+        values.playing->AddCallback("VolumePressed", [this, &ctx](auto &ctx, auto source) { VolumePressed(ctx, source); });
     }
 
     void GameRoot::SettingsPressed(Context &context, ObjectPtr sourceObject)
@@ -66,7 +69,7 @@ namespace ChessClock
     void GameRoot::PausePressed(Context &context, ObjectPtr sourceObject)
     {
         LOG_DEBUG() << "Pause pressed from " << LOG_VALUE(sourceObject->GetName()) << "\n";
-        context.values->game.TogglePause();
+        //context.values->game.TogglePause();
     }
 
     void GameRoot::VolumePressed(Context &context, ObjectPtr sourceObject)
@@ -83,21 +86,30 @@ namespace ChessClock
         values.leftNameText = values.headerFont->CreateTexture(resources, renderer, "Spamfilter", { 255,255,255 });
         values.rightNameText = values.headerFont->CreateTexture(resources, renderer, "monoRAIL", { 255,255,255 });
         values.versusText = values.headerFont->CreateTexture(resources, renderer, "vs", { 255,255,255 });
-        values.atlas = resources.LoadResource<Atlas>(_atlasName.c_str(), &resources, &renderer);
-        values.scene = resources.LoadResource<Scene>(_sceneName.c_str(), &resources, values.atlas);
+        values.atlas = resources.LoadResource<Atlas>((_themeName + "/atlas").c_str(), &resources, &renderer);
+
+        values.sceneSplash = resources.LoadResource<Scene>((_themeName + "/scenes/splash.json").c_str(), &resources, values.atlas);
+        values.scenePlaying = resources.LoadResource<Scene>((_themeName + "/scenes/playing.json").c_str(), &resources, values.atlas);
+        values.sceneSettings = resources.LoadResource<Scene>((_themeName + "/scenes/settings.json").c_str(), &resources, values.atlas);
+        values.sceneAbout = resources.LoadResource<Scene>((_themeName + "/scenes/about.json").c_str(), &resources, values.atlas);
+
+        //values.sceneCurrent = values.sceneSplash;
+        values.sceneCurrent = values.scenePlaying;
+
+        values.playing = std::make_shared<GamePlaying>();
 
         SetupGameSprites(resources, renderer, values);
     }
 
     void GameRoot::SetupGameSprites(ResourceManager &, Renderer &, Values &values)
     {
-        auto &scene = *values.scene;
+        auto &scene = *values.scenePlaying;
         auto leftFace = scene.FindChild("left_clock_face");
         auto rightFace = scene.FindChild("right_clock_face");
         auto whitePawn = scene.FindChild("pawn_white");
         auto blackPawn = scene.FindChild("pawn_black");
         auto pauseButton = scene.FindChild("icon_pause");
-        values.game.SetSprites(leftFace, rightFace, whitePawn, blackPawn, pauseButton);
+        values.playing->SetSprites(leftFace, rightFace, whitePawn, blackPawn, pauseButton);
     }
 
     void GameRoot::AddStep(Context& ctx, bool(GameRoot::* method)(Context&))
@@ -107,24 +119,10 @@ namespace ChessClock
 
     bool GameRoot::RenderScene(Context& ctx)
     {
-        auto& renderer = ctx.renderer;
-        auto& values = *ctx.values;
+        ctx.values->playing->Render(ctx);
 
-        values.atlas->WriteSprite(renderer, "background", global.ScreenRect);
-        values.scene->Render(ctx.renderer);
-
-        int y = 14;
-        renderer.WriteTexture(values.leftNameText, Vector2(85, y));
-        renderer.WriteTexture(values.versusText, Vector2(400 - 12, y));
-        renderer.WriteTexture(values.rightNameText, Vector2(580, y));
-
-        values.debugTick = false;
+        ctx.values->debugTick = false;
         return true;
-    }
-
-    void DrawTimer(GameRoot::Values& values, Renderer &renderer, Vector2 location, Player const& player)
-    {
-        values.numberFont->DrawTime(renderer, location, (uint8_t)player.GetMinutes(), (uint8_t)player.GetSeconds());
     }
 
     void GameRoot::DebugFrameRate()
@@ -152,14 +150,7 @@ namespace ChessClock
         auto &renderer = ctx.renderer;
         auto &game = values.game;
 
-        if (!game.IsPaused())
-            game.Update();
-
-        Vector2 destPointLeft{ 35, 95 };
-        Vector2 destPointRight{ 438, 95 };
-
-        DrawTimer(values, renderer, destPointLeft, game.LeftPlayer());
-        DrawTimer(values, renderer, destPointRight, game.RightPlayer());
+        values.playing->Update(ctx);
 
         return true;
     }
@@ -171,13 +162,12 @@ namespace ChessClock
 
     void GameRoot::OnPressed(Context &ctx, Vector2 where)
     {
-        auto &scene = ctx.values->scene;
+        auto &scene = ctx.values->sceneCurrent;
         ObjectPtr button = scene->OnPressed(ctx.values->atlas, where);
         if (!button)
             return;
 
-        ctx.values->game.Call(ctx, button);
+        ctx.values->playing->Call(ctx, button);
     }
-
 }
 

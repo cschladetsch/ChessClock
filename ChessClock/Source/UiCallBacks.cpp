@@ -1,11 +1,10 @@
 #include "Gambit/Object.hpp"
 
-#include "ChessClock/GameRoot.hpp"
 #include "ChessClock/UiCallBacks.hpp"
 
 namespace ChessClock
 {
-    void UiCallBacks::Call(GameRoot::Context &context, ObjectPtr object) const
+    void UiCallBacks::Call(Context &context, ObjectPtr object) const
     {
         auto call = _callbacks.find(object->Callback);
         if (call == _callbacks.end())

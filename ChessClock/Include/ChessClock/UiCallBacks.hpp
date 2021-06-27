@@ -2,7 +2,7 @@
 
 #include "Gambit/Logger.hpp"
 
-#include "ChessClock/GameRoot.hpp"
+#include "ChessClock/ForwardReferences.hpp"
 
 namespace ChessClock
 {
@@ -11,7 +11,7 @@ namespace ChessClock
         static inline Gambit::Logger _log{ "CallBacks" };
 
     public:
-        typedef std::function<void(GameRoot::Context &, ObjectPtr source)> Callback;
+        typedef std::function<void(Context &, ObjectPtr source)> Callback;
 
     protected:
         typedef std::unordered_map<string, Callback> Callbacks;
@@ -19,7 +19,7 @@ namespace ChessClock
 
     public:
         bool AddCallback(string const &name, Callback);
-        void Call(GameRoot::Context &context, ObjectPtr source) const;
+        void Call(Context &, ObjectPtr source) const;
         bool RemoveCallback(string const &name);
     };
 }

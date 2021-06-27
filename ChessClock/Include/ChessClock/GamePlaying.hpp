@@ -1,22 +1,15 @@
 #pragma once
 
 #include "ChessClock/Player.hpp"
-#include "ChessClock/Navigation.hpp"
-#include "ChessClock/UiCallBacks.hpp"
-#include "ChessClock/GameRoot.hpp"
+#include "ChessClock/GameBase.hpp"
 
 namespace ChessClock
 {
-    class GameRoot;
-
-    class Game
-        : public UiCallBacks
+    class GamePlaying
+        : public GameBase
     {
-        static inline Logger _log{ "Game" };
+        static inline Logger _log{ "GamePlaying" };
 
-        bool _paused{ true };
-
-        Navigation _navigation{ };
         MilliSeconds _gameTime{ 0 };
         MilliSeconds _lastGameTime{ 0 };
         TimeControl _timeControl{ 5,0 };
@@ -29,9 +22,14 @@ namespace ChessClock
         EColor _currentColor{ EColor::White };
         EGameState _gameState{ EGameState::Ready };
 
+        bool _paused{ true };
+
     public:
-        Game(Navigation &nav);
-        Game(const Game &) = delete;
+        GamePlaying() = default;
+
+        virtual void Render(Context &) const override;
+        virtual void Update(Context &) override;
+        virtual bool ProcessEvents(Context &ctx, SDL_Event const &) override;
 
         void SetSprites(ObjectPtr left, ObjectPtr right, ObjectPtr whitePawn, ObjectPtr blackPawn, ObjectPtr pauseButton);
 
@@ -50,8 +48,6 @@ namespace ChessClock
         bool IsPaused() const { return _paused; }
         void TogglePause() { Pause(!_paused); }
 
-        void Update();
-
         void SetColor(ESide side, EColor color);
 
         Player const &LeftPlayer() const { return _playerLeft; }
@@ -69,7 +65,7 @@ namespace ChessClock
         void LeftPressed();
         void RightPressed();
 
-        void OnPressed(GameRoot *root, GameRoot::Context &context, Vector2 where) const;
+        //void OnPressed(GameRootPtr, Vector2 where) const;
 
     private:
         bool ToggleWhenPaused();
@@ -82,8 +78,6 @@ namespace ChessClock
         Player &BlackPlayer() { return _playerLeft.GetColor() == EColor::Black ? _playerLeft : _playerRight; }
 
         Player& GetPlayer(ESide side);
-
-        void GoBack();
 
         void ChangeTurn();
     };

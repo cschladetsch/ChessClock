@@ -1,0 +1,10 @@
+{
+	"icon_pause" :
+	{
+		"sprite" : "icon_pause",
+		"location" : [ 368, 288 ],
+		"layer" : 2
+	}
+}
+
+

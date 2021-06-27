@@ -1,3 +1,4 @@
+#if 0
 #include "Gambit/ThirdParty/catch.hpp"
 #include "ChessClock/TimeControl.hpp"
 #include "ChessClock/Player.hpp"
@@ -22,3 +23,4 @@ TEST_CASE("Test Chess Clock", "[clock]")
     }
 }
 
+#endif

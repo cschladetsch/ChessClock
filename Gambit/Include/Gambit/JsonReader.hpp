@@ -42,9 +42,8 @@ namespace Gambit
         typedef ::nlohmann::detail::iteration_proxy_value<nlohmann::detail::iter_impl<nlohmann::json>> JsonNext;
         virtual bool ParseJson(JsonNext &next) = 0;
 
-    protected:
         template <class Ty, class Klass = Class>
-        bool SetValue(nlohmann::json& item, const string &name, Klass &object, Ty (Klass::* member)
+        static bool SetValue(nlohmann::json& item, const string &name, Klass &object, Ty (Klass::* member)
             , std::function<Ty(nlohmann::json &j)> convert = [](nlohmann::json &j) { return j; })
         {
             if (!item.contains(name))

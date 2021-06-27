@@ -38,13 +38,7 @@ namespace Gambit
         ObjectPtr GetLayer(ObjectPtr object);
         void AddObject(ObjectPtr object);
 
-        void PreUpdate();
-        void Update();
-        void PostUpdate();
-
-        void PreRender();
         void Render(Renderer &renderer) const;
-        void PostRender();
 
         ObjectPtr FindChild(string const &name) const;
         ObjectPtr OnPressed(AtlasPtr atlas, Vector2 where) const;

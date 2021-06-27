@@ -3,16 +3,15 @@
 #include "Gambit/Atlas.hpp"
 
 #include "ChessClock/GameRoot.hpp"
-#include "ChessClock/Game.hpp"
 
 namespace ChessClock
 {
     using namespace Gambit;
 
-    struct GameRoot::Values
+    class Values
     {
+    public:
         Values() = default;
-        Values(const Values &) = delete;
 
         FontPtr font;
         FontPtr headerFont;
@@ -23,15 +22,22 @@ namespace ChessClock
         TexturePtr rightNameText;
         TexturePtr versusText;
 
-        ScenePtr scene;
+        ScenePtr sceneCurrent;
+        ScenePtr sceneSplash;
+        ScenePtr scenePlaying;
+        ScenePtr sceneSettings;
+        ScenePtr sceneAbout;
 
         Rect textBounds;
         NumberFontPtr numberFont;
         AtlasPtr atlas;
-        Navigation navigation;
-        Game game{ navigation };
+
+        GameRootPtr gameRoot;
+        GameBasePtr game;
+        GamePlayingPtr playing;
 
         bool trackMouse{ false };
         bool debugTick{ false };
     };
 }
+

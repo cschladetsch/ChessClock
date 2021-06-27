@@ -1,7 +1,10 @@
 #include "Gambit/Vector2.hpp"
 
 #include "ChessClock/GameRoot.hpp"
-#include "ChessClock/GameRoot.Values.hpp"
+#include "ChessClock/Values.hpp"
+#include "ChessClock/GameBase.hpp"
+
+#include "ChessClock/GamePlaying.hpp"
 
 namespace Gambit
 {
@@ -17,6 +20,9 @@ namespace ChessClock
 
         while (SDL_PollEvent(&event))
         {
+            if (values.playing->ProcessEvents(ctx, event))
+                continue;
+
             switch (event.type)
             {
                 case SDL_MOUSEBUTTONDOWN:
@@ -26,7 +32,7 @@ namespace ChessClock
                         case SDL_BUTTON_LEFT:
                         {
                             auto where = Vector2{ event.button.x, event.button.y };
-                            values.game.OnPressed(this, ctx, where);
+                            values.game->OnPressed(ctx, where);
                             break;
                         }
                     }
@@ -54,12 +60,6 @@ namespace ChessClock
                             continue;
                         }
 
-                        case SDLK_SPACE:
-                        {
-                            ctx.values->game.TogglePause();
-                            return true;
-                        }
-
                         case SDLK_ESCAPE:
                         {
                             LOG_INFO() << "Pressed Escape\n";
@@ -75,26 +75,6 @@ namespace ChessClock
                             return true;
                         }
 
-                        case SDLK_UP:
-                        {
-                            LOG_INFO() << "Swap sides\n";
-                            values.game.SwapColors();
-                            break;
-                        }
-
-                        case SDLK_LEFT:
-                        {
-                            LOG_INFO() << "Pressed left\n";
-                            values.game.LeftPressed();
-                            break;
-                        }
-
-                        case SDLK_RIGHT:
-                        {
-                            LOG_INFO() << "Pressed right\n";
-                            values.game.RightPressed();
-                            break;
-                        }
                     }
                     break;
                 }

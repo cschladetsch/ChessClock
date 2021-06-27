@@ -10,6 +10,11 @@
 #include "Gambit/Atlas.hpp"
 #include "Gambit/Exceptions.hpp"
 
+#ifdef WIN32
+// use scoped enums. Can't do this for SDL
+#pragma warning (disable:26812)
+#endif
+
 namespace Gambit
 {
     using namespace std;
@@ -29,20 +34,20 @@ namespace Gambit
         if (found == _sprites.end())
         {
             SpriteNotFound(name);
-            return make_pair(false, Rect{});
+            return{ false, Rect{} };
         }
-        return make_pair(true, found->second);
+        return { true, found->second };
     }
 
-    std::pair<bool, Color> Atlas::GetTint(const string& name) const
+    pair<bool, Color> Atlas::GetTint(const string& name) const
     {
         auto found = _tints.find(name);
         if (found == _tints.end())
         {
             TintNotFound(name);
-            return { false, Color() };
+            return { false, Color{} };
         }
-        return std::make_pair(true, found->second);
+        return { true, found->second };
     }
 
     bool Atlas::WriteSprite(Renderer& renderer, Object const& object) const
@@ -72,7 +77,7 @@ namespace Gambit
         auto found = GetSprite(name);
         if (!found.first)
             return SpriteNotFound(name);
-        auto rect = found.second;
+        auto const &rect = found.second;
 
         auto tint = Colors::White;
         if (!tintName.empty())
@@ -107,8 +112,8 @@ namespace Gambit
             &_atlasTexture->Get(),
             ToSdlRect(sourceRect),
             ToSdlRect(destRect),
-            0, // angle
-            nullptr, // center
+            0,          // angle
+            nullptr,    // center
             mirror ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE
         ));
 
@@ -156,6 +161,7 @@ namespace Gambit
             LOG_ERROR() << "No sprite named '" << name << "' found\n.";
             return false;
         }
+
         _spritesNotFound.insert(name);
         return false;
     }
@@ -174,7 +180,7 @@ namespace Gambit
         return false;
     }
 
-    Rect Atlas::GetRect(Json& json, const char* name)
+    Rect Atlas::GetRect(Json &json, const char* name)
     {
         if (!json.contains(name))
         {
@@ -182,11 +188,11 @@ namespace Gambit
             return Rect();
         }
 
-        auto const& rc = json[name].get<vector<int>>();
+        auto const &rc = json[name].get<vector<int>>();
         return Rect(rc[0], rc[1], rc[2], rc[3]);
     }
 
-    Color Atlas::GetColor(Json & json, const char *name)
+    Color Atlas::GetColor(Json &json, const char *name)
     {
         if (!json.contains(name))
         {
@@ -194,11 +200,11 @@ namespace Gambit
             return Color();
         }
 
-        auto const& rc = json[name].get<vector<int>>();
+        auto const &rc = json[name].get<vector<int>>();
         return Color(rc[0], rc[1], rc[2]);
     }
 
-    bool Atlas::ParseJson(JsonNext& item)
+    bool Atlas::ParseJson(JsonNext &item)
     {
         auto& name = item.key();
         auto& value = item.value();

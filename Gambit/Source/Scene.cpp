@@ -64,22 +64,6 @@ namespace Gambit
         return _layerToRoots[layer] = make_shared<Object>(out.str(), _resourceManager->NewId(), *_resourceManager);
     }
 
-    void Scene::PreUpdate()
-    {
-    }
-
-    void Scene::Update()
-    {
-    }
-
-    void Scene::PostUpdate()
-    {
-    }
-
-    void Scene::PreRender()
-    {
-    }
-
     bool logRender{ false };
 
     void Scene::Render(Renderer &renderer) const
@@ -97,10 +81,6 @@ namespace Gambit
                 _atlas->WriteSprite(renderer, *object);
             }
         }
-    }
-
-    void Scene::PostRender()
-    {
     }
 
     shared_ptr<Scene> Scene::LoadScene(ResourceManager &resources, string const &fileName, Atlas const &atlas)

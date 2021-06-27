@@ -5,10 +5,13 @@
 #include "Gambit/Logger.hpp"
 #include "Gambit/JsonReader.hpp"
 
+#include "ChessClock/ForwardReferences.hpp"
 #include "ChessClock/Config.hpp"
 
 namespace ChessClock
 {
+    using namespace Gambit;
+
     class GameRoot
         : JsonReader<GameRoot>
     {
@@ -16,13 +19,11 @@ namespace ChessClock
 
         typedef string GameRoot:: *Member;
         string _defaultFont;
-        string _atlasName;
-        string _sceneName;
+        string _themeName;
         string _showFps;
         static int _frameNumber;
 
     public:
-        struct Values;
         typedef Gambit::Context<Values> Context;
 
         static int GetFrameNumber() { return _frameNumber; }
@@ -32,8 +33,7 @@ namespace ChessClock
             : JsonReader(
                 { 
                     {"font", &GameRoot::_defaultFont},
-                    {"atlas", &GameRoot::_atlasName},
-                    {"scene", &GameRoot::_sceneName},
+                    {"theme", &GameRoot::_themeName},
                     {"showFps", &GameRoot::_showFps},
                 })
         {
