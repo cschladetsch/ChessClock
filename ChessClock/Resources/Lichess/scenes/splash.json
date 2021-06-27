@@ -1,7 +1,7 @@
 {
-	"icon_pause" :
+	"splash_icon" :
 	{
-		"sprite" : "icon_pause",
+		"sprite" : "splash_icon",
 		"location" : [ 368, 288 ],
 		"layer" : 2
 	}

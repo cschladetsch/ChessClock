@@ -26,3 +26,4 @@ namespace ChessClock
         virtual bool ProcessEvents(Context &ctx, SDL_Event const &) = 0;
     };
 }
+
