@@ -9,6 +9,7 @@ namespace ChessClock
     using namespace Gambit;
 
     class Values
+        : NonCopyable
     {
     public:
         Values() = default;

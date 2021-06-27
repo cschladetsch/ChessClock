@@ -8,6 +8,7 @@
 namespace ChessClock
 {
     class Player
+        : Gambit::NonCopyable
     {
         static inline Logger _log{ "Player" };
 

@@ -1,7 +1,8 @@
 #pragma once
 
-#include "ChessClock/Config.hpp"
 #include "Gambit/Rect.hpp"
+
+#include "ChessClock/ForwardReferences.hpp"
 
 namespace ChessClock
 {

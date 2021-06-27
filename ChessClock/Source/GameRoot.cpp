@@ -88,10 +88,10 @@ namespace ChessClock
         values.versusText = values.headerFont->CreateTexture(resources, renderer, "vs", { 255,255,255 });
         values.atlas = resources.LoadResource<Atlas>((_themeName + "/atlas").c_str(), &resources, &renderer);
 
-        values.sceneSplash = resources.LoadResource<Scene>((_themeName + "/scenes/splash.json").c_str(), &resources, values.atlas);
+        //values.sceneSplash = resources.LoadResource<Scene>((_themeName + "/scenes/splash.json").c_str(), &resources, values.atlas);
         values.scenePlaying = resources.LoadResource<Scene>((_themeName + "/scenes/playing.json").c_str(), &resources, values.atlas);
-        values.sceneSettings = resources.LoadResource<Scene>((_themeName + "/scenes/settings.json").c_str(), &resources, values.atlas);
-        values.sceneAbout = resources.LoadResource<Scene>((_themeName + "/scenes/about.json").c_str(), &resources, values.atlas);
+        //values.sceneSettings = resources.LoadResource<Scene>((_themeName + "/scenes/settings.json").c_str(), &resources, values.atlas);
+        //values.sceneAbout = resources.LoadResource<Scene>((_themeName + "/scenes/about.json").c_str(), &resources, values.atlas);
 
         //values.sceneCurrent = values.sceneSplash;
         values.sceneCurrent = values.scenePlaying;

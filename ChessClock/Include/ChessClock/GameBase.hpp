@@ -11,7 +11,7 @@ namespace ChessClock
     class GameBase
         : public std::enable_shared_from_this<GameBase>
         , UiCallBacks
-        , NonCopyable
+        , Gambit::NonCopyable
     {
     public:
         typedef Gambit::Context<Values> Context;

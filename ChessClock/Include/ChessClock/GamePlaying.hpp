@@ -58,8 +58,6 @@ namespace ChessClock
 
         Player const &CurrentPlayer() const { return _currentColor == EColor::White ? WhitePlayer() : BlackPlayer(); }
 
-        void SwapColors();
-
         EColor GetPlayerTimedOut() const;
 
         void LeftPressed();

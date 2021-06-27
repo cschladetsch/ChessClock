@@ -20,7 +20,7 @@ namespace ChessClock::Lichess
         Lichess(const char *accessToken);
 
         int GetRating(const char *name, EFormat format);
-        TexturePtr GetPortait(int id);
+        Gambit::TexturePtr GetPortait(int id);
     };
 }
 

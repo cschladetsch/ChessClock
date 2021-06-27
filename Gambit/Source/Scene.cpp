@@ -59,12 +59,10 @@ namespace Gambit
             return root->second;
         }
 
-        std::stringstream out;
+        stringstream out;
         out << "Root" << layer << std::ends;
         return _layerToRoots[layer] = make_shared<Object>(out.str(), _resourceManager->NewId(), *_resourceManager);
     }
-
-    bool logRender{ false };
 
     void Scene::Render(Renderer &renderer) const
     {
@@ -74,9 +72,6 @@ namespace Gambit
             {
                 if (object->Sprite.empty())
                     continue;
-
-                if (logRender)
-                    LOG_DEBUG() << "Drawing " << LOG_VALUE(object->GetResourceId()) << LOG_VALUE(object->Layer) << LOG_VALUE(object->Tint) << LOG_VALUE(object->Mirror) << "\n";
 
                 _atlas->WriteSprite(renderer, *object);
             }

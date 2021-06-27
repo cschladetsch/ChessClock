@@ -6,11 +6,6 @@
 
 #include "ChessClock/GamePlaying.hpp"
 
-namespace Gambit
-{
-    extern bool logRender;
-}
-
 namespace ChessClock
 {
     bool GameRoot::ProcessEvents(Context& ctx)
@@ -56,7 +51,6 @@ namespace ChessClock
                         case SDLK_d:
                         {
                             ctx.values->debugTick = true;
-                            Gambit::logRender = !Gambit::logRender;
                             continue;
                         }
 

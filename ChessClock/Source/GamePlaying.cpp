@@ -18,8 +18,6 @@ namespace ChessClock
         auto& renderer = ctx.renderer;
         auto& values = *ctx.values;
 
-        //values.atlas->WriteSprite(renderer, "background", global.ScreenRect);
-
         values.sceneCurrent->Render(ctx.renderer);
 
         int y = 14;
@@ -52,8 +50,6 @@ namespace ChessClock
 
                     case SDLK_UP:
                     {
-                        LOG_INFO() << "Swap sides\n";
-                        SwapColors();
                         return true;
                     }
 
@@ -76,7 +72,6 @@ namespace ChessClock
 
         return false;
     }
-
 
     void GamePlaying::Update(Context &)
     {
@@ -101,11 +96,6 @@ namespace ChessClock
     void GamePlaying::SetGameState(EGameState state)
     {
         LOG_INFO() << "Change state:" << LOG_VALUE(state) << "\n";
-    }
-
-    void GamePlaying::SwapColors()
-    {
-        std::swap(_playerLeft, _playerRight);
     }
 
     void GamePlaying::SetTimeControl(TimeControl timeControl)
@@ -239,7 +229,6 @@ namespace ChessClock
         CurrentPlayer().Pause(paused);
 
         _pauseButton->Tint = _paused ? "white" : "active_player";
-        LOG_INFO() << LOG_VALUE(paused) << LOG_VALUE(_gameTime/1000.f) << LOG_VALUE(_pauseButton->Tint) << "\n";
     }
 }
 
