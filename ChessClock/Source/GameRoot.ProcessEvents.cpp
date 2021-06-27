@@ -15,7 +15,7 @@ namespace ChessClock
 
         while (SDL_PollEvent(&event))
         {
-            if (values.playing->ProcessEvents(ctx, event))
+            if (values.gamePlaying->ProcessEvents(ctx, event))
                 continue;
 
             switch (event.type)

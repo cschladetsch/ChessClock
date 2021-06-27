@@ -26,10 +26,10 @@ namespace ChessClock
 
         bool IsPaused() const { return _paused; }
 
-        Minutes GetMinutes() const { return _remainingTime.GetMinutes(); }
-        Seconds GetSeconds() const { return _remainingTime.GetSeconds(); }
-        TimeUnit HasTimedOut() const { return !_remainingTime.IsPositive(); }
-        Seconds GetIncrement() const { return _remainingTime.GetIncrement(); }
+        Gambit::Minutes GetMinutes() const { return _remainingTime.GetMinutes(); }
+        Gambit::Seconds GetSeconds() const { return _remainingTime.GetSeconds(); }
+        Gambit::Seconds GetIncrement() const { return _remainingTime.GetIncrement(); }
+        bool HasTimedOut() const { return !_remainingTime.IsPositive(); }
 
     protected:
         friend class GamePlaying;
@@ -37,7 +37,7 @@ namespace ChessClock
         void SetColor(EColor color) { _color = color; }
         void Pause(bool paused = true);
         void SetTimeControl(TimeControl timeControl);
-        void AddMillis(MilliSeconds millis) { _remainingTime.AddMillis(millis); }
-        void AddSeconds(Seconds seconds) { _remainingTime.AddMillis(seconds*1000); }
+        void AddMillis(Gambit::MilliSeconds millis) { _remainingTime.AddMillis(millis); }
+        void AddSeconds(Gambit::Seconds seconds) { _remainingTime.AddMillis(seconds*1000); }
     };
 }

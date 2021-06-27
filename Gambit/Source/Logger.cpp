@@ -16,6 +16,7 @@ namespace Gambit
     shared_ptr<teestream> Logger::_tee;
     string Logger::_logFileName;
     bool Logger::_triedOpenLogFile;
+    int Logger::_verbosityLevel;
 
     Logger::Logger(const char *source, ELogLevel level)
         : _logLevel(level)
@@ -72,6 +73,14 @@ namespace Gambit
     {
         if (ELogLevel::Info <= _logLevel)
             return PrintLead(file, line, func, fg::green, "INFO ");
+
+        return _null;
+    }
+
+    ostream& Logger::Verbose(const char* file, int line, const char *func, int level) const
+    {
+        if (level <= _verbosityLevel)
+            return PrintLead(file, line, func, fg::blue, "VERBOSE");
 
         return _null;
     }

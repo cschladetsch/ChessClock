@@ -10,8 +10,8 @@ namespace ChessClock
     {
         static inline Logger _log{ "GamePlaying" };
 
-        MilliSeconds _gameTime{ 0 };
-        MilliSeconds _lastGameTime{ 0 };
+        Gambit::MilliSeconds _gameTime{ 0 };
+        Gambit::MilliSeconds _lastGameTime{ 0 };
         TimeControl _timeControl{ 5,0 };
 
         ObjectPtr _leftFace, _rightFace;

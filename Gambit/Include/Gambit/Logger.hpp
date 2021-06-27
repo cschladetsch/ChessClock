@@ -20,15 +20,18 @@ namespace Gambit
         static string _logFileName;
         static shared_ptr<teestream> _tee;
         static shared_ptr<std::fstream> _logFile;
+        static int _verbosityLevel;
 
     public:
         Logger(const char* source, ELogLevel logLevel = ELogLevel::Verbose);
         static void CloseFile();
 
+        static void SetVerbosity(int level) { _verbosityLevel = level; }
         void Tee(std::ostream &other);
 
         using ostream = std::ostream;
         ostream& Info(const char *file, int line, const char *function) const;
+        ostream& Verbose(const char *file, int line, const char *function, int level) const;
         ostream& Debug(const char *file, int line, const char *function) const;
         ostream& Warn(const char *file, int line, const char *function) const;
         ostream& Error(const char *file, int line, const char *function) const;
@@ -47,6 +50,10 @@ namespace Gambit
 
 #define LOG_WARN() \
     _log.Warn(__FILE__, __LINE__, __FUNCTION__)
+
+#define LOG_VERBOSE(level) \
+    _log.Verbose(__FILE__, __LINE__, __FUNCTION__, level)
+
 
 #define LOG_ERROR() \
     _log.Error(__FILE__, __LINE__, __FUNCTION__)

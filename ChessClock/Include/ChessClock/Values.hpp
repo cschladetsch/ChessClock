@@ -23,19 +23,23 @@ namespace ChessClock
         TexturePtr rightNameText;
         TexturePtr versusText;
 
-        ScenePtr sceneCurrent;
-        ScenePtr sceneSplash;
-        ScenePtr scenePlaying;
-        ScenePtr sceneSettings;
-        ScenePtr sceneAbout;
-
         Rect textBounds;
         NumberFontPtr numberFont;
         AtlasPtr atlas;
 
         GameRootPtr gameRoot;
         GameBasePtr game;
-        GamePlayingPtr playing;
+        ScenePtr sceneCurrent;
+
+        ScenePtr sceneSplash;
+        ScenePtr scenePlaying;
+        ScenePtr sceneSettings;
+        ScenePtr sceneAbout;
+
+        GameSplashPtr gameSplash;
+        GamePlayingPtr gamePlaying;
+        GameSettingsPtr gameSettings;
+        GameAboutPtr gameAbout;
 
         bool trackMouse{ false };
         bool debugTick{ false };

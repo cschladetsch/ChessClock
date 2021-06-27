@@ -55,14 +55,14 @@ namespace ChessClock
 
                     case SDLK_LEFT:
                     {
-                        LOG_INFO() << "Pressed left\n";
+                        LOG_VERBOSE(10) << "Pressed left\n";
                         LeftPressed();
                         return true;
                     }
 
                     case SDLK_RIGHT:
                     {
-                        LOG_INFO() << "Pressed right\n";
+                        LOG_VERBOSE(10) << "Pressed right\n";
                         RightPressed();
                         return true;
                     }

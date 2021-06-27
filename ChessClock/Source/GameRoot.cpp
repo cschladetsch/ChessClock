@@ -8,6 +8,7 @@
 #include "ChessClock/Values.hpp"
 
 #include "ChessClock/GameRoot.hpp"
+#include "ChessClock/GameSplash.hpp"
 #include "ChessClock/GamePlaying.hpp"
 
 namespace ChessClock
@@ -51,14 +52,14 @@ namespace ChessClock
     void GameRoot::Prepare(Context &ctx)
     {
         Values &values = *ctx.values;
-        values.playing->SetGameState(EGameState::Playing);
-        values.playing->SetColor(ESide::Left, EColor::White);
-        values.playing->SetTimeControl(TimeControl{5, 0, 3});
-        values.playing->Pause();
+        values.gamePlaying->SetGameState(EGameState::Playing);
+        values.gamePlaying->SetColor(ESide::Left, EColor::White);
+        values.gamePlaying->SetTimeControl(TimeControl{5, 0, 3});
+        values.gamePlaying->Pause();
 
-        values.playing->AddCallback("SettingsPressed", [this, &ctx](auto &ctx, auto source) { SettingsPressed(ctx, source); });
-        values.playing->AddCallback("PausePressed", [this, &ctx](auto &ctx, auto source) { PausePressed(ctx, source); });
-        values.playing->AddCallback("VolumePressed", [this, &ctx](auto &ctx, auto source) { VolumePressed(ctx, source); });
+        values.gamePlaying->AddCallback("SettingsPressed", [this, &ctx](auto &ctx, auto source) { SettingsPressed(ctx, source); });
+        values.gamePlaying->AddCallback("PausePressed", [this, &ctx](auto &ctx, auto source) { PausePressed(ctx, source); });
+        values.gamePlaying->AddCallback("VolumePressed", [this, &ctx](auto &ctx, auto source) { VolumePressed(ctx, source); });
     }
 
     void GameRoot::SettingsPressed(Context &context, ObjectPtr sourceObject)
@@ -69,7 +70,7 @@ namespace ChessClock
     void GameRoot::PausePressed(Context &context, ObjectPtr sourceObject)
     {
         LOG_DEBUG() << "Pause pressed from " << LOG_VALUE(sourceObject->GetName()) << "\n";
-        //context.values->game.TogglePause();
+        context.values->gamePlaying->TogglePause();
     }
 
     void GameRoot::VolumePressed(Context &context, ObjectPtr sourceObject)
@@ -90,13 +91,14 @@ namespace ChessClock
 
         values.sceneSplash = resources.LoadResource<Scene>((_themeName + "/scenes/splash.json").c_str(), &resources, values.atlas);
         values.scenePlaying = resources.LoadResource<Scene>((_themeName + "/scenes/playing.json").c_str(), &resources, values.atlas);
-        //values.sceneSettings = resources.LoadResource<Scene>((_themeName + "/scenes/settings.json").c_str(), &resources, values.atlas);
-        //values.sceneAbout = resources.LoadResource<Scene>((_themeName + "/scenes/about.json").c_str(), &resources, values.atlas);
+        values.sceneSettings = resources.LoadResource<Scene>((_themeName + "/scenes/settings.json").c_str(), &resources, values.atlas);
+        values.sceneAbout = resources.LoadResource<Scene>((_themeName + "/scenes/about.json").c_str(), &resources, values.atlas);
 
         //values.sceneCurrent = values.sceneSplash;
         values.sceneCurrent = values.scenePlaying;
 
-        values.playing = std::make_shared<GamePlaying>();
+        values.gameSplash = std::make_shared<GameSplash>();
+        values.gamePlaying = std::make_shared<GamePlaying>();
 
         SetupGameSprites(resources, renderer, values);
     }
@@ -109,7 +111,7 @@ namespace ChessClock
         auto whitePawn = scene.FindChild("pawn_white");
         auto blackPawn = scene.FindChild("pawn_black");
         auto pauseButton = scene.FindChild("icon_pause");
-        values.playing->SetSprites(leftFace, rightFace, whitePawn, blackPawn, pauseButton);
+        values.gamePlaying->SetSprites(leftFace, rightFace, whitePawn, blackPawn, pauseButton);
     }
 
     void GameRoot::AddStep(Context& ctx, bool(GameRoot::* method)(Context&))
@@ -119,7 +121,7 @@ namespace ChessClock
 
     bool GameRoot::RenderScene(Context& ctx)
     {
-        ctx.values->playing->Render(ctx);
+        ctx.values->gamePlaying->Render(ctx);
 
         ctx.values->debugTick = false;
         return true;
@@ -150,7 +152,7 @@ namespace ChessClock
         auto &renderer = ctx.renderer;
         auto &game = values.game;
 
-        values.playing->Update(ctx);
+        values.gamePlaying->Update(ctx);
 
         return true;
     }
@@ -167,7 +169,7 @@ namespace ChessClock
         if (!button)
             return;
 
-        ctx.values->playing->Call(ctx, button);
+        ctx.values->gamePlaying->Call(ctx, button);
     }
 }
 

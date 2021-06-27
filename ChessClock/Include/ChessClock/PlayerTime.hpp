@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Gambit/Time.hpp"
+
 #include "ChessClock/TimeControl.hpp"
 
 namespace ChessClock
@@ -15,20 +17,17 @@ namespace ChessClock
         {
         }
 
-        Minutes GetMinutes() const { return _remaining.GetMinutes(); }
-        Seconds GetSeconds() const { return _remaining.GetSeconds(); }
-        Seconds GetIncrement() const { return _timeControl.GetIncrement(); }
+        Gambit::Minutes GetMinutes() const { return _remaining.GetMinutes(); }
+        Gambit::Seconds GetSeconds() const { return _remaining.GetSeconds(); }
+        Gambit::Seconds GetIncrement() const { return _timeControl.GetIncrement(); }
 
         void Reset() { Reset(_timeControl); }
         void Reset(TimeControl timeControl) { _remaining = _timeControl = timeControl; }
 
         bool IsPositive() const { return _remaining.IsPositive(); }
 
-        void AddMillis(MilliSeconds millis) { _remaining.AddMillis(millis); }
-        void Subtract(MilliSeconds millis) { AddMillis(-millis); }
+        void AddMillis(Gambit::MilliSeconds millis) { _remaining.AddMillis(millis); }
+        void Subtract(Gambit::MilliSeconds millis) { AddMillis(-millis); }
     };
-
-    TimeUnit TimeNowMillis();
-    float TimeNowSeconds();
 }
 
