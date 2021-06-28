@@ -20,7 +20,7 @@ namespace ChessClock
         {
         }
 
-        bool Setup(Context &ctx);
+        static bool Setup(Context &ctx);
         bool ProcessEvents(Context &);
         bool Present(Context &);
 

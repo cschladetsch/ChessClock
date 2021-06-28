@@ -10,14 +10,14 @@
 
 namespace ChessClock
 {
-    using string = Gambit::string;
+    using String = Gambit::string;
     using Gambit::Logger;
     using Gambit::ObjectPtr;
     using Gambit::Vector2;
     using Gambit::Rect;
 
     template <class Ty>
-    using shared_ptr = std::shared_ptr<Ty>;
+    using SharedPtr = std::shared_ptr<Ty>;
     
     class GameRoot;
     class GameBase;
@@ -30,14 +30,14 @@ namespace ChessClock
 
     typedef Gambit::Context<Values> Context;
 
-    typedef shared_ptr<PageBase> PageBasePtr;
-    typedef shared_ptr<Context> ContextPtr;
-    typedef shared_ptr<GameRoot> GameRootPtr;
-    typedef shared_ptr<GameBase> GameBasePtr;
+    typedef SharedPtr<PageBase> PageBasePtr;
+    typedef SharedPtr<Context> ContextPtr;
+    typedef SharedPtr<GameRoot> GameRootPtr;
+    typedef SharedPtr<GameBase> GameBasePtr;
 
-    typedef shared_ptr<GameSplash> GameSplashPtr;
-    typedef shared_ptr<GamePlaying> GamePlayingPtr;
-    typedef shared_ptr<GameSettings> GameSettingsPtr;
-    typedef shared_ptr<GameAbout> GameAboutPtr;
+    typedef SharedPtr<GameSplash> GameSplashPtr;
+    typedef SharedPtr<GamePlaying> GamePlayingPtr;
+    typedef SharedPtr<GameSettings> GameSettingsPtr;
+    typedef SharedPtr<GameAbout> GameAboutPtr;
 }
 

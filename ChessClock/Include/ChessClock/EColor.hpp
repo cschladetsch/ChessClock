@@ -30,6 +30,7 @@ namespace ChessClock
             return out << "Black";
         }
 
-        return out << "Uknown color " << (int)(color);
+        return out << "Unknown color " << static_cast<int>(color);
     }
 }
+

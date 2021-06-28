@@ -3,9 +3,7 @@
 
 #include "ChessClock/GamePlaying.hpp"
 #include "ChessClock/GameRoot.hpp"
-
 #include "ChessClock/Values.hpp"
-#include "ChessClock/Global.hpp"
 
 namespace ChessClock
 {
@@ -92,7 +90,7 @@ namespace ChessClock
         LOG_INFO() << "Change state:" << LOG_VALUE(state) << "\n";
     }
 
-    void GamePlaying::SetTimeControl(TimeControl timeControl)
+    void GamePlaying::SetTimeControl(const TimeControl timeControl)
     {
         if (!_paused)
             Pause();
@@ -101,7 +99,7 @@ namespace ChessClock
         _playerRight.SetTimeControl(timeControl);
     }
 
-    void GamePlaying::SetTimeControl(ESide side, TimeControl timeControl)
+    void GamePlaying::SetTimeControl(const ESide side, const TimeControl timeControl)
     {
         GetPlayer(side).SetTimeControl(timeControl);
     }
@@ -170,11 +168,9 @@ namespace ChessClock
             Pause(false);
             return;
         }
-        else
-        {
-            if (_gameState == EGameState::Playing)
-                ChangeTurn();
-        }
+
+        if (_gameState == EGameState::Playing)
+            ChangeTurn();
     }
 
     Player &GamePlaying::GetPlayer(ESide side)
@@ -182,7 +178,7 @@ namespace ChessClock
         return side == ESide::Left ? _playerLeft : _playerRight;
     }
 
-    void GamePlaying::SetSprites(ObjectPtr left, ObjectPtr right, ObjectPtr whitePawn, ObjectPtr blackPawn, ObjectPtr pauseButton)
+    void GamePlaying::SetSprites(const ObjectPtr left, const ObjectPtr right, const ObjectPtr whitePawn, const ObjectPtr blackPawn, ObjectPtr pauseButton)
     {
         _leftFace = left;
         _rightFace = right;

@@ -58,9 +58,9 @@ namespace Gambit
         {
             try
             {
-                Json j;
-                std::ifstream(fileName) >> j;
-                for (auto &item : j.items())
+                Json json;
+                std::ifstream(fileName) >> json;
+                for (auto &item : json.items())
                 {
                     if (!ParseJson(item))
                     {

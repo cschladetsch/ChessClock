@@ -6,7 +6,7 @@ namespace ChessClock
 {
     void UiCallBacks::Call(Context &context, ObjectPtr object) const
     {
-        auto call = _callbacks.find(object->Callback);
+        const auto call = _callbacks.find(object->Callback);
         if (call == _callbacks.end())
         {
             LOG_ERROR() << "No callback for '" << object->Callback << "'\n";
@@ -16,7 +16,7 @@ namespace ChessClock
         call->second(context, object);
     }
 
-    bool UiCallBacks::AddCallback(string const &name, Callback callback)
+    bool UiCallBacks::AddCallback(String const &name, Callback callback)
     {
         if (_callbacks.find(name) != _callbacks.end())
         {
@@ -28,9 +28,9 @@ namespace ChessClock
         return true;
     }
 
-    bool UiCallBacks::RemoveCallback(string const &name)
+    bool UiCallBacks::RemoveCallback(String const &name)
     {
-        auto call = _callbacks.find(name);
+        const auto call = _callbacks.find(name);
         if (call == _callbacks.end())
         {
             LOG_WARN() << "Attempt to remove unregistered callback '" << name << "'\n";

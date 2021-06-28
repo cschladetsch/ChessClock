@@ -1,12 +1,8 @@
-#include "Gambit/Texture.hpp"
 #include "Gambit/TimerFont.hpp"
 #include "Gambit/Atlas.hpp"
 
 #include "ChessClock/ForwardReferences.hpp"
-
-#include "ChessClock/Global.hpp"
 #include "ChessClock/Values.hpp"
-
 #include "ChessClock/GameRoot.hpp"
 #include "ChessClock/GameSplash.hpp"
 #include "ChessClock/GamePlaying.hpp"
@@ -17,6 +13,7 @@ namespace ChessClock
 
     int _frames;
     float _lastTime;
+
     int GameRoot::_frameNumber{ 0 };
 
     bool GameRoot::ParseJson(JsonNext &item)
@@ -106,11 +103,11 @@ namespace ChessClock
     void GameRoot::SetupGameSprites(ResourceManager &, Renderer &, Values &values)
     {
         auto &scene = *values.scenePlaying;
-        auto leftFace = scene.FindChild("left_clock_face");
-        auto rightFace = scene.FindChild("right_clock_face");
-        auto whitePawn = scene.FindChild("pawn_white");
-        auto blackPawn = scene.FindChild("pawn_black");
-        auto pauseButton = scene.FindChild("icon_pause");
+        const auto leftFace = scene.FindChild("left_clock_face");
+        const auto rightFace = scene.FindChild("right_clock_face");
+        const auto whitePawn = scene.FindChild("pawn_white");
+        const auto blackPawn = scene.FindChild("pawn_black");
+        const auto pauseButton = scene.FindChild("icon_pause");
         values.gamePlaying->SetSprites(leftFace, rightFace, whitePawn, blackPawn, pauseButton);
     }
 
@@ -127,32 +124,31 @@ namespace ChessClock
         return true;
     }
 
-    void GameRoot::DebugFrameRate()
+    void GameRoot::DebugFrameRate() const
     {
         ++_frames;
-        auto now = TimeNowSeconds();
-        auto deltaSeconds = now - _lastTime;
-        if (deltaSeconds > 5)
+        const auto now = TimeNowSeconds();
+        if (const auto deltaSeconds = now - _lastTime; deltaSeconds > 5)
         {
             _lastTime = now;
-            auto fps = round((_frames) / deltaSeconds);
+            const auto fps = round((_frames) / deltaSeconds);
             LOG_DEBUG() << LOG_VALUE(fps) << "\n";
             _frames = 0;
         }
     }
 
-    bool GameRoot::StepGame(Context &ctx)
+    bool GameRoot::StepGame(Context &context)
     {
         if (_showFps == "true")
             DebugFrameRate();
 
         ++_frameNumber;
 
-        auto &values = *ctx.values;
-        auto &renderer = ctx.renderer;
+        auto &values = *context.values;
+        auto &renderer = context.renderer;
         auto &game = values.game;
 
-        values.gamePlaying->Update(ctx);
+        values.gamePlaying->Update(context);
 
         return true;
     }

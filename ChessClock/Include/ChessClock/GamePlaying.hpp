@@ -1,11 +1,13 @@
 #pragma once
 
+#include "ChessClock/ESide.hpp"
+#include "ChessClock/EGameState.hpp"
 #include "ChessClock/Player.hpp"
 #include "ChessClock/GameBase.hpp"
 
 namespace ChessClock
 {
-    class GamePlaying
+    class GamePlaying 
         : public GameBase
     {
         static inline Logger _log{ "GamePlaying" };
@@ -27,9 +29,9 @@ namespace ChessClock
     public:
         GamePlaying() = default;
 
-        virtual void Render(Context &) const override;
-        virtual void Update(Context &) override;
-        virtual bool ProcessEvents(Context &ctx, SDL_Event const &) override;
+        void Render(Context &) const override;
+        void Update(Context &) override;
+        bool ProcessEvents(Context &ctx, SDL_Event const &) override;
 
         void SetSprites(ObjectPtr left, ObjectPtr right, ObjectPtr whitePawn, ObjectPtr blackPawn, ObjectPtr pauseButton);
 
@@ -62,8 +64,6 @@ namespace ChessClock
 
         void LeftPressed();
         void RightPressed();
-
-        //void OnPressed(GameRootPtr, Vector2 where) const;
 
     private:
         bool ToggleWhenPaused();

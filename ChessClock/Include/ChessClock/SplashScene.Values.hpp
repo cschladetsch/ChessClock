@@ -1,11 +1,7 @@
 #pragma once
 
-#include "Gambit/Texture.hpp"
-#include "Gambit/TimerFont.hpp"
-#include "Gambit/Atlas.hpp"
-
 #include "ChessClock/SplashScene.hpp"
-#include "ChessClock/Game.hpp"
+#include "ChessClock/GameBase.hpp"
 
 namespace ChessClock
 {

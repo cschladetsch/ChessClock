@@ -14,13 +14,14 @@ namespace ChessClock
         typedef std::function<void(Context &, ObjectPtr source)> Callback;
 
     protected:
-        typedef std::unordered_map<string, Callback> Callbacks;
+        ~UiCallBacks() = default;
+        typedef std::unordered_map<String, Callback> Callbacks;
         Callbacks _callbacks;
 
     public:
-        bool AddCallback(string const &name, Callback);
+        bool AddCallback(String const &name, Callback);
         void Call(Context &, ObjectPtr source) const;
-        bool RemoveCallback(string const &name);
+        bool RemoveCallback(String const &name);
     };
 }
 

@@ -3,21 +3,18 @@
 #include "Gambit/JsonReader.hpp"
 
 #include "ChessClock/ForwardReferences.hpp"
-#include "ChessClock/Page.hpp"
 
 namespace ChessClock
 {
-    using namespace Gambit;
-
     class GameRoot
-        : JsonReader<GameRoot>
+        : Gambit::JsonReader<GameRoot>
     {
         static inline Gambit::Logger _log{ "MainScene" };
 
-        typedef string GameRoot:: *Member;
-        string _defaultFont;
-        string _themeName;
-        string _showFps;
+        typedef String GameRoot:: *Member;
+        String _defaultFont;
+        String _themeName;
+        String _showFps;
         static int _frameNumber;
 
     public:
@@ -26,7 +23,8 @@ namespace ChessClock
         static int GetFrameNumber() { return _frameNumber; }
 
         GameRoot() = default;
-        GameRoot(const char *jsonConfig)
+
+        explicit GameRoot(const char *jsonConfig)
             : JsonReader(
                 { 
                     {"font", &GameRoot::_defaultFont},
@@ -45,19 +43,21 @@ namespace ChessClock
         void Transition(PageBase next);
 
     protected:
-        void DebugFrameRate();
+        bool ParseJson(JsonNext &next) override;
+
+        void DebugFrameRate() const;
 
         void Prepare(Context &ctx);
-        bool ParseJson(JsonNext &next) override;
-        void LoadResources(ResourceManager &, Renderer &, Values &values);
-        void SetupGameSprites(ResourceManager &, Renderer &, Values &values);
+        void LoadResources(Gambit::ResourceManager &, Gambit::Renderer &, Values &values);
         void AddStep(Context&, bool(GameRoot::*method)(Context&));
 
-        void SettingsPressed(Context &, ObjectPtr sourceObject);
-        void PausePressed(Context &, ObjectPtr sourceObject);
-        void VolumePressed(Context &, ObjectPtr sourceObject);
+        static void SetupGameSprites(Gambit::ResourceManager &, Gambit::Renderer &, Values &values);
 
-        bool StepGame(Context& ctx);
+        static void SettingsPressed(Context &, ObjectPtr sourceObject);
+        static void PausePressed(Context &, ObjectPtr sourceObject);
+        static void VolumePressed(Context &, ObjectPtr sourceObject);
+
+        bool StepGame(Context &context);
         bool RenderScene(Context& ctx);
     };
 }
