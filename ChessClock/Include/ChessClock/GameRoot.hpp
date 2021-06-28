@@ -38,14 +38,14 @@ namespace ChessClock
         bool Setup(Context &);
         bool ProcessEvents(Context &);
         bool Present(Context &);
-        void OnPressed(Context &, Vector2 where);
+        void OnPressed(Context&, const Vector2& where);
 
         void Transition(PageBase next);
 
     protected:
         bool ParseJson(JsonNext &next) override;
 
-        void DebugFrameRate() const;
+        void ShowFrameRate() const;
 
         void Prepare(Context &ctx);
         void LoadResources(Gambit::ResourceManager &, Gambit::Renderer &, Values &values);

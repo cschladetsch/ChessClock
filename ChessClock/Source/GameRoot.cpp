@@ -124,15 +124,15 @@ namespace ChessClock
         return true;
     }
 
-    void GameRoot::DebugFrameRate() const
+    void GameRoot::ShowFrameRate() const
     {
         ++_frames;
         const auto now = TimeNowSeconds();
         if (const auto deltaSeconds = now - _lastTime; deltaSeconds > 5)
         {
             _lastTime = now;
-            const auto fps = round((_frames) / deltaSeconds);
-            LOG_DEBUG() << LOG_VALUE(fps) << "\n";
+            const auto fps = round(static_cast<float>(_frames) / deltaSeconds);
+            LOG_INFO() << LOG_VALUE(fps) << "\n";
             _frames = 0;
         }
     }
@@ -140,14 +140,11 @@ namespace ChessClock
     bool GameRoot::StepGame(Context &context)
     {
         if (_showFps == "true")
-            DebugFrameRate();
+            ShowFrameRate();
 
         ++_frameNumber;
 
         auto &values = *context.values;
-        auto &renderer = context.renderer;
-        auto &game = values.game;
-
         values.gamePlaying->Update(context);
 
         return true;
@@ -158,10 +155,10 @@ namespace ChessClock
         return ctx.renderer.Present();
     }
 
-    void GameRoot::OnPressed(Context &ctx, Vector2 where)
+    void GameRoot::OnPressed(Context &ctx, const Vector2 &where)
     {
         auto &scene = ctx.values->sceneCurrent;
-        ObjectPtr button = scene->OnPressed(ctx.values->atlas, where);
+        const auto &button = scene->OnPressed(ctx.values->atlas, where);
         if (!button)
             return;
 
