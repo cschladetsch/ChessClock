@@ -26,11 +26,12 @@ extern "C"
 
 namespace Gambit
 {
+    struct Color;
     struct Vector2;
+
     class ResourceManager;
     class ResourceBase;
     class Renderer;
-
     class Font;
     class TimerFont;
     class Texture;
@@ -41,9 +42,8 @@ namespace Gambit
     class Atlas;
     class Scene;
     class AudioClip;
-    struct Color;
 
-    typedef shared_ptr<Scene> AudioClipPtr;
+    typedef shared_ptr<AudioClip> AudioClipPtr;
     typedef shared_ptr<Scene> ScenePtr;
     typedef shared_ptr<Atlas> AtlasPtr;
     typedef shared_ptr<Sprite> SpritePtr;

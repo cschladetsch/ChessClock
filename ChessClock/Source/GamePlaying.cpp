@@ -1,4 +1,5 @@
 #include "Gambit/Object.hpp"
+#include "Gambit/TimerFont.hpp"
 
 #include "ChessClock/GamePlaying.hpp"
 #include "ChessClock/GameRoot.hpp"
@@ -47,19 +48,12 @@ namespace ChessClock
                         TogglePause();
                         return true;
                     }
-
-                    case SDLK_UP:
-                    {
-                        return true;
-                    }
-
                     case SDLK_LEFT:
                     {
                         LOG_VERBOSE(10) << "Pressed left\n";
                         LeftPressed();
                         return true;
                     }
-
                     case SDLK_RIGHT:
                     {
                         LOG_VERBOSE(10) << "Pressed right\n";

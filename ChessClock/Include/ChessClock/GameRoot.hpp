@@ -1,12 +1,9 @@
 #pragma once
 
-#include "Gambit/ForwardReferences.hpp"
-#include "Gambit/Context.hpp"
-#include "Gambit/Logger.hpp"
 #include "Gambit/JsonReader.hpp"
 
 #include "ChessClock/ForwardReferences.hpp"
-#include "ChessClock/Config.hpp"
+#include "ChessClock/Page.hpp"
 
 namespace ChessClock
 {
@@ -44,6 +41,8 @@ namespace ChessClock
         bool ProcessEvents(Context &);
         bool Present(Context &);
         void OnPressed(Context &, Vector2 where);
+
+        void Transition(PageBase next);
 
     protected:
         void DebugFrameRate();

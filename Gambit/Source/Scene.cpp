@@ -49,7 +49,7 @@ namespace Gambit
     {
         if (!object)
         {
-            LOG_ERROR() << "null object";
+            LOG_ERROR() << "null object\n";
             return 0;
         }
         int layer = object->Layer;
@@ -108,7 +108,7 @@ namespace Gambit
         Object &object = *objectPtr;
 
         //CJS TODO: why does this work if I make a variable to pass, rather than passing the lambda directly to SetValue(...)
-        std::function<Vector2 (nlohmann::json &j)>fun = [](nlohmann::json& j) ->Vector2 { return Vector2{ j[0], j[1] }; };
+        std::function<Vector2 (nlohmann::json &j)>fun = [](nlohmann::json& j) { return Vector2{ j[0], j[1] }; };
         //SetValue(value, "location", object, &Object::Position, [](nlohmann::json& j) { return Vector2{ j[0], j[1] }; });
         SetValue(value, "location", object, &Object::Position, fun);
         SetValue(value, "sprite", object, &Object::Sprite);

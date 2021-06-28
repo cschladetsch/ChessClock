@@ -1,8 +1,5 @@
-#include "Gambit/Texture.hpp"
-#include "Gambit/TimerFont.hpp"
-#include "Gambit/Atlas.hpp"
-
 #include "ChessClock/GameRoot.hpp"
+#include "ChessClock/Page.hpp"
 
 namespace ChessClock
 {
@@ -23,7 +20,6 @@ namespace ChessClock
         TexturePtr rightNameText;
         TexturePtr versusText;
 
-        Rect textBounds;
         NumberFontPtr numberFont;
         AtlasPtr atlas;
 
@@ -41,6 +37,7 @@ namespace ChessClock
         GameSettingsPtr gameSettings;
         GameAboutPtr gameAbout;
 
+        int logVerbosity{ 0 };
         bool trackMouse{ false };
         bool debugTick{ false };
     };
