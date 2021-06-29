@@ -108,20 +108,13 @@ namespace ChessClock
             second->GameBase->Prepare(context);
         }
 
-        values.pageCurrent = EPage::Splash;
+        //values.pageCurrent = EPage::Splash;
+        //values.pageCurrent = EPage::Settings;
+        Transition(context, EPage::Splash);
     }
 
     void Root::Prepare(Context &ctx)
     {
-        Values &values = *ctx.values;
-        auto game = values.GetCurrentGame();
-        if (!game)
-        {
-            LOG_ERROR() << "No start game object given.\n";
-            return;
-        }
-
-        game->Prepare(ctx);
     }
 
     void Root::AddStep(Context& ctx, bool(Root::*method)(Context&))
@@ -133,23 +126,24 @@ namespace ChessClock
     {
         context.values->GetCurrentGame()->Render(context);
 
-        if (_transitionTime > 0 && Gambit::TimeNowMillis() < _transitionTime)
-        {
-            auto delta = _transitionTime - _transitionStartTime;
-            auto normalised = static_cast<float>(delta) / _transitionTotalTime;
-            auto alpha = normalised < 0.5f ? normalised : 1 - normalised;
-            auto renderer = context.renderer.GetRenderer();
+        //CJS TODO transitions
+        //if (_transitionTime > 0 && Gambit::TimeNowMillis() < _transitionTime)
+        //{
+        //    auto delta = _transitionTime - _transitionStartTime;
+        //    auto normalised = static_cast<float>(delta) / _transitionTotalTime;
+        //    auto alpha = normalised < 0.5f ? normalised : 1 - normalised;
+        //    auto renderer = context.renderer.GetRenderer();
 
-            int result = 0;
-            //CJS TODO: fade to black then into new scene
-            //LOG_DEBUG() << LOG_VALUE(alpha) << "\n";
-            //CALL_SDL(SDL_SetTextureAlphaMod(_fullscreenBlack, alpha * 255));
-            uint8_t texAlpha{ 0 };
-            CALL_SDL(SDL_SetTextureBlendMode(_fullscreenBlack, SDL_BLENDMODE_BLEND));
-            CALL_SDL(SDL_GetTextureAlphaMod(_fullscreenBlack, &texAlpha));
-            CALL_SDL(SDL_SetTextureAlphaMod(_fullscreenBlack, 128));
-            CALL_SDL(SDL_RenderCopy(renderer, _fullscreenBlack, nullptr, nullptr));
-        }
+        //    int result = 0;
+        //    //CJS TODO: fade to black then into new scene
+        //    //LOG_DEBUG() << LOG_VALUE(alpha) << "\n";
+        //    //CALL_SDL(SDL_SetTextureAlphaMod(_fullscreenBlack, alpha * 255));
+        //    uint8_t texAlpha{ 0 };
+        //    CALL_SDL(SDL_SetTextureBlendMode(_fullscreenBlack, SDL_BLENDMODE_BLEND));
+        //    CALL_SDL(SDL_GetTextureAlphaMod(_fullscreenBlack, &texAlpha));
+        //    CALL_SDL(SDL_SetTextureAlphaMod(_fullscreenBlack, 128));
+        //    CALL_SDL(SDL_RenderCopy(renderer, _fullscreenBlack, nullptr, nullptr));
+        //}
 
         context.values->debugTick = false;
 
@@ -176,11 +170,12 @@ namespace ChessClock
 
         ++_frameNumber;
 
-        if (_transitionTime > 0)
-        {
-            UpdateTransition(context);
-            return true;
-        }
+        //CJS TODO transitions
+        //if (_transitionTime > 0)
+        //{
+        //    UpdateTransition(context);
+        //    return true;
+        //}
 
         auto &values = *context.values;
         values.GetCurrentGame()->Update(context);
@@ -210,13 +205,15 @@ namespace ChessClock
         //    //CJS TODO: leave current page
         //}
 
+        //CJS TODO: transitions
+        //auto now = Gambit::TimeNowMillis();
+        //_transitionStartTime = now;
+        //_transitionTime = now + _transitionTotalTime;
+        //_transitionPage = next;
 
-        auto now = Gambit::TimeNowMillis();
-        _transitionStartTime = now;
-        _transitionTime = now + _transitionTotalTime;
-        _transitionPage = next;
+        LOG_INFO() << "Transitioning to " << LOG_VALUE(next) << "\n";
 
-        LOG_INFO() << "Transitioning to " << LOG_VALUE(next) << LOG_VALUE(_transitionTime) << "\n";
+        context.values->pageCurrent = next;
     }
 
     void Root::UpdateTransition(Context &context)

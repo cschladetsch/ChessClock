@@ -25,6 +25,7 @@ namespace ChessClock
     void GamePlaying::SettingsPressed(Context &context, ObjectPtr source)
     {
         LOG_INFO() << "Settings pressed from " << LOG_VALUE(source->GetName()) << "\n";
+        context.values->Root->Transition(context, EPage::Settings);
     }
 
     void GamePlaying::PausePressed(Context &context, ObjectPtr source)
