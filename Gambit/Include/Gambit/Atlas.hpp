@@ -1,5 +1,7 @@
 #pragma once
 
+#include <set>
+
 #include "Gambit/Logger.hpp"
 #include "Gambit/Rect.hpp"
 #include "Gambit/Color.hpp"
@@ -17,16 +19,19 @@ namespace Gambit
         typedef std::unordered_map<string, Rect> Sprites;
         typedef std::unordered_map<string, Color> TintList;
 
+        mutable int _result { 0 };
+        mutable std::set<string> _spritesNotFound;
+        mutable std::set<string> _tintsNotFound;
         TexturePtr _atlasTexture;
         Sprites _sprites;
         TintList _tints;
 
     public:
-        Atlas(TexturePtr atlasTexture, const string &spritsJson);
+        Atlas(TexturePtr const &atlasTexture, const string &spritesJson);
 
         std::pair<bool, Rect> GetSprite(string const &name) const;
         bool WriteSprite(Renderer &, Object const &object) const;
-        bool WriteSprite(Renderer &, string const &name, const Rect &destRect, bool mirror = false) const;
+        bool WriteSprite(Renderer &, Rect const &destRect, Object const &) const;
 
         template <class ...Args>
         static shared_ptr<Atlas> Load(std::string const& baseName, ResourceId const& id, Args... args)
@@ -38,22 +43,20 @@ namespace Gambit
         }
 
     private:
-        bool WriteSprite(Renderer &, string const &name, const Vector2 &topLeft, bool mirror = false) const;
-        bool WriteSprite(Renderer &, string const &name, const Vector2 &destPoint, const string &tintName, bool mirror = false) const;
-
         static shared_ptr<Atlas> LoadAtlas(ResourceManager &, Renderer &, string const& baseName, ResourceId const& id);
+
+        bool WriteSprite(Renderer &, Vector2 const &topLeft, Object const &) const;
+        bool WriteRect(Renderer &, Rect const &sourceRect, Rect const &destRect, Object const &) const;
 
         std::pair<bool, Color> GetTint(const string& name) const;
 
         bool SpriteNotFound(const string& name) const;
         bool TintNotFound(const string& name) const;
 
-        bool WriteRect(Renderer &, Rect const &sourceRect, Rect const &destRect, bool mirror = false) const;
-        bool WriteRect(Renderer &, Rect const &sourceRect, Rect const &destRect, Color const& tint, bool mirror = false) const;
+        static Rect ReadRect(Json &json, const char *name);
+        static Color ReadColor(Json &json, const char *name);
 
-        Rect GetRect(Json &json, const char *name);
-        Color GetColor(Json &json, const char *name);
-        bool ParseJson(JsonNext &item);
+        bool ParseJson(JsonNext &item) override;
     };
 }
 

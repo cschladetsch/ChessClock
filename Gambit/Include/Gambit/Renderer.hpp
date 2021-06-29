@@ -15,7 +15,7 @@ namespace Gambit
         SDL_Window *_window = 0;
         SDL_Renderer *_renderer = 0;
         int _frameNumber{ 0 };
-        mutable int result = 0;
+        mutable int _result = 0;
 
     public:
         SDL_Window *GetWindow() const { return _window; }

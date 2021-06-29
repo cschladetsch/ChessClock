@@ -117,6 +117,7 @@ namespace Gambit
         SetValue(value, "tint", object, &Object::Tint);
         SetValue(value, "type", object, &Object::Type);
         SetValue(value, "callback", object, &Object::Callback);
+        SetValue(value, "rotation", object, &Object::Rotation);
 
         AddObject(objectPtr);
 

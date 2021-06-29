@@ -108,9 +108,8 @@ namespace ChessClock
             second->GameBase->Prepare(context);
         }
 
-        //values.pageCurrent = EPage::Splash;
-        //values.pageCurrent = EPage::Settings;
-        Transition(context, EPage::Splash);
+        //Transition(context, EPage::Splash);
+        Transition(context, EPage::Settings);
     }
 
     void Root::Prepare(Context &ctx)
