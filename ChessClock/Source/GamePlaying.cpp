@@ -7,6 +7,8 @@
 
 namespace ChessClock
 {
+    using namespace Gambit;
+
     void GamePlaying::Prepare(Context &context)
     {
         SetGameState(EGameState::Playing);

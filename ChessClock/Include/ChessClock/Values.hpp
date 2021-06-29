@@ -2,53 +2,38 @@
 
 namespace ChessClock
 {
-    using namespace Gambit;
-
     class Values
-        : NonCopyable
+        : Gambit::NonCopyable
     {
     public:
         Values() = default;
 
-        FontPtr font;
-        FontPtr headerFont;
-        FontPtr footerFont;
+        int logVerbosity{ 0 };
+        bool trackMouse{ false };
+        bool debugTick{ false };
 
-        TexturePtr backBuffer;
+        Gambit::FontPtr font;
+        Gambit::FontPtr headerFont;
+        Gambit::FontPtr footerFont;
+        Gambit::NumberFontPtr numberFont;
+
+        Gambit::TexturePtr backBuffer;
 
         //CJS TODO: move these out
-        TexturePtr leftNameText;
-        TexturePtr rightNameText;
-        TexturePtr versusText;
+        Gambit::TexturePtr leftNameText;
+        Gambit::TexturePtr rightNameText;
+        Gambit::TexturePtr versusText;
 
-        NumberFontPtr numberFont;
-        AtlasPtr atlas;
-
+        Gambit::AtlasPtr atlas;
         Root *Root;
-        //GameBasePtr game;
-        //ScenePtr sceneCurrent;
-
         EPage pageCurrent;
         std::unordered_map<EPage, SharedPtr<PageBase>> pages;
 
         PageBasePtr GetPage(EPage page) { return pages[page]; }
         PageBasePtr GetCurrentPage() { return pages[pageCurrent]; }
-        ScenePtr GetCurrentScene() { return GetCurrentPage()->Scene; }
+        Gambit::ScenePtr GetCurrentScene() { return GetCurrentPage()->Scene; }
         GameBasePtr GetCurrentGame() { return GetCurrentPage()->GameBase; }
 
-        //ScenePtr sceneSplash;
-        //ScenePtr scenePlaying;
-        //ScenePtr sceneSettings;
-        //ScenePtr sceneAbout;
-
-        //GameSplashPtr gameSplash;
-        //GamePlayingPtr gamePlaying;
-        //GameSettingsPtr gameSettings;
-        //GameAboutPtr gameAbout;
-
-        int logVerbosity{ 0 };
-        bool trackMouse{ false };
-        bool debugTick{ false };
     };
 }
 
