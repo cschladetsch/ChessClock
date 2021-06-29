@@ -12,6 +12,7 @@
 #include "ChessClock/GamePlaying.hpp"
 #include "ChessClock/GameSettings.hpp"
 #include "ChessClock/GameAbout.hpp"
+#include "ChessClock/Global.hpp"
 
 namespace ChessClock
 {
@@ -22,6 +23,11 @@ namespace ChessClock
     float _lastTime;
 
     int Root::_frameNumber{ 0 };
+
+    Root::~Root()
+    {
+        SDL_DestroyTexture(_fullscreenBlack);
+    }
 
     bool Root::ParseJson(JsonNext &item)
     {
@@ -39,8 +45,15 @@ namespace ChessClock
         return true;
     }
 
+    void Root::MakeScreenOverlay(Context& context)
+    {
+        _fullscreenBlack = SDL_CreateTexture(context.renderer.GetRenderer(), SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STATIC, global.GetScreenWidth(), global.GetScreenHeight());
+    }
+
     bool Root::Setup(Context& context)
     {
+        MakeScreenOverlay(context);
+        
         context.values = make_shared<Values>();
         LoadResources(context);
 
@@ -71,6 +84,7 @@ namespace ChessClock
         auto &renderer = context.renderer;
         const auto white = Color{ 255,255,255 };
 
+        values.Root = this;
         values.font = resources.LoadResource<Font>(_defaultFont.c_str(), 125);
         values.atlas = resources.LoadResource<Atlas>((_themeName + "/atlas").c_str(), &resources, &renderer);
 
@@ -115,10 +129,29 @@ namespace ChessClock
         ctx.steps.push_back([this, method](auto &context) { return (this->*method)(context); });
     }
 
-    bool Root::RenderScene(Context& ctx)
+    bool Root::RenderScene(Context& context)
     {
-        ctx.values->GetCurrentGame()->Render(ctx);
-        ctx.values->debugTick = false;
+        context.values->GetCurrentGame()->Render(context);
+
+        if (_transitionTime > 0 && Gambit::TimeNowMillis() < _transitionTime)
+        {
+            auto delta = _transitionTime - _transitionStartTime;
+            auto normalised = static_cast<float>(delta) / _transitionTotalTime;
+            auto alpha = normalised < 0.5f ? normalised : 1 - normalised;
+            auto renderer = context.renderer.GetRenderer();
+
+            int result = 0;
+            //CJS TODO: fade to black then into new scene
+            //LOG_DEBUG() << LOG_VALUE(alpha) << "\n";
+            //CALL_SDL(SDL_SetTextureAlphaMod(_fullscreenBlack, alpha * 255));
+            uint8_t texAlpha{ 0 };
+            CALL_SDL(SDL_SetTextureBlendMode(_fullscreenBlack, SDL_BLENDMODE_BLEND));
+            CALL_SDL(SDL_GetTextureAlphaMod(_fullscreenBlack, &texAlpha));
+            CALL_SDL(SDL_SetTextureAlphaMod(_fullscreenBlack, 128));
+            CALL_SDL(SDL_RenderCopy(renderer, _fullscreenBlack, nullptr, nullptr));
+        }
+
+        context.values->debugTick = false;
 
         return true;
     }
@@ -143,6 +176,12 @@ namespace ChessClock
 
         ++_frameNumber;
 
+        if (_transitionTime > 0)
+        {
+            UpdateTransition(context);
+            return true;
+        }
+
         auto &values = *context.values;
         values.GetCurrentGame()->Update(context);
 
@@ -166,14 +205,30 @@ namespace ChessClock
 
     void Root::Transition(Context &context, EPage next)
     {
-        if (context.values->GetCurrentGame())
+        //if (context.values->GetCurrentGame())
+        //{
+        //    //CJS TODO: leave current page
+        //}
+
+
+        auto now = Gambit::TimeNowMillis();
+        _transitionStartTime = now;
+        _transitionTime = now + _transitionTotalTime;
+        _transitionPage = next;
+
+        LOG_INFO() << "Transitioning to " << LOG_VALUE(next) << LOG_VALUE(_transitionTime) << "\n";
+    }
+
+    void Root::UpdateTransition(Context &context)
+    {
+        auto now = Gambit::TimeNowMillis();
+        //LOG_DEBUG() << LOG_VALUE(now) << LOG_VALUE(_transitionTime) << "\n";
+        if (now > _transitionTime)
         {
-            //CJS TODO: leave current page
+            context.values->pageCurrent = _transitionPage;
+            _transitionTime = 0;
         }
 
-        LOG_INFO() << "Transitioning to " << next << "\n";
-
-        context.values->pageCurrent = next;
     }
 
 }

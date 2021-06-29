@@ -4,11 +4,13 @@
 #include "Gambit/JsonReader.hpp"
 
 #include "ChessClock/ForwardReferences.hpp"
+#include "Gambit/Time.hpp"
 
 namespace ChessClock
 {
     class Root
         : Gambit::JsonReader<Root>
+        , public std::enable_shared_from_this<Root>
     {
         static inline Gambit::Logger _log{ "MainScene" };
 
@@ -17,6 +19,7 @@ namespace ChessClock
         String _themeName;
         String _showFps;
         static int _frameNumber;
+        SDL_Texture *_fullscreenBlack;
 
     public:
         typedef Gambit::Context<Values> Context;
@@ -24,6 +27,7 @@ namespace ChessClock
         static int GetFrameNumber() { return _frameNumber; }
 
         Root() = default;
+        ~Root();
 
         explicit Root(const char *jsonConfig)
             : JsonReader(
@@ -43,8 +47,15 @@ namespace ChessClock
 
         void Transition(Context &, EPage next);
 
-    protected:
+    private:
         bool ParseJson(JsonNext &item) override;
+        void MakeScreenOverlay(Context &context);
+
+        Gambit::MilliSeconds _transitionTotalTime{ 500 };
+        Gambit::MilliSeconds _transitionTime{ 0 };
+        Gambit::MilliSeconds _transitionStartTime{ 0 };
+        EPage _transitionPage;
+        void UpdateTransition(Context &context);
 
         void ShowFrameRate() const;
 

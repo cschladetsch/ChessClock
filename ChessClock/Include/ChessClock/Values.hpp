@@ -24,7 +24,7 @@ namespace ChessClock
         NumberFontPtr numberFont;
         AtlasPtr atlas;
 
-        RootPtr Root;
+        Root *Root;
         //GameBasePtr game;
         //ScenePtr sceneCurrent;
 
