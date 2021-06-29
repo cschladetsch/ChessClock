@@ -14,6 +14,7 @@ namespace ChessClock
         , Gambit::NonCopyable
     {
     public:
+        GameBase() = default;
         virtual ~GameBase() = default;
         typedef Gambit::Context<Values> Context;
 

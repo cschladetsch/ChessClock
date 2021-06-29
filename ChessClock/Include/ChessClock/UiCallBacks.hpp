@@ -24,6 +24,7 @@ namespace ChessClock
         bool AddCallback(String const &name, Callback);
         void Call(Context &context, ObjectPtr source) const;
         bool RemoveCallback(String const &name);
+
     };
 }
 

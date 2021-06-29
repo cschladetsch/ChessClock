@@ -12,6 +12,9 @@ namespace ChessClock
         Gambit::Seconds _increment;
 
     public:
+        TimeControl() = default;
+        TimeControl(TimeControl const &) = default;
+
         TimeControl(Gambit::Minutes minutes, Gambit::Seconds seconds, Gambit::Seconds increment = 0)
             : _increment(increment)
         {
