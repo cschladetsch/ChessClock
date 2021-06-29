@@ -15,6 +15,7 @@
 
 namespace ChessClock
 {
+    using namespace std;
     using namespace Gambit;
 
     int _fpsFrameCounter;
@@ -40,7 +41,7 @@ namespace ChessClock
 
     bool Root::Setup(Context& context)
     {
-        context.values = std::make_shared<Values>();
+        context.values = make_shared<Values>();
         LoadResources(context);
 
         AddStep(context, &Root::RenderScene);
@@ -57,51 +58,43 @@ namespace ChessClock
         return resources.LoadResource<Scene>((themeName + "/scenes/" + name + ".json").c_str(), &resources, atlas);
     }
 
+    template <class PageType, class Loader>
+    SharedPtr<PageBase> LoadPage(const char *name, Loader loader)
+    {
+        return make_shared<Page<PageType>>(make_shared<PageType>(), loader(name));
+    }
+
     void Root::LoadResources(Context &context)
     {
         auto &values = *context.values;
         auto &resources = context.resources;
         auto &renderer = context.renderer;
-        
+        const auto white = Color{ 255,255,255 };
+
         values.font = resources.LoadResource<Font>(_defaultFont.c_str(), 125);
         values.atlas = resources.LoadResource<Atlas>((_themeName + "/atlas").c_str(), &resources, &renderer);
 
         values.headerFont = resources.LoadResource<Font>(_defaultFont.c_str(), 30);
         values.numberFont = resources.CreateResource<TimerFont>("Numbers", values.font);
-        values.numberFont->MakeTextures(resources, renderer, Color{ 255,255,255 });
+        values.numberFont->MakeTextures(resources, renderer, white);
 
-        values.leftNameText = values.headerFont->CreateTexture(resources, renderer, "SpamFilter", { 255,255,255 });
-        values.rightNameText = values.headerFont->CreateTexture(resources, renderer, "monoRAIL", { 255,255,255 });
-        values.versusText = values.headerFont->CreateTexture(resources, renderer, "vs", { 255,255,255 });
+        auto loadTexture = [&](const char *text, Color color) { return values.headerFont->CreateTexture(resources, renderer, text, color); };
+        values.leftNameText = loadTexture("SpamFilter", white);
+        values.rightNameText = loadTexture("monoRAIL", white);
+        values.versusText = loadTexture("vs", white);
 
-        auto load = [&](const char *name) { return resources.LoadResource<Scene>((_themeName + "/scenes/" + name + ".json").c_str(), &resources, values.atlas); };
-        auto sceneSplash = load("splash");
-        auto scenePlaying = load("playing");
-        auto sceneSettings = load("settings");
-        auto sceneAbout = load("about");
-
-        auto gameSplash = std::make_shared<GameSplash>();
-        auto gamePlaying = std::make_shared<GamePlaying>();
-        auto gameSettings = std::make_shared<GameSettings>();
-        auto gameAbout = std::make_shared<GameAbout>();
-
-        values.pages[EPage::Splash] = std::make_shared<Page<GameSplash>>(gameSplash, sceneSplash);
-        values.pages[EPage::Playing] = std::make_shared<Page<GamePlaying>>(gamePlaying, scenePlaying);
-        values.pages[EPage::Settings] = std::make_shared<Page<GameSettings>>(gameSettings, sceneSettings);
-        values.pages[EPage::About] = std::make_shared<Page<GameAbout>>(gameAbout, sceneAbout);
+        auto loader = [&](const char *name) { return resources.LoadResource<Scene>((_themeName + "/scenes/" + name + ".json").c_str(), &resources, values.atlas); };
+        values.pages[EPage::Splash] = LoadPage<GameSplash>("splash", loader);
+        values.pages[EPage::Playing] = LoadPage<GamePlaying>("playing", loader);
+        values.pages[EPage::Settings] = LoadPage<GameSettings>("settings", loader);
+        values.pages[EPage::About] = LoadPage<GameAbout>("about", loader);
 
         for (auto & [first, second] : values.pages)
         {
             second->GameBase->Prepare(context);
         }
 
-        //CJS TODO
         values.pageCurrent = EPage::Splash;
-        //values.sceneCurrent = values.scenePlaying;
-
-        //values.game = values.gameSplash;
-
-        //Transition(values.gameSplash);
     }
 
     void Root::Prepare(Context &ctx)

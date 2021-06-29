@@ -23,21 +23,35 @@ namespace Gambit
         return ResourceId(name);
     }
 
-    bool ResourceManager::AddObject(ObjectPtr obj)
+    bool ResourceManager::AddObject(ObjectPtr object)
     {
-        _idToObject[obj->GetResourceId()] = obj;
+        auto const &rid = object->GetResourceId();
+        if (_idToObject.contains(rid))
+        {
+            LOG_ERROR() << "Attempt to store object with same id '" << rid << "' to resource manager.\n";
+            return false;
+        }
+        _idToObject[rid] = object;
         return true;
     }
 
     void ResourceManager::AddResource(ResourceId const& id, ResourceBasePtr resource)
     {
-        _idToResource[id] = resource;
+        if (_idToResource.contains(id))
+        {
+            LOG_ERROR() << "Attempt to add resource id '" << id << "' to resource manager.\n";
+            return;
+        }
+
+        _idToResource[id] = std::move(resource);
     }
 
     ObjectPtr ResourceManager::CreateObject(const string &name)
     {
         auto result = std::make_shared<Object>(name, NewId(name), *this);
-        AddObject(result);
+        if (!AddObject(result))
+            return nullptr;
+
         return result;
     }
 
