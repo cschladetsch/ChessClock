@@ -2,6 +2,8 @@
 
 namespace ChessClock
 {
+    class Root;
+
     class Values
         : Gambit::NonCopyable
     {

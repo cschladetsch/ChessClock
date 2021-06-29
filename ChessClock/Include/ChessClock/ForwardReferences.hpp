@@ -21,9 +21,6 @@ namespace ChessClock
     template <class Ty>
     using SharedPtr = std::shared_ptr<Ty>;
     
-    //template <class Ty, class... Args>
-    //using MakeShared = std::make_shared<Ty, Args>;
-
     class Root;
     class GameBase;
     class GameSplash;
