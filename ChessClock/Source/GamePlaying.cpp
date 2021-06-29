@@ -7,9 +7,51 @@
 
 namespace ChessClock
 {
-    void DrawTimer(Values& values, Renderer &renderer, Vector2 location, Player const& player)
+    void GamePlaying::Prepare(Context &context)
     {
-        values.numberFont->DrawTime(renderer, location, (uint8_t)player.GetMinutes(), (uint8_t)player.GetSeconds());
+        SetGameState(EGameState::Playing);
+        SetColor(ESide::Left, EColor::White);
+        SetTimeControl(TimeControl{5, 0, 3});
+
+        AddCallback("SettingsPressed", [this, &context](auto &ctx, auto source) { SettingsPressed(ctx, source); });
+        AddCallback("PausePressed", [this, &context](auto &ctx, auto source) { PausePressed(ctx, source); });
+        AddCallback("VolumePressed", [this, &context](auto &ctx, auto source) { VolumePressed(ctx, source); });
+
+        SetupGameSprites(context.resources, context.renderer, *context.values);
+
+        Pause();
+    }
+
+    void GamePlaying::SettingsPressed(Context &context, ObjectPtr source)
+    {
+        LOG_INFO() << "Settings pressed from " << LOG_VALUE(source->GetName()) << "\n";
+    }
+
+    void GamePlaying::PausePressed(Context &context, ObjectPtr source)
+    {
+        LOG_INFO() << "Pause pressed from " << LOG_VALUE(source->GetName()) << "\n";
+        context.values->gamePlaying->TogglePause();
+    }
+
+    void GamePlaying::VolumePressed(Context &context, ObjectPtr source)
+    {
+        LOG_INFO () << "Volume pressed from " << LOG_VALUE(source->GetName()) << "\n";
+    }
+
+    void GamePlaying::SetupGameSprites(ResourceManager &, Renderer &, Values &values)
+    {
+        auto &scene = *values.scenePlaying;
+        const auto leftFace = scene.FindChild("left_clock_face");
+        const auto rightFace = scene.FindChild("right_clock_face");
+        const auto whitePawn = scene.FindChild("pawn_white");
+        const auto blackPawn = scene.FindChild("pawn_black");
+        const auto pauseButton = scene.FindChild("icon_pause");
+        SetSprites(leftFace, rightFace, whitePawn, blackPawn, pauseButton);
+    }
+
+    void DrawTimer(Values& values, Renderer &renderer, const Vector2 &location, Player const& player)
+    {
+        values.numberFont->DrawTime(renderer, location, static_cast<uint8_t>(player.GetMinutes()), static_cast<uint8_t>(player.GetSeconds()));
     }
 
     void GamePlaying::Render(Context &ctx) const
@@ -24,8 +66,8 @@ namespace ChessClock
         renderer.WriteTexture(values.versusText, Vector2(400 - 12, y));
         renderer.WriteTexture(values.rightNameText, Vector2(580, y));
 
-        Vector2 destPointLeft{ 35, 95 };
-        Vector2 destPointRight{ 438, 95 };
+        const Vector2 destPointLeft{ 35, 95 };
+        const Vector2 destPointRight{ 438, 95 };
 
         DrawTimer(values, renderer, destPointLeft, LeftPlayer());
         DrawTimer(values, renderer, destPointRight, RightPlayer());

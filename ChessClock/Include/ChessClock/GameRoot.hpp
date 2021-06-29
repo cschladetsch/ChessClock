@@ -40,7 +40,7 @@ namespace ChessClock
         bool Present(Context &);
         void OnPressed(Context&, const Vector2& where);
 
-        void Transition(PageBase next);
+        void Transition(Context &, PageBasePtr next);
 
     protected:
         bool ParseJson(JsonNext &next) override;
@@ -50,12 +50,6 @@ namespace ChessClock
         void Prepare(Context &ctx);
         void LoadResources(Gambit::ResourceManager &, Gambit::Renderer &, Values &values);
         void AddStep(Context&, bool(GameRoot::*method)(Context&));
-
-        static void SetupGameSprites(Gambit::ResourceManager &, Gambit::Renderer &, Values &values);
-
-        static void SettingsPressed(Context &, ObjectPtr sourceObject);
-        static void PausePressed(Context &, ObjectPtr sourceObject);
-        static void VolumePressed(Context &, ObjectPtr sourceObject);
 
         bool StepGame(Context &context);
         bool RenderScene(Context& ctx);

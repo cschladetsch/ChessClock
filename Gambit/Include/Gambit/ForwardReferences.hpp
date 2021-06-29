@@ -1,10 +1,6 @@
 #pragma once
 
-#include <memory>
-#include <vector>
 #include <string>
-#include <iostream>
-#include <sstream>
 #include <functional>
 
 #include "Gambit/Config.hpp"

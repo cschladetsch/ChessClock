@@ -122,11 +122,10 @@ namespace Gambit
 
     shared_ptr<Atlas> Atlas::LoadAtlas(ResourceManager &resources, Renderer &renderer, string const& baseName, ResourceId const& id)
     {
-        string fileName = baseName + ".png";
+        const string fileName = baseName + ".png";
         string spritesName = baseName + ".json";
 
-        auto flags = IMG_INIT_PNG;
-        if (flags != IMG_Init(flags))
+        if (const auto flags = IMG_INIT_PNG; flags != IMG_Init(flags))
         {
             LOG_ERROR() << "Failed to initialise image lib " << IMG_GetError() << "\n";
             return 0;

@@ -4,6 +4,9 @@
 #include "ChessClock/ForwardReferences.hpp"
 #include "ChessClock/Values.hpp"
 #include "ChessClock/GameRoot.hpp"
+
+#include "ChessClock/EGameState.hpp"
+#include "ChessClock/ESide.hpp"
 #include "ChessClock/GameSplash.hpp"
 #include "ChessClock/GamePlaying.hpp"
 
@@ -11,7 +14,7 @@ namespace ChessClock
 {
     using namespace Gambit;
 
-    int _frames;
+    int _fpsFrameCounter;
     float _lastTime;
 
     int GameRoot::_frameNumber{ 0 };
@@ -20,14 +23,14 @@ namespace ChessClock
     {
         auto &key = item.key();
 
-        auto found = _jsonToMember.find(key);
+        const auto found = _jsonToMember.find(key);
         if (found == _jsonToMember.end())
         {
             LOG_WARN() << "No member named '" << key << "' found in MainScene\n";
             return false;
         }
 
-        (this->*found->second) = item.value();
+        this->*found->second = item.value();
 
         return true;
     }
@@ -46,94 +49,77 @@ namespace ChessClock
         return true;
     }
 
-    void GameRoot::Prepare(Context &ctx)
+    ScenePtr LoadScene(string const &themeName, string const &name, ResourceManager& resources, AtlasPtr const &atlas)
     {
-        Values &values = *ctx.values;
-        values.gamePlaying->SetGameState(EGameState::Playing);
-        values.gamePlaying->SetColor(ESide::Left, EColor::White);
-        values.gamePlaying->SetTimeControl(TimeControl{5, 0, 3});
-        values.gamePlaying->Pause();
-
-        values.gamePlaying->AddCallback("SettingsPressed", [this, &ctx](auto &ctx, auto source) { SettingsPressed(ctx, source); });
-        values.gamePlaying->AddCallback("PausePressed", [this, &ctx](auto &ctx, auto source) { PausePressed(ctx, source); });
-        values.gamePlaying->AddCallback("VolumePressed", [this, &ctx](auto &ctx, auto source) { VolumePressed(ctx, source); });
-    }
-
-    void GameRoot::SettingsPressed(Context &context, ObjectPtr sourceObject)
-    {
-        LOG_DEBUG() << "Settings pressed from " << LOG_VALUE(sourceObject->GetName()) << "\n";
-    }
-
-    void GameRoot::PausePressed(Context &context, ObjectPtr sourceObject)
-    {
-        LOG_DEBUG() << "Pause pressed from " << LOG_VALUE(sourceObject->GetName()) << "\n";
-        context.values->gamePlaying->TogglePause();
-    }
-
-    void GameRoot::VolumePressed(Context &context, ObjectPtr sourceObject)
-    {
-        LOG_DEBUG() << "Volume pressed from " << LOG_VALUE(sourceObject->GetName()) << "\n";
+        return resources.LoadResource<Scene>((themeName + "/scenes/" + name + ".json").c_str(), &resources, atlas);
     }
 
     void GameRoot::LoadResources(ResourceManager &resources, Renderer &renderer, Values &values)
     {
         values.font = resources.LoadResource<Font>(_defaultFont.c_str(), 125);
+        values.atlas = resources.LoadResource<Atlas>((_themeName + "/atlas").c_str(), &resources, &renderer);
+
         values.headerFont = resources.LoadResource<Font>(_defaultFont.c_str(), 30);
         values.numberFont = resources.CreateResource<TimerFont>("Numbers", values.font);
         values.numberFont->MakeTextures(resources, renderer, Color{ 255,255,255 });
-        values.leftNameText = values.headerFont->CreateTexture(resources, renderer, "Spamfilter", { 255,255,255 });
+
+        values.leftNameText = values.headerFont->CreateTexture(resources, renderer, "SpamFilter", { 255,255,255 });
         values.rightNameText = values.headerFont->CreateTexture(resources, renderer, "monoRAIL", { 255,255,255 });
         values.versusText = values.headerFont->CreateTexture(resources, renderer, "vs", { 255,255,255 });
-        values.atlas = resources.LoadResource<Atlas>((_themeName + "/atlas").c_str(), &resources, &renderer);
 
-        values.sceneSplash = resources.LoadResource<Scene>((_themeName + "/scenes/splash.json").c_str(), &resources, values.atlas);
-        values.scenePlaying = resources.LoadResource<Scene>((_themeName + "/scenes/playing.json").c_str(), &resources, values.atlas);
-        values.sceneSettings = resources.LoadResource<Scene>((_themeName + "/scenes/settings.json").c_str(), &resources, values.atlas);
-        values.sceneAbout = resources.LoadResource<Scene>((_themeName + "/scenes/about.json").c_str(), &resources, values.atlas);
+        values.sceneSplash = LoadScene(_themeName, "splash", resources, values.atlas);
+        values.scenePlaying = LoadScene(_themeName, "playing", resources, values.atlas);
+        values.sceneSettings = LoadScene(_themeName, "settings", resources, values.atlas);
+        values.sceneAbout = LoadScene(_themeName, "about", resources, values.atlas);
 
-        //values.sceneCurrent = values.sceneSplash;
+        //CJS TODO
+        values.sceneCurrent = values.sceneSplash;
         values.sceneCurrent = values.scenePlaying;
 
         values.gameSplash = std::make_shared<GameSplash>();
         values.gamePlaying = std::make_shared<GamePlaying>();
 
-        SetupGameSprites(resources, renderer, values);
+        values.game = values.gamePlaying;
+
+        //Transition(values.gameSplash);
     }
 
-    void GameRoot::SetupGameSprites(ResourceManager &, Renderer &, Values &values)
+    void GameRoot::Prepare(Context &ctx)
     {
-        auto &scene = *values.scenePlaying;
-        const auto leftFace = scene.FindChild("left_clock_face");
-        const auto rightFace = scene.FindChild("right_clock_face");
-        const auto whitePawn = scene.FindChild("pawn_white");
-        const auto blackPawn = scene.FindChild("pawn_black");
-        const auto pauseButton = scene.FindChild("icon_pause");
-        values.gamePlaying->SetSprites(leftFace, rightFace, whitePawn, blackPawn, pauseButton);
+        Values &values = *ctx.values;
+        auto &game = values.game;
+        if (!game)
+        {
+            LOG_ERROR() << "No start game object given.\n";
+            return;
+        }
+
+        game->Prepare(ctx);
     }
 
-    void GameRoot::AddStep(Context& ctx, bool(GameRoot::* method)(Context&))
+    void GameRoot::AddStep(Context& ctx, bool(GameRoot::*method)(Context&))
     {
-        ctx.steps.push_back([this, method](auto& ctx) { return (this->*method)(ctx); });
+        ctx.steps.push_back([this, method](auto &context) { return (this->*method)(context); });
     }
 
     bool GameRoot::RenderScene(Context& ctx)
     {
         ctx.values->gamePlaying->Render(ctx);
-
         ctx.values->debugTick = false;
+
         return true;
     }
 
     void GameRoot::ShowFrameRate() const
     {
-        ++_frames;
+        ++_fpsFrameCounter;
         const auto now = TimeNowSeconds();
         if (const auto deltaSeconds = now - _lastTime; deltaSeconds > 5)
         {
             _lastTime = now;
-            const auto fps = round(static_cast<float>(_frames) / deltaSeconds);
+            const auto fps = round(static_cast<float>(_fpsFrameCounter) / deltaSeconds);
             LOG_INFO() << LOG_VALUE(fps) << "\n";
-            _frames = 0;
+            _fpsFrameCounter = 0;
         }
     }
 
@@ -145,7 +131,7 @@ namespace ChessClock
         ++_frameNumber;
 
         auto &values = *context.values;
-        values.gamePlaying->Update(context);
+        values.game->Update(context);
 
         return true;
     }
@@ -162,7 +148,18 @@ namespace ChessClock
         if (!button)
             return;
 
-        ctx.values->gamePlaying->Call(ctx, button);
+        ctx.values->game->Call(ctx, button);
     }
+
+    void GameRoot::Transition(Context &context, PageBasePtr next)
+    {
+        if (context.values->game)
+        {
+            
+        }
+
+        //context.values->page = next;
+    }
+
 }
 

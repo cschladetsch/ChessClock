@@ -46,6 +46,6 @@ namespace Gambit
     private:
         static shared_ptr<Scene> LoadScene(ResourceManager &, string const &fileName, Atlas const &atlas);
 
-        bool ParseJson(JsonNext &item);
+        bool ParseJson(JsonNext &item) override;
     };
 }

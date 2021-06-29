@@ -29,6 +29,7 @@ namespace ChessClock
     public:
         GamePlaying() = default;
 
+        void Prepare(Context &context) override;
         void Render(Context &) const override;
         void Update(Context &) override;
         bool ProcessEvents(Context &ctx, SDL_Event const &) override;
@@ -66,6 +67,12 @@ namespace ChessClock
         void RightPressed();
 
     private:
+        void SetupGameSprites(Gambit::ResourceManager &, Gambit::Renderer &, Values &values);
+
+        static void SettingsPressed(Context &, ObjectPtr sourceObject);
+        static void PausePressed(Context &, ObjectPtr sourceObject);
+        static void VolumePressed(Context &, ObjectPtr sourceObject);
+
         bool ToggleWhenPaused();
         void ToggleColor();
 

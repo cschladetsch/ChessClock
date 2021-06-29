@@ -4,16 +4,16 @@
 
 namespace ChessClock
 {
-    void UiCallBacks::Call(Context &context, ObjectPtr object) const
+    void UiCallBacks::Call(Context &context, ObjectPtr source) const
     {
-        const auto call = _callbacks.find(object->Callback);
+        const auto call = _callbacks.find(source->Callback);
         if (call == _callbacks.end())
         {
-            LOG_ERROR() << "No callback for '" << object->Callback << "'\n";
+            LOG_ERROR() << "No callback for '" << source->Callback << "'\n";
             return;
         }
 
-        call->second(context, object);
+        call->second(context, source);
     }
 
     bool UiCallBacks::AddCallback(String const &name, Callback callback)
@@ -24,7 +24,7 @@ namespace ChessClock
             return false;
         }
 
-        _callbacks[name] = callback;
+        _callbacks[name] = std::move(callback);
         return true;
     }
 

@@ -7,6 +7,10 @@ namespace ChessClock
     {
     }
 
+    void GameSplash::Prepare(Context &context)
+    {
+    }
+       
     void GameSplash::Update(Context &context) 
     {
         if (Gambit::TimeNowSeconds() > 2)

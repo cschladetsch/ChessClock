@@ -13,6 +13,7 @@ namespace ChessClock
     public:
         GameSplash();
 
+        void Prepare(Context &) override;
         void Update(Context &) override;
         void Render(Context &) const override;
         bool ProcessEvents(Context &ctx, SDL_Event const &) override;

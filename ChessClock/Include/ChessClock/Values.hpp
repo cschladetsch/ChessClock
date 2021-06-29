@@ -1,4 +1,5 @@
 #include "ChessClock/GameRoot.hpp"
+#include "ChessClock/Page.hpp"
 
 namespace ChessClock
 {
@@ -25,6 +26,8 @@ namespace ChessClock
         GameRootPtr gameRoot;
         GameBasePtr game;
         ScenePtr sceneCurrent;
+
+        std::unordered_map<EPage, SharedPtr<PageBase>> pages;
 
         ScenePtr sceneSplash;
         ScenePtr scenePlaying;
