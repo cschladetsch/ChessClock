@@ -26,7 +26,7 @@ namespace Gambit
     bool ResourceManager::AddObject(ObjectPtr object)
     {
         auto const &rid = object->GetResourceId();
-        if (_idToObject.contains(rid))
+        if (_idToObject.find(rid) != _idToObject.end())
         {
             LOG_ERROR() << "Attempt to store object with same id '" << rid << "' to resource manager.\n";
             return false;
@@ -37,7 +37,7 @@ namespace Gambit
 
     void ResourceManager::AddResource(ResourceId const& id, ResourceBasePtr resource)
     {
-        if (_idToResource.contains(id))
+        if (_idToResource.find(id) != _idToResource.end())
         {
             LOG_ERROR() << "Attempt to add resource id '" << id << "' to resource manager.\n";
             return;
