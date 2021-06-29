@@ -39,7 +39,7 @@ namespace Gambit
         ostream& Error(const char *file, int line, const char *function) const;
 
     private:
-        bool OpenLogFile();
+        bool OpenLogFile() const;
         ostream& PrintLead(const char *file, int line, const char *func, rang::fg const &color, const char *level) const;
     };
 }

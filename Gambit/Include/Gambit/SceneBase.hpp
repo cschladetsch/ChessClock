@@ -1,18 +1,13 @@
 #pragma once
 
-#include "Gambit/ForwardReferences.hpp"
 #include "Gambit/Context.hpp"
-#include "Gambit/Logger.hpp"
 #include "Gambit/JsonReader.hpp"
-#include "Gambit/Context.hpp"
 
 namespace ChessClock
 {
-    using namespace Gambit;
-
     template <class Derived>
     class SceneBase
-        : protected JsonReader
+        : protected Gambit::JsonReader
     {
     public:
         typedef typename Derived::Values Values;

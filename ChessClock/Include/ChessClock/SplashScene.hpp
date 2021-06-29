@@ -5,10 +5,8 @@
 
 namespace ChessClock
 {
-    using namespace Gambit;
-
     class SplashScene
-        : JsonReader<SplashScene>
+        : Gambit::JsonReader<SplashScene>
     {
     public:
         struct Values;

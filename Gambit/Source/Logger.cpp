@@ -1,6 +1,4 @@
-#include <sstream>
-#include <iostream>
-#include <iomanip>
+#include <fstream>
 #include <ctime>
 
 #include "Gambit/Logger.hpp"
@@ -37,7 +35,7 @@ namespace Gambit
         }
     }
 
-    bool Logger::OpenLogFile()
+    bool Logger::OpenLogFile() const
     {
         if (_logFile && _logFile->is_open())
             return true;
