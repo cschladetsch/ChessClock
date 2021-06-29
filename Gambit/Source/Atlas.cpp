@@ -77,7 +77,7 @@ namespace Gambit
             ToSdlRect(sourceRect),
             ToSdlRect(destRect),
             object.Rotation,
-            nullptr, // center of rotation
+            object.Center,
             object.Mirror ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE
         ));
 
@@ -95,14 +95,14 @@ namespace Gambit
         if (const auto flags = IMG_INIT_PNG; flags != IMG_Init(flags))
         {
             LOG_ERROR() << "Failed to initialise image lib " << IMG_GetError() << "\n";
-            return 0;
+            return nullptr;
         }
 
         SDL_Surface *surface = IMG_Load(fileName.c_str());
         if (!surface)
         {
             LOG_ERROR() << "Failed to load " << LOG_VALUE(fileName) << LOG_VALUE(IMG_GetError()) <<  "\n";
-            return 0;
+            return nullptr;
         }
 
         uint32_t key;
@@ -182,9 +182,9 @@ namespace Gambit
 
         if (type == "tint_list")
         {
-            auto tintNames = 
+            auto const tintNames = 
             { 
-                "active_player", "foo", "inactive_player", "low_time_inactive", "low_time_active",
+                "active_player", "inactive_player", "low_time_inactive", "low_time_active",
                 "button_pressed", "time_bar_green", "time_bar_red", "white" 
             }; 
 

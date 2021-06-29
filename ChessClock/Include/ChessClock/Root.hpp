@@ -11,6 +11,7 @@ namespace ChessClock
     class Root
         : Gambit::JsonReader<Root>
         , public std::enable_shared_from_this<Root>
+        //, public Gambit::Testable
     {
         static inline Gambit::Logger _log{ "MainScene" };
 

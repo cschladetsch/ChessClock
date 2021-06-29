@@ -17,7 +17,7 @@ namespace Gambit
         typedef std::vector<ObjectPtr> Children;
         typedef std::vector<ResourceBasePtr> Resources;
 
-        ResourceManager* _resourceManager{ 0 };
+        ResourceManager* _resourceManager{ nullptr };
         ResourceId _resourceId;
         Children _children;
         Resources _resources;

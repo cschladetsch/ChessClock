@@ -6,13 +6,13 @@ namespace ChessClock
 {
     void GameSettings::Prepare(Context &context)
     {
-        AddCallback("PlayPressed", [this, &context](auto &ctx, auto source) { context.values->Root->Transition(ctx, EPage::Playing); });
-        AddCallback("IncrementMinutesPressed", [this, &context](auto &ctx, auto source) { IncrementMinutesPressed(ctx, source); });
-        AddCallback("IncrementSecondsPressed", [this, &context](auto &ctx, auto source) { IncrementSecondsPressed(ctx, source); });
-        AddCallback("DecrementMinutesPressed", [this, &context](auto &ctx, auto source) { DecrementMinutesPressed(ctx, source); });
-        AddCallback("DecrementSecondsPressed", [this, &context](auto &ctx, auto source) { DecrementSecondsPressed(ctx, source); });
-        AddCallback("IncrementBonusPressed", [this, &context](auto &ctx, auto source) { IncrementBonusPressed(ctx, source); });
-        AddCallback("DecrementBonusPressed", [this, &context](auto &ctx, auto source) { DecrementBonusPressed(ctx, source); });
+        AddCallback("PlayPressed", [&](auto &ctx, auto source) { context.values->Root->Transition(ctx, EPage::Playing); });
+        AddCallback("IncrementMinutesPressed", [&](auto &ctx, auto source) { IncrementMinutesPressed(ctx, source); });
+        AddCallback("IncrementSecondsPressed", [&](auto &ctx, auto source) { IncrementSecondsPressed(ctx, source); });
+        AddCallback("DecrementMinutesPressed", [&](auto &ctx, auto source) { DecrementMinutesPressed(ctx, source); });
+        AddCallback("DecrementSecondsPressed", [&](auto &ctx, auto source) { DecrementSecondsPressed(ctx, source); });
+        AddCallback("IncrementBonusPressed", [&](auto &ctx, auto source) { IncrementBonusPressed(ctx, source); });
+        AddCallback("DecrementBonusPressed", [&](auto &ctx, auto source) { DecrementBonusPressed(ctx, source); });
     }
 
     void GameSettings::IncrementMinutesPressed(Context &context, ObjectPtr source)
