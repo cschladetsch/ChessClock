@@ -1,6 +1,6 @@
 #define SDL_MAIN_HANDLED
 
-#include "ChessClock/GameRoot.hpp"
+#include "ChessClock/Root.hpp"
 
 using namespace Gambit;
 using namespace rang;
@@ -15,8 +15,8 @@ int main(int argc, char** argv)
 
     const string resourcesPath = argv[1];
     const string configName = resourcesPath + argv[2];
-    ChessClock::GameRoot root(configName.c_str());
-    typedef ChessClock::GameRoot::Context Context;
+    ChessClock::Root root(configName.c_str());
+    typedef ChessClock::Root::Context Context;
 
     return Context(resourcesPath.c_str(),
         [&root](Context &ctx) { return root.Setup(ctx); },

@@ -1,6 +1,8 @@
 #pragma once
 
-#include "ChessClock/GameRoot.hpp"
+#include <utility>
+
+#include "ChessClock/ForwardReferences.hpp"
 
 namespace ChessClock
 {
@@ -12,20 +14,37 @@ namespace ChessClock
         About
     };
 
+    inline std::ostream& operator<<(std::ostream &out, EPage page)
+    {
+        switch (page)
+        {
+        case EPage::Splash:
+            return out << "Page::Splash";
+        case EPage::Playing:
+            return out << "Page::Playing";
+        case EPage::Settings:
+            return out << "Page::Settings";
+        case EPage::About:
+            return out << "Page::About";
+        }
+
+        return out << "Unknown page " << static_cast<int>(page);
+    }
+
     class PageBase
     {
     public:
         int LogVerbosity{ 0 };
-        EPage Page;
         std::string Name;
         Gambit::AtlasPtr Atlas;
-        Gambit::ScenePtr Scene;
         GameBasePtr GameBase;
+        Gambit::ScenePtr Scene;
 
     protected:
-        PageBase(EPage page, GameBasePtr game)
-            : Page(page)
-            , GameBase(game) { }
+        PageBase(GameBasePtr game, Gambit::ScenePtr scene)
+            : GameBase(std::move(game))
+            , Scene(std::move(scene))
+        { }
     };
 
     template <class Behaviour>
@@ -33,8 +52,8 @@ namespace ChessClock
         : public PageBase
     {
     public:
-        Page(EPage page, SharedPtr<Behaviour> game)
-            : PageBase(page, game)
+        Page(SharedPtr<Behaviour> const &game, Gambit::ScenePtr const &scene)
+            : PageBase(game, scene)
             , Game(game) { }
 
         SharedPtr<Behaviour> Game;

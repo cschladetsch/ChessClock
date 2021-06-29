@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "Gambit/ForwardReferences.hpp"
 #include "Gambit/Logger.hpp"
 #include "Gambit/Context.hpp"
@@ -19,7 +21,10 @@ namespace ChessClock
     template <class Ty>
     using SharedPtr = std::shared_ptr<Ty>;
     
-    class GameRoot;
+    //template <class Ty, class... Args>
+    //using MakeShared = std::make_shared<Ty, Args>;
+
+    class Root;
     class GameBase;
     class GameSplash;
     class GamePlaying;
@@ -32,7 +37,7 @@ namespace ChessClock
 
     typedef SharedPtr<PageBase> PageBasePtr;
     typedef SharedPtr<Context> ContextPtr;
-    typedef SharedPtr<GameRoot> GameRootPtr;
+    typedef SharedPtr<Root> RootPtr;
     typedef SharedPtr<GameBase> GameBasePtr;
 
     typedef SharedPtr<GameSplash> GameSplashPtr;

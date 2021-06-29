@@ -69,9 +69,9 @@ namespace ChessClock
     private:
         void SetupGameSprites(Gambit::ResourceManager &, Gambit::Renderer &, Values &values);
 
-        static void SettingsPressed(Context &, ObjectPtr sourceObject);
-        static void PausePressed(Context &, ObjectPtr sourceObject);
-        static void VolumePressed(Context &, ObjectPtr sourceObject);
+        void SettingsPressed(Context &, ObjectPtr sourceObject);
+        void PausePressed(Context &, ObjectPtr sourceObject);
+        void VolumePressed(Context &, ObjectPtr sourceObject);
 
         bool ToggleWhenPaused();
         void ToggleColor();
