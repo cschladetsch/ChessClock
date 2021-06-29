@@ -32,6 +32,7 @@ namespace ChessClock
     class GameAbout;
     class Values;
     class PageBase;
+    class Root;
 
     typedef Gambit::Context<Values> Context;
 
