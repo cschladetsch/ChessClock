@@ -1,5 +1,5 @@
 {
-   "background": 
+   "background_playing": 
 	{
 		"type" : "sprite",
         "location": [ 0, 0, 800, 480 ]
@@ -33,7 +33,7 @@
 	{
 		"type" : "sprite",
 		"tint" : "any_player",
-		"location": [ 800, 96, 48, 80 ]
+		"location": [ 928, 184, 88, 88 ]
     },
 	
 	"icon_pause": 
@@ -83,17 +83,36 @@
 		"location": [ 0, 816, 388, 16 ]
 	},
 	
+	"background_settings": 
+	{
+		"type" : "sprite",
+        "location": [ 1024, 0, 800, 480 ]
+    },
+	
+	"button_play": 
+	{
+		"type" : "sprite",
+		"tint" : "button_pressed",
+		"location": [ 0, 832, 264, 104 ]
+    },
+	
+	"button_time_change": 
+	{
+		"type" : "sprite",
+		"tint" : "button_pressed",
+		"location": [ 0, 936, 176, 56 ]
+    },
+	
 	"colors":
 	{
 		"type" : "tint_list",
 		"active_player" : [ 56, 71, 34 ],
-		"inactive_player" : [ 26, 41, 8 ],
+		"inactive_player" : [ 48, 46, 44 ],
 		"any_player" : [ 36, 61, 28 ],
 		"low_time_inactive" : [ 80, 40, 38 ],
 		"low_time_active" : [ 121, 44, 42 ],
 		"button_pressed" : [ 48, 46, 44 ],
 		"time_bar_green" : [ 98, 153, 36 ],
-		"time_bar_red" : [ 255, 30, 20],
-		"white" : [ 255, 255, 255]
+		"time_bar_red" : [ 255,30,20]
 	}
 }

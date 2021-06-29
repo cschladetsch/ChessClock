@@ -1,2 +1,210 @@
 {
+	"background":
+	{
+		"sprite" : "background_settings",
+		"location" : [ 0, 0 ],
+		"layer" : 0
+	},
+	
+	"icon_increment_minutes":
+	{
+		"sprite" : "icon_resume",
+		"location" : [ 110, 51 ],
+		"layer" : 2,
+		"rotation" : -90
+	},
+	
+	"icon_increment_seconds":
+	{
+		"sprite" : "icon_resume",
+		"location" : [ 293, 51 ],
+		"layer" : 2,
+		"rotation" : -90
+	},
+	
+	"icon_increment_bonus":
+	{
+		"sprite" : "icon_resume",
+		"location" : [ 600, 51 ],
+		"layer" : 2,
+		"rotation" : -90
+	},
+	
+	"icon_decrement_minutes":
+	{
+		"sprite" : "icon_resume",
+		"location" : [ 110, 284 ],
+		"layer" : 2,
+		"rotation" : 90
+	},
+	
+	"icon_decrement_seconds":
+	{
+		"sprite" : "icon_resume",
+		"location" : [ 293, 284 ],
+		"layer" : 2,
+		"rotation" : 90
+	},
+	
+	"icon_decrement_bonus":
+	{
+		"sprite" : "icon_resume",
+		"location" : [ 600, 284 ],
+		"layer" : 2,
+		"rotation" : 90
+	},
+	
+	"icon_play":
+	{
+		"sprite" : "icon_resume",
+		"location" : [ 5280, 380 ],
+		"layer" : 2
+	},
+	
+	"button_increment_minutes":
+	{
+		"type" : "button",
+		"sprite" : "button_time_change",
+		"location" : [ 64, 64 ],
+		"tint":  "button_pressed",
+		"callback" : "IncrementMinutesPressed",
+		"hidden" : true,
+		"layer" : 1
+	},
+	
+	"button_increment_seconds":
+	{
+		"type" : "button",
+		"sprite" : "button_time_change",
+		"location" : [ 248, 64 ],
+		"tint":  "button_pressed",
+		"callback" : "IncrementSecondsPressed",
+		"hidden" : true,
+		"layer" : 1
+	},
+	
+	"button_increment_bonus":
+	{
+		"type" : "button",
+		"sprite" : "button_time_change",
+		"location" : [ 554, 64 ],
+		"tint":  "button_pressed",
+		"callback" : "IncrementBonusPressed",
+		"hidden" : true,
+		"layer" : 1
+	},
+	
+	"button_decrement_minutes":
+	{
+		"type" : "button",
+		"sprite" : "button_time_change",
+		"location" : [ 64, 304 ],
+		"tint":  "button_pressed",
+		"callback" : "DecrementMinutesPressed",
+		"hidden" : true,
+		"layer" : 1
+	},
+	
+	"button_decrement_seconds":
+	{
+		"type" : "button",
+		"sprite" : "button_time_change",
+		"location" : [ 248, 304 ],
+		"tint":  "button_pressed",
+		"callback" : "DecrementSecondsPressed",
+		"hidden" : true,
+		"layer" : 1
+	},
+	
+	"button_decrement_bonus":
+	{
+		"type" : "button",
+		"sprite" : "button_time_change",
+		"location" : [ 554, 304 ],
+		"tint":  "button_pressed",
+		"callback" : "DecrementBonusPressed",
+		"hidden" : true,
+		"layer" : 1
+	},
+	
+	"button_play":
+	{
+		"type" : "button",
+		"sprite" : "button_play",
+		"location" : [ 528, 368 ],
+		"tint": "button_pressed",
+		"callback" : "PlayPressed",
+		"hidden" : true,
+		"layer" : 1
+	}
+	
+	"text_settings_title":
+	{
+		"type" : "text",
+		"font" : "small_letters",
+		"location" : [ 400, 32 ],
+		"centered" : true,
+		"string" : "Set time control",
+		"layer" : 1
+	}
+	
+	"text_time":
+	{
+		"type" : "text",
+		"font" : "large_numerals",
+		"location" : [ 240, 216 ],
+		"centered" : true,
+		"string" : "05:00",
+		"layer" : 1
+	}
+	
+	"text_bonus":
+	{
+		"type" : "text",
+		"font" : "large_numerals",
+		"location" : [ 632, 216 ],
+		"centered" : true,
+		"string" : "00",
+		"layer" : 1
+	}
+	
+	"text_plus_sign":
+	{
+		"type" : "text",
+		"font" : "large_numerals",
+		"location" : [ 490, 216 ],
+		"centered" : "true",
+		"string" : "+",
+		"layer" : 1
+	}
+	
+	"text_set_player_names":
+	{
+		"type" : "text",
+		"font" : "small_letters",
+		"location" : [ 244, 392 ],
+		"centered" : true,
+		"string" : "Set player names",
+		"layer" : 1
+	}
+	
+	"text_player_names":
+	{
+		"type" : "text",
+		"font" : "small_letters",
+		"location" : [ 244, 448 ],
+		"centered" : true,
+		"string" : "Spamfilter    vs    monoRAIL",
+		"layer" : 1
+	}	
+	
+	"text_start_game":
+	{
+		"type" : "text",
+		"font" : "small_letters",
+		"location" : [ 672, 424 ],
+		"centered" : true,
+		"string" : "Start game",
+		"layer" : 1
+	}
 }
