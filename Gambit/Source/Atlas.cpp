@@ -77,7 +77,7 @@ namespace Gambit
             ToSdlRect(sourceRect),
             ToSdlRect(destRect),
             object.Rotation,
-            object.Center,
+            nullptr,
             object.Mirror ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE
         ));
 
