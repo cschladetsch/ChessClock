@@ -1,6 +1,6 @@
 #include "Gambit/Vector2.hpp"
 
-#include "ChessClock/GameRoot.hpp"
+#include "ChessClock/Root.hpp"
 #include "ChessClock/Values.hpp"
 #include "ChessClock/GameBase.hpp"
 
@@ -8,14 +8,14 @@
 
 namespace ChessClock
 {
-    bool GameRoot::ProcessEvents(Context& ctx)
+    bool Root::ProcessEvents(Context& ctx)
     {
         Values& values = *ctx.values;
         SDL_Event event;
 
         while (SDL_PollEvent(&event))
         {
-            if (values.gamePlaying->ProcessEvents(ctx, event))
+            if (values.GetCurrentGame()->ProcessEvents(ctx, event))
                 continue;
 
             switch (event.type)
@@ -27,7 +27,7 @@ namespace ChessClock
                         case SDL_BUTTON_LEFT:
                         {
                             auto where = Vector2{ event.button.x, event.button.y };
-                            values.game->OnPressed(ctx, where);
+                            values.GetCurrentGame()->OnPressed(ctx, where);
                             break;
                         }
                     }

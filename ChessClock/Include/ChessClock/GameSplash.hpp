@@ -11,7 +11,7 @@ namespace ChessClock
         Gambit::Seconds _displayTime{ 2 };
 
     public:
-        GameSplash();
+        GameSplash() = default;
 
         void Prepare(Context &) override;
         void Update(Context &) override;

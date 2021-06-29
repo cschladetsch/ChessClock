@@ -3,12 +3,15 @@
 
 #include "ChessClock/ForwardReferences.hpp"
 #include "ChessClock/Values.hpp"
-#include "ChessClock/GameRoot.hpp"
+#include "ChessClock/Root.hpp"
+
+#include <memory>
 
 #include "ChessClock/EGameState.hpp"
-#include "ChessClock/ESide.hpp"
 #include "ChessClock/GameSplash.hpp"
 #include "ChessClock/GamePlaying.hpp"
+#include "ChessClock/GameSettings.hpp"
+#include "ChessClock/GameAbout.hpp"
 
 namespace ChessClock
 {
@@ -17,9 +20,9 @@ namespace ChessClock
     int _fpsFrameCounter;
     float _lastTime;
 
-    int GameRoot::_frameNumber{ 0 };
+    int Root::_frameNumber{ 0 };
 
-    bool GameRoot::ParseJson(JsonNext &item)
+    bool Root::ParseJson(JsonNext &item)
     {
         auto &key = item.key();
 
@@ -35,16 +38,16 @@ namespace ChessClock
         return true;
     }
 
-    bool GameRoot::Setup(Context& ctx)
+    bool Root::Setup(Context& context)
     {
-        ctx.values = std::make_shared<Values>();
-        LoadResources(ctx.resources, ctx.renderer, *ctx.values);
+        context.values = std::make_shared<Values>();
+        LoadResources(context);
 
-        AddStep(ctx, &GameRoot::RenderScene);
-        AddStep(ctx, &GameRoot::StepGame);
-        AddStep(ctx, &GameRoot::Present);
+        AddStep(context, &Root::RenderScene);
+        AddStep(context, &Root::StepGame);
+        AddStep(context, &Root::Present);
 
-        Prepare(ctx);
+        Prepare(context);
 
         return true;
     }
@@ -54,8 +57,12 @@ namespace ChessClock
         return resources.LoadResource<Scene>((themeName + "/scenes/" + name + ".json").c_str(), &resources, atlas);
     }
 
-    void GameRoot::LoadResources(ResourceManager &resources, Renderer &renderer, Values &values)
+    void Root::LoadResources(Context &context)
     {
+        auto &values = *context.values;
+        auto &resources = context.resources;
+        auto &renderer = context.renderer;
+        
         values.font = resources.LoadResource<Font>(_defaultFont.c_str(), 125);
         values.atlas = resources.LoadResource<Atlas>((_themeName + "/atlas").c_str(), &resources, &renderer);
 
@@ -67,27 +74,40 @@ namespace ChessClock
         values.rightNameText = values.headerFont->CreateTexture(resources, renderer, "monoRAIL", { 255,255,255 });
         values.versusText = values.headerFont->CreateTexture(resources, renderer, "vs", { 255,255,255 });
 
-        values.sceneSplash = LoadScene(_themeName, "splash", resources, values.atlas);
-        values.scenePlaying = LoadScene(_themeName, "playing", resources, values.atlas);
-        values.sceneSettings = LoadScene(_themeName, "settings", resources, values.atlas);
-        values.sceneAbout = LoadScene(_themeName, "about", resources, values.atlas);
+        auto load = [&](const char *name) { return resources.LoadResource<Scene>((_themeName + "/scenes/" + name + ".json").c_str(), &resources, values.atlas); };
+        auto sceneSplash = load("splash");
+        auto scenePlaying = load("playing");
+        auto sceneSettings = load("settings");
+        auto sceneAbout = load("about");
+
+        auto gameSplash = std::make_shared<GameSplash>();
+        auto gamePlaying = std::make_shared<GamePlaying>();
+        auto gameSettings = std::make_shared<GameSettings>();
+        auto gameAbout = std::make_shared<GameAbout>();
+
+        values.pages[EPage::Splash] = std::make_shared<Page<GameSplash>>(gameSplash, sceneSplash);
+        values.pages[EPage::Playing] = std::make_shared<Page<GamePlaying>>(gamePlaying, scenePlaying);
+        values.pages[EPage::Settings] = std::make_shared<Page<GameSettings>>(gameSettings, sceneSettings);
+        values.pages[EPage::About] = std::make_shared<Page<GameAbout>>(gameAbout, sceneAbout);
+
+        for (auto & [first, second] : values.pages)
+        {
+            second->GameBase->Prepare(context);
+        }
 
         //CJS TODO
-        values.sceneCurrent = values.sceneSplash;
-        values.sceneCurrent = values.scenePlaying;
+        values.pageCurrent = EPage::Splash;
+        //values.sceneCurrent = values.scenePlaying;
 
-        values.gameSplash = std::make_shared<GameSplash>();
-        values.gamePlaying = std::make_shared<GamePlaying>();
-
-        values.game = values.gamePlaying;
+        //values.game = values.gameSplash;
 
         //Transition(values.gameSplash);
     }
 
-    void GameRoot::Prepare(Context &ctx)
+    void Root::Prepare(Context &ctx)
     {
         Values &values = *ctx.values;
-        auto &game = values.game;
+        auto game = values.GetCurrentGame();
         if (!game)
         {
             LOG_ERROR() << "No start game object given.\n";
@@ -97,20 +117,20 @@ namespace ChessClock
         game->Prepare(ctx);
     }
 
-    void GameRoot::AddStep(Context& ctx, bool(GameRoot::*method)(Context&))
+    void Root::AddStep(Context& ctx, bool(Root::*method)(Context&))
     {
         ctx.steps.push_back([this, method](auto &context) { return (this->*method)(context); });
     }
 
-    bool GameRoot::RenderScene(Context& ctx)
+    bool Root::RenderScene(Context& ctx)
     {
-        ctx.values->gamePlaying->Render(ctx);
+        ctx.values->GetCurrentGame()->Render(ctx);
         ctx.values->debugTick = false;
 
         return true;
     }
 
-    void GameRoot::ShowFrameRate() const
+    void Root::ShowFrameRate() const
     {
         ++_fpsFrameCounter;
         const auto now = TimeNowSeconds();
@@ -123,7 +143,7 @@ namespace ChessClock
         }
     }
 
-    bool GameRoot::StepGame(Context &context)
+    bool Root::StepGame(Context &context)
     {
         if (_showFps == "true")
             ShowFrameRate();
@@ -131,34 +151,36 @@ namespace ChessClock
         ++_frameNumber;
 
         auto &values = *context.values;
-        values.game->Update(context);
+        values.GetCurrentGame()->Update(context);
 
         return true;
     }
 
-    bool GameRoot::Present(Context &ctx)
+    bool Root::Present(Context &ctx)
     {
         return ctx.renderer.Present();
     }
 
-    void GameRoot::OnPressed(Context &ctx, const Vector2 &where)
+    void Root::OnPressed(Context &ctx, const Vector2 &where)
     {
-        auto &scene = ctx.values->sceneCurrent;
+        const auto scene = ctx.values->GetCurrentScene();
         const auto &button = scene->OnPressed(ctx.values->atlas, where);
         if (!button)
             return;
 
-        ctx.values->game->Call(ctx, button);
+        ctx.values->GetCurrentGame()->Call(ctx, button);
     }
 
-    void GameRoot::Transition(Context &context, PageBasePtr next)
+    void Root::Transition(Context &context, EPage next)
     {
-        if (context.values->game)
+        if (context.values->GetCurrentGame())
         {
-            
+            //CJS TODO: leave current page
         }
 
-        //context.values->page = next;
+        LOG_INFO() << "Transitioning to " << next << "\n";
+
+        context.values->pageCurrent = next;
     }
 
 }

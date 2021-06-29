@@ -1,12 +1,9 @@
 #include "ChessClock/GameSplash.hpp"
 #include "ChessClock/Values.hpp"
+#include "ChessClock/Root.hpp"
 
 namespace ChessClock
 {
-    GameSplash::GameSplash()
-    {
-    }
-
     void GameSplash::Prepare(Context &context)
     {
     }
@@ -15,13 +12,13 @@ namespace ChessClock
     {
         if (Gambit::TimeNowSeconds() > 2)
         {
-            //context.Switch(context.values->playing);
+            context.values->Root->Transition(context, EPage::Playing);
         }
     }
 
     void GameSplash::Render(Context &context) const
     {
-        context.values->sceneSplash->Render(context.renderer);
+        context.values->GetCurrentScene()->Render(context.renderer);
     }
 
     bool GameSplash::ProcessEvents(Context &ctx, SDL_Event const &)

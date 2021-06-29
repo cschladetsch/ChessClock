@@ -2,7 +2,7 @@
 #include "Gambit/TimerFont.hpp"
 
 #include "ChessClock/GamePlaying.hpp"
-#include "ChessClock/GameRoot.hpp"
+#include "ChessClock/Root.hpp"
 #include "ChessClock/Values.hpp"
 
 namespace ChessClock
@@ -30,7 +30,7 @@ namespace ChessClock
     void GamePlaying::PausePressed(Context &context, ObjectPtr source)
     {
         LOG_INFO() << "Pause pressed from " << LOG_VALUE(source->GetName()) << "\n";
-        context.values->gamePlaying->TogglePause();
+        TogglePause();
     }
 
     void GamePlaying::VolumePressed(Context &context, ObjectPtr source)
@@ -40,7 +40,7 @@ namespace ChessClock
 
     void GamePlaying::SetupGameSprites(ResourceManager &, Renderer &, Values &values)
     {
-        auto &scene = *values.scenePlaying;
+        auto &scene = *values.GetPage(EPage::Playing)->Scene;
         const auto leftFace = scene.FindChild("left_clock_face");
         const auto rightFace = scene.FindChild("right_clock_face");
         const auto whitePawn = scene.FindChild("pawn_white");
@@ -59,7 +59,7 @@ namespace ChessClock
         auto& renderer = ctx.renderer;
         auto& values = *ctx.values;
 
-        values.sceneCurrent->Render(ctx.renderer);
+        values.GetCurrentScene()->Render(ctx.renderer);
 
         int y = 14;
         renderer.WriteTexture(values.leftNameText, Vector2(85, y));

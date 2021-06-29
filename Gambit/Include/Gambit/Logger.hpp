@@ -1,5 +1,7 @@
 #pragma once
 
+#include <sstream>
+
 #include "Gambit/ThirdParty/nameof.hpp"
 #include "Gambit/ThirdParty/ConsoleColor.hpp"
 

@@ -6,7 +6,7 @@
 
 namespace ChessClock
 {
-    class GameRoot;
+    class Root;
 
     class GameBase
         : public std::enable_shared_from_this<GameBase>
@@ -18,7 +18,7 @@ namespace ChessClock
         typedef Gambit::Context<Values> Context;
 
     protected:
-        friend class GameRoot;
+        friend class Root;
 
         void OnPressed(Context &, Vector2 where) const;
 
