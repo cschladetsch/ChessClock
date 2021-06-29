@@ -136,7 +136,7 @@
 		"callback" : "PlayPressed",
 		"hidden" : true,
 		"layer" : 1
-	}
+	},
 	
 	"text_settings_title":
 	{
@@ -146,7 +146,7 @@
 		"centered" : true,
 		"string" : "Set time control",
 		"layer" : 1
-	}
+	},
 	
 	"text_time":
 	{
@@ -156,7 +156,7 @@
 		"centered" : true,
 		"string" : "05:00",
 		"layer" : 1
-	}
+	},
 	
 	"text_bonus":
 	{
@@ -166,7 +166,7 @@
 		"centered" : true,
 		"string" : "00",
 		"layer" : 1
-	}
+	},
 	
 	"text_plus_sign":
 	{
@@ -176,7 +176,7 @@
 		"centered" : "true",
 		"string" : "+",
 		"layer" : 1
-	}
+	},
 	
 	"text_set_player_names":
 	{
@@ -186,7 +186,7 @@
 		"centered" : true,
 		"string" : "Set player names",
 		"layer" : 1
-	}
+	},
 	
 	"text_player_names":
 	{
@@ -196,7 +196,7 @@
 		"centered" : true,
 		"string" : "Spamfilter    vs    monoRAIL",
 		"layer" : 1
-	}	
+	},
 	
 	"text_start_game":
 	{
