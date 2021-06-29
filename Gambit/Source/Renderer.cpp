@@ -22,13 +22,15 @@ namespace Gambit
         CALL_SDL(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO));
 
         _window = SDL_CreateWindow(title, 0, 0, Width, Height, SDL_WINDOW_SHOWN);
-        if (_window == nullptr) {
+        if (_window == nullptr)
+        {
             LOG_ERROR() << "SDL_CreateWindow" << SDL_GetError() << std::endl;
             return false;
         }
 
         _renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-        if (_renderer == nullptr) {
+        if (_renderer == nullptr)
+        {
             LOG_ERROR() << "SDL_CreateRender" << SDL_GetError() << std::endl;
             SDL_DestroyWindow(_window);
             SDL_Quit();
@@ -57,7 +59,7 @@ namespace Gambit
         return true;
     }
 
-    bool Renderer::WriteTexture(TexturePtr texture, Vector2 const& topLeft, Gambit::Color const &tint) const
+    bool Renderer::WriteTexture(TexturePtr const &texture, Vector2 const& topLeft, Gambit::Color const &tint) const
     {
         CALL_SDL(SDL_SetTextureColorMod(&texture->Get(), tint.red, tint.green, tint.blue));
         CALL(WriteTexture(texture, topLeft));
@@ -65,7 +67,7 @@ namespace Gambit
         return true;
     }
 
-    bool Renderer::WriteTexture(TexturePtr texture, Vector2 const& topLeft) const
+    bool Renderer::WriteTexture(TexturePtr const &texture, Vector2 const& topLeft) const
     {
         auto dest = texture->GetBounds();
         dest.left = topLeft.y;
@@ -73,10 +75,10 @@ namespace Gambit
         return WriteTexture(texture, nullptr, &dest);
     }
 
-    bool Renderer::WriteTexture(TexturePtr texture, Rect const *source = nullptr, Rect const *dest = nullptr) const
+    bool Renderer::WriteTexture(TexturePtr const &texture, Rect const *source = nullptr, Rect const *dest = nullptr) const
     {
-        SDL_Rect *srcRect = reinterpret_cast<SDL_Rect *>(const_cast<Rect *>(source));
-        SDL_Rect *destRect = reinterpret_cast<SDL_Rect *>(const_cast<Rect *>(dest));
+        const auto srcRect = reinterpret_cast<SDL_Rect *>(const_cast<Rect *>(source));
+        const auto destRect = reinterpret_cast<SDL_Rect *>(const_cast<Rect *>(dest));
         CALL_SDL(SDL_RenderCopy(_renderer, &texture->Get(), srcRect, destRect));
         return true;
     }

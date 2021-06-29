@@ -26,7 +26,6 @@ namespace Gambit
         TimerFont(ResourceId const& id, FontPtr font);
 
         void MakeTextures(ResourceManager &, Renderer &, Color);
-
         void DrawTime(Renderer &, Vector2 const &topLeft, uint8_t minutes, uint8_t seconds) const;
 
     private:
