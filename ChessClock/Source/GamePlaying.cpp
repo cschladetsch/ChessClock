@@ -58,12 +58,12 @@ namespace ChessClock
         values.NumberFont->DrawTime(renderer, location, static_cast<uint8_t>(player.GetMinutes()), static_cast<uint8_t>(player.GetSeconds()));
     }
 
-    void GamePlaying::Render(Context &ctx) const
+    void GamePlaying::Render(Context &context) const
     {
-        auto& renderer = ctx.Renderer;
-        auto& values = *ctx.Values;
+        auto& renderer = context.Renderer;
+        auto& values = *context.Values;
 
-        values.GetCurrentScene()->Render(ctx.Renderer);
+        context.RenderScene();
 
         const int y = 14;
         renderer.WriteTexture(values.LeftNameText, Vector2(85, y));
@@ -77,9 +77,9 @@ namespace ChessClock
         DrawTimer(values, renderer, destPointRight, RightPlayer());
     }
 
-    bool GamePlaying::ProcessEvents(Context &ctx, SDL_Event const &event)
+    bool GamePlaying::ProcessEvents(Context &context, SDL_Event const &event)
     {
-        Values &values = *ctx.Values;
+        Values &values = *context.Values;
 
         switch (event.type)
         {

@@ -29,3 +29,4 @@ namespace ChessClock
         return out << "Unknown page " << static_cast<int>(page);
     }
 }
+

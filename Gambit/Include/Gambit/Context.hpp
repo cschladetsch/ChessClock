@@ -46,6 +46,11 @@ namespace Gambit
             SDL_Quit();
         }
 
+        void RenderScene()
+        {
+            Values->GetCurrentScene()->Render(Renderer);
+        }
+
         static float GetSecondsSinceStart()
         {
             return SDL_GetTicks() / 1000.0f;

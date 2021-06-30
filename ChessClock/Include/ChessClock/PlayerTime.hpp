@@ -14,8 +14,7 @@ namespace ChessClock
     public:
         PlayerTime(int minutes, int seconds, int incrementSeconds = 0)
             : _timeControl(minutes, seconds, incrementSeconds), _remaining(minutes, seconds)
-        {
-        }
+        { }
 
         Gambit::Minutes GetMinutes() const { return _remaining.GetMinutes(); }
         Gambit::Seconds GetSeconds() const { return _remaining.GetSeconds(); }
@@ -23,9 +22,7 @@ namespace ChessClock
 
         void Reset() { Reset(_timeControl); }
         void Reset(TimeControl timeControl) { _remaining = _timeControl = timeControl; }
-
         bool IsPositive() const { return _remaining.IsPositive(); }
-
         void AddMillis(Gambit::MilliSeconds millis) { _remaining.AddMillis(millis); }
         void Subtract(Gambit::MilliSeconds millis) { AddMillis(-millis); }
     };

@@ -14,3 +14,4 @@ namespace ChessClock
         void Render(Context&) const override;
     };
 }
+

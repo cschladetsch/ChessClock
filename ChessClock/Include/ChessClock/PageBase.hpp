@@ -8,9 +8,9 @@ namespace ChessClock
     {
     public:
         int LogVerbosity{ 0 };
-        std::string Name;
-        Gambit::AtlasPtr Atlas;
+        String Name;
         GameBasePtr GameBase;
+        Gambit::AtlasPtr Atlas;
         Gambit::ScenePtr Scene;
 
     protected:
@@ -19,6 +19,5 @@ namespace ChessClock
             , Scene(std::move(scene))
         { }
     };
-
 }
 

@@ -38,3 +38,4 @@ namespace ChessClock
         return out << "Unknown game state " << (int)state;
     }
 }
+

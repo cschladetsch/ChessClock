@@ -13,10 +13,10 @@ namespace ChessClock
         typedef Gambit::Context<Values> Context;
 
         SplashScene() = default;
-        SplashScene(const char *jsonConfig)
+
+        explicit SplashScene(const char *jsonConfig)
             : JsonReader(jsonConfig)
-        {
-        }
+        { }
 
         static bool Setup(Context &ctx);
         bool ProcessEvents(Context &);

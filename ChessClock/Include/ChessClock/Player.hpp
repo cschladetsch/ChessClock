@@ -39,3 +39,4 @@ namespace ChessClock
         void AddSeconds(Gambit::Seconds seconds) { _remainingTime.AddMillis(seconds*1000); }
     };
 }
+

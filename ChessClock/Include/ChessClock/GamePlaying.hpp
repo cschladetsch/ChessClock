@@ -29,10 +29,10 @@ namespace ChessClock
     public:
         GamePlaying() = default;
 
-        void Prepare(Context &context) override;
+        void Prepare(Context &) override;
         void Render(Context &) const override;
         void Update(Context &) override;
-        bool ProcessEvents(Context &ctx, SDL_Event const &) override;
+        bool ProcessEvents(Context &context, SDL_Event const &) override;
 
         void SetSprites(ObjectPtr left, ObjectPtr right, ObjectPtr whitePawn, ObjectPtr blackPawn, ObjectPtr pauseButton);
 
@@ -87,3 +87,4 @@ namespace ChessClock
         void ChangeTurn();
     };
 }
+

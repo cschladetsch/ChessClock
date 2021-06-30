@@ -1,4 +1,5 @@
 #include "ChessClock/GameAbout.hpp"
+#include "ChessClock/Values.hpp"
 
 namespace ChessClock
 {
@@ -15,7 +16,9 @@ namespace ChessClock
     {
     }
 
-    void GameAbout::Render(Context&) const
+    void GameAbout::Render(Context &context) const
     {
+        context.RenderScene();
     }
 }
+

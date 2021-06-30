@@ -12,15 +12,6 @@
 
 namespace ChessClock
 {
-    using String = Gambit::string;
-    using Gambit::Logger;
-    using Gambit::ObjectPtr;
-    using Gambit::Vector2;
-    using Gambit::Rect;
-
-    template <class Ty>
-    using SharedPtr = std::shared_ptr<Ty>;
-    
     class Root;
     class GameBase;
     class GameSplash;
@@ -31,14 +22,11 @@ namespace ChessClock
     class PageBase;
     class ThemeMeta;
 
-    typedef Gambit::Context<Values> Context;
-
     typedef SharedPtr<ThemeMeta> ThemeMetaPtr;
     typedef SharedPtr<PageBase> PageBasePtr;
     typedef SharedPtr<Context> ContextPtr;
     typedef SharedPtr<Root> RootPtr;
     typedef SharedPtr<GameBase> GameBasePtr;
-
     typedef SharedPtr<GameSplash> GameSplashPtr;
     typedef SharedPtr<GamePlaying> GamePlayingPtr;
     typedef SharedPtr<GameSettings> GameSettingsPtr;

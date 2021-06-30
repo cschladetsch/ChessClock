@@ -17,3 +17,4 @@ namespace ChessClock
         return out << "Right";
     }
 }
+

@@ -19,7 +19,7 @@ namespace ChessClock
 
     void GameSplash::Render(Context &context) const
     {
-        context.Values->GetCurrentScene()->Render(context.Renderer);
+        context.RenderScene();
     }
 
     bool GameSplash::ProcessEvents(Context &ctx, SDL_Event const &)
