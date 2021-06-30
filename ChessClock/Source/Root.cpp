@@ -51,8 +51,6 @@ namespace ChessClock
     bool Root::Setup(Context &context)
     {
         MakeScreenOverlay(context);
-
-        context.Values = make_shared<Values>();
         LoadResources(context);
 
         AddStep(context, &Root::RenderScene);
@@ -64,18 +62,27 @@ namespace ChessClock
         return true;
     }
 
-    template <class PageType, class Loader>
-    SharedPtr<PageBase> LoadPage(const char *name, Loader loader)
-    {
-        return make_shared<Page<PageType>>(make_shared<PageType>(), loader(name));
-    }
-
     void Root::LoadResources(Context &context)
     {
+        context.Values = make_shared<Values>();
         LoadTheme(context);
         LoadText(context);
         LoadPages(context);
         Transition(context, EPage::Splash);
+    }
+
+    void Root::LoadTheme(Context &context)
+    {
+        auto &values = *context.Values;
+        auto &resources = context.Resources;
+        auto &renderer = context.Renderer;
+        
+        values.Root = this;
+        values.Theme = resources.LoadResource<ThemeMeta>(_themeName + "/meta.json", &resources);
+        values.TimerFont = values.Theme->GetFont("timer_font");
+        values.SmallFont = values.Theme->GetFont("small_font");
+        values.HeaderFont = values.Theme->GetFont("small_font");
+        values.Atlas = resources.LoadResource<Atlas>(_themeName + "/Atlas", &resources, &renderer);
     }
 
     void Root::LoadText(Context &context)
@@ -97,26 +104,10 @@ namespace ChessClock
         values.VersusText = makeText("vs", white);
     }
 
-    void Root::LoadTheme(Context &context)
+    template <class PageType, class Loader>
+    SharedPtr<PageBase> LoadPage(const char *name, Loader loader)
     {
-        auto &values = *context.Values;
-        auto &resources = context.Resources;
-        auto &renderer = context.Renderer;
-        
-        values.Root = this;
-        values.Theme = resources.LoadResource<ThemeMeta>(_themeName + "/meta.json", &resources);
-        values.TimerFont = values.Theme->GetFont("timer_font");
-        values.SmallFont = values.Theme->GetFont("small_font");
-        values.HeaderFont = values.Theme->GetFont("small_font");
-
-        values.Atlas = resources.LoadResource<Atlas>(_themeName + "/Atlas", &resources, &renderer);
-    }
-
-    void Root::Prepare(Context &context)
-    {
-        auto &values = *context.Values;
-        for (auto &[first, second] : values.Pages)
-            second->GameBase->Prepare(context);
+        return make_shared<Page<PageType>>(make_shared<PageType>(), loader(name));
     }
 
     void Root::LoadPages(Context &context)
@@ -131,6 +122,13 @@ namespace ChessClock
         values.Pages[EPage::Playing] = LoadPage<GamePlaying>("playing", loadPage);
         values.Pages[EPage::Settings] = LoadPage<GameSettings>("settings", loadPage);
         values.Pages[EPage::About] = LoadPage<GameAbout>("about", loadPage);
+    }
+
+    void Root::Prepare(Context &context)
+    {
+        auto &values = *context.Values;
+        for (auto &[first, second] : values.Pages)
+            second->GameBase->Prepare(context);
     }
 
     void Root::AddStep(Context& ctx, bool(Root::*method)(Context&))
