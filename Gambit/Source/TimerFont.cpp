@@ -8,7 +8,7 @@
 namespace Gambit
 {
     TimerFont::TimerFont(ResourceId const& id, FontPtr font)
-        : ResourceBase(id), _font(font), DarkOffset(7,7)
+        : ResourceBase(id), _font(std::move(font)), DarkOffset(7,7)
     {
     }
 
@@ -16,6 +16,12 @@ namespace Gambit
     {
         DrawTime(renderer, _darkDigits, _darkColon, topLeft + DarkOffset, minutes, seconds);
         DrawTime(renderer, _digits, _colon, topLeft, minutes, seconds);
+    }
+
+    void TimerFont::DrawTime(Renderer &renderer, Vector2 const &topLeft, uint8_t seconds) const
+    {
+        DrawTime(renderer, _darkDigits, topLeft + DarkOffset, seconds);
+        DrawTime(renderer, _digits, topLeft, seconds);
     }
 
     void TimerFont::DrawTime(Renderer& renderer, Digits const& digits, TexturePtr const &colon,  Vector2 const &topLeft, uint8_t minutes, uint8_t seconds) const
@@ -26,6 +32,11 @@ namespace Gambit
         DrawColon(renderer, colon, tl);
         tl.x += _rectColon.width;
         DrawDigitPair(renderer, digits, tl, seconds);
+    }
+
+    void TimerFont::DrawTime(Renderer& renderer, Digits const& digits, Vector2 const &topLeft, uint8_t seconds) const
+    {
+        DrawDigitPair(renderer, digits, topLeft, seconds);
     }
 
     void TimerFont::DrawColon(Renderer &renderer, TexturePtr colon, Vector2 const& topLeft) const

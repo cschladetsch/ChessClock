@@ -141,7 +141,7 @@
 	"text_settings_title":
 	{
 		"type" : "text",
-		"font" : "small_letters",
+		"font" : "small_font",
 		"location" : [ 400, 32 ],
 		"centered" : true,
 		"string" : "Set time control",
@@ -150,21 +150,21 @@
 	
 	"text_time":
 	{
-		"type" : "text",
+		"type" : "timer_value",
+		"show" : "minutes_and_seconds",
 		"font" : "large_numerals",
 		"location" : [ 240, 216 ],
 		"centered" : true,
-		"string" : "05:00",
 		"layer" : 1
 	},
 	
 	"text_bonus":
 	{
-		"type" : "text",
+		"type" : "timer_value",
+		"show" : "seconds",
 		"font" : "large_numerals",
 		"location" : [ 632, 216 ],
 		"centered" : true,
-		"string" : "00",
 		"layer" : 1
 	},
 	
@@ -181,7 +181,7 @@
 	"text_set_player_names":
 	{
 		"type" : "text",
-		"font" : "small_letters",
+		"font" : "small_font",
 		"location" : [ 244, 392 ],
 		"centered" : true,
 		"string" : "Set player names",
@@ -191,7 +191,7 @@
 	"text_player_names":
 	{
 		"type" : "text",
-		"font" : "small_letters",
+		"font" : "small_font",
 		"location" : [ 244, 448 ],
 		"centered" : true,
 		"string" : "Spamfilter    vs    monoRAIL",
@@ -201,10 +201,10 @@
 	"text_start_game":
 	{
 		"type" : "text",
-		"font" : "small_letters",
+		"font" : "small_font",
 		"location" : [ 672, 424 ],
 		"centered" : true,
-		"string" : "Start game",
+		"string" : "Return",
 		"layer" : 1
 	}
 }

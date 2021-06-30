@@ -14,6 +14,8 @@ namespace ChessClock
         bool trackMouse{ false };
         bool debugTick{ false };
 
+        ThemeMetaPtr themeMeta;
+
         Gambit::FontPtr font;
         Gambit::FontPtr headerFont;
         Gambit::FontPtr footerFont;

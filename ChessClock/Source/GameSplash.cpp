@@ -27,3 +27,4 @@ namespace ChessClock
         return false;
     }
 }
+

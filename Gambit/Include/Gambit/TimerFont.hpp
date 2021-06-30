@@ -27,9 +27,11 @@ namespace Gambit
 
         void MakeTextures(ResourceManager &, Renderer &, Color);
         void DrawTime(Renderer &, Vector2 const &topLeft, uint8_t minutes, uint8_t seconds) const;
+        void DrawTime(Renderer &, Vector2 const &topLeft, uint8_t seconds) const;
 
     private:
         void DrawTime(Renderer &, Digits const& digits, TexturePtr const &colon, Vector2 const &topLeft, uint8_t minutes, uint8_t seconds) const;
+        void DrawTime(Renderer &, Digits const& digits, Vector2 const &topLeft, uint8_t seconds) const;
         void DrawDigitPair(Renderer &, Digits const &, Vector2 const &topLeft, uint8_t number) const;
         void DrawColon(Renderer &, TexturePtr colon, Vector2 const& topLeft) const;
     };

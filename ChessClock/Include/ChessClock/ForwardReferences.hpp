@@ -29,10 +29,11 @@ namespace ChessClock
     class GameAbout;
     class Values;
     class PageBase;
-    class Root;
+    class ThemeMeta;
 
     typedef Gambit::Context<Values> Context;
 
+    typedef SharedPtr<ThemeMeta> ThemeMetaPtr;
     typedef SharedPtr<PageBase> PageBasePtr;
     typedef SharedPtr<Context> ContextPtr;
     typedef SharedPtr<Root> RootPtr;

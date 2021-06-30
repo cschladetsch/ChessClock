@@ -6,7 +6,9 @@ namespace ChessClock
 {
     void GameSettings::Prepare(Context &context)
     {
-        AddCallback("PlayPressed", [&](auto &ctx, auto source) { context.values->Root->Transition(ctx, EPage::Playing); });
+        AddCallback("PlayPressed", [&](auto &ctx, auto source) {
+            context.values->Root->Transition(ctx, EPage::Playing);
+        });
         AddCallback("IncrementMinutesPressed", [&](auto &ctx, auto source) { IncrementMinutesPressed(ctx, source); });
         AddCallback("IncrementSecondsPressed", [&](auto &ctx, auto source) { IncrementSecondsPressed(ctx, source); });
         AddCallback("DecrementMinutesPressed", [&](auto &ctx, auto source) { DecrementMinutesPressed(ctx, source); });

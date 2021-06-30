@@ -59,7 +59,13 @@ namespace Gambit
             try
             {
                 Json json;
-                std::ifstream(fileName) >> json;
+                auto stream = std::ifstream(fileName);
+                if (!stream)
+                {
+                    LOG_ERROR() << "Couldn't open json for reading " << LOG_VALUE(fileName) << "\n";
+                    return false;
+                }
+                stream >> json;
                 for (auto &item : json.items())
                 {
                     if (!ParseJson(item))

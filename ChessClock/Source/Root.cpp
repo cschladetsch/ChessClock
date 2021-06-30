@@ -13,6 +13,7 @@
 #include "ChessClock/GameSettings.hpp"
 #include "ChessClock/GameAbout.hpp"
 #include "ChessClock/Global.hpp"
+#include "ChessClock/ThemeMeta.hpp"
 
 namespace ChessClock
 {
@@ -83,6 +84,8 @@ namespace ChessClock
         auto &resources = context.resources;
         auto &renderer = context.renderer;
         const auto white = Color{ 255,255,255 };
+
+        values.themeMeta = resources.LoadResource<ThemeMeta>((_themeName + "/meta.json").c_str(), &resources);
 
         values.Root = this;
         values.font = resources.LoadResource<Font>(_defaultFont.c_str(), 125);
