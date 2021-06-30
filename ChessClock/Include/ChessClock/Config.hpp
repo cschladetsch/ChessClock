@@ -15,6 +15,5 @@ namespace ChessClock
 
     template <class Ty>
     using SharedPtr = std::shared_ptr<Ty>;
-    
 }
 

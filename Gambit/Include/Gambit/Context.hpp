@@ -11,7 +11,7 @@ namespace Gambit
     class Context
     {
     public:
-        typedef std::function<bool(Context<Values> &) > ContextFunction;
+        typedef std::function<bool(Context<Values> &)> ContextFunction;
 
     private:
         Logger _log{ "Context" };
