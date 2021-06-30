@@ -17,44 +17,43 @@ namespace Gambit
         Logger _log{ "Context" };
 
     public:
-        Renderer renderer;
-        ResourceManager resources;
-        shared_ptr<Values> values;
-
-        vector<ContextFunction> steps;
-        vector<ContextFunction> eventProcessors;
+        Renderer Renderer;
+        ResourceManager Resources;
+        shared_ptr<Values> Values;
+        vector<ContextFunction> Steps;
+        vector<ContextFunction> EventProcessors;
 
         Context(const char* resourceFolder)
-            : resources(renderer, resourceFolder)
+            : Resources(Renderer, resourceFolder)
         {
             CreateRenderer();
         }
 
         Context(const char* resourceFolder, ContextFunction setup, ContextFunction processEvents)
-            : resources(renderer, resourceFolder)
+            : Resources(Renderer, resourceFolder)
         {
             CreateRenderer();
             TTF_Init();
 
             setup(*this);
-            eventProcessors.push_back(processEvents);
+            EventProcessors.push_back(processEvents);
         }
 
         ~Context()
         {
-            renderer.Destroy();
+            Renderer.Destroy();
             TTF_Quit();
             SDL_Quit();
         }
 
-        float GetSecondsSinceStart()
+        static float GetSecondsSinceStart()
         {
             return SDL_GetTicks() / 1000.0f;
         }
 
         void CreateRenderer()
         {
-            if (!renderer.Construct("Chess Clock"))
+            if (!Renderer.Construct("Chess Clock"))
             {
                 LOG_ERROR() << "Failed to initialise Renderer\n";
                 exit(1);
@@ -65,7 +64,7 @@ namespace Gambit
         {
             try
             {
-                while (Execute(eventProcessors) && Execute(steps))
+                while (Execute(EventProcessors) && Execute(Steps))
                     ;
             }
             catch (std::exception &e)

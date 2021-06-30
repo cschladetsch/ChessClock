@@ -19,7 +19,7 @@ namespace ChessClock
         AddCallback("PausePressed", [this, &context](auto &ctx, auto source) { PausePressed(ctx, source); });
         AddCallback("VolumePressed", [this, &context](auto &ctx, auto source) { VolumePressed(ctx, source); });
 
-        SetupGameSprites(context.resources, context.renderer, *context.values);
+        SetupGameSprites(context.Resources, context.Renderer, *context.Values);
 
         Pause();
     }
@@ -28,7 +28,7 @@ namespace ChessClock
     {
         LOG_INFO() << "Settings pressed from " << LOG_VALUE(source->GetName()) << "\n";
         Pause();
-        context.values->root->Transition(context, EPage::Settings);
+        context.Values->Root->Transition(context, EPage::Settings);
     }
 
     void GamePlaying::PausePressed(Context &context, ObjectPtr const &source)
@@ -55,20 +55,20 @@ namespace ChessClock
 
     void DrawTimer(Values& values, Renderer &renderer, const Vector2 &location, Player const& player)
     {
-        values.numberFont->DrawTime(renderer, location, static_cast<uint8_t>(player.GetMinutes()), static_cast<uint8_t>(player.GetSeconds()));
+        values.NumberFont->DrawTime(renderer, location, static_cast<uint8_t>(player.GetMinutes()), static_cast<uint8_t>(player.GetSeconds()));
     }
 
     void GamePlaying::Render(Context &ctx) const
     {
-        auto& renderer = ctx.renderer;
-        auto& values = *ctx.values;
+        auto& renderer = ctx.Renderer;
+        auto& values = *ctx.Values;
 
-        values.GetCurrentScene()->Render(ctx.renderer);
+        values.GetCurrentScene()->Render(ctx.Renderer);
 
         const int y = 14;
-        renderer.WriteTexture(values.leftNameText, Vector2(85, y));
-        renderer.WriteTexture(values.versusText, Vector2(400 - 12, y));
-        renderer.WriteTexture(values.rightNameText, Vector2(580, y));
+        renderer.WriteTexture(values.LeftNameText, Vector2(85, y));
+        renderer.WriteTexture(values.VersusText, Vector2(400 - 12, y));
+        renderer.WriteTexture(values.RightNameText, Vector2(580, y));
 
         const Vector2 destPointLeft{ 35, 95 };
         const Vector2 destPointRight{ 438, 95 };
@@ -79,7 +79,7 @@ namespace ChessClock
 
     bool GamePlaying::ProcessEvents(Context &ctx, SDL_Event const &event)
     {
-        Values &values = *ctx.values;
+        Values &values = *ctx.Values;
 
         switch (event.type)
         {

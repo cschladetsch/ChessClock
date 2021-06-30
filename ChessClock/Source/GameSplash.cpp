@@ -13,13 +13,13 @@ namespace ChessClock
         auto now = Gambit::TimeNowMillis();
         if (now > _displayTime)
         {
-            context.values->root->Transition(context, EPage::Playing);
+            context.Values->Root->Transition(context, EPage::Playing);
         }
     }
 
     void GameSplash::Render(Context &context) const
     {
-        context.values->GetCurrentScene()->Render(context.renderer);
+        context.Values->GetCurrentScene()->Render(context.Renderer);
     }
 
     bool GameSplash::ProcessEvents(Context &ctx, SDL_Event const &)

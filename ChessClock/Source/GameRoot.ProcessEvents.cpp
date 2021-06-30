@@ -10,7 +10,7 @@ namespace ChessClock
 {
     bool Root::ProcessEvents(Context& ctx)
     {
-        Values& values = *ctx.values;
+        Values& values = *ctx.Values;
         SDL_Event event;
 
         while (SDL_PollEvent(&event))
@@ -36,7 +36,7 @@ namespace ChessClock
 
                 case SDL_MOUSEMOTION:
                 {
-                    if (!ctx.values->trackMouse)
+                    if (!ctx.Values->TrackMouse)
                     {
                         continue;
                     }
@@ -50,7 +50,7 @@ namespace ChessClock
                     {
                         case SDLK_d:
                         {
-                            ctx.values->debugTick = true;
+                            ctx.Values->DebugTick = true;
                             continue;
                         }
 
@@ -64,8 +64,8 @@ namespace ChessClock
 
                         case SDLK_m:
                         {
-                            values.trackMouse = !values.trackMouse;
-                            LOG_INFO() << "Tracking mouse: " << values.trackMouse << "\n";
+                            values.TrackMouse = !values.TrackMouse;
+                            LOG_INFO() << "Tracking mouse: " << values.TrackMouse << "\n";
                             return true;
                         }
 

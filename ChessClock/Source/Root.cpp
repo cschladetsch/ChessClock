@@ -45,14 +45,14 @@ namespace ChessClock
 
     void Root::MakeScreenOverlay(Context& context)
     {
-        _fullscreenBlack = SDL_CreateTexture(context.renderer.GetRenderer(), SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STATIC, global.GetScreenWidth(), global.GetScreenHeight());
+        _fullscreenBlack = SDL_CreateTexture(context.Renderer.GetRenderer(), SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STATIC, global.GetScreenWidth(), global.GetScreenHeight());
     }
 
     bool Root::Setup(Context& context)
     {
         MakeScreenOverlay(context);
         
-        context.values = make_shared<Values>();
+        context.Values = make_shared<Values>();
         LoadResources(context);
 
         AddStep(context, &Root::RenderScene);
@@ -77,39 +77,39 @@ namespace ChessClock
 
     void Root::LoadResources(Context &context)
     {
-        auto &values = *context.values;
-        auto &resources = context.resources;
-        auto &renderer = context.renderer;
+        auto &values = *context.Values;
+        auto &resources = context.Resources;
+        auto &renderer = context.Renderer;
         const auto white = Color{ 255,255,255 };
 
-        values.root = this;
-        values.theme = resources.LoadResource<ThemeMeta>(_themeName + "/meta.json", &resources);
+        values.Root = this;
+        values.Theme = resources.LoadResource<ThemeMeta>(_themeName + "/meta.json", &resources);
 
-        values.timerFont = values.theme->GetFont("timer_font");
-        values.smallFont = values.theme->GetFont("small_font");
-        values.headerFont = values.theme->GetFont("small_font");
+        values.TimerFont = values.Theme->GetFont("timer_font");
+        values.SmallFont = values.Theme->GetFont("small_font");
+        values.HeaderFont = values.Theme->GetFont("small_font");
 
-        values.atlas = resources.LoadResource<Atlas>(_themeName + "/atlas", &resources, &renderer);
+        values.Atlas = resources.LoadResource<Atlas>(_themeName + "/Atlas", &resources, &renderer);
 
-        values.numberFont = resources.CreateResource<TimerFont>("Numbers", values.timerFont);
-        values.numberFont->MakeTextures(resources, renderer, white);
+        values.NumberFont = resources.CreateResource<TimerFont>("Numbers", values.TimerFont);
+        values.NumberFont->MakeTextures(resources, renderer, white);
 
         auto makeText = [&](const char *text, const Color color) {
-            return values.headerFont->CreateText(resources, renderer, text, color);
+            return values.HeaderFont->CreateText(resources, renderer, text, color);
         };
-        values.leftNameText = makeText("SpamFilter", white);
-        values.rightNameText = makeText("monoRAIL", white);
-        values.versusText = makeText("vs", white);
+        values.LeftNameText = makeText("SpamFilter", white);
+        values.RightNameText = makeText("monoRAIL", white);
+        values.VersusText = makeText("vs", white);
 
         auto loadPage = [&](const char *name) {
-            return resources.LoadResource<Scene>(_themeName + "/scenes/" + name + ".json", &resources, values.atlas);
+            return resources.LoadResource<Scene>(_themeName + "/scenes/" + name + ".json", &resources, values.Atlas);
         };
-        values.pages[EPage::Splash] = LoadPage<GameSplash>("splash", loadPage);
-        values.pages[EPage::Playing] = LoadPage<GamePlaying>("playing", loadPage);
-        values.pages[EPage::Settings] = LoadPage<GameSettings>("settings", loadPage);
-        values.pages[EPage::About] = LoadPage<GameAbout>("about", loadPage);
+        values.Pages[EPage::Splash] = LoadPage<GameSplash>("splash", loadPage);
+        values.Pages[EPage::Playing] = LoadPage<GamePlaying>("playing", loadPage);
+        values.Pages[EPage::Settings] = LoadPage<GameSettings>("settings", loadPage);
+        values.Pages[EPage::About] = LoadPage<GameAbout>("about", loadPage);
 
-        for (auto & [first, second] : values.pages)
+        for (auto & [first, second] : values.Pages)
             second->GameBase->Prepare(context);
 
         Transition(context, EPage::Splash);
@@ -121,12 +121,12 @@ namespace ChessClock
 
     void Root::AddStep(Context& ctx, bool(Root::*method)(Context&))
     {
-        ctx.steps.push_back([this, method](auto &context) { return (this->*method)(context); });
+        ctx.Steps.push_back([this, method](auto &context) { return (this->*method)(context); });
     }
 
     bool Root::RenderScene(Context& context)
     {
-        context.values->GetCurrentGame()->Render(context);
+        context.Values->GetCurrentGame()->Render(context);
 
         //CJS TODO transitions
         //if (_transitionTime > 0 && Gambit::TimeNowMillis() < _transitionTime)
@@ -134,7 +134,7 @@ namespace ChessClock
         //    auto delta = _transitionTime - _transitionStartTime;
         //    auto normalised = static_cast<float>(delta) / _transitionTotalTime;
         //    auto alpha = normalised < 0.5f ? normalised : 1 - normalised;
-        //    auto renderer = context.renderer.GetRenderer();
+        //    auto Renderer = context.Renderer.GetRenderer();
 
         //    int result = 0;
         //    //CJS TODO: fade to black then into new scene
@@ -144,10 +144,10 @@ namespace ChessClock
         //    CALL_SDL(SDL_SetTextureBlendMode(_fullscreenBlack, SDL_BLENDMODE_BLEND));
         //    CALL_SDL(SDL_GetTextureAlphaMod(_fullscreenBlack, &texAlpha));
         //    CALL_SDL(SDL_SetTextureAlphaMod(_fullscreenBlack, 128));
-        //    CALL_SDL(SDL_RenderCopy(renderer, _fullscreenBlack, nullptr, nullptr));
+        //    CALL_SDL(SDL_RenderCopy(Renderer, _fullscreenBlack, nullptr, nullptr));
         //}
 
-        context.values->debugTick = false;
+        context.Values->DebugTick = false;
 
         return true;
     }
@@ -179,7 +179,7 @@ namespace ChessClock
         //    return true;
         //}
 
-        auto &values = *context.values;
+        auto &values = *context.Values;
         values.GetCurrentGame()->Update(context);
 
         return true;
@@ -187,22 +187,22 @@ namespace ChessClock
 
     bool Root::Present(Context &ctx)
     {
-        return ctx.renderer.Present();
+        return ctx.Renderer.Present();
     }
 
     void Root::OnPressed(Context &ctx, const Vector2 &where)
     {
-        const auto scene = ctx.values->GetCurrentScene();
-        const auto &button = scene->OnPressed(ctx.values->atlas, where);
+        const auto scene = ctx.Values->GetCurrentScene();
+        const auto &button = scene->OnPressed(ctx.Values->Atlas, where);
         if (!button)
             return;
 
-        ctx.values->GetCurrentGame()->Call(ctx, button);
+        ctx.Values->GetCurrentGame()->Call(ctx, button);
     }
 
     void Root::Transition(Context &context, EPage next)
     {
-        //if (context.values->GetCurrentGame())
+        //if (context.Values->GetCurrentGame())
         //{
         //    //CJS TODO: leave current page
         //}
@@ -215,7 +215,7 @@ namespace ChessClock
 
         LOG_INFO() << "Transitioning to " << LOG_VALUE(next) << "\n";
 
-        context.values->pageCurrent = next;
+        context.Values->PageCurrent = next;
     }
 
     void Root::UpdateTransition(Context &context)
@@ -224,7 +224,7 @@ namespace ChessClock
         //LOG_DEBUG() << LOG_VALUE(now) << LOG_VALUE(_transitionTime) << "\n";
         if (now > _transitionTime)
         {
-            context.values->pageCurrent = _transitionPage;
+            context.Values->PageCurrent = _transitionPage;
             _transitionTime = 0;
         }
     }

@@ -1,3 +1,4 @@
+#include "EPage.hpp"
 #include "ChessClock/Page.hpp"
 
 namespace ChessClock
@@ -10,34 +11,33 @@ namespace ChessClock
     public:
         Values() = default;
 
-        int logVerbosity{ 0 };
-        bool trackMouse{ false };
-        bool debugTick{ false };
+        int LogVerbosity{ 0 };
+        bool TrackMouse{ false };
+        bool DebugTick{ false };
 
-        ThemeMetaPtr theme;
+        ThemeMetaPtr Theme;
 
-        Gambit::FontPtr timerFont;
-        Gambit::FontPtr smallFont;
-        Gambit::FontPtr headerFont;
-        Gambit::NumberFontPtr numberFont;
+        Gambit::FontPtr TimerFont;
+        Gambit::FontPtr SmallFont;
+        Gambit::FontPtr HeaderFont;
+        Gambit::NumberFontPtr NumberFont;
 
-        Gambit::TexturePtr backBuffer;
+        Gambit::TexturePtr BackBuffer;
 
         //CJS TODO: move these out
-        Gambit::TexturePtr leftNameText;
-        Gambit::TexturePtr rightNameText;
-        Gambit::TexturePtr versusText;
+        Gambit::TexturePtr LeftNameText;
+        Gambit::TexturePtr RightNameText;
+        Gambit::TexturePtr VersusText;
 
-        Gambit::AtlasPtr atlas;
-        Root *root;
-        EPage pageCurrent;
-        std::unordered_map<EPage, SharedPtr<PageBase>> pages;
+        Gambit::AtlasPtr Atlas;
+        Root *Root;
+        EPage PageCurrent;
+        std::unordered_map<EPage, SharedPtr<PageBase>> Pages;
 
-        PageBasePtr GetPage(EPage page) { return pages[page]; }
-        PageBasePtr GetCurrentPage() { return pages[pageCurrent]; }
+        PageBasePtr GetPage(EPage page) { return Pages[page]; }
+        PageBasePtr GetCurrentPage() { return Pages[PageCurrent]; }
         Gambit::ScenePtr GetCurrentScene() { return GetCurrentPage()->Scene; }
         GameBasePtr GetCurrentGame() { return GetCurrentPage()->GameBase; }
-
     };
 }
 

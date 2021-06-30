@@ -8,7 +8,7 @@ namespace ChessClock
 {
     void GameBase::OnPressed(Gambit::Context<Values> & context, Vector2 where) const
     {
-        context.values->root->OnPressed(context, where);
+        context.Values->Root->OnPressed(context, where);
     }
 }
 

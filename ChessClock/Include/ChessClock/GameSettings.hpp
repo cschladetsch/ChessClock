@@ -9,12 +9,11 @@ namespace ChessClock
         : public GameBase
     {
         static inline Logger _log{ "GameSettings" };
-        TimeControl _timeControl;
 
     public:
-        GameSettings() = default;
+        TimeControl TimeControl;
 
-        TimeControl GetTimeControl() const { return _timeControl; }
+        GameSettings() = default;
 
     protected:
         void Prepare(Context&) override;

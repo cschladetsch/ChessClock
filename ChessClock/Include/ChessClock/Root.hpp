@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Page.hpp"
+#include "EPage.hpp"
 #include "Gambit/JsonReader.hpp"
 
 #include "ChessClock/ForwardReferences.hpp"
