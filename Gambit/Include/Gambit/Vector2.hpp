@@ -11,10 +11,7 @@ namespace Gambit
         int x{ 0 }, y{ 0 };
 
         Vector2() = default;
-        Vector2(const Vector2 &other)
-            : x(other.x), y(other.y)
-        {
-        }
+        Vector2(const Vector2 &other) = default;
 
         Vector2(int x, int y)
         {
