@@ -3,6 +3,8 @@
 #include "Gambit/JsonReader.hpp"
 #include "Gambit/ResourceBase.hpp"
 
+#include "ChessClock/ForwardReferences.hpp"
+
 namespace ChessClock
 {
     class ThemeMeta
@@ -13,32 +15,31 @@ namespace ChessClock
 
         using string = Gambit::string;
         using FontPtr = Gambit::FontPtr;
+        using ResourceManager = Gambit::ResourceManager;
 
-        typedef std::unordered_map<string, Gambit::FontPtr> Fonts;
+        typedef std::unordered_map<string, FontPtr> Fonts;
 
-        Gambit::ResourceManager *_resourceManager;
+        ResourceManager *_resourceManager;
         string _name;
         Fonts _fonts;
 
     public:
         ThemeMeta(Gambit::ResourceManager &resourceManager, string const &jsonFileName);
-        ThemeMeta(ThemeMeta const &) = default;
         virtual ~ThemeMeta() = default;
 
         FontPtr GetFont(string const &name) const;
-        string const &GetName() const { return _name; }
+        string const &GetThemeName() const { return _name; }
 
         template <class ...Args>
-        static std::shared_ptr<ThemeMeta> Load(std::string const& jsonName, Gambit::ResourceId const& id, Args... args)
+        static SharedPtr<ThemeMeta> Load(std::string const& jsonName, Gambit::ResourceId const& id, Args... args)
         {
-            auto tuple = std::tuple{ args... };
-            auto& resources = std::get<0>(tuple);
-            return LoadThemeMeta(*resources, jsonName, id);
+            auto *resources = std::get<0>(std::tuple{ args... });
+            return LoadThemeMeta(*resources, jsonName);
         }
 
     protected:
-        static std::shared_ptr<ThemeMeta> LoadThemeMeta(Gambit::ResourceManager &, string const& jsonName, Gambit::ResourceId const& id);
+        static std::shared_ptr<ThemeMeta> LoadThemeMeta(ResourceManager &, string const &jsonName);
 
-        bool ParseJson(JsonNext &next) override;
+        bool ParseJson(JsonNext &item) override;
     };
 }

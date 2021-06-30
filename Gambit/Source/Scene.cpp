@@ -61,7 +61,7 @@ namespace Gambit
 
         stringstream out;
         out << "Root" << layer << std::ends;
-        return _layerToRoots[layer] = make_shared<Object>(out.str(), _resourceManager->NewId(), *_resourceManager);
+        return _layerToRoots[layer] = make_shared<Object>(out.str(), ResourceId(), *_resourceManager);
     }
 
     void Scene::Render(Renderer &renderer) const
@@ -80,7 +80,7 @@ namespace Gambit
 
     shared_ptr<Scene> Scene::LoadScene(ResourceManager &resources, string const &fileName, Atlas const &atlas)
     {
-        return make_shared<Scene>(resources.NewId(), resources, atlas, fileName.c_str());
+        return make_shared<Scene>(ResourceId(), resources, atlas, fileName.c_str());
     }
 
     void Scene::AddObject(ObjectPtr object)

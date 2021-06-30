@@ -114,7 +114,7 @@ namespace Gambit
         SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer.GetRenderer(), surface);
         SDL_FreeSurface(surface);
 
-        auto ptr = make_shared<Texture>(resources.NewId(), texture);
+        auto ptr = make_shared<Texture>(ResourceId(), texture);
         resources.AddResource(ptr->GetResourceId(), ptr);
 
         return make_shared<Atlas>(ptr, spritesName);

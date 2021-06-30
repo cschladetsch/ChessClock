@@ -86,7 +86,7 @@ namespace ChessClock
         const auto white = Color{ 255,255,255 };
 
         values.root = this;
-        values.themeMeta = resources.LoadResource<ThemeMeta>((_themeName + "/meta.json").c_str(), &resources);
+        values.themeMeta = resources.LoadResource<ThemeMeta>(_themeName + "/meta.json", &resources);
 
         values.timerFont = values.themeMeta->GetFont("timer_font");
         values.smallFont = values.themeMeta->GetFont("small_font");

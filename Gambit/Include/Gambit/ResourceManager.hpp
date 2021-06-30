@@ -2,7 +2,6 @@
 
 #include <unordered_map>
 
-#include "Gambit/Resource.hpp"
 #include "Gambit/ResourceLoader.hpp"
 #include "Gambit/NonCopyable.hpp"
 #include "Gambit/Object.hpp"
@@ -26,12 +25,12 @@ namespace Gambit
     public:
         ResourceManager(Renderer const &renderer, const char *rootFolder);
 
-        bool AddObject(ObjectPtr obj);
+        bool AddObject(ObjectPtr const &obj);
         ObjectPtr CreateObject(const string &name);
         IdToObject const &GetObjects() const { return _idToObject; }
 
         template <class Res, class ...Args>
-        shared_ptr<Res> LoadResource(const char* name, Args... args)
+        shared_ptr<Res> LoadResource(string const &name, Args... args)
         {
             ResourceId id{ xg::newGuid(), name };
             auto fileName = MakeResourceFilename(name);
@@ -61,9 +60,8 @@ namespace Gambit
 
         void AddResource(ResourceId const &id, ResourceBasePtr resource);
         ResourceBasePtr GetResource(ResourceId const &id) const;
-        ResourceId NewId() const;
-        ResourceId NewId(string const &name) const;
-        string MakeResourceFilename(const char* name);
-        ObjectPtr FindObject(string const &name);
+        string MakeResourceFilename(string const &name) const;
+        ObjectPtr FindObject(string const &name) const;
     };
 }
+

@@ -5,15 +5,17 @@
 
 namespace ChessClock
 {
-    ThemeMeta::ThemeMeta(Gambit::ResourceManager &rm, string const &jsonFileName)
+    using namespace std;
+
+    ThemeMeta::ThemeMeta(ResourceManager &rm, string const &jsonFileName)
         : _resourceManager(&rm)
     {
-        ReadJsonEx(jsonFileName.c_str());
+        ReadJsonEx(jsonFileName);
     }
 
-    std::shared_ptr<ThemeMeta> ThemeMeta::LoadThemeMeta(Gambit::ResourceManager &resources , string const& jsonName, Gambit::ResourceId const& id)
+    shared_ptr<ThemeMeta> ThemeMeta::LoadThemeMeta(ResourceManager &resources , string const& jsonName)
     {
-        return std::make_shared<ThemeMeta>(resources, jsonName.c_str());
+        return make_shared<ThemeMeta>(resources, jsonName);
     }
 
     ThemeMeta::FontPtr ThemeMeta::GetFont(string const &name) const
@@ -40,7 +42,7 @@ namespace ChessClock
 
         if (name == "fonts")
         {
-            std::map<string, std::vector<nlohmann::json>> fonts;
+            map<string, vector<nlohmann::json>> fonts;
             value.get_to(fonts);
             for (auto & [first, second] : fonts)
             {
@@ -54,5 +56,5 @@ namespace ChessClock
 
         return true;
     }
-    
 }
+

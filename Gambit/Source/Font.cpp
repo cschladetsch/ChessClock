@@ -36,7 +36,7 @@ namespace Gambit
         SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer.GetRenderer(), surface);
         SDL_FreeSurface(surface);
 
-        return _cache[key] = std::make_shared<Texture>(rm.NewId(), texture);
+        return _cache[key] = std::make_shared<Texture>(ResourceId(), texture);
     }
 }
 

@@ -8,22 +8,12 @@ namespace Gambit
         _rootFolder = rootFolder;
     }
 
-    std::string ResourceManager::MakeResourceFilename(const char* name)
+    std::string ResourceManager::MakeResourceFilename(string const &name) const
     {
         return _rootFolder + name;
     }
 
-    ResourceId ResourceManager::NewId() const
-    {
-        return ResourceId();
-    }
-
-    ResourceId ResourceManager::NewId(string const &name) const
-    {
-        return ResourceId(name);
-    }
-
-    bool ResourceManager::AddObject(ObjectPtr object)
+    bool ResourceManager::AddObject(ObjectPtr const &object)
     {
         auto const &rid = object->GetResourceId();
         if (_idToObject.find(rid) != _idToObject.end())
@@ -48,31 +38,27 @@ namespace Gambit
 
     ObjectPtr ResourceManager::CreateObject(const string &name)
     {
-        auto result = std::make_shared<Object>(name, NewId(name), *this);
-        if (!AddObject(result))
-            return nullptr;
-
-        return result;
+        const auto result = std::make_shared<Object>(name, ResourceId(name), *this);
+        return AddObject(result) ? result : nullptr;
     }
 
     ResourceBasePtr ResourceManager::GetResource(ResourceId const& id) const
     {
-        auto found = _idToResource.find(id);
-        if (found == _idToResource.end())
-            return 0;
-        return found->second;
+        const auto found = _idToResource.find(id);
+        return found == _idToResource.end() ? nullptr : found->second;
     }
 
-    ObjectPtr ResourceManager::FindObject(string const &name)
+    ObjectPtr ResourceManager::FindObject(string const &name) const
     {
-        for (auto &iter : _idToObject)
+        for (const auto & [first, second] : _idToObject)
         {
-            if (iter.first.GetName() == name)
-                return iter.second;
+            if (first.GetName() == name)
+                return second;
         }
 
         LOG_ERROR() << "Couldn't find object " << LOG_VALUE(name) << "\n";
-        return 0;
+
+        return nullptr;
     }
 }
 

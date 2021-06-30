@@ -31,7 +31,7 @@ namespace Gambit
             ReadJsonEx(fileName);
         }
 
-        void ReadJsonEx(const char *fileName)
+        void ReadJsonEx(string const &fileName)
         {
             if (!ReadJson(fileName))
             {
@@ -54,7 +54,7 @@ namespace Gambit
         }
 
     private:
-        bool ReadJson(const char *fileName)
+        bool ReadJson(string const &fileName)
         {
             try
             {
