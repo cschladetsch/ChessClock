@@ -43,15 +43,15 @@ namespace ChessClock
         return true;
     }
 
-    void Root::MakeScreenOverlay(Context& context)
+    void Root::MakeScreenOverlay(Context &context)
     {
         _fullscreenBlack = SDL_CreateTexture(context.Renderer.GetRenderer(), SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STATIC, global.GetScreenWidth(), global.GetScreenHeight());
     }
 
-    bool Root::Setup(Context& context)
+    bool Root::Setup(Context &context)
     {
         MakeScreenOverlay(context);
-        
+
         context.Values = make_shared<Values>();
         LoadResources(context);
 
@@ -64,11 +64,6 @@ namespace ChessClock
         return true;
     }
 
-    ScenePtr LoadScene(string const &themeName, string const &name, ResourceManager& resources, AtlasPtr const &atlas)
-    {
-        return resources.LoadResource<Scene>(themeName + "/scenes/" + name + ".json", &resources, atlas);
-    }
-
     template <class PageType, class Loader>
     SharedPtr<PageBase> LoadPage(const char *name, Loader loader)
     {
@@ -77,19 +72,18 @@ namespace ChessClock
 
     void Root::LoadResources(Context &context)
     {
+        LoadTheme(context);
+        LoadText(context);
+        LoadPages(context);
+        Transition(context, EPage::Splash);
+    }
+
+    void Root::LoadText(Context &context)
+    {
         auto &values = *context.Values;
         auto &resources = context.Resources;
         auto &renderer = context.Renderer;
         const auto white = Color{ 255,255,255 };
-
-        values.Root = this;
-        values.Theme = resources.LoadResource<ThemeMeta>(_themeName + "/meta.json", &resources);
-
-        values.TimerFont = values.Theme->GetFont("timer_font");
-        values.SmallFont = values.Theme->GetFont("small_font");
-        values.HeaderFont = values.Theme->GetFont("small_font");
-
-        values.Atlas = resources.LoadResource<Atlas>(_themeName + "/Atlas", &resources, &renderer);
 
         values.NumberFont = resources.CreateResource<TimerFont>("Numbers", values.TimerFont);
         values.NumberFont->MakeTextures(resources, renderer, white);
@@ -97,26 +91,46 @@ namespace ChessClock
         auto makeText = [&](const char *text, const Color color) {
             return values.HeaderFont->CreateText(resources, renderer, text, color);
         };
+
         values.LeftNameText = makeText("SpamFilter", white);
         values.RightNameText = makeText("monoRAIL", white);
         values.VersusText = makeText("vs", white);
+    }
 
+    void Root::LoadTheme(Context &context)
+    {
+        auto &values = *context.Values;
+        auto &resources = context.Resources;
+        auto &renderer = context.Renderer;
+        
+        values.Root = this;
+        values.Theme = resources.LoadResource<ThemeMeta>(_themeName + "/meta.json", &resources);
+        values.TimerFont = values.Theme->GetFont("timer_font");
+        values.SmallFont = values.Theme->GetFont("small_font");
+        values.HeaderFont = values.Theme->GetFont("small_font");
+
+        values.Atlas = resources.LoadResource<Atlas>(_themeName + "/Atlas", &resources, &renderer);
+    }
+
+    void Root::Prepare(Context &context)
+    {
+        auto &values = *context.Values;
+        for (auto &[first, second] : values.Pages)
+            second->GameBase->Prepare(context);
+    }
+
+    void Root::LoadPages(Context &context)
+    {
+        auto &values = *context.Values;
+        auto &resources = context.Resources;
         auto loadPage = [&](const char *name) {
             return resources.LoadResource<Scene>(_themeName + "/scenes/" + name + ".json", &resources, values.Atlas);
         };
+
         values.Pages[EPage::Splash] = LoadPage<GameSplash>("splash", loadPage);
         values.Pages[EPage::Playing] = LoadPage<GamePlaying>("playing", loadPage);
         values.Pages[EPage::Settings] = LoadPage<GameSettings>("settings", loadPage);
         values.Pages[EPage::About] = LoadPage<GameAbout>("about", loadPage);
-
-        for (auto & [first, second] : values.Pages)
-            second->GameBase->Prepare(context);
-
-        Transition(context, EPage::Splash);
-    }
-
-    void Root::Prepare(Context &ctx)
-    {
     }
 
     void Root::AddStep(Context& ctx, bool(Root::*method)(Context&))

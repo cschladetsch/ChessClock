@@ -60,8 +60,11 @@ namespace ChessClock
 
         void ShowFrameRate() const;
 
-        void Prepare(Context &);
+        void LoadTheme(Context &context);
+        void LoadText(Context &context);
+        void LoadPages(Context &context);
         void LoadResources(Context &);
+        void Prepare(Context &);
         void AddStep(Context&, bool(Root::*method)(Context&));
 
         bool StepGame(Context &);
