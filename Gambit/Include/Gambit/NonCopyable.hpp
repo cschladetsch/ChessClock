@@ -6,10 +6,10 @@ namespace Gambit
     {
     protected:
         ~NonCopyable() = default;
-    public:
-        NonCopyable() {}
 
-    private:
+    public:
+        NonCopyable() = default;
+
         NonCopyable(NonCopyable &) = delete;
         NonCopyable(NonCopyable &&) = delete;
         NonCopyable& operator =(NonCopyable &) = delete;

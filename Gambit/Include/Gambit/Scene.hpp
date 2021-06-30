@@ -49,3 +49,4 @@ namespace Gambit
         bool ParseJson(JsonNext &item) override;
     };
 }
+

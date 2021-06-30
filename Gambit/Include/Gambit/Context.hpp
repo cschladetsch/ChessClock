@@ -76,9 +76,9 @@ namespace Gambit
             return 0;
         }
 
-        bool Execute(std::vector<ContextFunction> &funcs)
+        bool Execute(std::vector<ContextFunction> &functions)
         {
-            auto dupes = funcs;
+            auto dupes = functions;
             auto func = dupes.begin();
             while (func != dupes.end())
             {
@@ -101,7 +101,7 @@ namespace Gambit
                 }
             }
 
-            funcs = dupes;
+            functions = dupes;
 
             return true;
         }

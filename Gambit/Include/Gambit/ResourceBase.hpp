@@ -16,12 +16,12 @@ namespace Gambit
         std::string GetName() const { return _resourceId.GetName(); }
         ResourceId const& GetResourceId() const { return _resourceId; }
 
-    public:
-        ResourceBase() { }
-        ResourceBase(ResourceId resourceId)
+        ResourceBase() = default;
+
+        explicit ResourceBase(ResourceId resourceId)
             : _resourceId(resourceId) { }
 
-        std::shared_ptr<ResourceBase> SharedBase() { return std::enable_shared_from_this<ResourceBase>::shared_from_this(); }
+        std::shared_ptr<ResourceBase> SharedBase() { return shared_from_this(); }
     };
 }
 

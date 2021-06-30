@@ -16,3 +16,4 @@ namespace Gambit
 
 #define GAMBIT_NOT_IMPLEMENTED_1(text) \
     throw ::Gambit::NotImplemented(text);
+

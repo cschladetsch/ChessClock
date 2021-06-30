@@ -1,9 +1,6 @@
 #pragma once
 
-#include <span>
-
 #include "Gambit/ForwardReferences.hpp"
-#include "Gambit/ThirdParty/Md5Hash.hpp"
 
 namespace Gambit
 {

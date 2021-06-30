@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Gambit/ForwardReferences.hpp"
-#include "Gambit/Event.hpp"
 #include "Gambit/Rect.hpp"
 #include "Gambit/ResourceBase.hpp"
 
