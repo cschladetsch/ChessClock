@@ -23,7 +23,7 @@ namespace Gambit
         TTF_CloseFont(font);
     }
 
-    TexturePtr Font::CreateTexture(ResourceManager &rm, Renderer &renderer, std::string const &text, Color color) const
+    TexturePtr Font::CreateText(ResourceManager &rm, Renderer &renderer, std::string const &text, Color color) const
     {
         auto key = std::make_pair(std::string(text), color);
         auto found = _cache.find(key);

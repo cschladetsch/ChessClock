@@ -31,7 +31,7 @@ namespace Gambit
 
         static FontPtr LoadFont(std::string const& fileName, ResourceId const &id, int pointSize);
 
-        virtual TexturePtr CreateTexture(ResourceManager &, Renderer &, std::string const &text, Color color) const;
+        virtual TexturePtr CreateText(ResourceManager &, Renderer &, std::string const &text, Color color) const;
     };
 }
 

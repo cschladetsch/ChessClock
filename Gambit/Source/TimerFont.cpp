@@ -85,13 +85,13 @@ namespace Gambit
         for (auto n = 0; n < 10; ++n)
         {
             auto str = itos(n);
-            _digits[n] = _font->CreateTexture(rm, renderer, str.c_str(), color);
-            _darkDigits[n] = _font->CreateTexture(rm, renderer, str.c_str(), dark);
+            _digits[n] = _font->CreateText(rm, renderer, str.c_str(), color);
+            _darkDigits[n] = _font->CreateText(rm, renderer, str.c_str(), dark);
         }
         _rectDigit = _digits[0]->GetBounds();
 
-        _colon = _font->CreateTexture(rm, renderer, ":", color);
-        _darkColon = _font->CreateTexture(rm, renderer, ":", dark);
+        _colon = _font->CreateText(rm, renderer, ":", color);
+        _darkColon = _font->CreateText(rm, renderer, ":", dark);
         _rectColon = _colon->GetBounds();
     }
 }

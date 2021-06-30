@@ -47,7 +47,7 @@ namespace ChessClock
         TimeControl GetTimeControl() const { return _timeControl; }
         TimeControl GetTimeControl(ESide side) const;
 
-        void Pause(bool pause = true);
+        void Pause(bool paused = true);
         bool IsPaused() const { return _paused; }
         void TogglePause() { Pause(!_paused); }
 
@@ -69,9 +69,9 @@ namespace ChessClock
     private:
         void SetupGameSprites(Gambit::ResourceManager &, Gambit::Renderer &, Values &values);
 
-        void SettingsPressed(Context &, ObjectPtr sourceObject);
-        void PausePressed(Context &, ObjectPtr sourceObject);
-        void VolumePressed(Context &, ObjectPtr sourceObject);
+        void SettingsPressed(Context &, ObjectPtr const &source);
+        void PausePressed(Context &, ObjectPtr const &source);
+        void VolumePressed(Context &, ObjectPtr const &source);
 
         bool ToggleWhenPaused();
         void ToggleColor();

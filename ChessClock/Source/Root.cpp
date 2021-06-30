@@ -1,12 +1,9 @@
-#include "Gambit/TimerFont.hpp"
 #include "Gambit/Atlas.hpp"
+#include "Gambit/TimerFont.hpp"
 
 #include "ChessClock/ForwardReferences.hpp"
 #include "ChessClock/Values.hpp"
 #include "ChessClock/Root.hpp"
-
-#include <memory>
-
 #include "ChessClock/EGameState.hpp"
 #include "ChessClock/GameSplash.hpp"
 #include "ChessClock/GamePlaying.hpp"
@@ -69,7 +66,7 @@ namespace ChessClock
 
     ScenePtr LoadScene(string const &themeName, string const &name, ResourceManager& resources, AtlasPtr const &atlas)
     {
-        return resources.LoadResource<Scene>((themeName + "/scenes/" + name + ".json").c_str(), &resources, atlas);
+        return resources.LoadResource<Scene>(themeName + "/scenes/" + name + ".json", &resources, atlas);
     }
 
     template <class PageType, class Loader>
@@ -86,32 +83,34 @@ namespace ChessClock
         const auto white = Color{ 255,255,255 };
 
         values.root = this;
-        values.themeMeta = resources.LoadResource<ThemeMeta>(_themeName + "/meta.json", &resources);
+        values.theme = resources.LoadResource<ThemeMeta>(_themeName + "/meta.json", &resources);
 
-        values.timerFont = values.themeMeta->GetFont("timer_font");
-        values.smallFont = values.themeMeta->GetFont("small_font");
-        values.headerFont = values.themeMeta->GetFont("small_font");
+        values.timerFont = values.theme->GetFont("timer_font");
+        values.smallFont = values.theme->GetFont("small_font");
+        values.headerFont = values.theme->GetFont("small_font");
 
-        values.atlas = resources.LoadResource<Atlas>((_themeName + "/atlas").c_str(), &resources, &renderer);
+        values.atlas = resources.LoadResource<Atlas>(_themeName + "/atlas", &resources, &renderer);
 
         values.numberFont = resources.CreateResource<TimerFont>("Numbers", values.timerFont);
         values.numberFont->MakeTextures(resources, renderer, white);
 
-        auto loadTexture = [&](const char *text, Color color) { return values.headerFont->CreateTexture(resources, renderer, text, color); };
-        values.leftNameText = loadTexture("SpamFilter", white);
-        values.rightNameText = loadTexture("monoRAIL", white);
-        values.versusText = loadTexture("vs", white);
+        auto makeText = [&](const char *text, const Color color) {
+            return values.headerFont->CreateText(resources, renderer, text, color);
+        };
+        values.leftNameText = makeText("SpamFilter", white);
+        values.rightNameText = makeText("monoRAIL", white);
+        values.versusText = makeText("vs", white);
 
-        auto loader = [&](const char *name) { return resources.LoadResource<Scene>((_themeName + "/scenes/" + name + ".json").c_str(), &resources, values.atlas); };
-        values.pages[EPage::Splash] = LoadPage<GameSplash>("splash", loader);
-        values.pages[EPage::Playing] = LoadPage<GamePlaying>("playing", loader);
-        values.pages[EPage::Settings] = LoadPage<GameSettings>("settings", loader);
-        values.pages[EPage::About] = LoadPage<GameAbout>("about", loader);
+        auto loadPage = [&](const char *name) {
+            return resources.LoadResource<Scene>(_themeName + "/scenes/" + name + ".json", &resources, values.atlas);
+        };
+        values.pages[EPage::Splash] = LoadPage<GameSplash>("splash", loadPage);
+        values.pages[EPage::Playing] = LoadPage<GamePlaying>("playing", loadPage);
+        values.pages[EPage::Settings] = LoadPage<GameSettings>("settings", loadPage);
+        values.pages[EPage::About] = LoadPage<GameAbout>("about", loadPage);
 
         for (auto & [first, second] : values.pages)
-        {
             second->GameBase->Prepare(context);
-        }
 
         Transition(context, EPage::Splash);
     }
@@ -228,8 +227,6 @@ namespace ChessClock
             context.values->pageCurrent = _transitionPage;
             _transitionTime = 0;
         }
-
     }
-
 }
 

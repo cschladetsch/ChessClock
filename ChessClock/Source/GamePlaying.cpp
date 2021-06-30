@@ -24,20 +24,20 @@ namespace ChessClock
         Pause();
     }
 
-    void GamePlaying::SettingsPressed(Context &context, ObjectPtr source)
+    void GamePlaying::SettingsPressed(Context &context, ObjectPtr const &source)
     {
         LOG_INFO() << "Settings pressed from " << LOG_VALUE(source->GetName()) << "\n";
         Pause();
         context.values->root->Transition(context, EPage::Settings);
     }
 
-    void GamePlaying::PausePressed(Context &context, ObjectPtr source)
+    void GamePlaying::PausePressed(Context &context, ObjectPtr const &source)
     {
         LOG_INFO() << "Pause pressed from " << LOG_VALUE(source->GetName()) << "\n";
         TogglePause();
     }
 
-    void GamePlaying::VolumePressed(Context &context, ObjectPtr source)
+    void GamePlaying::VolumePressed(Context &context, ObjectPtr const &source)
     {
         LOG_INFO () << "Volume pressed from " << LOG_VALUE(source->GetName()) << "\n";
     }
@@ -65,7 +65,7 @@ namespace ChessClock
 
         values.GetCurrentScene()->Render(ctx.renderer);
 
-        int y = 14;
+        const int y = 14;
         renderer.WriteTexture(values.leftNameText, Vector2(85, y));
         renderer.WriteTexture(values.versusText, Vector2(400 - 12, y));
         renderer.WriteTexture(values.rightNameText, Vector2(580, y));
@@ -116,8 +116,8 @@ namespace ChessClock
         if (_paused)
             return;
 
-        TimeUnit now = TimeNowMillis();
-        TimeUnit delta = now - _lastGameTime;
+        const TimeUnit now = TimeNowMillis();
+        const TimeUnit delta = now - _lastGameTime;
         _gameTime += delta;
         _lastGameTime = now;
 
@@ -235,8 +235,8 @@ namespace ChessClock
 
     void GamePlaying::ChangeTurn()
     {
-        TimeUnit now = TimeNowMillis();
-        TimeUnit delta = now - _lastGameTime;
+        const TimeUnit now = TimeNowMillis();
+        const TimeUnit delta = now - _lastGameTime;
         _lastGameTime = now;
         Player &currentPlayer = CurrentPlayer();
         currentPlayer.AddMillis(-delta);

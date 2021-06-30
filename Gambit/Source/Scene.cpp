@@ -66,9 +66,9 @@ namespace Gambit
 
     void Scene::Render(Renderer &renderer) const
     {
-        for (auto& root : _layerToRoots)
+        for (const auto& [first, second] : _layerToRoots)
         {
-            for (auto& object : root.second->GetChildren())
+            for (auto& object : second->GetChildren())
             {
                 if (object->Sprite.empty())
                     continue;

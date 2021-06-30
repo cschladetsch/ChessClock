@@ -24,7 +24,7 @@ namespace ChessClock
         Fonts _fonts;
 
     public:
-        ThemeMeta(Gambit::ResourceManager &resourceManager, string const &jsonFileName);
+        ThemeMeta(ResourceManager &resourceManager, string const &jsonFileName);
         virtual ~ThemeMeta() = default;
 
         FontPtr GetFont(string const &name) const;
@@ -37,9 +37,10 @@ namespace ChessClock
             return LoadThemeMeta(*resources, jsonName);
         }
 
-    protected:
+    private:
         static std::shared_ptr<ThemeMeta> LoadThemeMeta(ResourceManager &, string const &jsonName);
 
         bool ParseJson(JsonNext &item) override;
     };
 }
+

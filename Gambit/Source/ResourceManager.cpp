@@ -2,13 +2,15 @@
 
 namespace Gambit
 {
+    using namespace std;
+
     ResourceManager::ResourceManager(Renderer const& renderer, const char* rootFolder)
     {
         _renderer = &renderer;
         _rootFolder = rootFolder;
     }
 
-    std::string ResourceManager::MakeResourceFilename(string const &name) const
+    string ResourceManager::MakeResourceFilename(string const &name) const
     {
         return _rootFolder + name;
     }
@@ -33,12 +35,12 @@ namespace Gambit
             return;
         }
 
-        _idToResource[id] = std::move(resource);
+        _idToResource[id] = move(resource);
     }
 
     ObjectPtr ResourceManager::CreateObject(const string &name)
     {
-        const auto result = std::make_shared<Object>(name, ResourceId(name), *this);
+        const auto result = make_shared<Object>(name, ResourceId(name), *this);
         return AddObject(result) ? result : nullptr;
     }
 

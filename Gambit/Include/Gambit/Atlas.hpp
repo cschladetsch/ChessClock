@@ -27,7 +27,7 @@ namespace Gambit
         TintList _tints;
 
     public:
-        Atlas(TexturePtr const &atlasTexture, const string &spritesJson);
+        Atlas(TexturePtr atlasTexture, const string &spritesJson);
 
         std::pair<bool, Rect> GetSprite(string const &name) const;
         bool WriteSprite(Renderer &, Object const &object) const;

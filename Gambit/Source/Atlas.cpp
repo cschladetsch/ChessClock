@@ -15,10 +15,10 @@ namespace Gambit
 {
     using namespace std;
 
-    Atlas::Atlas(TexturePtr const &atlasTexture, const string& spritesJson)
-        : _atlasTexture(atlasTexture)
+    Atlas::Atlas(TexturePtr atlasTexture, const string& spritesJson)
+        : _atlasTexture(move(atlasTexture))
     {
-        ReadJsonEx(spritesJson.c_str());
+        ReadJsonEx(spritesJson);
     }
 
     pair<bool, Rect> Atlas::GetSprite(string const& name) const
@@ -58,11 +58,12 @@ namespace Gambit
 
     bool Atlas::WriteSprite(Renderer &renderer, Vector2 const& topLeft, Object const &object) const
     {
-        const auto found = GetSprite(object.Sprite);
-        if (!found.first)
+        const auto [first, second] = GetSprite(object.Sprite);
+        if (!first)
             return SpriteNotFound(object.Sprite);
-        Rect const& dest = found.second;
-        return WriteRect(renderer, found.second, Rect(topLeft.x, topLeft.y, dest.width, dest.height), object);
+        Rect const& dest = second;
+        return WriteRect(renderer, second, 
+            Rect(topLeft.x, topLeft.y, dest.width, dest.height), object);
     }
 
     bool Atlas::WriteRect(Renderer& renderer, Rect const& sourceRect, Rect const& destRect, Object const &object) const
@@ -101,7 +102,7 @@ namespace Gambit
         SDL_Surface *surface = IMG_Load(fileName.c_str());
         if (!surface)
         {
-            LOG_ERROR() << "Failed to load " << LOG_VALUE(fileName) << LOG_VALUE(IMG_GetError()) <<  "\n";
+            LOG_ERROR() << "Failed to load " << LOG_VALUE(fileName) << LOG_VALUE(IMG_GetError()) << "\n";
             return nullptr;
         }
 
@@ -153,7 +154,7 @@ namespace Gambit
         }
 
         auto const &rc = json[name].get<vector<int>>();
-        return Rect(rc[0], rc[1], rc[2], rc[3]);
+        return Rect{rc[0], rc[1], rc[2], rc[3]};
     }
 
     Color Atlas::ReadColor(Json &json, const char *name)
