@@ -85,14 +85,16 @@ namespace ChessClock
         auto &renderer = context.renderer;
         const auto white = Color{ 255,255,255 };
 
+        values.root = this;
         values.themeMeta = resources.LoadResource<ThemeMeta>((_themeName + "/meta.json").c_str(), &resources);
 
-        values.Root = this;
-        values.font = resources.LoadResource<Font>(_defaultFont.c_str(), 125);
+        values.timerFont = values.themeMeta->GetFont("timer_font");
+        values.smallFont = values.themeMeta->GetFont("small_font");
+        values.headerFont = values.themeMeta->GetFont("small_font");
+
         values.atlas = resources.LoadResource<Atlas>((_themeName + "/atlas").c_str(), &resources, &renderer);
 
-        values.headerFont = resources.LoadResource<Font>(_defaultFont.c_str(), 30);
-        values.numberFont = resources.CreateResource<TimerFont>("Numbers", values.font);
+        values.numberFont = resources.CreateResource<TimerFont>("Numbers", values.timerFont);
         values.numberFont->MakeTextures(resources, renderer, white);
 
         auto loadTexture = [&](const char *text, Color color) { return values.headerFont->CreateTexture(resources, renderer, text, color); };

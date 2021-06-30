@@ -18,10 +18,10 @@ namespace Gambit
         DrawTime(renderer, _digits, _colon, topLeft, minutes, seconds);
     }
 
-    void TimerFont::DrawTime(Renderer &renderer, Vector2 const &topLeft, uint8_t seconds) const
+    void TimerFont::DrawSeconds(Renderer &renderer, Vector2 const &topLeft, uint8_t seconds) const
     {
-        DrawTime(renderer, _darkDigits, topLeft + DarkOffset, seconds);
-        DrawTime(renderer, _digits, topLeft, seconds);
+        DrawSeconds(renderer, _darkDigits, topLeft + DarkOffset, seconds);
+        DrawSeconds(renderer, _digits, topLeft, seconds);
     }
 
     void TimerFont::DrawTime(Renderer& renderer, Digits const& digits, TexturePtr const &colon,  Vector2 const &topLeft, uint8_t minutes, uint8_t seconds) const
@@ -34,7 +34,7 @@ namespace Gambit
         DrawDigitPair(renderer, digits, tl, seconds);
     }
 
-    void TimerFont::DrawTime(Renderer& renderer, Digits const& digits, Vector2 const &topLeft, uint8_t seconds) const
+    void TimerFont::DrawSeconds(Renderer& renderer, Digits const& digits, Vector2 const &topLeft, uint8_t seconds) const
     {
         DrawDigitPair(renderer, digits, topLeft, seconds);
     }

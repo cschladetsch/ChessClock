@@ -16,9 +16,9 @@ namespace ChessClock
 
         ThemeMetaPtr themeMeta;
 
-        Gambit::FontPtr font;
+        Gambit::FontPtr timerFont;
+        Gambit::FontPtr smallFont;
         Gambit::FontPtr headerFont;
-        Gambit::FontPtr footerFont;
         Gambit::NumberFontPtr numberFont;
 
         Gambit::TexturePtr backBuffer;
@@ -29,7 +29,7 @@ namespace ChessClock
         Gambit::TexturePtr versusText;
 
         Gambit::AtlasPtr atlas;
-        Root *Root;
+        Root *root;
         EPage pageCurrent;
         std::unordered_map<EPage, SharedPtr<PageBase>> pages;
 
