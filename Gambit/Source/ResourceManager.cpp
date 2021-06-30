@@ -27,15 +27,15 @@ namespace Gambit
         return true;
     }
 
-    void ResourceManager::AddResource(ResourceId const& id, ResourceBasePtr resource)
+    ResourceBasePtr ResourceManager::AddResource(ResourceId const& id, ResourceBasePtr resource)
     {
         if (_idToResource.find(id) != _idToResource.end())
         {
             LOG_ERROR() << "Attempt to add resource id '" << id << "' to resource manager.\n";
-            return;
+            return nullptr;
         }
 
-        _idToResource[id] = move(resource);
+        return _idToResource[id] = move(resource);
     }
 
     ObjectPtr ResourceManager::CreateObject(const string &name)

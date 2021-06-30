@@ -11,7 +11,7 @@ namespace ChessClock
         : public Gambit::ResourceBase
         , Gambit::JsonReader<ThemeMeta>
     {
-        static inline Gambit::Logger _log{ "ThemeMeta"};
+        static inline Logger _log{ "ThemeMeta"};
 
         using string = Gambit::string;
         using FontPtr = Gambit::FontPtr;

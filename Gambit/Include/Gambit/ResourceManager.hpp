@@ -38,27 +38,25 @@ namespace Gambit
             if (!resource)
             {
                 LOG_ERROR() << "Failed to load resource '" << name << "'\n";
-                return 0;
+                return nullptr;
             }
-            _idToResource[id] = resource->SharedBase();
-            return resource;
+            return AddResource(id, resource->SharedBase()), resource;
         }
 
         template <class Res, class ...Args>
-        shared_ptr<Res> CreateResource(const char* name, Args... args)
+        shared_ptr<Res> CreateResource(string const &name, Args... args)
         {
             ResourceId id{ xg::newGuid(), name };
             shared_ptr<Res> resource = std::make_shared<Res>(id, args...);
             if (!resource)
             {
                 LOG_ERROR() << "Failed to make resource type '" << NAMEOF_TYPE(Res) << "' from resource " << name << "'\n";
-                return 0;
+                return nullptr;
             }
-            _idToResource[id] = resource->SharedBase();
-            return resource;
+            return AddResource(id, resource->SharedBase()), resource;
         }
 
-        void AddResource(ResourceId const &id, ResourceBasePtr resource);
+        ResourceBasePtr AddResource(ResourceId const &id, ResourceBasePtr resource);
         ResourceBasePtr GetResource(ResourceId const &id) const;
         string MakeResourceFilename(string const &name) const;
         ObjectPtr FindObject(string const &name) const;

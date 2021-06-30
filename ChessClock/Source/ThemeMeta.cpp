@@ -46,15 +46,16 @@ namespace ChessClock
             value.get_to(fonts);
             for (auto & [first, second] : fonts)
             {
-                string tagName = first;
                 string fontFileName = second.at(0);
                 const int pointSize = second.at(1);
 
-                _fonts[tagName] = _resourceManager->LoadResource<Gambit::Font>(fontFileName.c_str(), pointSize);
+                _fonts[first] = _resourceManager->LoadResource<Gambit::Font>(fontFileName, pointSize);
             }
+
+            return true;
         }
 
-        return true;
+        return false;
     }
 }
 

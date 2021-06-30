@@ -3,7 +3,6 @@
 #include "Gambit/ForwardReferences.hpp"
 #include "Gambit/Logger.hpp"
 #include "Gambit/ThirdParty/Guid.hpp"
-#include "Gambit/EResourceType.hpp"
 
 namespace Gambit
 {
@@ -20,11 +19,14 @@ namespace Gambit
 
         ResourceId() 
             : _guid(xg::newGuid()) { }
-        ResourceId(Guid id) 
+
+        explicit ResourceId(Guid const &id) 
             : _guid(id) { }
-        ResourceId(string name)
+
+        explicit ResourceId(string const &name)
             : _guid(xg::newGuid()), _name(name) { }
-        ResourceId(Guid id, string name) 
+
+        ResourceId(Guid const &id, string const &name) 
             : _guid(id), _name(name) { }
 
         friend bool operator==(ResourceId const& left, ResourceId const& right)
@@ -40,18 +42,17 @@ namespace Gambit
 
 }
 
-using namespace rang;
-
 namespace std
 {
     template <>
     struct hash<Gambit::ResourceId>
     {
-        std::size_t operator()(const Gambit::ResourceId& rid) const
+        std::size_t operator()(const Gambit::ResourceId& rid) const noexcept
         {
             auto bytes = rid.GetGuid().bytes();
-            auto longs = reinterpret_cast<const uint64_t*>(&*bytes.begin());
+            const auto longs = reinterpret_cast<const uint64_t*>(&*bytes.begin());
             return longs[0] ^ longs[1];
         }
     };
 }
+
