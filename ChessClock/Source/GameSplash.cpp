@@ -10,8 +10,7 @@ namespace ChessClock
        
     void GameSplash::Update(Context &context) 
     {
-        auto now = Gambit::TimeNowMillis();
-        if (now > _displayTime)
+        if (auto const now = Gambit::TimeNowMillis(); now > _displayTime)
         {
             context.Values->Root->Transition(context, EPage::Playing);
         }

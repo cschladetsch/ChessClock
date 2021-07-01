@@ -34,7 +34,7 @@ namespace ChessClock
         void Update(Context &) override;
         bool ProcessEvents(Context &context, SDL_Event const &) override;
 
-        void SetSprites(ObjectPtr left, ObjectPtr right, ObjectPtr whitePawn, ObjectPtr blackPawn, ObjectPtr pauseButton);
+        void SetSprites(ObjectPtr const &left, ObjectPtr const &right, ObjectPtr const &whitePawn, ObjectPtr const &blackPawn, ObjectPtr const &pauseButton);
 
         void ResetGame();
 

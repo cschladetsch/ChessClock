@@ -39,7 +39,7 @@ namespace ChessClock
 
     void GamePlaying::VolumePressed(Context &context, ObjectPtr const &source)
     {
-        LOG_INFO () << "Volume pressed from " << LOG_VALUE(source->GetName()) << "\n";
+        LOG_INFO() << "Volume pressed from " << LOG_VALUE(source->GetName()) << "\n";
     }
 
     void GamePlaying::SetupGameSprites(ResourceManager &, Renderer &, Values &values)
@@ -203,7 +203,6 @@ namespace ChessClock
     {
         if (IsPaused())
         {
-            ToggleColor();
             return;
         }
 
@@ -212,7 +211,6 @@ namespace ChessClock
             _gameState = EGameState::Playing;
             _lastGameTime = TimeNowMillis();
             Pause(false);
-            return;
         }
 
         if (_gameState == EGameState::Playing)
@@ -224,7 +222,7 @@ namespace ChessClock
         return side == ESide::Left ? _playerLeft : _playerRight;
     }
 
-    void GamePlaying::SetSprites(const ObjectPtr left, const ObjectPtr right, const ObjectPtr whitePawn, const ObjectPtr blackPawn, ObjectPtr pauseButton)
+    void GamePlaying::SetSprites(ObjectPtr const &left, ObjectPtr const &right, ObjectPtr const &whitePawn, ObjectPtr const &blackPawn, ObjectPtr const &pauseButton)
     {
         _leftFace = left;
         _rightFace = right;
