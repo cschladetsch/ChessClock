@@ -25,9 +25,8 @@ namespace Gambit
 
     TexturePtr Font::CreateText(ResourceManager &rm, Renderer &renderer, std::string const &text, Color color) const
     {
-        auto key = std::make_pair(std::string(text), color);
-        auto found = _cache.find(key);
-        if (found != _cache.end())
+        auto const key = std::make_pair(std::string(text), color);
+        if (const auto found = _cache.find(key); found != _cache.end())
         {
             return found->second;
         }

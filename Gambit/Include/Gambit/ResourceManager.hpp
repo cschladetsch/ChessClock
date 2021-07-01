@@ -60,6 +60,8 @@ namespace Gambit
         ResourceBasePtr GetResource(ResourceId const &id) const;
         string MakeResourceFilename(string const &name) const;
         ObjectPtr FindObject(string const &name) const;
+
+        IdToObject const &GetAllObjects() const { return _idToObject; }
     };
 }
 

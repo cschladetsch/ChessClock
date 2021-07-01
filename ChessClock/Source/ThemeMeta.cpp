@@ -23,7 +23,7 @@ namespace ChessClock
         auto const &found = _fonts.find(name);
         if (found == _fonts.end())
         {
-            LOG_ERROR() << "Font not found " << LOG_VALUE(name) << "\n;";
+            LOG_ERROR() << "FontName not found " << LOG_VALUE(name) << "\n;";
             return nullptr;
         }
         return found->second;

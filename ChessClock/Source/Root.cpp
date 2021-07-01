@@ -68,7 +68,23 @@ namespace ChessClock
         LoadTheme(context);
         LoadText(context);
         LoadPages(context);
+        CreateObjectTexts(context);
         Transition(context, EPage::Splash);
+    }
+
+    void Root::CreateObjectTexts(Context &context)
+    {
+        for (auto const &[id, object] : context.Resources.GetAllObjects())
+        {
+            if (object->ObjectType == EObjectType::Text)
+            {
+                auto const &font = context.Values->Theme->GetFont(object->FontName);
+                if (!font)
+                    continue;
+
+                object->TextTexturePtr = font->CreateText(context.Resources, context.Renderer, object->String, Color{ 255,255,255 });
+            }
+        }
     }
 
     void Root::LoadTheme(Context &context)
@@ -76,12 +92,13 @@ namespace ChessClock
         auto &values = *context.Values;
         auto &resources = context.Resources;
         auto &renderer = context.Renderer;
+        auto &theme = values.Theme;
         
         values.Root = this;
-        values.Theme = resources.LoadResource<ThemeMeta>(_themeName + "/meta.json", &resources);
-        values.TimerFont = values.Theme->GetFont("timer_font");
-        values.SmallFont = values.Theme->GetFont("small_font");
-        values.HeaderFont = values.Theme->GetFont("small_font");
+        theme = resources.LoadResource<ThemeMeta>(_themeName + "/meta.json", &resources);
+        values.TimerFont = theme->GetFont("timer_font");
+        values.SmallFont = theme->GetFont("small_font");
+        values.HeaderFont = theme->GetFont("small_font");
         values.Atlas = resources.LoadResource<Atlas>(_themeName + "/Atlas", &resources, &renderer);
     }
 

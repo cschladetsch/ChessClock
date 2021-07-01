@@ -64,6 +64,7 @@ namespace ChessClock
         void LoadText(Context &context);
         void LoadPages(Context &context);
         void LoadResources(Context &);
+        static void CreateObjectTexts(Context &context);
         void Prepare(Context &);
         void AddStep(Context&, bool(Root::*method)(Context&));
 
