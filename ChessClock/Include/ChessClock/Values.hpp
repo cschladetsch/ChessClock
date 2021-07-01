@@ -34,10 +34,10 @@ namespace ChessClock
         EPage PageCurrent;
         std::unordered_map<EPage, SharedPtr<PageBase>> Pages;
 
-        PageBasePtr GetPage(EPage page) { return Pages[page]; }
-        PageBasePtr GetCurrentPage() { return Pages[PageCurrent]; }
-        Gambit::ScenePtr GetCurrentScene() { return GetCurrentPage()->Scene; }
-        GameBasePtr GetCurrentGame() { return GetCurrentPage()->GameBase; }
+        PageBasePtr GetPage(EPage page) const { return Pages.find(page)->second; }
+        PageBasePtr GetCurrentPage() const { return GetPage(PageCurrent); }
+        Gambit::ScenePtr GetCurrentScene() const { return GetCurrentPage()->Scene; }
+        GameBasePtr GetCurrentGame() const {  return GetCurrentPage()->GameBase; }
     };
 }
 

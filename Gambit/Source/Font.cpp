@@ -31,7 +31,7 @@ namespace Gambit
             return found->second;
         }
 
-        SDL_Surface* surface = TTF_RenderText_Solid(const_cast<_TTF_Font *>(&Get()), text.c_str(), { color.red, color.green, color.blue, color.alpha });
+        SDL_Surface *surface = TTF_RenderText_Solid(const_cast<_TTF_Font *>(&Get()), text.c_str(), { color.red, color.green, color.blue, color.alpha });
         SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer.GetRenderer(), surface);
         SDL_FreeSurface(surface);
 

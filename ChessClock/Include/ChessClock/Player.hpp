@@ -24,6 +24,7 @@ namespace ChessClock
 
         void SetName(const String& name) { _name = name; }
 
+        PlayerTime const &GetRemainingTime() const { return _remainingTime; }
         Gambit::Minutes GetMinutes() const { return _remainingTime.GetMinutes(); }
         Gambit::Seconds GetSeconds() const { return _remainingTime.GetSeconds(); }
         Gambit::Seconds GetIncrement() const { return _remainingTime.GetIncrement(); }

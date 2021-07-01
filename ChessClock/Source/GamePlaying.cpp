@@ -53,9 +53,9 @@ namespace ChessClock
         SetSprites(leftFace, rightFace, whitePawn, blackPawn, pauseButton);
     }
 
-    void DrawTimer(Values& values, Renderer &renderer, const Vector2 &location, Player const& player)
+    void DrawTimer(Values const& values, Renderer &renderer, const Vector2 &location, TimeControl const &timeControl)
     {
-        values.NumberFont->DrawTime(renderer, location, static_cast<uint8_t>(player.GetMinutes()), static_cast<uint8_t>(player.GetSeconds()));
+        values.NumberFont->DrawTime(renderer, location, static_cast<uint8_t>(timeControl.GetMinutes()), static_cast<uint8_t>(timeControl.GetSeconds()));
     }
 
     void GamePlaying::Render(Context &context) const
@@ -73,8 +73,8 @@ namespace ChessClock
         const Vector2 destPointLeft{ 35, 95 };
         const Vector2 destPointRight{ 438, 95 };
 
-        DrawTimer(values, renderer, destPointLeft, LeftPlayer());
-        DrawTimer(values, renderer, destPointRight, RightPlayer());
+        DrawTimer(values, renderer, destPointLeft, LeftPlayer().GetRemainingTime().GetTimeRemaining());
+        DrawTimer(values, renderer, destPointRight, RightPlayer().GetRemainingTime().GetTimeRemaining());
     }
 
     bool GamePlaying::ProcessEvents(Context &context, SDL_Event const &event)

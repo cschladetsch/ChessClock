@@ -11,7 +11,7 @@ namespace ChessClock
         static inline Logger _log{ "GameSettings" };
 
     public:
-        TimeControl TimeControl;
+        TimeControl TimeControl { 10, 0, 3 };
 
         GameSettings() = default;
 

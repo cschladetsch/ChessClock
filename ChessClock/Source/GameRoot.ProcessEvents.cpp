@@ -4,8 +4,6 @@
 #include "ChessClock/Values.hpp"
 #include "ChessClock/GameBase.hpp"
 
-#include "ChessClock/GamePlaying.hpp"
-
 namespace ChessClock
 {
     bool Root::ProcessEvents(Context& ctx)
@@ -26,8 +24,7 @@ namespace ChessClock
                     {
                         case SDL_BUTTON_LEFT:
                         {
-                            auto where = Vector2{ event.button.x, event.button.y };
-                            values.GetCurrentGame()->OnPressed(ctx, where);
+                            values.GetCurrentGame()->OnPressed(ctx, Vector2{ event.button.x, event.button.y });
                             break;
                         }
                     }
@@ -36,11 +33,10 @@ namespace ChessClock
 
                 case SDL_MOUSEMOTION:
                 {
-                    if (!ctx.Values->TrackMouse)
+                    if (ctx.Values->TrackMouse)
                     {
-                        continue;
+                        LOG_INFO() << "x: " << event.motion.x << ", y: " << event.motion.y << "\n";
                     }
-                    LOG_INFO() << "x: " << event.motion.x << ", y: " << event.motion.y << "\n";
                     break;
                 }
 
