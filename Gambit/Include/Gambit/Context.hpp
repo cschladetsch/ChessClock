@@ -17,20 +17,20 @@ namespace Gambit
         Logger _log{ "Context" };
 
     public:
-        Renderer Renderer;
+        Renderer TheRenderer;
         ResourceManager Resources;
         shared_ptr<Values> Values;
         vector<ContextFunction> Steps;
         vector<ContextFunction> EventProcessors;
 
         Context(const char* resourceFolder)
-            : Resources(Renderer, resourceFolder)
+            : Resources(TheRenderer, resourceFolder)
         {
             CreateRenderer();
         }
 
         Context(const char* resourceFolder, ContextFunction setup, ContextFunction processEvents)
-            : Resources(Renderer, resourceFolder)
+            : Resources(TheRenderer, resourceFolder)
         {
             CreateRenderer();
             TTF_Init();
@@ -41,14 +41,14 @@ namespace Gambit
 
         ~Context()
         {
-            Renderer.Destroy();
+            TheRenderer.Destroy();
             TTF_Quit();
             SDL_Quit();
         }
 
         void RenderScene()
         {
-            Values->GetCurrentScene()->Render(Renderer);
+            Values->GetCurrentScene()->Render(TheRenderer);
         }
 
         static float GetSecondsSinceStart()
@@ -58,9 +58,9 @@ namespace Gambit
 
         void CreateRenderer()
         {
-            if (!Renderer.Construct("Chess Clock"))
+            if (!TheRenderer.Construct("Chess Clock"))
             {
-                LOG_ERROR() << "Failed to initialise Renderer\n";
+                LOG_ERROR() << "Failed to initialise TheRenderer\n";
                 exit(1);
             }
         }

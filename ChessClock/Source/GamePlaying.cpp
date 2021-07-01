@@ -19,7 +19,7 @@ namespace ChessClock
         AddCallback("PausePressed", [this, &context](auto &ctx, auto source) { PausePressed(ctx, source); });
         AddCallback("VolumePressed", [this, &context](auto &ctx, auto source) { VolumePressed(ctx, source); });
 
-        SetupGameSprites(context.Resources, context.Renderer, *context.Values);
+        SetupGameSprites(context.Resources, context.TheRenderer, *context.Values);
 
         Pause();
     }
@@ -60,7 +60,7 @@ namespace ChessClock
 
     void GamePlaying::Render(Context &context) const
     {
-        auto& renderer = context.Renderer;
+        auto& renderer = context.TheRenderer;
         auto& values = *context.Values;
 
         context.RenderScene();

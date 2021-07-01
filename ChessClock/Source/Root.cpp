@@ -45,7 +45,7 @@ namespace ChessClock
 
     void Root::MakeScreenOverlay(Context &context)
     {
-        _fullscreenBlack = SDL_CreateTexture(context.Renderer.GetRenderer(), SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STATIC, global.GetScreenWidth(), global.GetScreenHeight());
+        _fullscreenBlack = SDL_CreateTexture(context.TheRenderer.GetRenderer(), SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STATIC, global.GetScreenWidth(), global.GetScreenHeight());
     }
 
     bool Root::Setup(Context &context)
@@ -82,7 +82,7 @@ namespace ChessClock
                 if (!font)
                     continue;
 
-                object->TextTexturePtr = font->CreateText(context.Resources, context.Renderer, object->String, Color{ 255,255,255 });
+                object->TextTexturePtr = font->CreateText(context.Resources, context.TheRenderer, object->String, Color{ 255,255,255 });
             }
         }
     }
@@ -91,7 +91,7 @@ namespace ChessClock
     {
         auto &values = *context.Values;
         auto &resources = context.Resources;
-        auto &renderer = context.Renderer;
+        auto &renderer = context.TheRenderer;
         auto &theme = values.Theme;
         
         values.Root = this;
@@ -106,7 +106,7 @@ namespace ChessClock
     {
         auto &values = *context.Values;
         auto &resources = context.Resources;
-        auto &renderer = context.Renderer;
+        auto &renderer = context.TheRenderer;
         const auto white = Color{ 255,255,255 };
 
         values.NumberFont = resources.CreateResource<TimerFont>("Numbers", values.TimerFont);
@@ -163,7 +163,7 @@ namespace ChessClock
         //    auto delta = _transitionTime - _transitionStartTime;
         //    auto normalised = static_cast<float>(delta) / _transitionTotalTime;
         //    auto alpha = normalised < 0.5f ? normalised : 1 - normalised;
-        //    auto Renderer = context.Renderer.GetRenderer();
+        //    auto TheRenderer = context.TheRenderer.GetRenderer();
 
         //    int result = 0;
         //    //CJS TODO: fade to black then into new scene
@@ -173,7 +173,7 @@ namespace ChessClock
         //    CALL_SDL(SDL_SetTextureBlendMode(_fullscreenBlack, SDL_BLENDMODE_BLEND));
         //    CALL_SDL(SDL_GetTextureAlphaMod(_fullscreenBlack, &texAlpha));
         //    CALL_SDL(SDL_SetTextureAlphaMod(_fullscreenBlack, 128));
-        //    CALL_SDL(SDL_RenderCopy(Renderer, _fullscreenBlack, nullptr, nullptr));
+        //    CALL_SDL(SDL_RenderCopy(TheRenderer, _fullscreenBlack, nullptr, nullptr));
         //}
 
         context.Values->DebugTick = false;
@@ -216,7 +216,7 @@ namespace ChessClock
 
     bool Root::Present(Context &ctx)
     {
-        return ctx.Renderer.Present();
+        return ctx.TheRenderer.Present();
     }
 
     void Root::OnPressed(Context &ctx, const Vector2 &where)

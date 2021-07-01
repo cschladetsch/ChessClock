@@ -30,7 +30,7 @@ namespace ChessClock
     void GameSettings::Render(Context &context) const
     {
         Values const &values = *context.Values;
-        auto &renderer = context.Renderer;
+        auto &renderer = context.TheRenderer;
 
         values.GetCurrentScene()->Render(renderer);
 

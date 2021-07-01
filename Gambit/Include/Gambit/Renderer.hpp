@@ -13,7 +13,7 @@ namespace Gambit
         const int Height = 480;
 
     private:
-        Logger _log { "Renderer "};
+        Logger _log { "TheRenderer "};
         SDL_Window *_window{ nullptr };
         SDL_Renderer *_renderer{ nullptr };
         int _frameNumber{ 0 };

@@ -10,7 +10,7 @@ namespace ChessClock
         //    return false;
 
         //ctx.Values = std::make_shared<Values>();
-        //LoadResources(ctx.Resources, ctx.Renderer, *ctx.Values);
+        //LoadResources(ctx.Resources, ctx.TheRenderer, *ctx.Values);
 
         //AddStep(ctx, &SplashScene::RenderScene);
         //AddStep(ctx, &SplashScene::StepGame);
