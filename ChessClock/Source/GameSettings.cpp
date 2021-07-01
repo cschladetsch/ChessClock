@@ -11,8 +11,8 @@ namespace ChessClock
     {
         AddCallback("PlayPressed", [&context](auto &ctx, auto) { context.Values->Root->Transition(ctx, EPage::Playing); });
         AddCallback("IncrementMinutesPressed", [this](auto &, auto) { this->TimeControl.AddMinutes(1); });
-        AddCallback("IncrementSecondsPressed", [this](auto &, auto) { this->TimeControl.AddSeconds(1); });
         AddCallback("DecrementMinutesPressed", [this](auto &, auto) { this->TimeControl.AddMinutes(-1); });
+        AddCallback("IncrementSecondsPressed", [this](auto &, auto) { this->TimeControl.AddSeconds(1); });
         AddCallback("DecrementSecondsPressed", [this](auto &, auto) { this->TimeControl.AddSeconds(-1); });
         AddCallback("IncrementBonusPressed", [this](auto &, auto) { this->TimeControl.AddIncrementSeconds(1); });
         AddCallback("DecrementBonusPressed", [this](auto &, auto) { this->TimeControl.AddIncrementSeconds(-1); });
