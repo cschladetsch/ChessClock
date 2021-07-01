@@ -94,7 +94,7 @@ namespace ChessClock
         auto &renderer = context.TheRenderer;
         auto &theme = values.Theme;
         
-        values.Root = this;
+        values.MyRoot = this;
         theme = resources.LoadResource<ThemeMeta>(_themeName + "/meta.json", &resources);
         values.TimerFont = theme->GetFont("timer_font");
         values.SmallFont = theme->GetFont("small_font");

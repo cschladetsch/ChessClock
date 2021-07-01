@@ -30,7 +30,7 @@ namespace ChessClock
         Gambit::TexturePtr VersusText;
 
         Gambit::AtlasPtr Atlas;
-        Root *Root;
+        Root *MyRoot;
         EPage PageCurrent;
         std::unordered_map<EPage, SharedPtr<PageBase>> Pages;
 
