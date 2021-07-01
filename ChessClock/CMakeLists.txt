@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.12)
 
-set(PROJECT_NAME CClock)
+set(PROJECT_NAME ChessClock)
 project(${PROJECT_NAME})
 
 include_directories(Include/)
