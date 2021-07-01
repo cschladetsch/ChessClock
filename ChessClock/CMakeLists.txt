@@ -38,8 +38,8 @@ else()
     )
 endif()
 
-
 set(RESOURCES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Resources")
 file(GLOB_RECURSE ALL_RESOURCES "${RESOURCES_DIR}/*")
 
 source_group(TREE ${RESOURCES_DIR} PREFIX Resources FILES ${ALL_RESOURCES})
+

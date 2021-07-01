@@ -49,7 +49,7 @@ namespace Gambit
         bool Hidden{ false };
         EObjectType ObjectType{ EObjectType::None };
         string String;
-        FontPtr FontPtr;
+        FontPtr Font;
         TexturePtr TextTexturePtr;
 
         Object(string name, ResourceId const&, ResourceManager& resourceManager);
