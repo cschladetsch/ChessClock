@@ -64,7 +64,7 @@ namespace ChessClock
 
     void Root::LoadResources(Context &context)
     {
-        context.Values = make_shared<Values>();
+        context.MyValues = make_shared<Values>();
         LoadTheme(context);
         LoadText(context);
         LoadPages(context);
@@ -78,7 +78,7 @@ namespace ChessClock
         {
             if (object->ObjectType == EObjectType::Text)
             {
-                auto const &font = context.Values->Theme->GetFont(object->FontName);
+                auto const &font = context.MyValues->Theme->GetFont(object->FontName);
                 if (!font)
                     continue;
 
@@ -89,7 +89,7 @@ namespace ChessClock
 
     void Root::LoadTheme(Context &context)
     {
-        auto &values = *context.Values;
+        auto &values = *context.MyValues;
         auto &resources = context.Resources;
         auto &renderer = context.TheRenderer;
         auto &theme = values.Theme;
@@ -104,7 +104,7 @@ namespace ChessClock
 
     void Root::LoadText(Context &context)
     {
-        auto &values = *context.Values;
+        auto &values = *context.MyValues;
         auto &resources = context.Resources;
         auto &renderer = context.TheRenderer;
         const auto white = Color{ 255,255,255 };
@@ -129,7 +129,7 @@ namespace ChessClock
 
     void Root::LoadPages(Context &context)
     {
-        auto &values = *context.Values;
+        auto &values = *context.MyValues;
         auto &resources = context.Resources;
         auto loadPage = [&](const char *name) {
             return resources.LoadResource<Scene>(_themeName + "/scenes/" + name + ".json", &resources, values.Atlas);
@@ -143,7 +143,7 @@ namespace ChessClock
 
     void Root::Prepare(Context &context)
     {
-        auto &values = *context.Values;
+        auto &values = *context.MyValues;
         for (auto &[first, second] : values.Pages)
             second->GameBase->Prepare(context);
     }
@@ -155,7 +155,7 @@ namespace ChessClock
 
     bool Root::RenderScene(Context& context)
     {
-        context.Values->GetCurrentGame()->Render(context);
+        context.MyValues->GetCurrentGame()->Render(context);
 
         //CJS TODO transitions
         //if (_transitionTime > 0 && Gambit::TimeNowMillis() < _transitionTime)
@@ -176,7 +176,7 @@ namespace ChessClock
         //    CALL_SDL(SDL_RenderCopy(TheRenderer, _fullscreenBlack, nullptr, nullptr));
         //}
 
-        context.Values->DebugTick = false;
+        context.MyValues->DebugTick = false;
 
         return true;
     }
@@ -208,7 +208,7 @@ namespace ChessClock
         //    return true;
         //}
 
-        auto &values = *context.Values;
+        auto &values = *context.MyValues;
         values.GetCurrentGame()->Update(context);
 
         return true;
@@ -221,17 +221,17 @@ namespace ChessClock
 
     void Root::OnPressed(Context &ctx, const Vector2 &where)
     {
-        const auto scene = ctx.Values->GetCurrentScene();
-        const auto &button = scene->OnPressed(ctx.Values->Atlas, where);
+        const auto scene = ctx.MyValues->GetCurrentScene();
+        const auto &button = scene->OnPressed(ctx.MyValues->Atlas, where);
         if (!button)
             return;
 
-        ctx.Values->GetCurrentGame()->Call(ctx, button);
+        ctx.MyValues->GetCurrentGame()->Call(ctx, button);
     }
 
     void Root::Transition(Context &context, EPage next)
     {
-        //if (context.Values->GetCurrentGame())
+        //if (context.MyValues->GetCurrentGame())
         //{
         //    //CJS TODO: leave current page
         //}
@@ -244,7 +244,7 @@ namespace ChessClock
 
         LOG_INFO() << "Transitioning to " << LOG_VALUE(next) << "\n";
 
-        context.Values->PageCurrent = next;
+        context.MyValues->PageCurrent = next;
     }
 
     void Root::UpdateTransition(Context &context)
@@ -253,7 +253,7 @@ namespace ChessClock
         //LOG_DEBUG() << LOG_VALUE(now) << LOG_VALUE(_transitionTime) << "\n";
         if (now > _transitionTime)
         {
-            context.Values->PageCurrent = _transitionPage;
+            context.MyValues->PageCurrent = _transitionPage;
             _transitionTime = 0;
         }
     }

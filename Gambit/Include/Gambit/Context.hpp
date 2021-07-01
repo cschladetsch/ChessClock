@@ -19,7 +19,7 @@ namespace Gambit
     public:
         Renderer TheRenderer;
         ResourceManager Resources;
-        shared_ptr<Values> Values;
+        shared_ptr<Values> MyValues;
         vector<ContextFunction> Steps;
         vector<ContextFunction> EventProcessors;
 
@@ -48,7 +48,7 @@ namespace Gambit
 
         void RenderScene()
         {
-            Values->GetCurrentScene()->Render(TheRenderer);
+            MyValues->GetCurrentScene()->Render(TheRenderer);
         }
 
         static float GetSecondsSinceStart()

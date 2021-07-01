@@ -9,7 +9,7 @@ namespace ChessClock
 {
     void GameSettings::Prepare(Context &context)
     {
-        AddCallback("PlayPressed", [&context](auto &ctx, auto) { context.Values->Root->Transition(ctx, EPage::Playing); });
+        AddCallback("PlayPressed", [&context](auto &ctx, auto) { context.MyValues->Root->Transition(ctx, EPage::Playing); });
         AddCallback("IncrementMinutesPressed", [this](auto &, auto) { this->TimeControl.AddMinutes(1); });
         AddCallback("DecrementMinutesPressed", [this](auto &, auto) { this->TimeControl.AddMinutes(-1); });
         AddCallback("IncrementSecondsPressed", [this](auto &, auto) { this->TimeControl.AddSeconds(1); });
@@ -29,7 +29,7 @@ namespace ChessClock
 
     void GameSettings::Render(Context &context) const
     {
-        Values const &values = *context.Values;
+        Values const &values = *context.MyValues;
         auto &renderer = context.TheRenderer;
 
         values.GetCurrentScene()->Render(renderer);

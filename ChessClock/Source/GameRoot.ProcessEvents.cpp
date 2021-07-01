@@ -8,7 +8,7 @@ namespace ChessClock
 {
     bool Root::ProcessEvents(Context& ctx)
     {
-        Values& values = *ctx.Values;
+        Values& values = *ctx.MyValues;
         SDL_Event event;
 
         while (SDL_PollEvent(&event))
@@ -33,7 +33,7 @@ namespace ChessClock
 
                 case SDL_MOUSEMOTION:
                 {
-                    if (ctx.Values->TrackMouse)
+                    if (ctx.MyValues->TrackMouse)
                     {
                         LOG_INFO() << "x: " << event.motion.x << ", y: " << event.motion.y << "\n";
                     }
@@ -46,7 +46,7 @@ namespace ChessClock
                     {
                         case SDLK_d:
                         {
-                            ctx.Values->DebugTick = true;
+                            ctx.MyValues->DebugTick = true;
                             continue;
                         }
 

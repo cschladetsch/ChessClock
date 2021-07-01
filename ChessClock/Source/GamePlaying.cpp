@@ -19,7 +19,7 @@ namespace ChessClock
         AddCallback("PausePressed", [this, &context](auto &ctx, auto source) { PausePressed(ctx, source); });
         AddCallback("VolumePressed", [this, &context](auto &ctx, auto source) { VolumePressed(ctx, source); });
 
-        SetupGameSprites(context.Resources, context.TheRenderer, *context.Values);
+        SetupGameSprites(context.Resources, context.TheRenderer, *context.MyValues);
 
         Pause();
     }
@@ -28,7 +28,7 @@ namespace ChessClock
     {
         LOG_INFO() << "Settings pressed from " << LOG_VALUE(source->GetName()) << "\n";
         Pause();
-        context.Values->Root->Transition(context, EPage::Settings);
+        context.MyValues->Root->Transition(context, EPage::Settings);
     }
 
     void GamePlaying::PausePressed(Context &context, ObjectPtr const &source)
@@ -61,7 +61,7 @@ namespace ChessClock
     void GamePlaying::Render(Context &context) const
     {
         auto& renderer = context.TheRenderer;
-        auto& values = *context.Values;
+        auto& values = *context.MyValues;
 
         context.RenderScene();
 
@@ -79,7 +79,7 @@ namespace ChessClock
 
     bool GamePlaying::ProcessEvents(Context &context, SDL_Event const &event)
     {
-        Values &values = *context.Values;
+        Values &values = *context.MyValues;
 
         switch (event.type)
         {

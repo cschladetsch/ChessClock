@@ -9,8 +9,8 @@ namespace ChessClock
         //if (!ReadJson(_jsonConfig.c_str()))
         //    return false;
 
-        //ctx.Values = std::make_shared<Values>();
-        //LoadResources(ctx.Resources, ctx.TheRenderer, *ctx.Values);
+        //ctx.MyValues = std::make_shared<MyValues>();
+        //LoadResources(ctx.Resources, ctx.TheRenderer, *ctx.MyValues);
 
         //AddStep(ctx, &SplashScene::RenderScene);
         //AddStep(ctx, &SplashScene::StepGame);
