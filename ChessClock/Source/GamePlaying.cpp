@@ -136,6 +136,15 @@ namespace ChessClock
         LOG_INFO() << "Change state:" << LOG_VALUE(state) << "\n";
     }
 
+    void GamePlaying::SetSprites(ObjectPtr const &left, ObjectPtr const &right, ObjectPtr const &whitePawn, ObjectPtr const &blackPawn, ObjectPtr const &pauseButton)
+    {
+        _leftFace = left;
+        _rightFace = right;
+        _whitePawn = whitePawn;
+        _blackPawn = blackPawn;
+        _pauseButton = pauseButton;
+    }
+
     void GamePlaying::SetTimeControl(const TimeControl timeControl)
     {
         if (!_paused)
@@ -202,9 +211,7 @@ namespace ChessClock
     void GamePlaying::RockerPressed()
     {
         if (IsPaused())
-        {
             return;
-        }
 
         if (_gameState == EGameState::Ready)
         {
@@ -222,19 +229,10 @@ namespace ChessClock
         return side == ESide::Left ? _playerLeft : _playerRight;
     }
 
-    void GamePlaying::SetSprites(ObjectPtr const &left, ObjectPtr const &right, ObjectPtr const &whitePawn, ObjectPtr const &blackPawn, ObjectPtr const &pauseButton)
-    {
-        _leftFace = left;
-        _rightFace = right;
-        _whitePawn = whitePawn;
-        _blackPawn = blackPawn;
-        _pauseButton = pauseButton;
-    }
-
     void GamePlaying::ChangeTurn()
     {
-        const TimeUnit now = TimeNowMillis();
-        const TimeUnit delta = now - _lastGameTime;
+        const Gambit::MilliSeconds now = TimeNowMillis();
+        const Gambit::MilliSeconds delta = now - _lastGameTime;
         _lastGameTime = now;
         Player &currentPlayer = CurrentPlayer();
         currentPlayer.AddMillis(-delta);

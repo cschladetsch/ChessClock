@@ -20,14 +20,6 @@ namespace ChessClock
         bool ProcessEvents(Context& ctx, SDL_Event const&) override;
         void Update(Context&) override;
         void Render(Context&) const override;
-
-    private:
-        void IncrementMinutesPressed(Context &context, ObjectPtr source);
-        void IncrementSecondsPressed(Context &context, ObjectPtr source);
-        void DecrementMinutesPressed(Context &context, ObjectPtr source);
-        void DecrementSecondsPressed(Context &context, ObjectPtr source);
-        void IncrementBonusPressed(Context &context, ObjectPtr source);
-        void DecrementBonusPressed(Context &context, ObjectPtr source);
     };
 }
 
