@@ -99,7 +99,7 @@ namespace ChessClock
         values.TimerFont = theme->GetFont("timer_font");
         values.SmallFont = theme->GetFont("small_font");
         values.HeaderFont = theme->GetFont("small_font");
-        values.Atlas = resources.LoadResource<Atlas>(_themeName + "/Atlas", &resources, &renderer);
+        values.Atlas = resources.LoadResource<Atlas>(_themeName + "/atlas", &resources, &renderer);
     }
 
     void Root::LoadText(Context &context)
