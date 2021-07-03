@@ -34,6 +34,8 @@ int main(int argc, char** argv)
         ("help", "Talk to Christian")
         ("resources", value<path>()->default_value(resourcesFolder), "Set resources folder")
         ("main", value<path>()->default_value(mainJson), "Set main config")
+        ("verbosity", value<int>()->default_value(0), "Set Debug Verbosity")
+        ("showFps", value<bool>()->default_value(false), "Show fps on screen")
         ;
 
     positional_options_description p;
