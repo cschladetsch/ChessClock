@@ -12,7 +12,7 @@ namespace Gambit
 
     string ResourceManager::MakeResourceFilename(string const &name) const
     {
-        return _rootFolder + name;
+        return (_rootFolder / name).string();
     }
 
     bool ResourceManager::AddObject(ObjectPtr const &object)

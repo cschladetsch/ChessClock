@@ -8,7 +8,6 @@
 #include "ChessClock/Root.hpp"
 
 using namespace Gambit;
-using namespace rang;
 using namespace boost;
 using namespace program_options;
 using namespace filesystem;

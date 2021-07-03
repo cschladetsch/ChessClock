@@ -1,6 +1,7 @@
 #pragma once
 
 #include <unordered_map>
+#include <boost/filesystem.hpp>
 
 #include "Gambit/ResourceLoader.hpp"
 #include "Gambit/NonCopyable.hpp"
@@ -20,12 +21,12 @@ namespace Gambit
         IdToResources _idToResource;
         IdToObject _idToObject;
         Renderer const* _renderer;
-        string _rootFolder;
+        boost::filesystem::path _rootFolder;
 
     public:
         ResourceManager(Renderer const &renderer, const char *rootFolder);
 
-        bool AddObject(ObjectPtr const &obj);
+        bool AddObject(ObjectPtr const &object);
         ObjectPtr CreateObject(const string &name);
         IdToObject const &GetObjects() const { return _idToObject; }
 
