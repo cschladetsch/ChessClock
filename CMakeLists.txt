@@ -2,10 +2,10 @@ cmake_minimum_required(VERSION 3.12)
 
 project(ChessClock)
 
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake;${CMAKE_MODULE_PATH};${CMAKE_SOURCE_DIR}/ChessClock/ThirdParty/KAI/CMake")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake")
 
-include(cotire)
 include(AddBoost)
+include(cotire)
 
 option(BUILD_TESTS "Build unit tests" ON)
 option(CCLOCK_USE_KAI "Use KAI" OFF)

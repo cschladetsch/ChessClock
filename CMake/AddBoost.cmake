@@ -17,9 +17,11 @@ set(Boost_USE_STATIC_RUNTIME OFF)
 find_package(Boost 1.67.0 REQUIRED COMPONENTS 
     program_options chrono filesystem system date_time)
 
-message(STATUS "====> Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}")
-message(STATUS "====> Boost_LIBRARY_DIR_DEBUG: ${Boost_LIBRARY_DIR_DEBUG}")
-message(STATUS "====> Boost_LIBRARIES: ${Boost_LIBRARIES}")
+if (0)
+	message(STATUS "====> Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}")
+	message(STATUS "====> Boost_LIBRARY_DIR_DEBUG: ${Boost_LIBRARY_DIR_DEBUG}")
+	message(STATUS "====> Boost_LIBRARIES: ${Boost_LIBRARIES}")
+endif()
 
 include_directories(${Boost_INCLUDE_DIRS})
 

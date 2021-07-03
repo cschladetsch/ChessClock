@@ -76,9 +76,12 @@ namespace Gambit
                 auto position = object->Position;
                 if (object->Centered)
                 {
-                    const auto bounds = object->TextTexturePtr->GetBounds();
-                    position.x -= bounds.width / 2;
-                    position.y -= bounds.height / 2;
+                    if (object->TextTexturePtr)
+                    {
+                        const auto bounds = object->TextTexturePtr->GetBounds();
+                        position.x -= bounds.width / 2;
+                        position.y -= bounds.height / 2;
+                    }
                 }
                 if (object->TextTexturePtr)
                 {
