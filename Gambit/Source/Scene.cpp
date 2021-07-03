@@ -1,6 +1,9 @@
 #include "Gambit/Atlas.hpp"
 #include "Gambit/Scene.hpp"
+
+#include "Gambit/Renderer.hpp"
 #include "Gambit/ResourceManager.hpp"
+#include "Gambit/Texture.hpp"
 #include "Gambit/ThirdParty/Json.hpp"
 
 // conversion 
@@ -70,6 +73,22 @@ namespace Gambit
         {
             for (auto& object : second->GetChildren())
             {
+                if (object->TextTexturePtr)
+                {
+                    auto position = object->Position;
+                    if (object->Centered)
+                    {
+                        const auto bounds = object->TextTexturePtr->GetBounds();
+                        position.x -= bounds.width / 2;
+                        position.y -= bounds.height / 2;
+                    }
+                    if (!renderer.WriteTexture(object->TextTexturePtr, position))
+                    {
+                        LOG_WARN() << "Failed to render " << object->Name << "\n";
+                    }
+                    continue;
+                }
+
                 if (object->Sprite.empty())
                     continue;
 
