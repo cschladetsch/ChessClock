@@ -1,0 +1,9 @@
+
+{
+	"background-gameover":
+	{
+		"sprite" : "background_settings",
+		"location" : [ 0, 0 ],
+		"layer" : 0
+	}
+}	

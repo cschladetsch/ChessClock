@@ -9,6 +9,7 @@ namespace ChessClock
         Splash,
         Playing,
         Settings,
+        GameOver,
         About
     };
 
@@ -22,6 +23,8 @@ namespace ChessClock
             return out << "Page::Playing";
         case EPage::Settings:
             return out << "Page::Settings";
+        case EPage::GameOver:
+            return out << "Page::GameOver";
         case EPage::About:
             return out << "Page::About";
         }

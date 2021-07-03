@@ -138,6 +138,7 @@ namespace ChessClock
         values.Pages[EPage::Splash] = LoadPage<GameSplash>("splash", loadPage);
         values.Pages[EPage::Playing] = LoadPage<GamePlaying>("playing", loadPage);
         values.Pages[EPage::Settings] = LoadPage<GameSettings>("settings", loadPage);
+        values.Pages[EPage::GameOver] = LoadPage<GameAbout>("game_over", loadPage);
         values.Pages[EPage::About] = LoadPage<GameAbout>("about", loadPage);
     }
 
