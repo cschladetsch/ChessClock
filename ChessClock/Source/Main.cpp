@@ -32,7 +32,7 @@ int main(int argc, char** argv)
 
     desc.add_options()
         ("help", "Talk to Christian")
-        ("resources_dir", value<path>()->default_value(resourcesFolder), "Set resources folder")
+        ("resources", value<path>()->default_value(resourcesFolder), "Set resources folder")
         ("main", value<path>()->default_value(mainJson), "Set main config")
         ;
 
@@ -43,15 +43,7 @@ int main(int argc, char** argv)
     store(command_line_parser(argc, argv).options(desc).positional(p).run(), vm);
     notify(vm);
 
-    if (vm.count("input") != 1)
-    {
-        std::cerr << argv[0] << "\n" << desc;
-        return 1;
-    }
-
-    notify(vm);
-
-    const auto resourcesPath = vm["resources_dir"].as<path>();
+    const auto resourcesPath = vm["resources"].as<path>();
     const auto configName = resourcesPath / (vm["main"].as<path>());
     ChessClock::Root root(narrow(configName.c_str()).c_str());
     typedef ChessClock::Root::Context Context;
