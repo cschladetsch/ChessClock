@@ -27,13 +27,13 @@ int main(int argc, char** argv)
 {
     options_description desc("Options");
 
-    path resourcesFolder = "../../Resources/";
+    path resourcesFolder = "Resources";
     string mainJson = "main.json";
 
     desc.add_options()
         ("help", "Talk to Christian")
-        ("resources_dir", value<path>(&resourcesFolder)->default_value(resourcesFolder), "Set resources folder")
-        ("main", value<path>(&resourcesFolder)->default_value(mainJson), "Set main config")
+        ("resources_dir", value<path>()->default_value(resourcesFolder), "Set resources folder")
+        ("main", value<path>()->default_value(mainJson), "Set main config")
         ;
 
     positional_options_description p;
@@ -45,7 +45,7 @@ int main(int argc, char** argv)
 
     if (vm.count("input") != 1)
     {
-        std::cerr << desc;
+        std::cerr << argv[0] << "\n" << desc;
         return 1;
     }
 
