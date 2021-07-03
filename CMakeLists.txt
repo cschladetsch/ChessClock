@@ -40,6 +40,7 @@ include_directories(${PROJECT_INCLUDE_DIR})
 include_directories(${PROJECT_SOURCE_DIR}/Include)
 
 link_directories(${THIRD_PARTY}/lib)
+link_directories(${Boost_LIBRARY_DIR})
 
 add_subdirectory(Gambit)
 add_subdirectory(ChessClock)
