@@ -7,12 +7,16 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake;${CMAKE_MODULE_PATH};${CMAKE_SO
 include(cotire)
 include(AddBoost)
 
-set(KAI_BUILD_TEST_ALL OFF)
-add_subdirectory(ChessClock/ThirdParty/KAI)
+option(BUILD_TESTS "Build unit tests" ON)
+option(CCLOCK_USE_KAI "Use KAI" OFF)
+
+if (CCLOCK_USE_KAI)
+	set(KAI_BUILD_TEST_ALL OFF)
+	add_subdirectory(ChessClock/ThirdParty/KAI)
+endif()
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
-option(BUILD_TESTS "Build unit tests" ON)
 
 include_directories(${Boost_INCLUDE_DIRS})
 message(STATUS "Boost Include: ${Boost_INCLUDE_DIRS}")

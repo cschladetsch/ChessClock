@@ -1,6 +1,6 @@
 #define SDL_MAIN_HANDLED
 
-#include "KAI/Console/Console.h"
+//#include "KAI/Console/Console.h"
 
 #include "ChessClock/Root.hpp"
 
@@ -15,7 +15,7 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    kai::Console console;
+    //kai::Console console;
 
     const string resourcesPath = argv[1];
     const string configName = resourcesPath + argv[2];

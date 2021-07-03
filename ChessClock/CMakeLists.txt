@@ -29,7 +29,9 @@ endif()
 
 link_directories(/usr/lib/arm-linux-gnueabihf)
 
-set(KAI_LIBS Executor Core PiLang RhoLang ${Boost_LIBRARIES})
+if (CCLOCK_USE_KAI)
+	set(KAI_LIBS Executor Core PiLang RhoLang ${Boost_LIBRARIES})
+endif()
 
 if (WIN32)
     target_link_libraries(${PROJECT_NAME}
