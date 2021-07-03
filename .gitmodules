@@ -32,6 +32,3 @@
 [submodule "Gambit/ThirdParty/CppEvents"]
 	path = Gambit/ThirdParty/CppEvents
 	url = https://github.com/cschladetsch/CppEvents.git
-[submodule "ChessClock/ThirdParty/KAI"]
-	path = ChessClock/ThirdParty/KAI
-	url = git@github.com:cschladetsch/KAI.git

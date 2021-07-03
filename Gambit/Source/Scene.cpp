@@ -73,18 +73,19 @@ namespace Gambit
         {
             for (auto& object : second->GetChildren())
             {
+                auto position = object->Position;
+                if (object->Centered)
+                {
+                    const auto bounds = object->TextTexturePtr->GetBounds();
+                    position.x -= bounds.width / 2;
+                    position.y -= bounds.height / 2;
+                }
                 if (object->TextTexturePtr)
                 {
-                    auto position = object->Position;
-                    if (object->Centered)
-                    {
-                        const auto bounds = object->TextTexturePtr->GetBounds();
-                        position.x -= bounds.width / 2;
-                        position.y -= bounds.height / 2;
-                    }
                     if (!renderer.WriteTexture(object->TextTexturePtr, position))
                     {
                         LOG_WARN() << "Failed to render " << object->Name << "\n";
+                        //_resourceManager->RemoveResource(object);
                     }
                     continue;
                 }
@@ -92,7 +93,7 @@ namespace Gambit
                 if (object->Sprite.empty())
                     continue;
 
-                _atlas->WriteSprite(renderer, *object);
+                _atlas->WriteSprite(renderer, position, *object);
             }
         }
     }

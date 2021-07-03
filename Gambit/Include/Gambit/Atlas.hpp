@@ -42,9 +42,6 @@ namespace Gambit
             return LoadAtlas(*resources, *renderer, baseName, id);
         }
 
-    private:
-        static shared_ptr<Atlas> LoadAtlas(ResourceManager &, Renderer &, string const& baseName, ResourceId const& id);
-
         bool WriteSprite(Renderer &, Vector2 const &topLeft, Object const &) const;
         bool WriteRect(Renderer &, Rect const &sourceRect, Rect const &destRect, Object const &) const;
 
@@ -57,6 +54,9 @@ namespace Gambit
         static Color ReadColor(Json &json, const char *name);
 
         bool ParseJson(JsonNext &item) override;
+
+    private:
+        static shared_ptr<Atlas> LoadAtlas(ResourceManager &, Renderer &, string const& baseName, ResourceId const& id);
     };
 }
 
