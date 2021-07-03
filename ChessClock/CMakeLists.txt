@@ -8,6 +8,9 @@ include_directories(Include/)
 file(GLOB_RECURSE ALL_SOURCES Source/*.cpp)
 file(GLOB_RECURSE ALL_HEADERS Include/*.hpp)
 
+include_directories(ThirdParty/KAI/Include)
+include_directories(${Boost_INCLUDE_DIRS})
+ 
 add_executable(${PROJECT_NAME}
     ${ALL_SOURCES}
     ${ALL_HEADERS}
@@ -26,15 +29,19 @@ endif()
 
 link_directories(/usr/lib/arm-linux-gnueabihf)
 
+set(KAI_LIBS Executor Core PiLang RhoLang ${Boost_LIBRARIES})
+
 if (WIN32)
     target_link_libraries(${PROJECT_NAME}
         Gambit
         ${SDL_IMAGE_ROOT}/lib/x64/SDL2_image.lib
+		${KAI_LIBS}
         )
 else()
     target_link_libraries(${PROJECT_NAME}
         Gambit
         SDL2_image
+		${KAI_LIBS}
     )
 endif()
 

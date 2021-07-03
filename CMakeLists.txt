@@ -2,12 +2,20 @@ cmake_minimum_required(VERSION 3.12)
 
 project(ChessClock)
 
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake")
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake;${CMAKE_MODULE_PATH};${CMAKE_SOURCE_DIR}/ChessClock/ThirdParty/KAI/CMake")
+
 include(cotire)
+include(AddBoost)
+
+set(KAI_BUILD_TEST_ALL OFF)
+add_subdirectory(ChessClock/ThirdParty/KAI)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 option(BUILD_TESTS "Build unit tests" ON)
+
+include_directories(${Boost_INCLUDE_DIRS})
+message(STATUS "Boost Include: ${Boost_INCLUDE_DIRS}")
 
 set(GAMBIT_DIR ${PROJECT_SOURCE_DIR}/Gambit)
 set(THIRD_PARTY ${GAMBIT_DIR}/ThirdParty)
@@ -31,3 +39,4 @@ link_directories(${THIRD_PARTY}/lib)
 
 add_subdirectory(Gambit)
 add_subdirectory(ChessClock)
+
