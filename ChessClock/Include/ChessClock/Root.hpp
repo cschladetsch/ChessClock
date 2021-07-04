@@ -33,7 +33,7 @@ namespace ChessClock
         static int GetFrameNumber() { return _frameNumber; }
 
         Root() = default;
-        ~Root() = default;
+        ~Root() override = default;
 
         explicit Root(const char *jsonConfig)
             : JsonReader(
@@ -47,7 +47,7 @@ namespace ChessClock
         }
 
         bool Setup(Context &);
-        bool ProcessEvents(Context &);
+        static bool ProcessEvents(Context &);
         bool Present(Context &);
         void OnPressed(Context &, const Vector2& where);
         void StartTransitionTo(Context &, EPage next);

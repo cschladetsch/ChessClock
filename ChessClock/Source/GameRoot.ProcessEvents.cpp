@@ -6,14 +6,14 @@
 
 namespace ChessClock
 {
-    bool Root::ProcessEvents(Context& ctx)
+    bool Root::ProcessEvents(Context& context)
     {
-        Values& values = *ctx.MyValues;
+        Values& values = *context.MyValues;
         SDL_Event event;
 
         while (SDL_PollEvent(&event))
         {
-            if (values.GetCurrentGame()->ProcessEvents(ctx, event))
+            if (values.GetCurrentGame()->ProcessEvents(context, event))
                 continue;
 
             switch (event.type)
@@ -24,7 +24,7 @@ namespace ChessClock
                     {
                         case SDL_BUTTON_LEFT:
                         {
-                            values.GetCurrentGame()->OnPressed(ctx, Vector2{ event.button.x, event.button.y });
+                            values.GetCurrentGame()->OnPressed(context, Vector2{ event.button.x, event.button.y });
                             break;
                         }
                     }
@@ -33,7 +33,7 @@ namespace ChessClock
 
                 case SDL_MOUSEMOTION:
                 {
-                    if (ctx.MyValues->TrackMouse)
+                    if (context.MyValues->TrackMouse)
                     {
                         LOG_INFO() << "x: " << event.motion.x << ", y: " << event.motion.y << "\n";
                     }
@@ -46,7 +46,7 @@ namespace ChessClock
                     {
                         case SDLK_d:
                         {
-                            ctx.MyValues->DebugTick = true;
+                            context.MyValues->DebugTick = true;
                             continue;
                         }
 

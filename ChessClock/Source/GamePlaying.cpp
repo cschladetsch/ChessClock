@@ -15,9 +15,9 @@ namespace ChessClock
         SetColor(ESide::Left, EColor::White);
         SetTimeControl(TimeControl{5, 0, 3});
 
-        AddCallback("SettingsPressed", [this, &context](auto &ctx, auto source) { SettingsPressed(ctx, source); });
-        AddCallback("PausePressed", [this, &context](auto &ctx, auto source) { PausePressed(ctx, source); });
-        AddCallback("VolumePressed", [this, &context](auto &ctx, auto source) { VolumePressed(ctx, source); });
+        AddCallback("SettingsPressed", [this](auto &ctx, auto source) { SettingsPressed(ctx, source); });
+        AddCallback("PausePressed", [this](auto &ctx, auto source) { PausePressed(ctx, source); });
+        AddCallback("VolumePressed", [this](auto &ctx, auto source) { VolumePressed(ctx, source); });
 
         SetupGameSprites(context.Resources, context.TheRenderer, *context.MyValues);
 

@@ -9,7 +9,7 @@ namespace ChessClock
     class TimeControl
     {
         Gambit::MilliSeconds _totalMillis{ 0 };
-        Gambit::Seconds _increment;
+        Gambit::Seconds _increment{ 0 };
 
     public:
         TimeControl() = default;

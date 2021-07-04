@@ -25,7 +25,7 @@ namespace ChessClock
 
     public:
         ThemeMeta(ResourceManager &resourceManager, string const &jsonFileName);
-        virtual ~ThemeMeta() = default;
+        ~ThemeMeta() override = default;
 
         FontPtr GetFont(string const &name) const;
         string const &GetThemeName() const { return _name; }

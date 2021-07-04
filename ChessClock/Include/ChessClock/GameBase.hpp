@@ -21,7 +21,7 @@ namespace ChessClock
     protected:
         friend class Root;
 
-        void OnPressed(Context &, Vector2 where) const;
+        static void OnPressed(Context &, Vector2 where);
 
         virtual void Prepare(Context &) = 0;
         virtual bool ProcessEvents(Context &ctx, SDL_Event const &) = 0;

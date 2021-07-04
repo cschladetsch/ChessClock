@@ -38,7 +38,7 @@ namespace ChessClock
 
         void ResetGame();
 
-        void SetGameState(EGameState);
+        static void SetGameState(EGameState);
         EGameState GetGameState() const { return _gameState; }
 
         void SetTimeControl(TimeControl timeControl);
@@ -70,7 +70,7 @@ namespace ChessClock
 
         void SettingsPressed(Context &, ObjectPtr const &source);
         void PausePressed(Context &, ObjectPtr const &source);
-        void VolumePressed(Context &, ObjectPtr const &source);
+        static void VolumePressed(Context &, ObjectPtr const &source);
 
         bool ToggleWhenPaused();
         void ToggleColor();
