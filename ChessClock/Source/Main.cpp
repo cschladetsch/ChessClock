@@ -12,6 +12,8 @@ using namespace boost;
 using namespace program_options;
 using namespace filesystem;
 
+#pragma warning (disable:4996)
+
 std::string NarrowString(const std::wstring &str)
 {
     std::wstring_convert<

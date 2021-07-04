@@ -13,27 +13,27 @@ namespace ChessClock
         , public std::enable_shared_from_this<Root>
     {
         static inline Gambit::Logger _log{ "MainScene" };
+        static int _frameNumber;
 
         typedef String Root:: *Member;
+
         String _defaultFont;
         String _themeName;
         String _showFps;
-        static int _frameNumber;
         Gambit::TexturePtr _blackTexture;
-        int _result;
+        int _result{ 0 };
         Gambit::MilliSeconds _transitionTotalTime{ 750 };
         Gambit::MilliSeconds _transitionTime{ 0 };
         Gambit::MilliSeconds _transitionStartTime{ 0 };
-        EPage _transitionPage;
-
+        EPage _transitionPage { EPage::None };
 
     public:
         typedef Gambit::Context<Values> Context;
 
         static int GetFrameNumber() { return _frameNumber; }
 
-        Root();
-        ~Root();
+        Root() = default;
+        ~Root() = default;
 
         explicit Root(const char *jsonConfig)
             : JsonReader(
@@ -50,17 +50,15 @@ namespace ChessClock
         bool ProcessEvents(Context &);
         bool Present(Context &);
         void OnPressed(Context &, const Vector2& where);
-
         void StartTransitionTo(Context &, EPage next);
 
     private:
-        bool ParseJson(JsonNext &item) override;
-        void MakeScreenOverlay(Context &context);
-
         static void LoadText(Context &context);
         static void CreateObjectTexts(Context &context);
         static void Prepare(Context &);
 
+        bool ParseJson(JsonNext &item) override;
+        void MakeScreenOverlay(Context &context);
         void UpdateTransition(Context &context);
         void ShowFrameRate() const;
         void LoadTheme(Context &context);

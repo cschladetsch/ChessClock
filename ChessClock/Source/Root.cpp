@@ -9,7 +9,6 @@
 #include "ChessClock/GamePlaying.hpp"
 #include "ChessClock/GameSettings.hpp"
 #include "ChessClock/GameAbout.hpp"
-#include "ChessClock/Global.hpp"
 #include "ChessClock/ThemeMeta.hpp"
 #include "Gambit/Texture.hpp"
 
@@ -22,12 +21,6 @@ namespace ChessClock
     float _lastTime;
 
     int Root::_frameNumber{ 0 };
-
-    Root::Root() {}
-
-    Root::~Root()
-    {
-    }
 
     bool Root::ParseJson(JsonNext &item)
     {
@@ -49,7 +42,6 @@ namespace ChessClock
     {
         _blackTexture = context.Resources.LoadResource<Texture>("black.png", &context.TheRenderer, 1,1);
         _blackTexture->SetBlended();
-        //_transitionTotalTime = 5000;
     }
 
     bool Root::Setup(Context &context)
@@ -60,7 +52,6 @@ namespace ChessClock
         AddStep(context, &Root::RenderScene);
         AddStep(context, &Root::StepGame);
         AddStep(context, &Root::Present);
-
         Prepare(context);
 
         return true;
@@ -161,9 +152,7 @@ namespace ChessClock
     bool Root::RenderScene(Context& context)
     {
         context.MyValues->GetCurrentGame()->Render(context);
-
         UpdateTransitionBlend(context);
-
         context.MyValues->DebugTick = false;
 
         return true;
@@ -196,7 +185,7 @@ namespace ChessClock
             alpha = 1 - (norm - 0.5f) / 0.5f;
         }
 
-        _blackTexture->SetAlpha(alpha * 255);
+        _blackTexture->SetAlpha(static_cast<uint8_t>(alpha*255.0f));
         context.TheRenderer.WriteTexture(_blackTexture);
     }
 
@@ -249,11 +238,6 @@ namespace ChessClock
 
     void Root::StartTransitionTo(Context &context, EPage next)
     {
-        if (context.MyValues->GetCurrentGame())
-        {
-            //CJS TODO: leave current page
-        }
-
         const auto now = Gambit::TimeNowMillis();
         _transitionStartTime = now;
         _transitionTime = now + _transitionTotalTime;
@@ -265,8 +249,7 @@ namespace ChessClock
 
     void Root::UpdateTransition(Context &context)
     {
-        auto now = Gambit::TimeNowMillis();
-        //LOG_DEBUG() << LOG_VALUE(now) << LOG_VALUE(_transitionTime) << "\n";
+        const auto now = Gambit::TimeNowMillis();
         if (now > _transitionTime)
         {
             _transitionTime = 0;
