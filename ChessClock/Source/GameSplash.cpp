@@ -12,7 +12,7 @@ namespace ChessClock
     {
         if (auto const now = Gambit::TimeNowMillis(); now > _displayTime)
         {
-            context.MyValues->MyRoot->Transition(context, EPage::Playing);
+            context.MyValues->MyRoot->StartTransitionTo(context, EPage::Playing);
         }
     }
 

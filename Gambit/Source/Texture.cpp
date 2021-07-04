@@ -7,9 +7,9 @@ namespace Gambit
 {
     shared_ptr<Texture> Texture::LoadTexture(std::string const& fileName, ResourceId const& id, Renderer const &renderer, int width, int height)
     {
-        SDL_Surface *surface = SDL_LoadBMP(fileName.c_str());
+        SDL_Surface *surface = IMG_Load(fileName.c_str());
         if (surface == nullptr) {
-            LOG_ERROR() << "SDL_LoadBMP: " << LOG_VALUE(SDL_GetError()) << std::endl;
+            LOG_ERROR() << "SDL_Load: " << LOG_VALUE(SDL_GetError()) << std::endl;
             return 0;
         }
 
@@ -23,6 +23,16 @@ namespace Gambit
         LOG_INFO() << "Created texture " << LOG_VALUE(fileName) << "\n";
 
         return std::make_shared<Texture>(id, texture);
+    }
+
+    void Texture::SetBlended()
+    {
+        CALL_SDL(SDL_SetTextureBlendMode(&Get(), SDL_BLENDMODE_BLEND));
+    }
+
+    void Texture::SetAlpha(uint8_t alpha)
+    {
+        CALL_SDL(SDL_SetTextureAlphaMod(&Get(), alpha));
     }
 
     void Texture::Deleter(SDL_Texture *texture)

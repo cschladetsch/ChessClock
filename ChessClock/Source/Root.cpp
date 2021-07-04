@@ -11,6 +11,7 @@
 #include "ChessClock/GameAbout.hpp"
 #include "ChessClock/Global.hpp"
 #include "ChessClock/ThemeMeta.hpp"
+#include "Gambit/Texture.hpp"
 
 namespace ChessClock
 {
@@ -24,7 +25,6 @@ namespace ChessClock
 
     Root::~Root()
     {
-        SDL_DestroyTexture(_fullscreenBlack);
     }
 
     bool Root::ParseJson(JsonNext &item)
@@ -45,7 +45,9 @@ namespace ChessClock
 
     void Root::MakeScreenOverlay(Context &context)
     {
-        _fullscreenBlack = SDL_CreateTexture(context.TheRenderer.GetRenderer(), SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STATIC, global.GetScreenWidth(), global.GetScreenHeight());
+        _blackTexture = context.Resources.LoadResource<Texture>("black.png", &context.TheRenderer, 1,1);
+        _blackTexture->SetBlended();
+        //_transitionTotalTime = 5000;
     }
 
     bool Root::Setup(Context &context)
@@ -69,7 +71,7 @@ namespace ChessClock
         LoadText(context);
         LoadPages(context);
         CreateObjectTexts(context);
-        Transition(context, EPage::Splash);
+        context.MyValues->PageCurrent = EPage::Splash;
     }
 
     void Root::CreateObjectTexts(Context &context)
@@ -158,28 +160,42 @@ namespace ChessClock
     {
         context.MyValues->GetCurrentGame()->Render(context);
 
-        //CJS TODO transitions
-        //if (_transitionTime > 0 && Gambit::TimeNowMillis() < _transitionTime)
-        //{
-        //    auto delta = _transitionTime - _transitionStartTime;
-        //    auto normalised = static_cast<float>(delta) / _transitionTotalTime;
-        //    auto alpha = normalised < 0.5f ? normalised : 1 - normalised;
-        //    auto TheRenderer = context.TheRenderer.GetRenderer();
-
-        //    int result = 0;
-        //    //CJS TODO: fade to black then into new scene
-        //    //LOG_DEBUG() << LOG_VALUE(alpha) << "\n";
-        //    //CALL_SDL(SDL_SetTextureAlphaMod(_fullscreenBlack, alpha * 255));
-        //    uint8_t texAlpha{ 0 };
-        //    CALL_SDL(SDL_SetTextureBlendMode(_fullscreenBlack, SDL_BLENDMODE_BLEND));
-        //    CALL_SDL(SDL_GetTextureAlphaMod(_fullscreenBlack, &texAlpha));
-        //    CALL_SDL(SDL_SetTextureAlphaMod(_fullscreenBlack, 128));
-        //    CALL_SDL(SDL_RenderCopy(TheRenderer, _fullscreenBlack, nullptr, nullptr));
-        //}
+        UpdateTransitionBlend(context);
 
         context.MyValues->DebugTick = false;
 
         return true;
+    }
+
+    void Root::UpdateTransitionBlend(Context &context)
+    {
+        const auto now = TimeNowMillis();
+        if (const auto transitioning =_transitionTime > 0 && now < _transitionTime; !transitioning)
+            return;
+
+        const auto delta = now - _transitionStartTime;
+        const auto norm = static_cast<float>(delta) / _transitionTotalTime;
+
+        if (norm > 0.5f && context.MyValues->PageCurrent != _transitionPage)
+        {
+            context.MyValues->PageCurrent = _transitionPage;
+        }
+
+        // when n = 0,  a = 0
+        // when n = .5  a = 255
+        // when n = 1   a = 0
+        float alpha = 0;
+        if (norm < 0.5f)
+        {
+            alpha = norm / 0.5f;
+        }
+        else
+        {
+            alpha = 1 - (norm - 0.5f) / 0.5f;
+        }
+
+        _blackTexture->SetAlpha(alpha * 255);
+        context.TheRenderer.WriteTexture(_blackTexture);
     }
 
     void Root::ShowFrameRate() const
@@ -202,12 +218,11 @@ namespace ChessClock
 
         ++_frameNumber;
 
-        //CJS TODO transitions
-        //if (_transitionTime > 0)
-        //{
-        //    UpdateTransition(context);
-        //    return true;
-        //}
+        if (_transitionTime > 0)
+        {
+            UpdateTransition(context);
+            return true;
+        }
 
         auto &values = *context.MyValues;
         values.GetCurrentGame()->Update(context);
@@ -230,22 +245,20 @@ namespace ChessClock
         ctx.MyValues->GetCurrentGame()->Call(ctx, button);
     }
 
-    void Root::Transition(Context &context, EPage next)
+    void Root::StartTransitionTo(Context &context, EPage next)
     {
-        //if (context.MyValues->GetCurrentGame())
-        //{
-        //    //CJS TODO: leave current page
-        //}
+        if (context.MyValues->GetCurrentGame())
+        {
+            //CJS TODO: leave current page
+        }
 
-        //CJS TODO: transitions
-        //auto now = Gambit::TimeNowMillis();
-        //_transitionStartTime = now;
-        //_transitionTime = now + _transitionTotalTime;
-        //_transitionPage = next;
+        const auto now = Gambit::TimeNowMillis();
+        _transitionStartTime = now;
+        _transitionTime = now + _transitionTotalTime;
+        _transitionPage = next;
 
         LOG_INFO() << "Transitioning to " << LOG_VALUE(next) << "\n";
 
-        context.MyValues->PageCurrent = next;
     }
 
     void Root::UpdateTransition(Context &context)
@@ -254,7 +267,6 @@ namespace ChessClock
         //LOG_DEBUG() << LOG_VALUE(now) << LOG_VALUE(_transitionTime) << "\n";
         if (now > _transitionTime)
         {
-            context.MyValues->PageCurrent = _transitionPage;
             _transitionTime = 0;
         }
     }

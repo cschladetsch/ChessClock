@@ -6,6 +6,7 @@ namespace ChessClock
 {
     enum class EPage
     {
+        None,
         Splash,
         Playing,
         Settings,
@@ -17,6 +18,8 @@ namespace ChessClock
     {
         switch (page)
         {
+        case EPage::None:
+            return out << "Page::None";
         case EPage::Splash:
             return out << "Page::Splash";
         case EPage::Playing:

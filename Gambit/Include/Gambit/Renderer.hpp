@@ -33,7 +33,7 @@ namespace Gambit
         bool Present();
 
         bool WriteTexture(TexturePtr const &texture, Vector2 const &topLeft) const;
-        bool WriteTexture(TexturePtr const &texture, Rect const *source, Rect const *dest) const;
+        bool WriteTexture(TexturePtr const &texture, Rect const *source = nullptr, Rect const *dest = nullptr) const;
         bool WriteTexture(TexturePtr const &texture, Vector2 const &topLeft, Color const &tint) const;
 
         int GetFrameNumber() const { return _frameNumber; }

@@ -20,7 +20,8 @@ namespace ChessClock
         String _themeName;
         String _showFps;
         static int _frameNumber;
-        SDL_Texture *_fullscreenBlack;
+        Gambit::TexturePtr _blackTexture;
+        int _result;
 
     public:
         typedef Gambit::Context<Values> Context;
@@ -46,13 +47,13 @@ namespace ChessClock
         bool Present(Context &);
         void OnPressed(Context &, const Vector2& where);
 
-        void Transition(Context &, EPage next);
+        void StartTransitionTo(Context &, EPage next);
 
     private:
         bool ParseJson(JsonNext &item) override;
         void MakeScreenOverlay(Context &context);
 
-        Gambit::MilliSeconds _transitionTotalTime{ 500 };
+        Gambit::MilliSeconds _transitionTotalTime{ 750 };
         Gambit::MilliSeconds _transitionTime{ 0 };
         Gambit::MilliSeconds _transitionStartTime{ 0 };
         EPage _transitionPage;
@@ -70,6 +71,7 @@ namespace ChessClock
 
         bool StepGame(Context &);
         bool RenderScene(Context &);
+        void UpdateTransitionBlend(Context &);
     };
 }
 

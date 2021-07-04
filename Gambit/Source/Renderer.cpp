@@ -75,7 +75,7 @@ namespace Gambit
         return WriteTexture(texture, nullptr, &dest);
     }
 
-    bool Renderer::WriteTexture(TexturePtr const &texture, Rect const *source = nullptr, Rect const *dest = nullptr) const
+    bool Renderer::WriteTexture(TexturePtr const &texture, Rect const *source, Rect const *dest) const
     {
         const auto srcRect = reinterpret_cast<SDL_Rect *>(const_cast<Rect *>(source));
         const auto destRect = reinterpret_cast<SDL_Rect *>(const_cast<Rect *>(dest));
