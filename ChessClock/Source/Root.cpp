@@ -23,6 +23,8 @@ namespace ChessClock
 
     int Root::_frameNumber{ 0 };
 
+    Root::Root() {}
+
     Root::~Root()
     {
     }
@@ -167,7 +169,7 @@ namespace ChessClock
         return true;
     }
 
-    void Root::UpdateTransitionBlend(Context &context)
+    void Root::UpdateTransitionBlend(Context &context) const
     {
         const auto now = TimeNowMillis();
         if (const auto transitioning =_transitionTime > 0 && now < _transitionTime; !transitioning)

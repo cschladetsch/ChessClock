@@ -11,6 +11,9 @@ namespace Gambit
     template <class Class>
     class JsonReader
     {
+    public:
+        virtual ~JsonReader() = default;
+    private:
         static inline Logger _log{ "JsonReader" };
 
     protected:
