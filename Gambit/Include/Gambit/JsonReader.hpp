@@ -11,6 +11,9 @@ namespace Gambit
     template <class Class>
     class JsonReader
     {
+    public:
+        virtual ~JsonReader() = default;
+    private:
         static inline Logger _log{ "JsonReader" };
 
     protected:
@@ -31,7 +34,7 @@ namespace Gambit
             ReadJsonEx(fileName);
         }
 
-        void ReadJsonEx(const char *fileName)
+        void ReadJsonEx(string const &fileName)
         {
             if (!ReadJson(fileName))
             {
@@ -54,13 +57,19 @@ namespace Gambit
         }
 
     private:
-        bool ReadJson(const char *fileName)
+        bool ReadJson(string const &fileName)
         {
             try
             {
-                Json j;
-                std::ifstream(fileName) >> j;
-                for (auto &item : j.items())
+                Json json;
+                auto stream = std::ifstream(fileName);
+                if (!stream)
+                {
+                    LOG_ERROR() << "Couldn't open json for reading " << LOG_VALUE(fileName) << "\n";
+                    return false;
+                }
+                stream >> json;
+                for (auto &item : json.items())
                 {
                     if (!ParseJson(item))
                     {

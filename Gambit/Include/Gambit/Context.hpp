@@ -11,52 +11,50 @@ namespace Gambit
     class Context
     {
     public:
-        typedef std::function<bool(Context<Values> &) > ContextFunction;
+        typedef std::function<bool(Context<Values> &)> ContextFunction;
 
     private:
         Logger _log{ "Context" };
 
     public:
-        Renderer renderer;
-        ResourceManager resources;
-        shared_ptr<Values> values;
-
-        vector<ContextFunction> steps;
-        vector<ContextFunction> eventProcessors;
-
-        Context(const char* resourceFolder)
-            : resources(renderer, resourceFolder)
-        {
-            CreateRenderer();
-        }
+        Renderer TheRenderer;
+        ResourceManager Resources;
+        shared_ptr<Values> MyValues;
+        vector<ContextFunction> Steps;
+        vector<ContextFunction> EventProcessors;
 
         Context(const char* resourceFolder, ContextFunction setup, ContextFunction processEvents)
-            : resources(renderer, resourceFolder)
+            : Resources(TheRenderer, resourceFolder)
         {
             CreateRenderer();
             TTF_Init();
 
             setup(*this);
-            eventProcessors.push_back(processEvents);
+            EventProcessors.push_back(processEvents);
         }
 
         ~Context()
         {
-            renderer.Destroy();
+            TheRenderer.Destroy();
             TTF_Quit();
             SDL_Quit();
         }
 
-        float GetSecondsSinceStart()
+        void RenderScene()
+        {
+            MyValues->GetCurrentScene()->Render(TheRenderer);
+        }
+
+        static float GetSecondsSinceStart()
         {
             return SDL_GetTicks() / 1000.0f;
         }
 
         void CreateRenderer()
         {
-            if (!renderer.Construct("Chess Clock"))
+            if (!TheRenderer.Construct("Chess Clock"))
             {
-                LOG_ERROR() << "Failed to initialise Renderer\n";
+                LOG_ERROR() << "Failed to initialise TheRenderer\n";
                 exit(1);
             }
         }
@@ -65,7 +63,7 @@ namespace Gambit
         {
             try
             {
-                while (Execute(eventProcessors) && Execute(steps))
+                while (Execute(EventProcessors) && Execute(Steps))
                     ;
             }
             catch (std::exception &e)
@@ -77,9 +75,9 @@ namespace Gambit
             return 0;
         }
 
-        bool Execute(std::vector<ContextFunction> &funcs)
+        bool Execute(std::vector<ContextFunction> &functions)
         {
-            auto dupes = funcs;
+            auto dupes = functions;
             auto func = dupes.begin();
             while (func != dupes.end())
             {
@@ -102,7 +100,7 @@ namespace Gambit
                 }
             }
 
-            funcs = dupes;
+            functions = dupes;
 
             return true;
         }

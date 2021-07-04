@@ -11,3 +11,4 @@ namespace ChessClock::Lichess
         return 0;
     }
 }
+

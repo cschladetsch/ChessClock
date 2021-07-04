@@ -4,19 +4,19 @@
 
 namespace ChessClock
 {
-    void UiCallBacks::Call(Context &context, ObjectPtr object) const
+    void UiCallBacks::Call(Context &context, ObjectPtr source) const
     {
-        auto call = _callbacks.find(object->Callback);
+        const auto call = _callbacks.find(source->Callback);
         if (call == _callbacks.end())
         {
-            LOG_ERROR() << "No callback for '" << object->Callback << "'\n";
+            LOG_ERROR() << "No callback for '" << source->Callback << "'\n";
             return;
         }
 
-        call->second(context, object);
+        call->second(context, source);
     }
 
-    bool UiCallBacks::AddCallback(string const &name, Callback callback)
+    bool UiCallBacks::AddCallback(String const &name, Callback callback)
     {
         if (_callbacks.find(name) != _callbacks.end())
         {
@@ -24,13 +24,13 @@ namespace ChessClock
             return false;
         }
 
-        _callbacks[name] = callback;
+        _callbacks[name] = std::move(callback);
         return true;
     }
 
-    bool UiCallBacks::RemoveCallback(string const &name)
+    bool UiCallBacks::RemoveCallback(String const &name)
     {
-        auto call = _callbacks.find(name);
+        const auto call = _callbacks.find(name);
         if (call == _callbacks.end())
         {
             LOG_WARN() << "Attempt to remove unregistered callback '" << name << "'\n";

@@ -23,20 +23,19 @@ namespace Gambit
         TTF_CloseFont(font);
     }
 
-    TexturePtr Font::CreateTexture(ResourceManager &rm, Renderer &renderer, std::string const &text, Color color) const
+    TexturePtr Font::CreateText(ResourceManager &rm, Renderer &renderer, std::string const &text, Color color) const
     {
-        auto key = std::make_pair(std::string(text), color);
-        auto found = _cache.find(key);
-        if (found != _cache.end())
+        auto const key = std::make_pair(std::string(text), color);
+        if (const auto found = _cache.find(key); found != _cache.end())
         {
             return found->second;
         }
 
-        SDL_Surface* surface = TTF_RenderText_Solid(const_cast<_TTF_Font *>(&Get()), text.c_str(), { color.red, color.green, color.blue, color.alpha });
+        SDL_Surface *surface = TTF_RenderText_Solid(const_cast<_TTF_Font *>(&Get()), text.c_str(), { color.red, color.green, color.blue, color.alpha });
         SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer.GetRenderer(), surface);
         SDL_FreeSurface(surface);
 
-        return _cache[key] = std::make_shared<Texture>(rm.NewId(), texture);
+        return _cache[key] = std::make_shared<Texture>(ResourceId(), texture);
     }
 }
 

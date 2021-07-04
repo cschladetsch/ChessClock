@@ -18,7 +18,9 @@ namespace Gambit
 #define CALL(X) \
     do {\
         if (!(X)) \
-            LOG_ERROR() << #X; \
-        return false; \
+        { \
+            LOG_ERROR() << LOG_VALUE(#X); \
+            return false; \
+        } \
     } while (0)
 

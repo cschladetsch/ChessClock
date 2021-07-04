@@ -25,13 +25,13 @@ namespace Gambit
         template <class ...Args>
         static FontPtr Load(std::string const &fileName, ResourceId const &id, Args... args)
         {
-            int pointSize = std::get<0>(std::tuple{ args... });
+            const int pointSize = std::get<0>(std::tuple{ args... });
             return LoadFont(fileName, id, pointSize);
         }
 
         static FontPtr LoadFont(std::string const& fileName, ResourceId const &id, int pointSize);
 
-        virtual TexturePtr CreateTexture(ResourceManager &, Renderer &, std::string const &text, Color color) const;
+        virtual TexturePtr CreateText(ResourceManager &, Renderer &, std::string const &text, Color color) const;
     };
 }
 

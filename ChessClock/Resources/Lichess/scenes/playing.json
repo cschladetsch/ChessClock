@@ -1,7 +1,7 @@
 {
 	"background":
 	{
-		"sprite" : "background",
+		"sprite" : "background_playing",
 		"location" : [ 0, 0 ],
 		"layer" : 0
 	},

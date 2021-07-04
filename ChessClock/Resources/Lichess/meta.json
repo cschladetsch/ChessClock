@@ -1,4 +1,10 @@
 {
-	"name": "Lichess"
+	"name": "Lichess",
+	"fonts" :
+	{
+		"small_font": [ "default_font.otf", 30 ],
+		"large_font": [ "default_font.otf", 60 ],
+		"timer_font": [ "default_font.otf", 125 ]
+	}
 }
 

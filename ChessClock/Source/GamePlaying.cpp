@@ -1,41 +1,84 @@
 #include "Gambit/Object.hpp"
+#include "Gambit/TimerFont.hpp"
 
 #include "ChessClock/GamePlaying.hpp"
-#include "ChessClock/GameRoot.hpp"
-
+#include "ChessClock/Root.hpp"
 #include "ChessClock/Values.hpp"
-#include "ChessClock/Global.hpp"
 
 namespace ChessClock
 {
-    void DrawTimer(Values& values, Renderer &renderer, Vector2 location, Player const& player)
+    using namespace Gambit;
+
+    void GamePlaying::Prepare(Context &context)
     {
-        values.numberFont->DrawTime(renderer, location, (uint8_t)player.GetMinutes(), (uint8_t)player.GetSeconds());
+        SetGameState(EGameState::Playing);
+        SetColor(ESide::Left, EColor::White);
+        SetTimeControl(TimeControl{5, 0, 3});
+
+        AddCallback("SettingsPressed", [this](auto &ctx, auto source) { SettingsPressed(ctx, source); });
+        AddCallback("PausePressed", [this](auto &ctx, auto source) { PausePressed(ctx, source); });
+        AddCallback("VolumePressed", [this](auto &ctx, auto source) { VolumePressed(ctx, source); });
+
+        SetupGameSprites(context.Resources, context.TheRenderer, *context.MyValues);
+
+        Pause();
     }
 
-    void GamePlaying::Render(Context &ctx) const
+    void GamePlaying::SettingsPressed(Context &context, ObjectPtr const &source)
     {
-        auto& renderer = ctx.renderer;
-        auto& values = *ctx.values;
-
-        values.sceneCurrent->Render(ctx.renderer);
-
-        int y = 14;
-        renderer.WriteTexture(values.leftNameText, Vector2(85, y));
-        renderer.WriteTexture(values.versusText, Vector2(400 - 12, y));
-        renderer.WriteTexture(values.rightNameText, Vector2(580, y));
-
-        Vector2 destPointLeft{ 35, 95 };
-        Vector2 destPointRight{ 438, 95 };
-
-        DrawTimer(values, renderer, destPointLeft, LeftPlayer());
-        DrawTimer(values, renderer, destPointRight, RightPlayer());
+        LOG_INFO() << "Settings pressed from " << LOG_VALUE(source->GetName()) << "\n";
+        Pause();
+        context.MyValues->MyRoot->StartTransitionTo(context, EPage::Settings);
     }
 
-    bool GamePlaying::ProcessEvents(Context &ctx, SDL_Event const &event)
+    void GamePlaying::PausePressed(Context &context, ObjectPtr const &source)
     {
-        Values &values = *ctx.values;
+        LOG_INFO() << "Pause pressed from " << LOG_VALUE(source->GetName()) << "\n";
+        TogglePause();
+    }
 
+    void GamePlaying::VolumePressed(Context &context, ObjectPtr const &source)
+    {
+        LOG_INFO() << "Volume pressed from " << LOG_VALUE(source->GetName()) << "\n";
+    }
+
+    void GamePlaying::SetupGameSprites(ResourceManager &, Renderer &, Values &values)
+    {
+        auto &scene = *values.GetPage(EPage::Playing)->Scene;
+        const auto leftFace = scene.FindChild("left_clock_face");
+        const auto rightFace = scene.FindChild("right_clock_face");
+        const auto whitePawn = scene.FindChild("pawn_white");
+        const auto blackPawn = scene.FindChild("pawn_black");
+        const auto pauseButton = scene.FindChild("icon_pause");
+        SetSprites(leftFace, rightFace, whitePawn, blackPawn, pauseButton);
+    }
+
+    void DrawTimer(Values const& values, Renderer &renderer, const Vector2 &location, TimeControl const &timeControl)
+    {
+        values.NumberFont->DrawTime(renderer, location, static_cast<uint8_t>(timeControl.GetMinutes()), static_cast<uint8_t>(timeControl.GetSeconds()));
+    }
+
+    void GamePlaying::Render(Context &context) const
+    {
+        auto& renderer = context.TheRenderer;
+        auto& values = *context.MyValues;
+
+        context.RenderScene();
+
+        const int y = 14;
+        renderer.WriteTexture(values.LeftNameText, Vector2(85, y));
+        renderer.WriteTexture(values.VersusText, Vector2(400 - 12, y));
+        renderer.WriteTexture(values.RightNameText, Vector2(580, y));
+
+        const Vector2 destPointLeft{ 35, 95 };
+        const Vector2 destPointRight{ 438, 95 };
+
+        DrawTimer(values, renderer, destPointLeft, LeftPlayer().GetRemainingTime().GetTimeRemaining());
+        DrawTimer(values, renderer, destPointRight, RightPlayer().GetRemainingTime().GetTimeRemaining());
+    }
+
+    bool GamePlaying::ProcessEvents(Context &context, SDL_Event const &event)
+    {
         switch (event.type)
         {
             case SDL_KEYDOWN:
@@ -47,19 +90,12 @@ namespace ChessClock
                         TogglePause();
                         return true;
                     }
-
-                    case SDLK_UP:
-                    {
-                        return true;
-                    }
-
                     case SDLK_LEFT:
                     {
                         LOG_VERBOSE(10) << "Pressed left\n";
                         LeftPressed();
                         return true;
                     }
-
                     case SDLK_RIGHT:
                     {
                         LOG_VERBOSE(10) << "Pressed right\n";
@@ -78,8 +114,8 @@ namespace ChessClock
         if (_paused)
             return;
 
-        TimeUnit now = TimeNowMillis();
-        TimeUnit delta = now - _lastGameTime;
+        const TimeUnit now = TimeNowMillis();
+        const TimeUnit delta = now - _lastGameTime;
         _gameTime += delta;
         _lastGameTime = now;
 
@@ -98,7 +134,16 @@ namespace ChessClock
         LOG_INFO() << "Change state:" << LOG_VALUE(state) << "\n";
     }
 
-    void GamePlaying::SetTimeControl(TimeControl timeControl)
+    void GamePlaying::SetSprites(ObjectPtr const &left, ObjectPtr const &right, ObjectPtr const &whitePawn, ObjectPtr const &blackPawn, ObjectPtr const &pauseButton)
+    {
+        _leftFace = left;
+        _rightFace = right;
+        _whitePawn = whitePawn;
+        _blackPawn = blackPawn;
+        _pauseButton = pauseButton;
+    }
+
+    void GamePlaying::SetTimeControl(const TimeControl timeControl)
     {
         if (!_paused)
             Pause();
@@ -107,7 +152,7 @@ namespace ChessClock
         _playerRight.SetTimeControl(timeControl);
     }
 
-    void GamePlaying::SetTimeControl(ESide side, TimeControl timeControl)
+    void GamePlaying::SetTimeControl(const ESide side, const TimeControl timeControl)
     {
         GetPlayer(side).SetTimeControl(timeControl);
     }
@@ -164,23 +209,17 @@ namespace ChessClock
     void GamePlaying::RockerPressed()
     {
         if (IsPaused())
-        {
-            ToggleColor();
             return;
-        }
 
         if (_gameState == EGameState::Ready)
         {
             _gameState = EGameState::Playing;
             _lastGameTime = TimeNowMillis();
             Pause(false);
-            return;
         }
-        else
-        {
-            if (_gameState == EGameState::Playing)
-                ChangeTurn();
-        }
+
+        if (_gameState == EGameState::Playing)
+            ChangeTurn();
     }
 
     Player &GamePlaying::GetPlayer(ESide side)
@@ -188,19 +227,10 @@ namespace ChessClock
         return side == ESide::Left ? _playerLeft : _playerRight;
     }
 
-    void GamePlaying::SetSprites(ObjectPtr left, ObjectPtr right, ObjectPtr whitePawn, ObjectPtr blackPawn, ObjectPtr pauseButton)
-    {
-        _leftFace = left;
-        _rightFace = right;
-        _whitePawn = whitePawn;
-        _blackPawn = blackPawn;
-        _pauseButton = pauseButton;
-    }
-
     void GamePlaying::ChangeTurn()
     {
-        TimeUnit now = TimeNowMillis();
-        TimeUnit delta = now - _lastGameTime;
+        const Gambit::MilliSeconds now = TimeNowMillis();
+        const Gambit::MilliSeconds delta = now - _lastGameTime;
         _lastGameTime = now;
         Player &currentPlayer = CurrentPlayer();
         currentPlayer.AddMillis(-delta);

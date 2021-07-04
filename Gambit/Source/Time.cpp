@@ -5,11 +5,11 @@ namespace Gambit
 {
     TimeUnit TimeNowMillis()
     {
-        return (TimeUnit)SDL_GetTicks();
+        return static_cast<TimeUnit>(SDL_GetTicks());
     }
 
     float TimeNowSeconds()
     {
-        return (float)TimeNowMillis()/1000.f;
+        return static_cast<float>(TimeNowMillis())/1000.f;
     }
 }

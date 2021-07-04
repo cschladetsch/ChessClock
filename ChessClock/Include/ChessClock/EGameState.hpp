@@ -1,7 +1,6 @@
 #pragma once
 
 #include <ostream>
-#include "ChessClock/ESide.hpp"
 
 namespace ChessClock
 {
@@ -36,6 +35,7 @@ namespace ChessClock
             return out << "BlackWon";
         }
 
-        return out << "Unknown game state " << (int)state;
+        return out << "Unknown game state " << static_cast<int>(state);
     }
 }
+

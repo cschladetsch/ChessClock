@@ -1,10 +1,6 @@
 #pragma once
 
 #include "Gambit/ForwardReferences.hpp"
-#include "Gambit/ThirdParty/Http.hpp"
-#include "Gambit/ThirdParty/Json.hpp"
-
-#include "ChessClock/Config.hpp"
 
 namespace ChessClock::Lichess
 {
@@ -17,7 +13,7 @@ namespace ChessClock::Lichess
 
     class Lichess
     {
-        Lichess(const char *accessToken);
+        explicit Lichess(const char *accessToken);
 
         int GetRating(const char *name, EFormat format);
         Gambit::TexturePtr GetPortait(int id);

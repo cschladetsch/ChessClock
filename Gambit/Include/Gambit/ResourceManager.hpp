@@ -1,8 +1,8 @@
 #pragma once
 
 #include <unordered_map>
+#include <boost/filesystem.hpp>
 
-#include "Gambit/Resource.hpp"
 #include "Gambit/ResourceLoader.hpp"
 #include "Gambit/NonCopyable.hpp"
 #include "Gambit/Object.hpp"
@@ -21,17 +21,17 @@ namespace Gambit
         IdToResources _idToResource;
         IdToObject _idToObject;
         Renderer const* _renderer;
-        string _rootFolder;
+        boost::filesystem::path _rootFolder;
 
     public:
         ResourceManager(Renderer const &renderer, const char *rootFolder);
 
-        bool AddObject(ObjectPtr obj);
+        bool AddObject(ObjectPtr const &object);
         ObjectPtr CreateObject(const string &name);
         IdToObject const &GetObjects() const { return _idToObject; }
 
         template <class Res, class ...Args>
-        shared_ptr<Res> LoadResource(const char* name, Args... args)
+        shared_ptr<Res> LoadResource(string const &name, Args... args)
         {
             ResourceId id{ xg::newGuid(), name };
             auto fileName = MakeResourceFilename(name);
@@ -39,31 +39,30 @@ namespace Gambit
             if (!resource)
             {
                 LOG_ERROR() << "Failed to load resource '" << name << "'\n";
-                return 0;
+                return nullptr;
             }
-            _idToResource[id] = resource->SharedBase();
-            return resource;
+            return AddResource(id, resource->SharedBase()), resource;
         }
 
         template <class Res, class ...Args>
-        shared_ptr<Res> CreateResource(const char* name, Args... args)
+        shared_ptr<Res> CreateResource(string const &name, Args... args)
         {
             ResourceId id{ xg::newGuid(), name };
             shared_ptr<Res> resource = std::make_shared<Res>(id, args...);
             if (!resource)
             {
                 LOG_ERROR() << "Failed to make resource type '" << NAMEOF_TYPE(Res) << "' from resource " << name << "'\n";
-                return 0;
+                return nullptr;
             }
-            _idToResource[id] = resource->SharedBase();
-            return resource;
+            return AddResource(id, resource->SharedBase()), resource;
         }
 
-        void AddResource(ResourceId const &id, ResourceBasePtr resource);
+        ResourceBasePtr AddResource(ResourceId const &id, ResourceBasePtr resource);
         ResourceBasePtr GetResource(ResourceId const &id) const;
-        ResourceId NewId() const;
-        ResourceId NewId(string const &name) const;
-        string MakeResourceFilename(const char* name);
-        ObjectPtr FindObject(string const &name);
+        string MakeResourceFilename(string const &name) const;
+        ObjectPtr FindObject(string const &name) const;
+
+        IdToObject const &GetAllObjects() const { return _idToObject; }
     };
 }
+

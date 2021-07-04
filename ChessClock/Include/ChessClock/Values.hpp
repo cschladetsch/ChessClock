@@ -1,48 +1,45 @@
-#include "Gambit/Texture.hpp"
-#include "Gambit/TimerFont.hpp"
-#include "Gambit/Atlas.hpp"
+#pragma once
 
-#include "ChessClock/GameRoot.hpp"
+#include "EPage.hpp"
+#include "ChessClock/Page.hpp"
 
 namespace ChessClock
 {
-    using namespace Gambit;
+    class Root;
 
     class Values
-        : NonCopyable
+        : Gambit::NonCopyable
     {
     public:
         Values() = default;
 
-        FontPtr font;
-        FontPtr headerFont;
-        FontPtr footerFont;
+        int LogVerbosity{ 0 };
+        bool TrackMouse{ false };
+        bool DebugTick{ false };
 
-        TexturePtr backBuffer;
-        TexturePtr leftNameText;
-        TexturePtr rightNameText;
-        TexturePtr versusText;
+        ThemeMetaPtr Theme;
 
-        Rect textBounds;
-        NumberFontPtr numberFont;
-        AtlasPtr atlas;
+        Gambit::FontPtr TimerFont;
+        Gambit::FontPtr SmallFont;
+        Gambit::FontPtr HeaderFont;
+        Gambit::NumberFontPtr NumberFont;
 
-        GameRootPtr gameRoot;
-        GameBasePtr game;
-        ScenePtr sceneCurrent;
+        Gambit::TexturePtr BackBuffer;
 
-        ScenePtr sceneSplash;
-        ScenePtr scenePlaying;
-        ScenePtr sceneSettings;
-        ScenePtr sceneAbout;
+        //CJS TODO: move these out
+        Gambit::TexturePtr LeftNameText;
+        Gambit::TexturePtr RightNameText;
+        Gambit::TexturePtr VersusText;
 
-        GameSplashPtr gameSplash;
-        GamePlayingPtr gamePlaying;
-        GameSettingsPtr gameSettings;
-        GameAboutPtr gameAbout;
+        Gambit::AtlasPtr Atlas;
+        Root *MyRoot;
+        EPage PageCurrent;
+        std::unordered_map<EPage, SharedPtr<PageBase>> Pages;
 
-        bool trackMouse{ false };
-        bool debugTick{ false };
+        PageBasePtr GetPage(EPage page) const { return Pages.find(page)->second; }
+        PageBasePtr GetCurrentPage() const { return GetPage(PageCurrent); }
+        Gambit::ScenePtr GetCurrentScene() const { return GetCurrentPage()->Scene; }
+        GameBasePtr GetCurrentGame() const {  return GetCurrentPage()->GameBase; }
     };
 }
 

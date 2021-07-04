@@ -1,21 +1,19 @@
 #include "Gambit/Vector2.hpp"
 
-#include "ChessClock/GameRoot.hpp"
+#include "ChessClock/Root.hpp"
 #include "ChessClock/Values.hpp"
 #include "ChessClock/GameBase.hpp"
 
-#include "ChessClock/GamePlaying.hpp"
-
 namespace ChessClock
 {
-    bool GameRoot::ProcessEvents(Context& ctx)
+    bool Root::ProcessEvents(Context& context)
     {
-        Values& values = *ctx.values;
+        Values& values = *context.MyValues;
         SDL_Event event;
 
         while (SDL_PollEvent(&event))
         {
-            if (values.gamePlaying->ProcessEvents(ctx, event))
+            if (values.GetCurrentGame()->ProcessEvents(context, event))
                 continue;
 
             switch (event.type)
@@ -26,8 +24,7 @@ namespace ChessClock
                     {
                         case SDL_BUTTON_LEFT:
                         {
-                            auto where = Vector2{ event.button.x, event.button.y };
-                            values.game->OnPressed(ctx, where);
+                            values.GetCurrentGame()->OnPressed(context, Vector2{ event.button.x, event.button.y });
                             break;
                         }
                     }
@@ -36,11 +33,10 @@ namespace ChessClock
 
                 case SDL_MOUSEMOTION:
                 {
-                    if (!ctx.values->trackMouse)
+                    if (context.MyValues->TrackMouse)
                     {
-                        continue;
+                        LOG_INFO() << "x: " << event.motion.x << ", y: " << event.motion.y << "\n";
                     }
-                    LOG_INFO() << "x: " << event.motion.x << ", y: " << event.motion.y << "\n";
                     break;
                 }
 
@@ -50,7 +46,7 @@ namespace ChessClock
                     {
                         case SDLK_d:
                         {
-                            ctx.values->debugTick = true;
+                            context.MyValues->DebugTick = true;
                             continue;
                         }
 
@@ -59,13 +55,12 @@ namespace ChessClock
                             LOG_INFO() << "Pressed Escape\n";
                             Logger::CloseFile();
                             exit(0);
-                            return true;
                         }
 
                         case SDLK_m:
                         {
-                            values.trackMouse = !values.trackMouse;
-                            LOG_INFO() << "Tracking mouse: " << values.trackMouse << "\n";
+                            values.TrackMouse = !values.TrackMouse;
+                            LOG_INFO() << "Tracking mouse: " << values.TrackMouse << "\n";
                             return true;
                         }
 

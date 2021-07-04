@@ -1,6 +1,5 @@
 #pragma once
 
-#include <iostream>
 #include "SDL_stdinc.h"
 
 namespace Gambit
@@ -12,10 +11,7 @@ namespace Gambit
         int x{ 0 }, y{ 0 };
 
         Vector2() = default;
-        Vector2(const Vector2 &other)
-            : x(other.x), y(other.y)
-        {
-        }
+        Vector2(const Vector2 &other) = default;
 
         Vector2(int x, int y)
         {
@@ -43,9 +39,9 @@ namespace Gambit
             return !(left == right);
         }
 
-        float Distance(Vector2 const& other)
+        float Distance(Vector2 const& other) const
         {
-            return SDL_sqrtf((float)(other.x * x + other.y * y));
+            return SDL_sqrtf(static_cast<float>(other.x * x + other.y * y));
         }
 
         friend std::ostream& operator<<(std::ostream& out, const Vector2 &vec)
@@ -54,3 +50,4 @@ namespace Gambit
         }
     };
 }
+

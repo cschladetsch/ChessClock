@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Gambit/ResourceBase.hpp"
-#include "Gambit/ResourceLoader.hpp"
 
 namespace Gambit
 {
@@ -15,10 +14,11 @@ namespace Gambit
 
     public:
         Resource(Type* resource, ResourceId const &id, std::function<void(Ty*)> deleter)
-            : _resource(resource, deleter), ResourceBase(id) { }
+            : ResourceBase(id), _resource(resource, deleter)  { }
 
         bool Exists() const { return _resource.get(); }
         Type& Get() { return *_resource; }
         const Type& Get() const { return *_resource; }
     };
 }
+

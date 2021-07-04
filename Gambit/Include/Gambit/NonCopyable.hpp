@@ -4,9 +4,12 @@ namespace Gambit
 {
     struct NonCopyable
     {
-        NonCopyable() {}
+    protected:
+        ~NonCopyable() = default;
 
-    private:
+    public:
+        NonCopyable() = default;
+
         NonCopyable(NonCopyable &) = delete;
         NonCopyable(NonCopyable &&) = delete;
         NonCopyable& operator =(NonCopyable &) = delete;

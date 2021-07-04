@@ -2,63 +2,65 @@
 
 namespace Gambit
 {
+    using namespace std;
+
     ResourceManager::ResourceManager(Renderer const& renderer, const char* rootFolder)
     {
         _renderer = &renderer;
         _rootFolder = rootFolder;
     }
 
-    std::string ResourceManager::MakeResourceFilename(const char* name)
+    string ResourceManager::MakeResourceFilename(string const &name) const
     {
-        return _rootFolder + name;
+        return (_rootFolder / name).string();
     }
 
-    ResourceId ResourceManager::NewId() const
+    bool ResourceManager::AddObject(ObjectPtr const &object)
     {
-        return ResourceId();
-    }
-
-    ResourceId ResourceManager::NewId(string const &name) const
-    {
-        return ResourceId(name);
-    }
-
-    bool ResourceManager::AddObject(ObjectPtr obj)
-    {
-        _idToObject[obj->GetResourceId()] = obj;
+        auto const &rid = object->GetResourceId();
+        if (_idToObject.find(rid) != _idToObject.end())
+        {
+            LOG_ERROR() << "Attempt to store object with same id '" << rid << "' to resource manager.\n";
+            return false;
+        }
+        _idToObject[rid] = object;
         return true;
     }
 
-    void ResourceManager::AddResource(ResourceId const& id, ResourceBasePtr resource)
+    ResourceBasePtr ResourceManager::AddResource(ResourceId const& id, ResourceBasePtr resource)
     {
-        _idToResource[id] = resource;
+        if (_idToResource.find(id) != _idToResource.end())
+        {
+            LOG_ERROR() << "Attempt to add resource id '" << id << "' to resource manager.\n";
+            return nullptr;
+        }
+
+        return _idToResource[id] = move(resource);
     }
 
     ObjectPtr ResourceManager::CreateObject(const string &name)
     {
-        auto result = std::make_shared<Object>(name, NewId(name), *this);
-        AddObject(result);
-        return result;
+        const auto result = make_shared<Object>(name, ResourceId(name), *this);
+        return AddObject(result) ? result : nullptr;
     }
 
     ResourceBasePtr ResourceManager::GetResource(ResourceId const& id) const
     {
-        auto found = _idToResource.find(id);
-        if (found == _idToResource.end())
-            return 0;
-        return found->second;
+        const auto found = _idToResource.find(id);
+        return found == _idToResource.end() ? nullptr : found->second;
     }
 
-    ObjectPtr ResourceManager::FindObject(string const &name)
+    ObjectPtr ResourceManager::FindObject(string const &name) const
     {
-        for (auto &iter : _idToObject)
+        for (const auto & [first, second] : _idToObject)
         {
-            if (iter.first.GetName() == name)
-                return iter.second;
+            if (first.GetName() == name)
+                return second;
         }
 
         LOG_ERROR() << "Couldn't find object " << LOG_VALUE(name) << "\n";
-        return 0;
+
+        return nullptr;
     }
 }
 

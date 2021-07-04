@@ -1,6 +1,9 @@
 #include "Gambit/Atlas.hpp"
 #include "Gambit/Scene.hpp"
+
+#include "Gambit/Renderer.hpp"
 #include "Gambit/ResourceManager.hpp"
+#include "Gambit/Texture.hpp"
 #include "Gambit/ThirdParty/Json.hpp"
 
 // conversion 
@@ -49,7 +52,7 @@ namespace Gambit
     {
         if (!object)
         {
-            LOG_ERROR() << "null object";
+            LOG_ERROR() << "null object\n";
             return 0;
         }
         int layer = object->Layer;
@@ -61,26 +64,46 @@ namespace Gambit
 
         stringstream out;
         out << "Root" << layer << std::ends;
-        return _layerToRoots[layer] = make_shared<Object>(out.str(), _resourceManager->NewId(), *_resourceManager);
+        return _layerToRoots[layer] = make_shared<Object>(out.str(), ResourceId(), *_resourceManager);
     }
 
     void Scene::Render(Renderer &renderer) const
     {
-        for (auto& root : _layerToRoots)
+        for (const auto& [first, second] : _layerToRoots)
         {
-            for (auto& object : root.second->GetChildren())
+            for (auto& object : second->GetChildren())
             {
+                auto position = object->Position;
+                if (object->Centered)
+                {
+                    if (object->TextTexturePtr)
+                    {
+                        const auto bounds = object->TextTexturePtr->GetBounds();
+                        position.x -= bounds.width / 2;
+                        position.y -= bounds.height / 2;
+                    }
+                }
+                if (object->TextTexturePtr)
+                {
+                    if (!renderer.WriteTexture(object->TextTexturePtr, position))
+                    {
+                        LOG_WARN() << "Failed to render " << object->Name << "\n";
+                        //_resourceManager->RemoveResource(object);
+                    }
+                    continue;
+                }
+
                 if (object->Sprite.empty())
                     continue;
 
-                _atlas->WriteSprite(renderer, *object);
+                _atlas->WriteSprite(renderer, position, *object);
             }
         }
     }
 
     shared_ptr<Scene> Scene::LoadScene(ResourceManager &resources, string const &fileName, Atlas const &atlas)
     {
-        return make_shared<Scene>(resources.NewId(), resources, atlas, fileName.c_str());
+        return make_shared<Scene>(ResourceId(), resources, atlas, fileName.c_str());
     }
 
     void Scene::AddObject(ObjectPtr object)
@@ -93,7 +116,7 @@ namespace Gambit
 
         GetLayer(object)->AddChild(object);
 
-        if (object->Type == "button")
+        if (object->ObjectType == EObjectType::Button)
         {
             _buttons.push_back(object);
         }
@@ -108,8 +131,10 @@ namespace Gambit
         Object &object = *objectPtr;
 
         //CJS TODO: why does this work if I make a variable to pass, rather than passing the lambda directly to SetValue(...)
-        std::function<Vector2 (nlohmann::json &j)>fun = [](nlohmann::json& j) ->Vector2 { return Vector2{ j[0], j[1] }; };
+        std::function<Vector2 (nlohmann::json &j)>fun = [](nlohmann::json& j) { return Vector2{ j[0], j[1] }; };
         //SetValue(value, "location", object, &Object::Position, [](nlohmann::json& j) { return Vector2{ j[0], j[1] }; });
+        SetValue(value, "type", object, &Object::Type);
+        SetValue(value, "font", object, &Object::FontName);
         SetValue(value, "location", object, &Object::Position, fun);
         SetValue(value, "sprite", object, &Object::Sprite);
         SetValue(value, "layer", object, &Object::Layer);
@@ -117,6 +142,28 @@ namespace Gambit
         SetValue(value, "tint", object, &Object::Tint);
         SetValue(value, "type", object, &Object::Type);
         SetValue(value, "callback", object, &Object::Callback);
+        SetValue(value, "rotation", object, &Object::Rotation);
+        SetValue(value, "centered", object, &Object::Centered);
+        SetValue(value, "hidden", object, &Object::Hidden);
+        SetValue(value, "string", object, &Object::String);
+
+        object.ObjectType = EObjectType::Sprite;
+        if (object.Type == "text")
+        {
+            object.ObjectType = EObjectType::Text;
+        }
+        else if (object.Type == "timer_value")
+        {
+            object.ObjectType = EObjectType::TimerValue;
+        }
+        else if (object.Type == "timer_seconds")
+        {
+            object.ObjectType = EObjectType::SecondsValue;
+        }
+        else if (object.Type == "button")
+        {
+            object.ObjectType = EObjectType::Button;
+        }
 
         AddObject(objectPtr);
 

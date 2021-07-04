@@ -10,11 +10,16 @@ namespace Gambit
     {
         static inline Logger _log{ "Texture" };
 
+        mutable int _result;
+
     public:
         Texture(ResourceId const& id, SDL_Texture *texture)
             : Resource<SDL_Texture>(texture, id, Deleter)
         {
         }
+
+        void SetBlended();
+        void SetAlpha(uint8_t alpha);
 
         static void Deleter(SDL_Texture* font);
 
@@ -34,3 +39,4 @@ namespace Gambit
         Rect GetBounds() const;
     };
 }
+

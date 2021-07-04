@@ -1,6 +1,4 @@
-#include <sstream>
-#include <iostream>
-#include <iomanip>
+#include <fstream>
 #include <ctime>
 
 #include "Gambit/Logger.hpp"
@@ -37,7 +35,7 @@ namespace Gambit
         }
     }
 
-    bool Logger::OpenLogFile()
+    bool Logger::OpenLogFile() const
     {
         if (_logFile && _logFile->is_open())
             return true;
@@ -108,10 +106,9 @@ namespace Gambit
 
     ostream& Logger::PrintLead(const char* file, int line, const char *func, rang::fg const &color, const char *level) const
     {
-        const char *lead = "";
+        auto lead = "";
         string fileName = file;
-        auto fileNameLength = fileName.size();
-        if (fileNameLength > 33)
+        if (const auto fileNameLength = fileName.size(); fileNameLength > 33)
         {
             fileName = "..." + fileName.substr(fileNameLength - 30);
         }

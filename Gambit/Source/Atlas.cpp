@@ -1,36 +1,29 @@
-#include <set>
-
 #include "Gambit/ThirdParty/SDL.hpp"
 #include "Gambit/ThirdParty/Json.hpp"
 
 #include "Gambit/Renderer.hpp"
 #include "Gambit/Texture.hpp"
 #include "Gambit/Rect.hpp"
-#include "Gambit/Vector2.hpp"
 #include "Gambit/Atlas.hpp"
-#include "Gambit/Exceptions.hpp"
 
 #ifdef WIN32
-// use scoped enums. Can't do this for SDL
-#pragma warning (disable:26812)
+    // use scoped enums. Can't do this for SDL
+    #pragma warning (disable:26812)
 #endif
 
 namespace Gambit
 {
     using namespace std;
 
-    static set<string> _spritesNotFound;
-    static set<string> _tintsNotFound;
-
-    Atlas::Atlas(TexturePtr texture, const string& spritesName)
-        : _atlasTexture(texture)
+    Atlas::Atlas(TexturePtr atlasTexture, const string& spritesJson)
+        : _atlasTexture(move(atlasTexture))
     {
-        ReadJsonEx(spritesName.c_str());
+        ReadJsonEx(spritesJson);
     }
 
     pair<bool, Rect> Atlas::GetSprite(string const& name) const
     {
-        auto found = _sprites.find(name);
+        const auto found = _sprites.find(name);
         if (found == _sprites.end())
         {
             SpriteNotFound(name);
@@ -41,7 +34,7 @@ namespace Gambit
 
     pair<bool, Color> Atlas::GetTint(const string& name) const
     {
-        auto found = _tints.find(name);
+        const auto found = _tints.find(name);
         if (found == _tints.end())
         {
             TintNotFound(name);
@@ -52,91 +45,65 @@ namespace Gambit
 
     bool Atlas::WriteSprite(Renderer& renderer, Object const& object) const
     {
-        return WriteSprite(renderer, object.Sprite, object.Position, object.Tint, object.Mirror);
+        return WriteSprite(renderer, object.Position, object);
     }
 
-    bool Atlas::WriteSprite(Renderer& renderer, string const& name, const Rect& destRect, bool mirror) const
+    bool Atlas::WriteSprite(Renderer& renderer, const Rect& destRect, Object const &object) const
     {
-        auto found = GetSprite(name);
-        if (!found.first)
-            return SpriteNotFound(name);
-        return WriteRect(renderer, found.second, destRect);
+        const auto [first, second] = GetSprite(object.Sprite);
+        if (!first)
+            return SpriteNotFound(object.Sprite);
+        return WriteRect(renderer, second, destRect, object);
     }
 
-    bool Atlas::WriteSprite(Renderer &renderer, string const& name, Vector2 const& topLeft, bool mirror) const
+    bool Atlas::WriteSprite(Renderer &renderer, Vector2 const& topLeft, Object const &object) const
     {
-        auto found = GetSprite(name);
-        if (!found.first)
-            return SpriteNotFound(name);
-        Rect const& dest = found.second;
-        return WriteRect(renderer, found.second, Rect(topLeft.x, topLeft.y, dest.width, dest.height));
+        const auto [first, second] = GetSprite(object.Sprite);
+        if (!first)
+            return SpriteNotFound(object.Sprite);
+        Rect const& dest = second;
+        return WriteRect(renderer, second, 
+            Rect(topLeft.x, topLeft.y, dest.width, dest.height), object);
     }
 
-    bool Atlas::WriteSprite(Renderer& renderer, string const& name, const Vector2& destPoint, const string& tintName, bool mirror) const
+    bool Atlas::WriteRect(Renderer& renderer, Rect const& sourceRect, Rect const& destRect, Object const &object) const
     {
-        auto found = GetSprite(name);
-        if (!found.first)
-            return SpriteNotFound(name);
-        auto const &rect = found.second;
+        auto const [found, tint] = GetTint(object.Tint);
+        if (found)
+            CALL_SDL(SDL_SetTextureColorMod(&_atlasTexture->Get(), tint.red, tint.green, tint.blue));
 
-        auto tint = Colors::White;
-        if (!tintName.empty())
-        {
-            auto tintFound = GetTint(tintName);
-            if (!tintFound.first)
-                return TintNotFound(tintName);
-            tint = tintFound.second;
-        }
-
-        return WriteRect(renderer, found.second, Rect{ destPoint.x, destPoint.y, rect.width, rect.height }, tint, mirror);
-    }
-
-    bool Atlas::WriteRect(Renderer &renderer, const Rect& sourceRect, const Rect& destRect, Color const& tint, bool mirror) const
-    {
-        int result = 0;
-        CALL_SDL(SDL_SetTextureColorMod(&_atlasTexture->Get(), tint.red, tint.green, tint.blue));
-        if (!WriteRect(renderer, sourceRect, destRect, mirror))
-        {
-            LOG_ERROR() << LOG_VALUE(sourceRect) << LOG_VALUE(destRect) << '\n';
-            return false;
-        }
-        CALL_SDL(SDL_SetTextureColorMod(&_atlasTexture->Get(), 255, 255, 255));
-        return result == 0;
-    }
-
-    bool Atlas::WriteRect(Renderer& renderer, Rect const& sourceRect, Rect const& destRect, bool mirror) const
-    {
-        int result = 0;
         CALL_SDL(SDL_RenderCopyEx(
             renderer.GetRenderer(),
             &_atlasTexture->Get(),
             ToSdlRect(sourceRect),
             ToSdlRect(destRect),
-            0,          // angle
-            nullptr,    // center
-            mirror ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE
+            object.Rotation,
+            nullptr,
+            object.Mirror ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE
         ));
 
-        return result == 0;
+        if (found)
+            CALL_SDL(SDL_SetTextureColorMod(&_atlasTexture->Get(), 255, 255, 255));
+
+        return _result == 0;
     }
 
     shared_ptr<Atlas> Atlas::LoadAtlas(ResourceManager &resources, Renderer &renderer, string const& baseName, ResourceId const& id)
     {
-        string fileName = baseName + ".png";
+        const string fileName = baseName + ".png";
         string spritesName = baseName + ".json";
 
-        auto flags = IMG_INIT_PNG;
-        if (flags != IMG_Init(flags))
+        if (const auto flags = IMG_INIT_PNG; flags != IMG_Init(flags))
         {
             LOG_ERROR() << "Failed to initialise image lib " << IMG_GetError() << "\n";
-            return 0;
+            return nullptr;
         }
 
         SDL_Surface *surface = IMG_Load(fileName.c_str());
         if (!surface)
         {
-            LOG_ERROR() << "Failed to load " << LOG_VALUE(fileName) << LOG_VALUE(IMG_GetError()) <<  "\n";
-            return 0;
+            LOG_ERROR() << "Failed to load " << LOG_VALUE(fileName) << LOG_VALUE(IMG_GetError()) << "\n";
+            return nullptr;
         }
 
         uint32_t key;
@@ -148,7 +115,7 @@ namespace Gambit
         SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer.GetRenderer(), surface);
         SDL_FreeSurface(surface);
 
-        auto ptr = make_shared<Texture>(resources.NewId(), texture);
+        auto ptr = make_shared<Texture>(ResourceId(), texture);
         resources.AddResource(ptr->GetResourceId(), ptr);
 
         return make_shared<Atlas>(ptr, spritesName);
@@ -159,28 +126,26 @@ namespace Gambit
         if (_spritesNotFound.find(name) != _spritesNotFound.end())
         {
             LOG_ERROR() << "No sprite named '" << name << "' found\n.";
+            _spritesNotFound.insert(name);
             return false;
         }
 
-        _spritesNotFound.insert(name);
         return false;
     }
 
     bool Atlas::TintNotFound(const string& name) const
     {
-        static set<string> notFound;
-        if (_tintsNotFound.find(name) != _tintsNotFound.end() && notFound.find(name) == notFound.end())
+        if (_tintsNotFound.find(name) != _tintsNotFound.end())
         {
             LOG_ERROR() << "No tint named '" << name << "' found\n.";
-            notFound.insert(name);
+            _tintsNotFound.insert(name);
             return false;
         }
 
-        _tintsNotFound.insert(name);
         return false;
     }
 
-    Rect Atlas::GetRect(Json &json, const char* name)
+    Rect Atlas::ReadRect(Json &json, const char* name)
     {
         if (!json.contains(name))
         {
@@ -189,10 +154,10 @@ namespace Gambit
         }
 
         auto const &rc = json[name].get<vector<int>>();
-        return Rect(rc[0], rc[1], rc[2], rc[3]);
+        return Rect{rc[0], rc[1], rc[2], rc[3]};
     }
 
-    Color Atlas::GetColor(Json &json, const char *name)
+    Color Atlas::ReadColor(Json &json, const char *name)
     {
         if (!json.contains(name))
         {
@@ -212,20 +177,21 @@ namespace Gambit
 
         if (type == "sprite")
         {
-            _sprites[name] = GetRect(value, "location");
+            _sprites[name] = ReadRect(value, "location");
             return true;
         }
 
         if (type == "tint_list")
         {
-            auto names = 
+            auto const tintNames = 
             { 
-                "active_player", "foo", "inactive_player", "low_time_inactive", "low_time_active",
+                "active_player", "inactive_player", "low_time_inactive", "low_time_active",
                 "button_pressed", "time_bar_green", "time_bar_red", "white" 
-            };
-            for (auto const &name : names)
+            }; 
+
+            for (auto const &tint : tintNames)
             {
-                _tints[name] = GetColor(value, name);
+                _tints[tint] = ReadColor(value, tint);
             }
 
             return true;

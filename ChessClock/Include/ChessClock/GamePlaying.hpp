@@ -1,11 +1,13 @@
 #pragma once
 
+#include "ChessClock/ESide.hpp"
+#include "ChessClock/EGameState.hpp"
 #include "ChessClock/Player.hpp"
 #include "ChessClock/GameBase.hpp"
 
 namespace ChessClock
 {
-    class GamePlaying
+    class GamePlaying 
         : public GameBase
     {
         static inline Logger _log{ "GamePlaying" };
@@ -27,24 +29,24 @@ namespace ChessClock
     public:
         GamePlaying() = default;
 
-        virtual void Render(Context &) const override;
-        virtual void Update(Context &) override;
-        virtual bool ProcessEvents(Context &ctx, SDL_Event const &) override;
+        void Prepare(Context &) override;
+        void Render(Context &) const override;
+        void Update(Context &) override;
+        bool ProcessEvents(Context &context, SDL_Event const &) override;
 
-        void SetSprites(ObjectPtr left, ObjectPtr right, ObjectPtr whitePawn, ObjectPtr blackPawn, ObjectPtr pauseButton);
+        void SetSprites(ObjectPtr const &left, ObjectPtr const &right, ObjectPtr const &whitePawn, ObjectPtr const &blackPawn, ObjectPtr const &pauseButton);
 
         void ResetGame();
 
-        void SetGameState(EGameState);
+        static void SetGameState(EGameState);
         EGameState GetGameState() const { return _gameState; }
 
         void SetTimeControl(TimeControl timeControl);
         void SetTimeControl(ESide side, TimeControl timeControl);
 
         TimeControl GetTimeControl() const { return _timeControl; }
-        TimeControl GetTimeControl(ESide side) const;
 
-        void Pause(bool pause = true);
+        void Pause(bool paused = true);
         bool IsPaused() const { return _paused; }
         void TogglePause() { Pause(!_paused); }
 
@@ -63,9 +65,13 @@ namespace ChessClock
         void LeftPressed();
         void RightPressed();
 
-        //void OnPressed(GameRootPtr, Vector2 where) const;
-
     private:
+        void SetupGameSprites(Gambit::ResourceManager &, Gambit::Renderer &, Values &values);
+
+        void SettingsPressed(Context &, ObjectPtr const &source);
+        void PausePressed(Context &, ObjectPtr const &source);
+        static void VolumePressed(Context &, ObjectPtr const &source);
+
         bool ToggleWhenPaused();
         void ToggleColor();
 
@@ -80,3 +86,4 @@ namespace ChessClock
         void ChangeTurn();
     };
 }
+

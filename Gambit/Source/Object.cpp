@@ -1,5 +1,3 @@
-
-#include "Gambit/Exceptions.hpp"
 #include "Gambit/ResourceManager.hpp"
 
 namespace Gambit

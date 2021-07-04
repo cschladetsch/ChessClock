@@ -8,6 +8,16 @@
 
 namespace Gambit
 {
+    enum class EObjectType
+    {
+        None,
+        Sprite,
+        Button,
+        Text,
+        TimerValue,
+        SecondsValue,
+    };
+
     class Object
         : public std::enable_shared_from_this<Object>
         , public NonCopyable
@@ -17,7 +27,7 @@ namespace Gambit
         typedef std::vector<ObjectPtr> Children;
         typedef std::vector<ResourceBasePtr> Resources;
 
-        ResourceManager* _resourceManager{ 0 };
+        ResourceManager* _resourceManager{ nullptr };
         ResourceId _resourceId;
         Children _children;
         Resources _resources;
@@ -28,12 +38,19 @@ namespace Gambit
         string Sprite;
         string Tint;
         string Type;
+        string FontName;
         string Callback;
         Vector2 Position;
-        float Rotation{ 0 };
+        double Rotation{ 0 };
         float Scale{ 1 };
         int Layer{ 0 };
         bool Mirror{ false };
+        bool Centered{ false };
+        bool Hidden{ false };
+        EObjectType ObjectType{ EObjectType::None };
+        string String;
+        FontPtr Font;
+        TexturePtr TextTexturePtr;
 
         Object(string name, ResourceId const&, ResourceManager& resourceManager);
 

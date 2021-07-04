@@ -8,17 +8,23 @@
 namespace Gambit
 {
     TimerFont::TimerFont(ResourceId const& id, FontPtr font)
-        : ResourceBase(id), _font(font), DarkOffset(7,7)
+        : ResourceBase(id), _font(std::move(font)), DarkOffset(7,7)
     {
     }
 
-    void TimerFont::DrawTime(Renderer& renderer, Vector2 topLeft, uint8_t minutes, uint8_t seconds) const
+    void TimerFont::DrawTime(Renderer& renderer, Vector2 const &topLeft, uint8_t minutes, uint8_t seconds) const
     {
         DrawTime(renderer, _darkDigits, _darkColon, topLeft + DarkOffset, minutes, seconds);
         DrawTime(renderer, _digits, _colon, topLeft, minutes, seconds);
     }
 
-    void TimerFont::DrawTime(Renderer& renderer, Digits const& digits, TexturePtr colon,  Vector2 topLeft, uint8_t minutes, uint8_t seconds) const
+    void TimerFont::DrawSeconds(Renderer &renderer, Vector2 const &topLeft, uint8_t seconds) const
+    {
+        DrawSeconds(renderer, _darkDigits, topLeft + DarkOffset, seconds);
+        DrawSeconds(renderer, _digits, topLeft, seconds);
+    }
+
+    void TimerFont::DrawTime(Renderer& renderer, Digits const& digits, TexturePtr const &colon,  Vector2 const &topLeft, uint8_t minutes, uint8_t seconds) const
     {
         auto tl = topLeft;
         DrawDigitPair(renderer, digits, tl, minutes);
@@ -26,6 +32,11 @@ namespace Gambit
         DrawColon(renderer, colon, tl);
         tl.x += _rectColon.width;
         DrawDigitPair(renderer, digits, tl, seconds);
+    }
+
+    void TimerFont::DrawSeconds(Renderer& renderer, Digits const& digits, Vector2 const &topLeft, uint8_t seconds) const
+    {
+        DrawDigitPair(renderer, digits, topLeft, seconds);
     }
 
     void TimerFont::DrawColon(Renderer &renderer, TexturePtr colon, Vector2 const& topLeft) const
@@ -38,16 +49,17 @@ namespace Gambit
     {
         if (number > 99)
         {
-            LOG_WARN() << "attempt to two-digit draw number with " << LOG_VALUE(number) << "\n";
+            LOG_ERROR() << "attempt to two-digit draw number with " << LOG_VALUE(number) << "\n";
+            return;
         }
 
         number %= 100;
 
         Rect firstDigit{ topleft.x, topleft.y, _rectDigit.width, _rectDigit.height };
         Rect secondDigit{ topleft.x + _rectDigit.width, topleft.y, _rectDigit.width, _rectDigit.height };
-        
-        auto digit0 = number / 10;
-        auto digit1 = number % 10;
+
+        const auto digit0 = number / 10;
+        const auto digit1 = number % 10;
 
         renderer.WriteTexture(digits[digit0], nullptr, &firstDigit);
         renderer.WriteTexture(digits[digit1], nullptr, &secondDigit);
@@ -69,17 +81,17 @@ namespace Gambit
             return;
         }
 
-        Color dark{ 0,0,0 };
+        const Color dark{ 0,0,0 };
         for (auto n = 0; n < 10; ++n)
         {
             auto str = itos(n);
-            _digits[n] = _font->CreateTexture(rm, renderer, str.c_str(), color);
-            _darkDigits[n] = _font->CreateTexture(rm, renderer, str.c_str(), dark);
+            _digits[n] = _font->CreateText(rm, renderer, str.c_str(), color);
+            _darkDigits[n] = _font->CreateText(rm, renderer, str.c_str(), dark);
         }
         _rectDigit = _digits[0]->GetBounds();
 
-        _colon = _font->CreateTexture(rm, renderer, ":", color);
-        _darkColon = _font->CreateTexture(rm, renderer, ":", dark);
+        _colon = _font->CreateText(rm, renderer, ":", color);
+        _darkColon = _font->CreateText(rm, renderer, ":", dark);
         _rectColon = _colon->GetBounds();
     }
 }
