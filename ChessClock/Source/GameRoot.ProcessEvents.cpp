@@ -55,7 +55,6 @@ namespace ChessClock
                             LOG_INFO() << "Pressed Escape\n";
                             Logger::CloseFile();
                             exit(0);
-                            return true;
                         }
 
                         case SDLK_m:

@@ -45,7 +45,6 @@ namespace ChessClock
         void SetTimeControl(ESide side, TimeControl timeControl);
 
         TimeControl GetTimeControl() const { return _timeControl; }
-        TimeControl GetTimeControl(ESide side) const;
 
         void Pause(bool paused = true);
         bool IsPaused() const { return _paused; }

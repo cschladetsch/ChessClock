@@ -79,8 +79,6 @@ namespace ChessClock
 
     bool GamePlaying::ProcessEvents(Context &context, SDL_Event const &event)
     {
-        Values &values = *context.MyValues;
-
         switch (event.type)
         {
             case SDL_KEYDOWN:

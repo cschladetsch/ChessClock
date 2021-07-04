@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cstdint>
-
 #include "Gambit/Time.hpp"
 
 #undef max

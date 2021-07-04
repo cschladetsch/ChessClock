@@ -1,3 +1,5 @@
+#pragma once
+
 #include "EPage.hpp"
 #include "ChessClock/Page.hpp"
 

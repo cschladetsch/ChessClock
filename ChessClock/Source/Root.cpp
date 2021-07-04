@@ -175,7 +175,7 @@ namespace ChessClock
         // when n = 0,  a = 0
         // when n = .5  a = 255
         // when n = 1   a = 0
-        float alpha = 0;
+        float alpha;
         if (norm < 0.5f)
         {
             alpha = norm / 0.5f;
@@ -249,8 +249,7 @@ namespace ChessClock
 
     void Root::UpdateTransition(Context &context)
     {
-        const auto now = Gambit::TimeNowMillis();
-        if (now > _transitionTime)
+        if (const auto now = Gambit::TimeNowMillis(); now > _transitionTime)
         {
             _transitionTime = 0;
         }

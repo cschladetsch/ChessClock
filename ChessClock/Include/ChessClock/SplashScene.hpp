@@ -19,11 +19,6 @@ namespace ChessClock
         { }
 
         static bool Setup(Context &ctx);
-        bool ProcessEvents(Context &);
-        bool Present(Context &);
-
-    private:
-        bool ParseJson(JsonNext &next);
     };
 }
 
