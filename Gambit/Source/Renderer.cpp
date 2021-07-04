@@ -62,7 +62,7 @@ namespace Gambit
     bool Renderer::WriteTexture(TexturePtr const &texture, Vector2 const& topLeft, Gambit::Color const &tint) const
     {
         CALL_SDL(SDL_SetTextureColorMod(&texture->Get(), tint.red, tint.green, tint.blue));
-        CALL(WriteTexture(texture, topLeft));
+        CALL_BOOL(WriteTexture(texture, topLeft));
         CALL_SDL(SDL_SetTextureColorMod(&texture->Get(), 255, 255, 255));
         return true;
     }

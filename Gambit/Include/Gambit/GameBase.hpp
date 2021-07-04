@@ -10,3 +10,4 @@ namespace Gambit
         virtual bool DrawSprite(Scene const& scene, Renderer& renderer, Object const& object) = 0;
     };
 }
+

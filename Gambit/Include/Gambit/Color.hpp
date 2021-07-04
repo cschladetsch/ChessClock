@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Gambit/Config.hpp"
-
 namespace Gambit
 {
     struct Color
@@ -31,7 +29,7 @@ namespace Gambit
         static inline Color White{ 255, 255, 255 };
         static inline Color Black{ 0,0,0 };
         static inline Color Red{ 255,0,0 };
-        static inline Color Gree{ 0,255,0 };
+        static inline Color Green{ 0,255,0 };
         static inline Color Blue{ 0,0,255 };
     };
 }

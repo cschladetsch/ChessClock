@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Gambit/Resource.hpp"
-#include "Gambit/Vector2.hpp"
 #include "Gambit/Color.hpp"
 #include "Gambit/Detail/HashStringColorPair.hpp"
 

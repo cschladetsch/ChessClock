@@ -15,11 +15,11 @@ namespace Gambit
     using string = std::string;
 }
 
-#define CALL(X) \
+#define CALL_BOOL(X) \
     do {\
         if (!(X)) \
         { \
-            LOG_ERROR() << LOG_VALUE(#X); \
+            LOG_ERROR() << LOG_VALUE(#X) << "\n"; \
             return false; \
         } \
     } while (0)
