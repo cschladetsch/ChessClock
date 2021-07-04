@@ -9,6 +9,7 @@
 #include "ChessClock/GamePlaying.hpp"
 #include "ChessClock/GameSettings.hpp"
 #include "ChessClock/GameAbout.hpp"
+#include "ChessClock/Global.hpp"
 #include "ChessClock/ThemeMeta.hpp"
 #include "Gambit/Texture.hpp"
 
@@ -46,6 +47,7 @@ namespace ChessClock
     {
         _blackTexture = context.Resources.LoadResource<Texture>("black.png", &context.TheRenderer, 1,1);
         _blackTexture->SetBlended();
+        //_transitionTotalTime = 5000;
     }
 
     bool Root::Setup(Context &context)
@@ -60,11 +62,6 @@ namespace ChessClock
         Prepare(context);
 
         return true;
-    }
-
-    void Root::AddStep(Context& ctx, bool(Root::*method)(Context&))
-    {
-        ctx.Steps.push_back([this, method](auto &context) { return (this->*method)(context); });
     }
 
     void Root::LoadResources(Context &context)
@@ -154,16 +151,23 @@ namespace ChessClock
             second->GameBase->Prepare(context);
     }
 
+    void Root::AddStep(Context& ctx, bool(Root::*method)(Context&))
+    {
+        ctx.Steps.push_back([this, method](auto &context) { return (this->*method)(context); });
+    }
+
     bool Root::RenderScene(Context& context)
     {
         context.MyValues->GetCurrentGame()->Render(context);
-        UpdateTransition(context);
+
+        UpdateTransitionBlend(context);
+
         context.MyValues->DebugTick = false;
 
         return true;
     }
 
-    void Root::UpdateTransition(Context &context)
+    void Root::UpdateTransitionBlend(Context &context)
     {
         const auto now = TimeNowMillis();
         if (const auto transitioning =_transitionTime > 0 && now < _transitionTime; !transitioning)
@@ -182,15 +186,16 @@ namespace ChessClock
         // when n = 1   a = 0
         float alpha = 0;
         if (norm < 0.5f)
+        {
             alpha = norm / 0.5f;
+        }
         else
+        {
             alpha = 1 - (norm - 0.5f) / 0.5f;
+        }
 
-        _blackTexture->SetAlpha(static_cast<uint8_t>(alpha * 255.f));
+        _blackTexture->SetAlpha(alpha * 255);
         context.TheRenderer.WriteTexture(_blackTexture);
-
-        if (alpha >= 1)
-            _transitionTime = 0;
     }
 
     void Root::ShowFrameRate() const
@@ -215,6 +220,7 @@ namespace ChessClock
 
         if (_transitionTime > 0)
         {
+            UpdateTransition(context);
             return true;
         }
 
@@ -239,7 +245,7 @@ namespace ChessClock
         ctx.MyValues->GetCurrentGame()->Call(ctx, button);
     }
 
-    void Root::TransitionTo(Context &context, EPage next)
+    void Root::StartTransitionTo(Context &context, EPage next)
     {
         if (context.MyValues->GetCurrentGame())
         {
@@ -253,6 +259,16 @@ namespace ChessClock
 
         LOG_INFO() << "Transitioning to " << LOG_VALUE(next) << "\n";
 
+    }
+
+    void Root::UpdateTransition(Context &context)
+    {
+        auto now = Gambit::TimeNowMillis();
+        //LOG_DEBUG() << LOG_VALUE(now) << LOG_VALUE(_transitionTime) << "\n";
+        if (now > _transitionTime)
+        {
+            _transitionTime = 0;
+        }
     }
 }
 
