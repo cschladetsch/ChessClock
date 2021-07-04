@@ -25,7 +25,7 @@ namespace Gambit
         template <class ...Args>
         static FontPtr Load(std::string const &fileName, ResourceId const &id, Args... args)
         {
-            int pointSize = std::get<0>(std::tuple{ args... });
+            const int pointSize = std::get<0>(std::tuple{ args... });
             return LoadFont(fileName, id, pointSize);
         }
 

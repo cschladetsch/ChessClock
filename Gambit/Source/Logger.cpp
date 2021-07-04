@@ -106,10 +106,9 @@ namespace Gambit
 
     ostream& Logger::PrintLead(const char* file, int line, const char *func, rang::fg const &color, const char *level) const
     {
-        const char *lead = "";
+        auto lead = "";
         string fileName = file;
-        auto fileNameLength = fileName.size();
-        if (fileNameLength > 33)
+        if (const auto fileNameLength = fileName.size(); fileNameLength > 33)
         {
             fileName = "..." + fileName.substr(fileNameLength - 30);
         }

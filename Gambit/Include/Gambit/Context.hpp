@@ -23,12 +23,6 @@ namespace Gambit
         vector<ContextFunction> Steps;
         vector<ContextFunction> EventProcessors;
 
-        Context(const char* resourceFolder)
-            : Resources(TheRenderer, resourceFolder)
-        {
-            CreateRenderer();
-        }
-
         Context(const char* resourceFolder, ContextFunction setup, ContextFunction processEvents)
             : Resources(TheRenderer, resourceFolder)
         {
