@@ -65,6 +65,10 @@ namespace Gambit
         renderer.WriteTexture(digits[digit1], nullptr, &secondDigit);
     }
 
+#ifdef WIN32
+    #pragma warning (disable:4996)
+#endif
+
     std::string itos(int n)
     {
         constexpr int max_size = std::numeric_limits<int>::digits10 + 1 /*sign*/ + 1 /*0-terminator*/;

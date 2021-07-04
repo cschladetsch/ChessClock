@@ -7,7 +7,7 @@ namespace std
     template <>
     struct hash<pair<string, Gambit::Color>>
     {
-        inline size_t operator()(const pair<string, Gambit::Color>& pair) const
+        size_t operator()(const pair<string, Gambit::Color>& pair) const noexcept
         {
             return hash<string>()(pair.first) ^ hash<Gambit::Color>()(pair.second);
         }

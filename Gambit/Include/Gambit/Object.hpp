@@ -59,14 +59,15 @@ namespace Gambit
         ResourceBasePtr GetResource(Guid const &guid) const;
         Children const& GetChildren() const { return _children; }
         Resources const& GetResources() const { return _resources; }
-        ObjectPtr GetParent();
+        ObjectPtr GetParent() const;
 
-        bool HasResource(ResourceBasePtr) const;
-        bool AddResource(ResourceBasePtr);
-        void RemoveResource(ResourceBasePtr);
-        bool HasChild(ObjectPtr) const;
-        bool AddChild(ObjectPtr);
-        void RemoveChild(ObjectPtr);
-        void SetParent(ObjectPtr);
+        bool HasResource(ResourceBasePtr const &) const;
+        bool AddResource(ResourceBasePtr const &);
+        void RemoveResource(ResourceBasePtr const &);
+        bool HasChild(ObjectPtr const &) const;
+        bool AddChild(ObjectPtr const &);
+        void RemoveChild(ObjectPtr const &);
+        void SetParent(ObjectPtr const &);
     };
 }
+

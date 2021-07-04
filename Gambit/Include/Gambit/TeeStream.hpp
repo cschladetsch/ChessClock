@@ -19,14 +19,14 @@ namespace Gambit
         }
 
     private:
-        virtual int sync()
+        int sync() override
         {
             int const r1 = sb1->pubsync();
             int const r2 = sb2->pubsync();
             return r1 == 0 && r2 == 0 ? 0 : -1;
         }
 
-        virtual int_type overflow(int_type c)
+        int_type overflow(int_type c) override
         {
             int_type const eof = traits::eof();
 
@@ -42,14 +42,14 @@ namespace Gambit
                 traits::eq_int_type(r2, eof) ? eof : c;
         }
 
-    private:
         std::basic_streambuf<char_type, traits> *sb1;
         std::basic_streambuf<char_type, traits> *sb2;
     };
 
     typedef basic_teebuf<char> teebuf;
 
-    class teestream : public std::ostream
+    class teestream
+        : public std::ostream
     {
     public:
         teestream(std::ostream &o1, std::ostream &o2)

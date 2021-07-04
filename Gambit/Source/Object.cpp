@@ -2,17 +2,19 @@
 
 namespace Gambit
 {
+    using namespace std::ranges;
+
     Object::Object(string name, ResourceId const&resourceId, ResourceManager& resourceManager)
-        : Name(name), _resourceId(resourceId), _resourceManager(&resourceManager)
+        : _resourceManager(&resourceManager), _resourceId(resourceId), Name(name)
     {
     }
 
-    bool Object::HasResource(ResourceBasePtr resource) const
+    bool Object::HasResource(const ResourceBasePtr &resource) const
     {
-        return std::find(_resources.begin(), _resources.end(), resource) != _resources.end();
+        return find(_resources, resource) != _resources.end();
     }
 
-    bool Object::AddResource(ResourceBasePtr resource)
+    bool Object::AddResource(const ResourceBasePtr &resource)
     {
         if (HasResource(resource))
             return false;
@@ -21,15 +23,14 @@ namespace Gambit
         return true;
     }
 
-    bool Object::HasChild(ObjectPtr object) const
+    bool Object::HasChild(ObjectPtr const &object) const
     {
-        return std::find(_children.begin(), _children.end(), object) != _children.end();
+        return find(_children, object) != _children.end();
     }
 
-    void Object::RemoveResource(ResourceBasePtr resource)
+    void Object::RemoveResource(ResourceBasePtr const &resource)
     {
-        auto found = find(_resources.begin(), _resources.end(), resource);
-        if (found != _resources.end())
+        if (const auto found = find(_resources.begin(), _resources.end(), resource); found != _resources.end())
             _resources.erase(found);
     }
 
@@ -43,10 +44,9 @@ namespace Gambit
         return nullptr;
     }
 
-    bool Object::AddChild(ObjectPtr object)
+    bool Object::AddChild(ObjectPtr const &object)
     {
-        auto found = find(_children.begin(), _children.end(), object);
-        if (found == _children.end())
+        if (const auto found = find(_children, object); found == _children.end())
         {
             _children.push_back(object);
             return true;
@@ -55,19 +55,18 @@ namespace Gambit
         return false;
     }
 
-    void Object::RemoveChild(ObjectPtr object)
+    void Object::RemoveChild(ObjectPtr const &object)
     {
-        auto found = find(_children.begin(), _children.end(), object);
-        if (found != _children.end())
+        if (const auto found = find(_children, object); found != _children.end())
             _children.erase(found);
     }
 
-    ObjectPtr Object::GetParent()
+    ObjectPtr Object::GetParent() const
     {
         return _parent;
     }
 
-    void Object::SetParent(ObjectPtr parent)
+    void Object::SetParent(ObjectPtr const &parent)
     {
         if (_parent)
             _parent->RemoveChild(shared_from_this());
@@ -75,3 +74,4 @@ namespace Gambit
         parent->AddChild(shared_from_this());
     }
 }
+
