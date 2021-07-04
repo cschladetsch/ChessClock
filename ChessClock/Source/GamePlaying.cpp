@@ -28,7 +28,7 @@ namespace ChessClock
     {
         LOG_INFO() << "Settings pressed from " << LOG_VALUE(source->GetName()) << "\n";
         Pause();
-        context.MyValues->MyRoot->StartTransitionTo(context, EPage::Settings);
+        context.MyValues->MyRoot->TransitionTo(context, EPage::Settings);
     }
 
     void GamePlaying::PausePressed(Context &context, ObjectPtr const &source)

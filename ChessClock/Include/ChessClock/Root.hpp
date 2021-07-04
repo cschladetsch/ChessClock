@@ -21,7 +21,7 @@ namespace ChessClock
         String _showFps;
         static int _frameNumber;
         Gambit::TexturePtr _blackTexture;
-        int _result;
+        int _result {0};
 
     public:
         typedef Gambit::Context<Values> Context;
@@ -46,8 +46,7 @@ namespace ChessClock
         bool ProcessEvents(Context &);
         bool Present(Context &);
         void OnPressed(Context &, const Vector2& where);
-
-        void StartTransitionTo(Context &, EPage next);
+        void TransitionTo(Context &, EPage next);
 
     private:
         bool ParseJson(JsonNext &item) override;
@@ -56,11 +55,10 @@ namespace ChessClock
         Gambit::MilliSeconds _transitionTotalTime{ 750 };
         Gambit::MilliSeconds _transitionTime{ 0 };
         Gambit::MilliSeconds _transitionStartTime{ 0 };
-        EPage _transitionPage;
+        EPage _transitionPage{EPage::None};
+
         void UpdateTransition(Context &context);
-
         void ShowFrameRate() const;
-
         void LoadTheme(Context &context);
         void LoadText(Context &context);
         void LoadPages(Context &context);
@@ -71,7 +69,6 @@ namespace ChessClock
 
         bool StepGame(Context &);
         bool RenderScene(Context &);
-        void UpdateTransitionBlend(Context &);
     };
 }
 
