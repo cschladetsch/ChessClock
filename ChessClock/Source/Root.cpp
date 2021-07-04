@@ -244,7 +244,6 @@ namespace ChessClock
         _transitionPage = next;
 
         LOG_INFO() << "Transitioning to " << LOG_VALUE(next) << "\n";
-
     }
 
     void Root::UpdateTransition(Context &context)

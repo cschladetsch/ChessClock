@@ -12,7 +12,9 @@ using namespace boost;
 using namespace program_options;
 using namespace filesystem;
 
-#pragma warning (disable:4996)
+#ifdef WIN32
+    #pragma warning (disable:4996)
+#endif
 
 std::string NarrowString(const std::wstring &str)
 {

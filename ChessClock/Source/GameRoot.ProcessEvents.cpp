@@ -63,7 +63,6 @@ namespace ChessClock
                             LOG_INFO() << "Tracking mouse: " << values.TrackMouse << "\n";
                             return true;
                         }
-
                     }
                     break;
                 }
