@@ -8,7 +8,7 @@ namespace ChessClock
     class GameSplash
         : public GameBase
     {
-        Gambit::MilliSeconds _displayTime{ 3000 };
+        Gambit::MilliSeconds _displayTime{ 1000 };
 
     public:
         GameSplash() = default;
