@@ -1,14 +1,14 @@
-#include "ChessClock/GameSplash.hpp"
+#include "ChessClock/PageSplash.hpp"
 #include "ChessClock/Values.hpp"
 #include "ChessClock/Root.hpp"
 
 namespace ChessClock
 {
-    void GameSplash::Prepare(Context &context)
+    void PageSplash::Prepare(Context &context)
     {
     }
        
-    void GameSplash::Update(Context &context) 
+    void PageSplash::Update(Context &context) 
     {
         if (auto const now = Gambit::TimeNowMillis(); now > _displayTime)
         {
@@ -16,12 +16,12 @@ namespace ChessClock
         }
     }
 
-    void GameSplash::Render(Context &context) const
+    void PageSplash::Render(Context &context) const
     {
         context.RenderScene();
     }
 
-    bool GameSplash::ProcessEvents(Context &ctx, SDL_Event const &)
+    bool PageSplash::ProcessEvents(Context &ctx, SDL_Event const &)
     {
         return false;
     }

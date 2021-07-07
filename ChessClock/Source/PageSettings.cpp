@@ -2,7 +2,7 @@
 
 #include "ChessClock/Root.hpp"
 #include "ChessClock/Values.hpp"
-#include "ChessClock/GameSettings.hpp"
+#include "ChessClock/PageSettings.hpp"
 #include "ChessClock/TimeControl.hpp"
 
 namespace ChessClock

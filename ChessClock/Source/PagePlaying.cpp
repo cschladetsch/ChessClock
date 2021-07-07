@@ -1,7 +1,7 @@
 #include "Gambit/Object.hpp"
 #include "Gambit/TimerFont.hpp"
 
-#include "ChessClock/GamePlaying.hpp"
+#include "ChessClock/PagePlaying.hpp"
 #include "ChessClock/Root.hpp"
 #include "ChessClock/Values.hpp"
 

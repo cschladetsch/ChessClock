@@ -9,10 +9,10 @@ namespace ChessClock
 {
     class Root;
     class GameBase;
-    class GameSplash;
+    class PageSplash;
     class GamePlaying;
     class GameSettings;
-    class GameAbout;
+    class PageAbout;
     class Values;
     class PageBase;
     class ThemeMeta;
@@ -24,10 +24,10 @@ namespace ChessClock
     typedef SharedPtr<Context> ContextPtr;
     typedef SharedPtr<Root> RootPtr;
     typedef SharedPtr<GameBase> GameBasePtr;
-    typedef SharedPtr<GameSplash> GameSplashPtr;
+    typedef SharedPtr<PageSplash> GameSplashPtr;
     typedef SharedPtr<GamePlaying> GamePlayingPtr;
     typedef SharedPtr<GameSettings> GameSettingsPtr;
-    typedef SharedPtr<GameAbout> GameAboutPtr;
+    typedef SharedPtr<PageAbout> GameAboutPtr;
 
     void DrawTimer(Values const &values, Gambit::Renderer &renderer, const Vector2 &location, TimeControl const &timeControl);
 }

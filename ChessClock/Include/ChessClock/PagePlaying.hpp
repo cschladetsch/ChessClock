@@ -10,7 +10,7 @@ namespace ChessClock
     class GamePlaying 
         : public GameBase
     {
-        static inline Logger _log{ "GamePlaying" };
+        static inline Logger _log{ "PagePlaying" };
 
         Gambit::MilliSeconds _gameTime{ 0 };
         Gambit::MilliSeconds _lastGameTime{ 0 };

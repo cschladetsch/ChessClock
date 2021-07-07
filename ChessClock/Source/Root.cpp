@@ -5,10 +5,10 @@
 #include "ChessClock/Values.hpp"
 #include "ChessClock/Root.hpp"
 #include "ChessClock/EGameState.hpp"
-#include "ChessClock/GameSplash.hpp"
-#include "ChessClock/GamePlaying.hpp"
-#include "ChessClock/GameSettings.hpp"
-#include "ChessClock/GameAbout.hpp"
+#include "ChessClock/PageSplash.hpp"
+#include "ChessClock/PagePlaying.hpp"
+#include "ChessClock/PageSettings.hpp"
+#include "ChessClock/PageAbout.hpp"
 #include "ChessClock/ThemeMeta.hpp"
 #include "Gambit/Texture.hpp"
 
@@ -130,11 +130,11 @@ namespace ChessClock
             return resources.LoadResource<Scene>(_themeName + "/scenes/" + name + ".json", &resources, values.Atlas);
         };
 
-        values.Pages[EPage::Splash] = LoadPage<GameSplash>("splash", loadPage);
+        values.Pages[EPage::Splash] = LoadPage<PageSplash>("splash", loadPage);
         values.Pages[EPage::Playing] = LoadPage<GamePlaying>("playing", loadPage);
         values.Pages[EPage::Settings] = LoadPage<GameSettings>("settings", loadPage);
-        values.Pages[EPage::GameOver] = LoadPage<GameAbout>("game_over", loadPage);
-        values.Pages[EPage::About] = LoadPage<GameAbout>("about", loadPage);
+        values.Pages[EPage::GameOver] = LoadPage<PageAbout>("game_over", loadPage);
+        values.Pages[EPage::About] = LoadPage<PageAbout>("about", loadPage);
     }
 
     void Root::Prepare(Context &context)

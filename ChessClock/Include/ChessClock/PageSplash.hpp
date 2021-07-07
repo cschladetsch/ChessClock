@@ -5,13 +5,13 @@
 
 namespace ChessClock
 {
-    class GameSplash
+    class PageSplash
         : public GameBase
     {
         Gambit::MilliSeconds _displayTime{ 1000 };
 
     public:
-        GameSplash() = default;
+        PageSplash() = default;
 
         void Prepare(Context &) override;
         void Update(Context &) override;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ChessClock/ForwardReferences.hpp"
+#include "ChessClock/PageBase.hpp"
 
 namespace ChessClock
 {
