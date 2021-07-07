@@ -9,9 +9,9 @@ namespace ChessClock
         : public PageBase
     {
     public:
-        Page(SharedPtr<Behaviour> const &game, Gambit::ScenePtr const &scene)
-            : PageBase(game, scene)
-            , Game(game) { }
+        Page(SharedPtr<Behaviour> const &page, Gambit::ScenePtr const &scene)
+            : PageBase(page, scene)
+            , Game(page) { }
 
         SharedPtr<Behaviour> Game;
     };

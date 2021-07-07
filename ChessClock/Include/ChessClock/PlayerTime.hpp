@@ -12,7 +12,7 @@ namespace ChessClock
         TimeControl _remaining;
 
     public:
-        PlayerTime(int minutes, int seconds, int incrementSeconds = 0)
+        PlayerTime(const int minutes, const int seconds, const int incrementSeconds = 0)
             : _timeControl(minutes, seconds, incrementSeconds), _remaining(minutes, seconds)
         { }
 

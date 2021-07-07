@@ -31,6 +31,7 @@ int main(int argc, char** argv)
     {
         variables_map vm;
         positional_options_description p;
+
         store(command_line_parser(argc, argv).options(desc).positional(p).run(), vm);
         notify(vm);
 

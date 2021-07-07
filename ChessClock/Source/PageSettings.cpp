@@ -7,7 +7,7 @@
 
 namespace ChessClock
 {
-    void GameSettings::Prepare(Context &context)
+    void PageSettings::Prepare(Context &context)
     {
         AddCallback("PlayPressed", [&context](auto &ctx, auto) { context.MyValues->MyRoot->StartTransitionTo(ctx, EPage::Playing); });
         AddCallback("IncrementMinutesPressed", [this](auto &, auto) { this->MyTimeControl.AddMinutes(1); });
@@ -18,16 +18,16 @@ namespace ChessClock
         AddCallback("DecrementBonusPressed", [this](auto &, auto) { this->MyTimeControl.AddIncrementSeconds(-1); });
     }
 
-    bool GameSettings::ProcessEvents(Context &ctx, SDL_Event const &)
+    bool PageSettings::ProcessEvents(Context &ctx, SDL_Event const &)
     {
         return false;
     }
 
-    void GameSettings::Update(Context&)
+    void PageSettings::Update(Context&)
     {
     }
 
-    void GameSettings::Render(Context &context) const
+    void PageSettings::Render(Context &context) const
     {
         Values const &values = *context.MyValues;
         auto &renderer = context.TheRenderer;

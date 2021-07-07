@@ -62,10 +62,10 @@ namespace ChessClock
 
         EColor GetPlayerTimedOut() const;
 
+    private:
         void LeftPressed();
         void RightPressed();
 
-    private:
         void SetupGameSprites(Gambit::ResourceManager &, Gambit::Renderer &, Values &values);
 
         void SettingsPressed(Context &, ObjectPtr const &source);

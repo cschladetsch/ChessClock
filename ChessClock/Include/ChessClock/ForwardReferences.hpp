@@ -7,11 +7,22 @@
 
 namespace ChessClock
 {
+    using String = Gambit::string;
+    using Gambit::Logger;
+    using Gambit::ObjectPtr;
+    using Gambit::Vector2;
+    using Gambit::Rect;
+
+    class Values;
+    typedef Gambit::Context<Values> Context;
+
+    template <class Ty>
+    using SharedPtr = std::shared_ptr<Ty>;
     class Root;
     class GameBase;
     class PageSplash;
     class GamePlaying;
-    class GameSettings;
+    class PageSettings;
     class PageAbout;
     class Values;
     class PageBase;
@@ -26,7 +37,7 @@ namespace ChessClock
     typedef SharedPtr<GameBase> GameBasePtr;
     typedef SharedPtr<PageSplash> GameSplashPtr;
     typedef SharedPtr<GamePlaying> GamePlayingPtr;
-    typedef SharedPtr<GameSettings> GameSettingsPtr;
+    typedef SharedPtr<PageSettings> GameSettingsPtr;
     typedef SharedPtr<PageAbout> GameAboutPtr;
 
     void DrawTimer(Values const &values, Gambit::Renderer &renderer, const Vector2 &location, TimeControl const &timeControl);

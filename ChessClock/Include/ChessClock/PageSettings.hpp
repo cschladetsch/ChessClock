@@ -5,7 +5,7 @@
 
 namespace ChessClock
 {
-    class GameSettings
+    class PageSettings
         : public GameBase
     {
         static inline Logger _log{ "PageSettings" };
@@ -13,7 +13,7 @@ namespace ChessClock
     public:
         TimeControl MyTimeControl { 10, 0, 3 };
 
-        GameSettings() = default;
+        PageSettings() = default;
 
     protected:
         void Prepare(Context&) override;

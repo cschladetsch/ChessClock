@@ -12,7 +12,7 @@ namespace ChessClock
         : Gambit::JsonReader<Root>
         , public std::enable_shared_from_this<Root>
     {
-        static inline Gambit::Logger _log{ "MainScene" };
+        static inline Gambit::Logger _log{ "Root" };
         static int _frameNumber;
 
         typedef String Root:: *Member;
