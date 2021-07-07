@@ -1,35 +1,18 @@
 #define SDL_MAIN_HANDLED
 
-#include <codecvt>
 #include <exception>
 
 #include <boost/program_options.hpp>
 #include <boost/filesystem.hpp>
 
+#include "Gambit/StringUtil.hpp"
+
 #include "ChessClock/Root.hpp"
 
 using std::string;
 
-using namespace boost;
-using namespace program_options;
-using namespace filesystem;
-
-using Gambit::Logger;
-
-#ifdef WIN32
-    #pragma warning (disable:4996)
-#endif
-
-std::string NarrowString(const std::wstring &str)
-{
-    std::wstring_convert<
-        std::codecvt_utf8_utf16< std::wstring::value_type >,
-        std::wstring::value_type
-    > utf16conv;
-    return utf16conv.to_bytes(str);
-}
-
-Logger _log{ "Main" };
+using namespace boost::program_options;
+using namespace boost::filesystem;
 
 int main(int argc, char** argv)
 {
@@ -57,7 +40,7 @@ int main(int argc, char** argv)
 
         const auto configName = resourcesPath / config;
         typedef ChessClock::Root::Context Context;
-        ChessClock::Root root(NarrowString(configName.c_str()).c_str());
+        ChessClock::Root root(Gambit::NarrowString(configName.c_str()).c_str());
 
         return Context(
             resourcesPath.string().c_str(),
@@ -67,7 +50,7 @@ int main(int argc, char** argv)
     }
     catch (std::exception &e)
     {
-        std::cerr << fg::red << "Failed: " << fg::yellow <<  e.what() << "\n";
+        std::cerr << fg::red << "Error: " << fg::yellow <<  e.what() << "\n";
     }
 
     return 1;
