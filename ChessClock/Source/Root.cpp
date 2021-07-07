@@ -14,8 +14,16 @@
 
 namespace ChessClock
 {
+    using Gambit::Texture;
+    using Gambit::EObjectType;
+    using Gambit::Scene;
+    using Gambit::Atlas;
+    using Gambit::TimerFont;
+    using Gambit::TimeNowMillis;
+    using Gambit::TimeNowSeconds;
+    using Gambit::Color;
+
     using namespace std;
-    using namespace Gambit;
 
     int _fpsFrameCounter;
     float _lastTime;

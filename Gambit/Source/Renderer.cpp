@@ -22,14 +22,14 @@ namespace Gambit
         CALL_SDL(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO));
 
         _window = SDL_CreateWindow(title, 0, 0, Width, Height, SDL_WINDOW_SHOWN);
-        if (_window == nullptr)
+        if (!_window)
         {
             LOG_ERROR() << "SDL_CreateWindow" << SDL_GetError() << std::endl;
             return false;
         }
 
         _renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-        if (_renderer == nullptr)
+        if (!_renderer)
         {
             LOG_ERROR() << "SDL_CreateRender" << SDL_GetError() << std::endl;
             SDL_DestroyWindow(_window);

@@ -7,7 +7,10 @@
 
 namespace ChessClock
 {
-    using namespace Gambit;
+    using Gambit::ResourceManager;
+    using Gambit::Renderer;
+    using Gambit::TimeUnit;
+    using Gambit::TimeNowMillis;
 
     void GamePlaying::Prepare(Context &context)
     {
@@ -42,7 +45,7 @@ namespace ChessClock
         LOG_INFO() << "Volume pressed from " << LOG_VALUE(source->GetName()) << "\n";
     }
 
-    void GamePlaying::SetupGameSprites(ResourceManager &, Renderer &, Values &values)
+    void GamePlaying::SetupGameSprites(Gambit::ResourceManager &, Renderer &, Values &values)
     {
         auto &scene = *values.GetPage(EPage::Playing)->Scene;
         const auto leftFace = scene.FindChild("left_clock_face");

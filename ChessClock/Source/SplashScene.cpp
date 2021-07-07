@@ -2,8 +2,6 @@
 
 namespace ChessClock
 {
-    using namespace Gambit;
-
     bool SplashScene::Setup(Context& ctx)
     {
         //if (!ReadJson(_jsonConfig.c_str()))

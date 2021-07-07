@@ -2,17 +2,19 @@
 
 #include <codecvt>
 #include <exception>
-#include <ranges>
 
 #include <boost/program_options.hpp>
 #include <boost/filesystem.hpp>
 
 #include "ChessClock/Root.hpp"
 
-using namespace Gambit;
+using std::string;
+
 using namespace boost;
 using namespace program_options;
 using namespace filesystem;
+
+using Gambit::Logger;
 
 #ifdef WIN32
     #pragma warning (disable:4996)
