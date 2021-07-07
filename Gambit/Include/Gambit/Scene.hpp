@@ -35,13 +35,13 @@ namespace Gambit
             return LoadScene(*resources, fileName, *atlas);
         }
 
-        ObjectPtr GetLayer(ObjectPtr object);
-        void AddObject(ObjectPtr object);
+        ObjectPtr GetLayer(ObjectPtr const &object);
+        void AddObject(ObjectPtr const &object);
 
         void Render(Renderer &renderer) const;
 
         ObjectPtr FindChild(string const &name) const;
-        ObjectPtr OnPressed(AtlasPtr atlas, Vector2 where) const;
+        ObjectPtr OnPressed(AtlasPtr const&atlas, Vector2 where) const;
 
     private:
         static shared_ptr<Scene> LoadScene(ResourceManager &, string const &fileName, Atlas const &atlas);

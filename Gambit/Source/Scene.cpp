@@ -28,7 +28,7 @@ namespace Gambit
         return _resourceManager->FindObject(name);
     }
 
-    ObjectPtr Scene::OnPressed(AtlasPtr atlas, Vector2 where) const
+    ObjectPtr Scene::OnPressed(AtlasPtr const &atlas, Vector2 where) const
     {
         for (auto const &button : _buttons)
         {
@@ -38,8 +38,7 @@ namespace Gambit
 
             auto &atlasRect = pair.second;
             auto const &pos = button->Position;
-            auto rect = Rect{ pos.y, pos.x, atlasRect.width, atlasRect.height };
-            if (!rect.Contains(where))
+            if (auto rect = Rect{ pos.y, pos.x, atlasRect.width, atlasRect.height }; !rect.Contains(where))
                 continue;
 
             return button;
@@ -48,22 +47,21 @@ namespace Gambit
         return nullptr;
     }
 
-    ObjectPtr Scene::GetLayer(ObjectPtr object)
+    ObjectPtr Scene::GetLayer(const ObjectPtr &object)
     {
         if (!object)
         {
             LOG_ERROR() << "null object\n";
             return 0;
         }
-        int layer = object->Layer;
-        auto root = _layerToRoots.find(layer);
-        if (root != _layerToRoots.end())
+        const int layer = object->Layer;
+        if (const auto &root = _layerToRoots.find(layer); root != _layerToRoots.end())
         {
             return root->second;
         }
 
         stringstream out;
-        out << "Root" << layer << std::ends;
+        out << " New Root" << layer << std::ends;
         return _layerToRoots[layer] = make_shared<Object>(out.str(), ResourceId(), *_resourceManager);
     }
 
@@ -106,7 +104,7 @@ namespace Gambit
         return make_shared<Scene>(ResourceId(), resources, atlas, fileName.c_str());
     }
 
-    void Scene::AddObject(ObjectPtr object)
+    void Scene::AddObject(ObjectPtr const &object)
     {
         if (!object)
         {
@@ -127,7 +125,7 @@ namespace Gambit
         auto &name = item.key();
         auto &value = item.value();
 
-        ObjectPtr objectPtr = _resourceManager->CreateObject(name);
+        const ObjectPtr objectPtr = _resourceManager->CreateObject(name);
         Object &object = *objectPtr;
 
         //CJS TODO: why does this work if I make a variable to pass, rather than passing the lambda directly to SetValue(...)
