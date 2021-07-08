@@ -41,7 +41,7 @@ namespace Gambit
         void Render(Renderer &renderer) const;
 
         ObjectPtr FindChild(string const &name) const;
-        ObjectPtr OnPressed(AtlasPtr const&atlas, Vector2 where) const;
+        ObjectPtr OnPressed(AtlasPtr const&atlas, Vector2 const where) const;
 
     private:
         static shared_ptr<Scene> LoadScene(ResourceManager &, string const &fileName, Atlas const &atlas);

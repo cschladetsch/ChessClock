@@ -28,17 +28,17 @@ namespace Gambit
         return _resourceManager->FindObject(name);
     }
 
-    ObjectPtr Scene::OnPressed(AtlasPtr const &atlas, Vector2 where) const
+    ObjectPtr Scene::OnPressed(AtlasPtr const &atlas, const Vector2 where) const
     {
         for (auto const &button : _buttons)
         {
-            auto pair = atlas->GetSprite(button->Sprite);
-            if (!pair.first)
+            auto [found, rect] = atlas->GetSprite(button->Sprite);
+            if (!found)
                 continue;
 
-            auto &atlasRect = pair.second;
+            auto &atlasRect = rect;
             auto const &pos = button->Position;
-            if (auto rect = Rect{ pos.y, pos.x, atlasRect.width, atlasRect.height }; !rect.Contains(where))
+            if (auto spriteRect = Rect{ pos.y, pos.x, atlasRect.width, atlasRect.height }; !spriteRect.Contains(where))
                 continue;
 
             return button;
@@ -52,8 +52,9 @@ namespace Gambit
         if (!object)
         {
             LOG_ERROR() << "null object\n";
-            return 0;
+            return nullptr;
         }
+
         const int layer = object->Layer;
         if (const auto &root = _layerToRoots.find(layer); root != _layerToRoots.end())
         {
@@ -61,7 +62,7 @@ namespace Gambit
         }
 
         stringstream out;
-        out << " New Root" << layer << std::ends;
+        out << "Root #" << layer << std::ends;
         return _layerToRoots[layer] = make_shared<Object>(out.str(), ResourceId(), *_resourceManager);
     }
 
