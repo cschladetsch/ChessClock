@@ -8,6 +8,11 @@ namespace Gambit
     #pragma warning (disable:4996)
 #endif
 
+    std::string NarrowString(const std::string &str)
+    {
+        return str;
+    }
+
     std::string NarrowString(const std::wstring &str)
     {
         std::wstring_convert<
