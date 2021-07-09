@@ -1,4 +1,4 @@
-#include "ChessClock/SplashScene.hpp"
+#include "ChessClock/SceneSplash.hpp"
 
 namespace ChessClock
 {
