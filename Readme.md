@@ -12,34 +12,9 @@ This image is a conceptual render of the final product. It only shows relative s
 
 ## Building
 
-TODO: Add separate [Building](Building.md) instructions.
+See separate [Building](Building.md) instructions.
 
-### Raspberry Pi Setup
-```bash
-$ sudo apt update
-$ sudo apt install git-lfs
-$ sudo apt install libsdl2-dev libsdl2-image-dev libsdl2-ttf2.0-dev libsdl2-mixer-dev
-```
-
-### Building
-
-Simply, `./run` will build and run the app on either Windows10 or Raspberry Pi. Or anything else I think. 
-
-For more details:
-
-```bash
-$ git clone https://github.com/cschladetsch/ChessClock.git
-$ cd ChessClock
-$ git submodule init
-$ git submodule update --recursive
-$ mkdir build && cd build && cmake ..
-```
-
-Now, for Windows either open and build ChessClock.sln or run `msbuild ChessClock.sln`
-
-Otherwise simply run `make`.
-
-The output will be in `../bin` folder in either case. There is a `run` script in that folder.
+The output will be in `../bin` folder. There is a `run` script in that folder.
 
 For windows, set Debug command arguments to `..\..\ChessClock\Resources\ main.json` to run from Visual Studio.
 
