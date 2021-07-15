@@ -12,11 +12,11 @@ This image is a conceptual render of the final product. It only shows relative s
 
 ## Building
 
-See separate [Building](Building.md) instructions.
+See separate [instructions](Building.md).
 
 The output will be in `../bin` folder. There is a `run` script in that folder.
 
-For windows, set Debug command arguments to `..\..\ChessClock\Resources\ main.json` to run from Visual Studio.
+For Visual Studio, set Debug command arguments to `--resources=..\..\ChessClock\Resources --main=main.json`.
 
 ## Ingredients
 * [Hardware](../../wiki/Hardware)
@@ -32,7 +32,7 @@ There is a developing [Wiki](../../wiki/Home) in progress.
 
 ## Jira
 
-There's a [Jira board](https://chessclock.atlassian.net/secure/RapidBoard.jspa?rapidView=1&selectedIssue=CHES-3) to keep track of things.
+There's a [Jira board](https://chessclock.atlassian.net/secure/RapidBoard.jspa) to keep track of things. Also, GitHub issues are a thing.
 
 ## Chess Clock Body
 
