@@ -17,7 +17,3 @@ namespace Gambit
         j.at("y").get_to(v.y);
     }
 }
-
-namespace Gambit
-{
-}
