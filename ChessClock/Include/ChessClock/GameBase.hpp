@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Gambit/Context.hpp"
-
 #include "ChessClock/UiCallBacks.hpp"
 
 namespace ChessClock

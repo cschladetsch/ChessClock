@@ -4,9 +4,8 @@
 
 namespace Gambit
 {
-    template <typename char_type,
-        typename traits = std::char_traits<char_type> >
-        class basic_teebuf :
+    template <typename char_type, typename traits = std::char_traits<char_type> >
+    class basic_teebuf :
         public std::basic_streambuf<char_type, traits>
     {
     public:

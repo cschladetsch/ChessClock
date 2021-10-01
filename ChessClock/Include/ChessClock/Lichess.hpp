@@ -9,6 +9,7 @@ namespace ChessClock::Lichess
         Blitz,
         Bullet,
         Rapid,
+        Classical,
     };
 
     class Lichess
