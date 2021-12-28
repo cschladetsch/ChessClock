@@ -11,7 +11,7 @@ TODO
 
 ```bash
 sudo apt-get update 
-sudo apt-get install build-essential git-lfs libsdl2-dev libsdl2-image-dev uuid-dev
+sudo apt-get install build-essential git-lfs libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev uuid-dev
 sudo apt-get install libboost-chrono.dev libboost-filesystem.dev libboost-program-options.dev libboost-system.dev libboost-date-time-dev 
 
 
