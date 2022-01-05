@@ -121,7 +121,7 @@ namespace Gambit
         //stream << "\t" << ends;
 
         stream << style::reset << fg::reset;
-        stream << "[" << color << level << fg::gray << "]: {" << fg::magenta << _source << fg::gray << "}: ";
+        stream << "[" << color << level << fg::gray << "]: " << fg::magenta << _source << fg::gray << ": ";
         stream << style::dim << fileName << "(" << line << "): ";
         stream << fg::cyan << func << fg::gray << ": " << style::bold << "\n";
         stream << "\t" << ends;
