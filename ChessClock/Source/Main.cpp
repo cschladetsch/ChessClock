@@ -25,6 +25,7 @@ int main(int argc, char** argv)
         ("config", value<path>()->default_value(config), "Set main config")
         ("verbosity", value<int>()->default_value(0), "Set Debug Verbosity")
         ("showFps", value<bool>()->default_value(false), "Show fps on screen")
+        ("main", value<path>()->default_value("main.json"), "Set the main config")
         ;
 
     try
