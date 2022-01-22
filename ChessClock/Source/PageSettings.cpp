@@ -9,9 +9,7 @@ namespace ChessClock
 {
     void PageSettings::Prepare(Context &context)
     {
-        AddCallback("PlayPressed", [&context](auto &ctx, auto) {
-            context.MyValues->MyRoot->StartTransitionTo(ctx, EPage::Playing);
-        });
+        AddCallback("PlayPressed", [&context](auto &ctx, auto) { context.MyValues->MyRoot->StartTransitionTo(ctx, EPage::Playing); });
         AddCallback("IncrementMinutesPressed", [this](auto &, auto) { this->MyTimeControl.AddMinutes(1); });
         AddCallback("DecrementMinutesPressed", [this](auto &, auto) { this->MyTimeControl.AddMinutes(-1); });
         AddCallback("IncrementSecondsPressed", [this](auto &, auto) { this->MyTimeControl.AddSeconds(1); });
